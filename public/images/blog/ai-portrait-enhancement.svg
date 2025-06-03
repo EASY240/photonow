@@ -1,0 +1,88 @@
+<svg width="800" height="400" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4158D0;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#C850C0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFCC70;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="portraitGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F5F5F5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E0E0E0;stop-opacity:1" />
+    </linearGradient>
+    <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" />
+      <feOffset dx="2" dy="2" result="offsetblur" />
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3" />
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="400" fill="url(#bgGradient)" />
+  
+  <!-- Before/After Portrait Frames -->
+  <g transform="translate(50, 50)">
+    <!-- Before Portrait -->
+    <rect x="0" y="0" width="300" height="300" rx="10" fill="white" filter="url(#dropShadow)" />
+    <rect x="10" y="10" width="280" height="280" rx="5" fill="url(#portraitGradient)" />
+    
+    <!-- Simplified Portrait Face (Before) -->
+    <circle cx="150" cy="100" r="70" fill="#F8D0C3" />
+    <ellipse cx="120" cy="90" rx="10" ry="8" fill="#333" />
+    <ellipse cx="180" cy="90" rx="10" ry="8" fill="#333" />
+    <path d="M150,120 Q170,140 150,150 Q130,140 150,120" fill="#E57373" />
+    <path d="M100,80 Q150,60 200,80" fill="none" stroke="#333" stroke-width="2" />
+    <path d="M90,180 Q150,220 210,180" fill="none" stroke="#333" stroke-width="2" />
+    
+    <!-- Body (Before) -->
+    <path d="M90,170 L60,300 L240,300 L210,170" fill="#A1887F" />
+    
+    <!-- "Before" Label -->
+    <rect x="10" y="250" width="80" height="30" rx="5" fill="rgba(0,0,0,0.5)" />
+    <text x="50" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="white">Before</text>
+  </g>
+  
+  <g transform="translate(450, 50)">
+    <!-- After Portrait -->
+    <rect x="0" y="0" width="300" height="300" rx="10" fill="white" filter="url(#dropShadow)" />
+    <rect x="10" y="10" width="280" height="280" rx="5" fill="url(#portraitGradient)" />
+    
+    <!-- Simplified Portrait Face (After - Enhanced) -->
+    <circle cx="150" cy="100" r="70" fill="#FFDDC1" />
+    <ellipse cx="120" cy="90" rx="10" ry="8" fill="#333" />
+    <ellipse cx="180" cy="90" rx="10" ry="8" fill="#333" />
+    <path d="M150,120 Q170,140 150,150 Q130,140 150,120" fill="#FF5252" />
+    <path d="M100,80 Q150,60 200,80" fill="none" stroke="#333" stroke-width="2" />
+    <path d="M90,180 Q150,220 210,180" fill="none" stroke="#333" stroke-width="2" />
+    
+    <!-- Body (After) -->
+    <path d="M90,170 L60,300 L240,300 L210,170" fill="#8D6E63" />
+    
+    <!-- Enhancement Effects -->
+    <circle cx="120" cy="90" r="15" fill="none" stroke="#4FC3F7" stroke-width="2" stroke-dasharray="2,2" />
+    <circle cx="180" cy="90" r="15" fill="none" stroke="#4FC3F7" stroke-width="2" stroke-dasharray="2,2" />
+    <path d="M100,80 Q150,60 200,80" fill="none" stroke="#4FC3F7" stroke-width="2" stroke-dasharray="2,2" />
+    <path d="M90,180 Q150,220 210,180" fill="none" stroke="#4FC3F7" stroke-width="2" stroke-dasharray="2,2" />
+    
+    <!-- "After" Label -->
+    <rect x="10" y="250" width="80" height="30" rx="5" fill="rgba(0,0,0,0.5)" />
+    <text x="50" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="white">After</text>
+  </g>
+  
+  <!-- AI Enhancement Icons -->
+  <g transform="translate(400, 150)">
+    <circle cx="0" cy="0" r="25" fill="rgba(255,255,255,0.9)" filter="url(#dropShadow)" />
+    <text x="0" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#4158D0">AI</text>
+    <path d="M-15,-15 L15,15" stroke="#4FC3F7" stroke-width="2" />
+    <path d="M15,-15 L-15,15" stroke="#4FC3F7" stroke-width="2" />
+  </g>
+  
+  <!-- Title -->
+  <rect x="200" y="360" width="400" height="30" rx="5" fill="rgba(255,255,255,0.9)" filter="url(#dropShadow)" />
+  <text x="400" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#333">AI Portrait Enhancement Techniques</text>
+</svg>

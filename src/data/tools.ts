@@ -7,7 +7,7 @@ export const tools: Tool[] = [
     description: 'Remove the background from any image with AI precision',
     icon: 'scissors',
     path: '/tools/remove-background',
-    apiEndpoint: 'https://api.lightxeditor.com/rpc/remove-background'
+    apiEndpoint: '/api/external/api/v2/remove-background'
   },
   {
     id: 'ai-cleanup',
@@ -15,7 +15,7 @@ export const tools: Tool[] = [
     description: 'Clean up imperfections and enhance your photos',
     icon: 'sparkles',
     path: '/tools/ai-cleanup',
-    apiEndpoint: 'https://api.lightxeditor.com/rpc/ai-cleanup-picture'
+    apiEndpoint: '/api/external/api/v2/ai-cleanup-picture'
   },
   {
     id: 'ai-expand',
@@ -23,15 +23,15 @@ export const tools: Tool[] = [
     description: 'Expand your images beyond their original boundaries',
     icon: 'maximize',
     path: '/tools/ai-expand',
-    apiEndpoint: 'https://api.lightxeditor.com/rpc/ai-expand'
+    apiEndpoint: '/api/external/api/v2/ai-expand'
   },
   {
     id: 'ai-replace',
     name: 'AI Replace',
     description: 'Replace objects or areas in your images with AI',
-    icon: 'replace',
+    icon: 'replace-all',
     path: '/tools/ai-replace',
-    apiEndpoint: 'https://api.lightxeditor.com/rpc/ai-replace'
+    apiEndpoint: '/api/external/api/v2/ai-replace'
   },
   {
     id: 'ai-cartoon',
@@ -39,15 +39,15 @@ export const tools: Tool[] = [
     description: 'Transform photos into cartoon-style artwork',
     icon: 'palette',
     path: '/tools/ai-cartoon',
-    apiEndpoint: 'https://api.lightxeditor.com/rpc/ai-cartoon-generator'
+    apiEndpoint: '/api/external/api/v2/ai-cartoon-generator'
   },
   {
     id: 'ai-caricature',
     name: 'AI Caricature',
     description: 'Create fun caricatures from portrait photos',
-    icon: 'grin',
+    icon: 'smile',
     path: '/tools/ai-caricature',
-    apiEndpoint: 'https://api.lightxeditor.com/rpc/ai-caricature-generator'
+    apiEndpoint: '/api/external/api/v2/ai-caricature-generator'
   },
   {
     id: 'ai-avatar',
@@ -55,7 +55,7 @@ export const tools: Tool[] = [
     description: 'Generate personalized avatars from your photos',
     icon: 'user',
     path: '/tools/ai-avatar',
-    apiEndpoint: 'https://api.lightxeditor.com/rpc/ai-avatar'
+    apiEndpoint: '/api/external/api/v2/ai-avatar'
   },
   {
     id: 'ai-product-photoshoot',
@@ -63,7 +63,7 @@ export const tools: Tool[] = [
     description: 'Create professional product photos with AI',
     icon: 'shopping-bag',
     path: '/tools/ai-product-photoshoot',
-    apiEndpoint: 'https://api.lightxeditor.com/rpc/ai-product-photoshoot'
+    apiEndpoint: '/api/external/api/v2/ai-product-photoshoot'
   },
   {
     id: 'ai-background-generator',
@@ -71,7 +71,7 @@ export const tools: Tool[] = [
     description: 'Generate custom backgrounds for your images',
     icon: 'image',
     path: '/tools/ai-background-generator',
-    apiEndpoint: 'https://api.lightxeditor.com/rpc/ai-background-generator'
+    apiEndpoint: '/api/external/api/v2/ai-background-generator'
   },
   {
     id: 'ai-image-generator',
@@ -79,7 +79,7 @@ export const tools: Tool[] = [
     description: 'Generate unique images from text descriptions',
     icon: 'bot',
     path: '/tools/ai-image-generator',
-    apiEndpoint: 'https://api.lightxeditor.com/rpc/ai-image-generator'
+    apiEndpoint: '/api/external/api/v2/ai-image-generator'
   },
   {
     id: 'ai-portrait',
@@ -87,7 +87,7 @@ export const tools: Tool[] = [
     description: 'Create professional portrait photos with AI enhancement',
     icon: 'user-check',
     path: '/tools/ai-portrait',
-    apiEndpoint: 'https://api.lightxeditor.com/rpc/ai-portrait'
+    apiEndpoint: '/api/external/api/v2/ai-portrait'
   },
   {
     id: 'ai-face-swap',
@@ -95,7 +95,7 @@ export const tools: Tool[] = [
     description: 'Swap faces between images with AI precision',
     icon: 'refresh-cw',
     path: '/tools/ai-face-swap',
-    apiEndpoint: 'https://api.lightxeditor.com/rpc/ai-face-swap'
+    apiEndpoint: '/api/external/api/v2/ai-face-swap'
   },
   {
     id: 'ai-outfit',
@@ -103,7 +103,7 @@ export const tools: Tool[] = [
     description: 'Change outfits in photos with AI technology',
     icon: 'shirt',
     path: '/tools/ai-outfit',
-    apiEndpoint: 'https://api.lightxeditor.com/rpc/ai-outfit'
+    apiEndpoint: '/api/external/api/v2/ai-outfit'
   },
   {
     id: 'ai-image-to-image',
@@ -111,7 +111,7 @@ export const tools: Tool[] = [
     description: 'Transform images with AI style transfer',
     icon: 'image-plus',
     path: '/tools/ai-image-to-image',
-    apiEndpoint: 'https://api.lightxeditor.com/rpc/ai-image-to-image'
+    apiEndpoint: '/api/external/api/v2/ai-image-to-image'
   },
   {
     id: 'ai-sketch-to-image',
@@ -119,7 +119,7 @@ export const tools: Tool[] = [
     description: 'Convert sketches into detailed images',
     icon: 'pencil',
     path: '/tools/ai-sketch-to-image',
-    apiEndpoint: 'https://api.lightxeditor.com/rpc/ai-sketch-to-image'
+    apiEndpoint: '/api/external/api/v2/ai-sketch-to-image'
   },
   {
     id: 'ai-hairstyle',
@@ -127,7 +127,7 @@ export const tools: Tool[] = [
     description: 'Try different hairstyles with AI visualization',
     icon: 'scissors',
     path: '/tools/ai-hairstyle',
-    apiEndpoint: 'https://api.lightxeditor.com/rpc/ai-hairstyle'
+    apiEndpoint: '/api/external/api/v2/ai-hairstyle'
   },
   {
     id: 'ai-image-upscaler',
@@ -135,7 +135,7 @@ export const tools: Tool[] = [
     description: 'Enhance image resolution without losing quality',
     icon: 'zoom-in',
     path: '/tools/ai-image-upscaler',
-    apiEndpoint: 'https://api.lightxeditor.com/rpc/ai-image-upscaler'
+    apiEndpoint: '/api/external/api/v2/ai-image-upscaler'
   },
   {
     id: 'ai-filter',
@@ -143,7 +143,7 @@ export const tools: Tool[] = [
     description: 'Apply AI-powered filters to enhance your photos',
     icon: 'sliders',
     path: '/tools/ai-filter',
-    apiEndpoint: 'https://api.lightxeditor.com/rpc/ai-filter'
+    apiEndpoint: '/api/external/api/v2/ai-filter'
   },
   {
     id: 'ai-hair-color',
@@ -151,7 +151,7 @@ export const tools: Tool[] = [
     description: 'Change hair color in photos with AI',
     icon: 'palette',
     path: '/tools/ai-hair-color',
-    apiEndpoint: 'https://api.lightxeditor.com/rpc/ai-hair-color'
+    apiEndpoint: '/api/external/api/v2/ai-hair-color'
   },
   {
     id: 'ai-virtual-outfit',
@@ -159,6 +159,6 @@ export const tools: Tool[] = [
     description: 'Virtually try on outfits with AI technology',
     icon: 'tshirt',
     path: '/tools/ai-virtual-outfit',
-    apiEndpoint: 'https://api.lightxeditor.com/rpc/ai-virtual-outfit-try-on'
+    apiEndpoint: '/api/external/api/v2/ai-virtual-outfit-try-on'
   }
 ];

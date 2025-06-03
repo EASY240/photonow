@@ -8,10 +8,23 @@ interface ToolCardProps {
 }
 
 const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
-  // Dynamically get the icon component
-  const IconComponent = (LucideIcons as Record<string, React.FC<{ className?: string }>>)[
-    tool.icon.charAt(0).toUpperCase() + tool.icon.slice(1)
-  ] || LucideIcons.Image;
+  // Dynamically get the icon component with better error handling
+  const getIconComponent = (iconName: string) => {
+    // Convert kebab-case to PascalCase (e.g., 'refresh-cw' -> 'RefreshCw')
+    const pascalCaseName = iconName
+      .split('-')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join('');
+    
+    // Try the converted name first, then the original with first letter capitalized
+    const IconComponent = (LucideIcons as unknown as Record<string, React.FC<{ className?: string }>>)[pascalCaseName] ||
+                         (LucideIcons as unknown as Record<string, React.FC<{ className?: string }>>)[iconName.charAt(0).toUpperCase() + iconName.slice(1)] ||
+                         LucideIcons.Image;
+    
+    return IconComponent;
+  };
+  
+  const IconComponent = getIconComponent(tool.icon);
 
   return (
     <Link 

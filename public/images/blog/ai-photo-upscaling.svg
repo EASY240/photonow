@@ -1,0 +1,158 @@
+<svg width="800" height="400" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4158D0;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#C850C0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFCC70;stop-opacity:1" />
+    </linearGradient>
+    <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" />
+      <feOffset dx="2" dy="2" result="offsetblur" />
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3" />
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="400" fill="url(#bgGradient)" />
+  
+  <!-- Main Comparison Area -->
+  <g transform="translate(50, 50)">
+    <!-- Before Image (Low Resolution) -->
+    <rect x="0" y="0" width="300" height="300" rx="10" fill="white" filter="url(#dropShadow)" />
+    
+    <!-- Pixelated Image Representation -->
+    <g transform="translate(20, 20)">
+      <!-- Create a grid of large pixels to represent low resolution -->
+      <rect x="0" y="0" width="260" height="260" fill="#f0f0f0" />
+      
+      <!-- Pixelated Mountain Scene -->
+      <g>
+        <!-- Sky -->
+        <rect x="0" y="0" width="260" height="130" fill="#87CEEB" />
+        
+        <!-- Mountains -->
+        <polygon points="0,130 50,70 100,110 150,50 200,90 260,30 260,130" fill="#6B8E23" />
+        
+        <!-- Ground -->
+        <rect x="0" y="130" width="260" height="130" fill="#8B4513" />
+        
+        <!-- Sun -->
+        <circle cx="220" cy="40" r="20" fill="#FFD700" />
+        
+        <!-- Visible Pixels Grid -->
+        <g stroke="#ddd" stroke-width="1">
+          <path d="M0,0 L0,260" />
+          <path d="M20,0 L20,260" />
+          <path d="M40,0 L40,260" />
+          <path d="M60,0 L60,260" />
+          <path d="M80,0 L80,260" />
+          <path d="M100,0 L100,260" />
+          <path d="M120,0 L120,260" />
+          <path d="M140,0 L140,260" />
+          <path d="M160,0 L160,260" />
+          <path d="M180,0 L180,260" />
+          <path d="M200,0 L200,260" />
+          <path d="M220,0 L220,260" />
+          <path d="M240,0 L240,260" />
+          <path d="M260,0 L260,260" />
+          
+          <path d="M0,0 L260,0" />
+          <path d="M0,20 L260,20" />
+          <path d="M0,40 L260,40" />
+          <path d="M0,60 L260,60" />
+          <path d="M0,80 L260,80" />
+          <path d="M0,100 L260,100" />
+          <path d="M0,120 L260,120" />
+          <path d="M0,140 L260,140" />
+          <path d="M0,160 L260,160" />
+          <path d="M0,180 L260,180" />
+          <path d="M0,200 L260,200" />
+          <path d="M0,220 L260,220" />
+          <path d="M0,240 L260,240" />
+          <path d="M0,260 L260,260" />
+        </g>
+      </g>
+      
+      <!-- "Low Resolution" Label -->
+      <rect x="10" y="220" width="120" height="30" rx="5" fill="rgba(0,0,0,0.5)" />
+      <text x="70" y="240" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="white">Low Resolution</text>
+    </g>
+  </g>
+  
+  <!-- After Image (High Resolution) -->
+  <g transform="translate(450, 50)">
+    <rect x="0" y="0" width="300" height="300" rx="10" fill="white" filter="url(#dropShadow)" />
+    
+    <!-- Smooth Image Representation -->
+    <g transform="translate(20, 20)">
+      <rect x="0" y="0" width="260" height="260" fill="#f0f0f0" />
+      
+      <!-- Smooth Mountain Scene -->
+      <g>
+        <!-- Sky with Gradient -->
+        <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:#1E90FF;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#87CEEB;stop-opacity:1" />
+        </linearGradient>
+        <rect x="0" y="0" width="260" height="130" fill="url(#skyGradient)" />
+        
+        <!-- Mountains with Details -->
+        <linearGradient id="mountainGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:#228B22;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#6B8E23;stop-opacity:1" />
+        </linearGradient>
+        <path d="M0,130 Q25,100 50,70 Q75,90 100,110 Q125,80 150,50 Q175,70 200,90 Q230,60 260,30 L260,130 Z" fill="url(#mountainGradient)" />
+        
+        <!-- Mountain Details -->
+        <path d="M30,100 L40,90 L50,100" stroke="#228B22" stroke-width="1" fill="none" />
+        <path d="M80,90 L90,80 L100,90" stroke="#228B22" stroke-width="1" fill="none" />
+        <path d="M130,70 L140,60 L150,70" stroke="#228B22" stroke-width="1" fill="none" />
+        <path d="M180,80 L190,70 L200,80" stroke="#228B22" stroke-width="1" fill="none" />
+        
+        <!-- Ground with Texture -->
+        <linearGradient id="groundGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:#8B4513;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#A0522D;stop-opacity:1" />
+        </linearGradient>
+        <rect x="0" y="130" width="260" height="130" fill="url(#groundGradient)" />
+        
+        <!-- Ground Details -->
+        <path d="M20,150 L30,150" stroke="#A0522D" stroke-width="1" />
+        <path d="M50,170 L70,170" stroke="#A0522D" stroke-width="1" />
+        <path d="M100,160 L120,160" stroke="#A0522D" stroke-width="1" />
+        <path d="M150,180 L180,180" stroke="#A0522D" stroke-width="1" />
+        <path d="M200,150 L220,150" stroke="#A0522D" stroke-width="1" />
+        
+        <!-- Sun with Glow -->
+        <radialGradient id="sunGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+          <stop offset="0%" style="stop-color:#FFFF00;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#FFD700;stop-opacity:1" />
+        </radialGradient>
+        <circle cx="220" cy="40" r="20" fill="url(#sunGradient)" />
+        <circle cx="220" cy="40" r="25" fill="none" stroke="#FFD700" stroke-width="1" opacity="0.5" />
+        <circle cx="220" cy="40" r="30" fill="none" stroke="#FFD700" stroke-width="1" opacity="0.3" />
+      </g>
+      
+      <!-- "High Resolution" Label -->
+      <rect x="10" y="220" width="120" height="30" rx="5" fill="rgba(0,0,0,0.5)" />
+      <text x="70" y="240" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="white">High Resolution</text>
+    </g>
+  </g>
+  
+  <!-- AI Upscaling Arrow -->
+  <g transform="translate(370, 150)">
+    <circle cx="0" cy="0" r="30" fill="rgba(255,255,255,0.9)" filter="url(#dropShadow)" />
+    <text x="0" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#4158D0">AI</text>
+    <path d="M-15,0 L15,0 M5,-10 L15,0 L5,10" stroke="#4158D0" stroke-width="3" fill="none" />
+  </g>
+  
+  <!-- Title -->
+  <rect x="200" y="360" width="400" height="30" rx="5" fill="rgba(255,255,255,0.9)" filter="url(#dropShadow)" />
+  <text x="400" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#333">AI Photo Upscaling Technology</text>
+</svg>

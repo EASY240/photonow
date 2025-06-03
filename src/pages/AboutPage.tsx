@@ -11,16 +11,27 @@ const AboutPage: React.FC = () => {
         description="Learn about ModernPhotoTools.com, our mission, and how we're making professional photo editing accessible to everyone with AI-powered tools."
       />
       
-      <div className="container mx-auto px-4 py-12">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-12">
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              About ModernPhotoTools.com
+      {/* Hero Section */}
+      <section className="bg-gradient-to-r from-blue-50 to-indigo-50 py-16 md:py-24">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto text-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              About <span className="text-blue-600">ModernPhotoTools</span>
             </h1>
-            <p className="text-xl text-gray-600">
-              Making professional photo editing accessible to everyone
+            <p className="text-xl text-gray-700 mb-8">
+              Making professional photo editing accessible to everyone through the power of AI
             </p>
           </div>
+        </div>
+      </section>
+      
+      {/* Main Content */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+
+
+
+          <div className="max-w-4xl mx-auto">
           
           <div className="prose prose-lg max-w-none text-gray-700">
             <h2>Our Mission</h2>
@@ -50,7 +61,7 @@ const AboutPage: React.FC = () => {
             
             <h2>Our Technology</h2>
             <p>
-              We use cutting-edge AI technology powered by LightXEditor to deliver fast and accurate results. Our tools are constantly being improved to ensure that you always have access to the latest advancements in AI-powered photo editing.
+              We use cutting-edge AI technology powered to deliver fast and accurate results. Our tools are constantly being improved to ensure that you always have access to the latest advancements in AI-powered photo editing.
             </p>
             
             <h2>Get Started Today</h2>
@@ -58,16 +69,29 @@ const AboutPage: React.FC = () => {
               Ready to transform your photos? Explore our tools and see what you can create!
             </p>
             
-            <div className="flex justify-center mt-8">
-              <Link to="/tools">
-                <Button size="lg">
-                  Explore Our Tools
-                </Button>
-              </Link>
-            </div>
           </div>
         </div>
       </div>
+      </section>
+      
+      {/* CTA Section */}
+      <section className="py-16 bg-blue-600">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-3xl font-bold text-white mb-6">
+              Ready to Transform Your Photos?
+            </h2>
+            <p className="text-blue-100 mb-8">
+              Join thousands of users who enhance their photos with our AI-powered tools every day.
+            </p>
+            <Link to="/tools">
+              <Button size="lg" variant="secondary">
+                Explore Our Tools
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
     </>
   );
 };

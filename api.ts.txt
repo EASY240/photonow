@@ -1,8 +1,7 @@
-import { API_KEY } from '../constants';
-
+// api.ts
 export async function processImage(toolApiEndpoint: string, imageFile: File): Promise<string> {
   try {
-    // Use the proxy server URLs instead of direct API calls
+    // Use your proxy server URLs
     const PROXY_BASE_URL = 'http://localhost:3001';
     
     console.log('Starting image processing...');
@@ -21,22 +20,21 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
     });
 
     if (!uploadUrlResponse.ok) {
-      const errorText = await uploadUrlResponse.text();
-      throw new Error(`Failed to get upload URL: ${uploadUrlResponse.status} - ${errorText}`);
+      const errorData = await uploadUrlResponse.json();
+      throw new Error(`Failed to get upload URL: ${uploadUrlResponse.status} - ${JSON.stringify(errorData)}`);
     }
 
     const uploadData = await uploadUrlResponse.json();
+    console.log('Upload URL received:', uploadData);
     
-    // Check if the response has the expected structure
     if (!uploadData.body || !uploadData.body.uploadImage || !uploadData.body.imageUrl) {
       throw new Error(`Invalid upload URL response: ${JSON.stringify(uploadData)}`);
     }
 
     const { uploadImage, imageUrl } = uploadData.body;
 
-    // Step 2: Upload image directly to S3 using the pre-signed URL
-    // Pre-signed URLs are designed to be used directly by clients
-    const uploadImageResponse = await fetch(uploadImage, {
+    // Step 2: Upload image to S3 via proxy
+    const uploadImageResponse = await fetch(`${PROXY_BASE_URL}/api/upload-proxy?uploadUrl=${encodeURIComponent(uploadImage)}`, {
       method: 'PUT',
       headers: {
         'Content-Type': imageFile.type,
@@ -46,32 +44,30 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
     });
 
     if (!uploadImageResponse.ok) {
-      const errorText = await uploadImageResponse.text();
-      throw new Error(`Failed to upload image: ${uploadImageResponse.status} - ${errorText}`);
+      const errorData = await uploadImageResponse.json();
+      throw new Error(`Failed to upload image: ${uploadImageResponse.status} - ${JSON.stringify(errorData)}`);
     }
 
-    // Step 3: Call remove-background API via the generic proxy endpoint
-    const removeBackgroundResponse = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+    console.log('Image uploaded successfully');
+
+    // Step 3: Call remove-background API via proxy
+    const removeBackgroundResponse = await fetch(`${PROXY_BASE_URL}/api/lightx/v1/remove-background`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        endpoint: 'v1/remove-background',
-        body: {
-          imageUrl: imageUrl,
-          // Optional: you can add background parameter here
-          // background: 'transparent' // or color code like '#ffffff'
-        }
+        imageUrl: imageUrl,
       }),
     });
 
     if (!removeBackgroundResponse.ok) {
-      const errorText = await removeBackgroundResponse.text();
-      throw new Error(`Failed to remove background: ${removeBackgroundResponse.status} - ${errorText}`);
+      const errorData = await removeBackgroundResponse.json();
+      throw new Error(`Failed to remove background: ${removeBackgroundResponse.status} - ${JSON.stringify(errorData)}`);
     }
 
     const backgroundRemovalData = await removeBackgroundResponse.json();
+    console.log('Background removal initiated:', backgroundRemovalData);
     
     if (!backgroundRemovalData.body || !backgroundRemovalData.body.orderId) {
       throw new Error(`Invalid remove background response: ${JSON.stringify(backgroundRemovalData)}`);
@@ -79,19 +75,19 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
 
     const { orderId } = backgroundRemovalData.body;
 
-    // Step 4: Poll for order status using V1 endpoint
+    // Step 4: Poll for order status
     let resultUrl = '';
     let retries = 0;
-    const maxRetries = 5; // As per documentation
-    const pollInterval = 3000; // 3 seconds as per documentation
+    const maxRetries = 5;
+    const pollInterval = 3000;
 
     while (!resultUrl && retries < maxRetries) {
-      // Wait before polling (except for first attempt)
       if (retries > 0) {
+        console.log(`Polling attempt ${retries + 1}/${maxRetries}...`);
         await new Promise((resolve) => setTimeout(resolve, pollInterval));
       }
 
-      const orderStatusResponse = await fetch(`${PROXY_BASE_URL}/api/lightx/v2/order-status`, {
+      const orderStatusResponse = await fetch(`${PROXY_BASE_URL}/api/lightx/v1/order-status`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -102,11 +98,12 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
       });
 
       if (!orderStatusResponse.ok) {
-        const errorText = await orderStatusResponse.text();
-        throw new Error(`Failed to get order status: ${orderStatusResponse.status} - ${errorText}`);
+        const errorData = await orderStatusResponse.json();
+        throw new Error(`Failed to get order status: ${orderStatusResponse.status} - ${JSON.stringify(errorData)}`);
       }
 
       const orderStatus = await orderStatusResponse.json();
+      console.log('Order status:', orderStatus);
       
       if (!orderStatus.body) {
         throw new Error(`Invalid order status response: ${JSON.stringify(orderStatus)}`);
@@ -114,11 +111,11 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
 
       if (orderStatus.body.status === 'active' && orderStatus.body.output) {
         resultUrl = orderStatus.body.output;
+        console.log('Processing completed! Result URL:', resultUrl);
         break;
       } else if (orderStatus.body.status === 'failed') {
         throw new Error(`Image processing failed: ${orderStatus.body.message || 'Unknown error'}`);
       }
-      // If status is 'init', continue polling
       
       retries++;
     }

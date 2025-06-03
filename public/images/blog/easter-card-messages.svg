@@ -1,0 +1,163 @@
+<svg width="800" height="400" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#65C7F7;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#0052D4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#9CECFB;stop-opacity:1" />
+    </linearGradient>
+    <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" />
+      <feOffset dx="2" dy="2" result="offsetblur" />
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3" />
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <pattern id="eggPattern" width="60" height="60" patternUnits="userSpaceOnUse">
+      <circle cx="30" cy="30" r="25" fill="#FFD700" stroke="#FFA500" stroke-width="1" />
+      <path d="M20,20 Q30,10 40,20 Q50,30 40,40 Q30,50 20,40 Q10,30 20,20 Z" fill="none" stroke="#FF6347" stroke-width="1" />
+      <circle cx="25" cy="25" r="3" fill="#FF6347" />
+      <circle cx="35" cy="25" r="3" fill="#FF6347" />
+      <circle cx="30" cy="35" r="3" fill="#FF6347" />
+    </pattern>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="400" fill="url(#bgGradient)" />
+  
+  <!-- Main Content Area -->
+  <g transform="translate(50, 50)">
+    <!-- Easter Card 1 - Traditional -->
+    <g transform="translate(0, 0)">
+      <rect x="0" y="0" width="200" height="300" rx="10" fill="#FFFAF0" filter="url(#dropShadow)" />
+      
+      <!-- Card Content -->
+      <g transform="translate(20, 20)">
+        <!-- Easter Egg Decoration -->
+        <ellipse cx="80" cy="60" rx="50" ry="60" fill="#FFB6C1" />
+        <ellipse cx="80" cy="60" rx="40" ry="50" fill="#FFC0CB" />
+        
+        <!-- Easter Egg Patterns -->
+        <path d="M60,40 Q80,30 100,40" stroke="#FFF" stroke-width="2" fill="none" />
+        <path d="M60,60 Q80,50 100,60" stroke="#FFF" stroke-width="2" fill="none" />
+        <path d="M60,80 Q80,70 100,80" stroke="#FFF" stroke-width="2" fill="none" />
+        
+        <circle cx="70" cy="50" r="5" fill="#FFF" />
+        <circle cx="90" cy="50" r="5" fill="#FFF" />
+        <circle cx="70" cy="70" r="5" fill="#FFF" />
+        <circle cx="90" cy="70" r="5" fill="#FFF" />
+        
+        <!-- Card Text -->
+        <text x="80" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#333">Happy Easter!</text>
+        
+        <rect x="20" y="170" width="120" height="1" fill="#DDD" />
+        
+        <text x="80" y="190" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">Wishing you a blessed</text>
+        <text x="80" y="205" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">and joyful Easter</text>
+        <text x="80" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">celebration with</text>
+        <text x="80" y="235" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">your loved ones!</text>
+        
+        <!-- Card Label -->
+        <rect x="10" y="250" width="140" height="20" rx="5" fill="rgba(0,0,0,0.1)" />
+        <text x="80" y="265" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#333">Traditional</text>
+      </g>
+    </g>
+    
+    <!-- Easter Card 2 - Funny -->
+    <g transform="translate(220, 0)">
+      <rect x="0" y="0" width="200" height="300" rx="10" fill="#E6F7FF" filter="url(#dropShadow)" />
+      
+      <!-- Card Content -->
+      <g transform="translate(20, 20)">
+        <!-- Cartoon Bunny -->
+        <ellipse cx="80" cy="70" rx="50" ry="60" fill="#FFF" />
+        
+        <!-- Bunny Ears -->
+        <path d="M60,40 Q60,0 80,20 Q100,0 100,40" fill="#FFF" stroke="#DDD" stroke-width="1" />
+        
+        <!-- Bunny Face -->
+        <circle cx="70" cy="60" r="5" fill="#333" />
+        <circle cx="90" cy="60" r="5" fill="#333" />
+        
+        <!-- Bunny Nose -->
+        <ellipse cx="80" cy="75" rx="7" ry="5" fill="#FFB6C1" />
+        
+        <!-- Bunny Mouth -->
+        <path d="M75,85 Q80,90 85,85" stroke="#333" stroke-width="2" fill="none" />
+        
+        <!-- Bunny Whiskers -->
+        <line x1="60" y1="75" x2="73" y2="77" stroke="#999" stroke-width="1" />
+        <line x1="60" y1="80" x2="73" y2="80" stroke="#999" stroke-width="1" />
+        <line x1="87" y1="77" x2="100" y2="75" stroke="#999" stroke-width="1" />
+        <line x1="87" y1="80" x2="100" y2="80" stroke="#999" stroke-width="1" />
+        
+        <!-- Card Text -->
+        <text x="80" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#333">Hoppy Easter!</text>
+        
+        <rect x="20" y="170" width="120" height="1" fill="#DDD" />
+        
+        <text x="80" y="190" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">I'm not saying you're</text>
+        <text x="80" y="205" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">old, but the Easter</text>
+        <text x="80" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">Bunny needs GPS to</text>
+        <text x="80" y="235" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">find your house!</text>
+        
+        <!-- Card Label -->
+        <rect x="10" y="250" width="140" height="20" rx="5" fill="rgba(0,0,0,0.1)" />
+        <text x="80" y="265" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#333">Funny</text>
+      </g>
+    </g>
+    
+    <!-- Easter Card 3 - Religious -->
+    <g transform="translate(440, 0)">
+      <rect x="0" y="0" width="200" height="300" rx="10" fill="#F0F8FF" filter="url(#dropShadow)" />
+      
+      <!-- Card Content -->
+      <g transform="translate(20, 20)">
+        <!-- Cross Symbol -->
+        <rect x="70" y="20" width="20" height="80" fill="#FFD700" />
+        <rect x="40" y="40" width="80" height="20" fill="#FFD700" />
+        
+        <!-- Light Rays -->
+        <path d="M80,10 L80,0 M60,20 L50,10 M100,20 L110,10 M40,60 L30,60 M120,60 L130,60 M60,100 L50,110 M100,100 L110,110" stroke="#FFD700" stroke-width="2" />
+        
+        <!-- Card Text -->
+        <text x="80" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#333">He Is Risen</text>
+        
+        <rect x="20" y="170" width="120" height="1" fill="#DDD" />
+        
+        <text x="80" y="190" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">May the miracle of</text>
+        <text x="80" y="205" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">Easter bring you</text>
+        <text x="80" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">renewed hope, faith,</text>
+        <text x="80" y="235" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#666">love, and joy.</text>
+        
+        <!-- Card Label -->
+        <rect x="10" y="250" width="140" height="20" rx="5" fill="rgba(0,0,0,0.1)" />
+        <text x="80" y="265" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#333">Religious</text>
+      </g>
+    </g>
+  </g>
+  
+  <!-- Easter Basket with Message Cards -->
+  <g transform="translate(650, 200)">
+    <!-- Basket -->
+    <path d="M0,50 C0,20 100,20 100,50 L100,100 C100,120 0,120 0,100 Z" fill="#D2B48C" stroke="#8B4513" stroke-width="2" />
+    <path d="M0,50 C0,70 100,70 100,50" fill="none" stroke="#8B4513" stroke-width="2" />
+    <path d="M40,0 C50,-10 50,-10 60,0" fill="none" stroke="#8B4513" stroke-width="4" />
+    
+    <!-- Easter Eggs in Basket -->
+    <ellipse cx="30" cy="70" rx="15" ry="20" fill="#FF6347" stroke="#FFF" stroke-width="1" />
+    <ellipse cx="50" cy="80" rx="15" ry="20" fill="#4169E1" stroke="#FFF" stroke-width="1" />
+    <ellipse cx="70" cy="70" rx="15" ry="20" fill="#32CD32" stroke="#FFF" stroke-width="1" />
+    
+    <!-- Message Cards -->
+    <rect x="20" y="40" width="20" height="30" rx="2" fill="#FFF" transform="rotate(-15,20,40)" />
+    <rect x="60" y="35" width="20" height="30" rx="2" fill="#FFF" transform="rotate(15,60,35)" />
+  </g>
+  
+  <!-- Title -->
+  <rect x="200" y="360" width="400" height="30" rx="5" fill="rgba(255,255,255,0.9)" filter="url(#dropShadow)" />
+  <text x="400" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#333">Easter Card Message Ideas</text>
+</svg>

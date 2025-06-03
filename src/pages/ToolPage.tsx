@@ -53,10 +53,11 @@ const ToolPage: React.FC = () => {
         error: null
       });
     } catch (error) {
+      console.error('Processing error:', error);
       setProcessedImage({
         url: null,
         isLoading: false,
-        error: error instanceof Error ? error.message : 'An error occurred while processing the image'
+        error: error instanceof Error ? error.message : 'An unexpected error occurred while processing the image'
       });
     }
   };

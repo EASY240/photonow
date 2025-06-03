@@ -1,0 +1,114 @@
+<svg width="800" height="400" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4158D0;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#C850C0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFCC70;stop-opacity:1" />
+    </linearGradient>
+    <filter id="dropShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5" />
+      <feOffset dx="2" dy="2" result="offsetblur" />
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3" />
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="400" fill="url(#bgGradient)" />
+  
+  <!-- Main Image Area -->
+  <g transform="translate(50, 50)">
+    <!-- Original Image Frame -->
+    <rect x="0" y="0" width="300" height="300" rx="10" fill="white" filter="url(#dropShadow)" />
+    
+    <!-- Original Image Content -->
+    <g transform="translate(20, 20)">
+      <rect x="0" y="0" width="260" height="260" fill="#f0f0f0" />
+      
+      <!-- Simple Product Photo with Background -->
+      <rect x="0" y="0" width="260" height="260" fill="#E0E0E0" />
+      
+      <!-- Background Elements -->
+      <rect x="0" y="130" width="260" height="130" fill="#D0D0D0" />
+      <circle cx="50" cy="50" r="30" fill="#C0C0C0" />
+      <rect x="180" y="30" width="50" height="80" fill="#C0C0C0" />
+      
+      <!-- Product (Bottle) -->
+      <g>
+        <!-- Bottle Body -->
+        <rect x="100" y="80" width="60" height="140" rx="10" fill="#FFFFFF" stroke="#CCCCCC" stroke-width="1" />
+        
+        <!-- Bottle Cap -->
+        <rect x="110" y="60" width="40" height="20" rx="5" fill="#4FC3F7" />
+        
+        <!-- Bottle Label -->
+        <rect x="105" y="120" width="50" height="70" rx="5" fill="#E1F5FE" />
+        <line x1="110" y1="135" x2="150" y2="135" stroke="#333" stroke-width="1" />
+        <line x1="110" y1="145" x2="150" y2="145" stroke="#333" stroke-width="1" />
+        <line x1="110" y1="155" x2="140" y2="155" stroke="#333" stroke-width="1" />
+        <line x1="110" y1="165" x2="130" y2="165" stroke="#333" stroke-width="1" />
+      </g>
+      
+      <!-- "Original" Label -->
+      <rect x="10" y="220" width="80" height="30" rx="5" fill="rgba(0,0,0,0.5)" />
+      <text x="50" y="240" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="white">Original</text>
+    </g>
+  </g>
+  
+  <!-- Processed Image Area -->
+  <g transform="translate(450, 50)">
+    <!-- Processed Image Frame -->
+    <rect x="0" y="0" width="300" height="300" rx="10" fill="white" filter="url(#dropShadow)" />
+    
+    <!-- Transparent Background Representation -->
+    <g transform="translate(20, 20)">
+      <!-- Checkered Background to Represent Transparency -->
+      <pattern id="checkerPattern" width="20" height="20" patternUnits="userSpaceOnUse">
+        <rect width="10" height="10" fill="#F5F5F5" />
+        <rect x="10" y="0" width="10" height="10" fill="#E0E0E0" />
+        <rect x="0" y="10" width="10" height="10" fill="#E0E0E0" />
+        <rect x="10" y="10" width="10" height="10" fill="#F5F5F5" />
+      </pattern>
+      <rect x="0" y="0" width="260" height="260" fill="url(#checkerPattern)" />
+      
+      <!-- Product (Bottle) with No Background -->
+      <g>
+        <!-- Bottle Body -->
+        <rect x="100" y="80" width="60" height="140" rx="10" fill="#FFFFFF" stroke="#CCCCCC" stroke-width="1" />
+        
+        <!-- Bottle Cap -->
+        <rect x="110" y="60" width="40" height="20" rx="5" fill="#4FC3F7" />
+        
+        <!-- Bottle Label -->
+        <rect x="105" y="120" width="50" height="70" rx="5" fill="#E1F5FE" />
+        <line x1="110" y1="135" x2="150" y2="135" stroke="#333" stroke-width="1" />
+        <line x1="110" y1="145" x2="150" y2="145" stroke="#333" stroke-width="1" />
+        <line x1="110" y1="155" x2="140" y2="155" stroke="#333" stroke-width="1" />
+        <line x1="110" y1="165" x2="130" y2="165" stroke="#333" stroke-width="1" />
+      </g>
+      
+      <!-- Selection Outline Effect -->
+      <rect x="95" y="55" width="70" height="170" rx="12" fill="none" stroke="#4FC3F7" stroke-width="2" stroke-dasharray="5,5" />
+      
+      <!-- "Background Removed" Label -->
+      <rect x="10" y="220" width="140" height="30" rx="5" fill="rgba(0,0,0,0.5)" />
+      <text x="80" y="240" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="white">Background Removed</text>
+    </g>
+  </g>
+  
+  <!-- AI Processing Arrow -->
+  <g transform="translate(370, 150)">
+    <circle cx="0" cy="0" r="30" fill="rgba(255,255,255,0.9)" filter="url(#dropShadow)" />
+    <text x="0" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#4158D0">AI</text>
+    <path d="M-15,0 L15,0 M5,-10 L15,0 L5,10" stroke="#4158D0" stroke-width="3" fill="none" />
+  </g>
+  
+  <!-- Title -->
+  <rect x="200" y="360" width="400" height="30" rx="5" fill="rgba(255,255,255,0.9)" filter="url(#dropShadow)" />
+  <text x="400" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#333">How to Remove Background from Photos</text>
+</svg>
