@@ -3,11 +3,17 @@ import { API_KEY } from '../constants';
 export async function processImage(toolApiEndpoint: string, imageFile: File): Promise<string> {
   try {
     // Use the Netlify function URL in production, fallback to local proxy for development
-    const isProduction = window.location.hostname !== 'localhost';
+    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
     const PROXY_BASE_URL = isProduction 
-      ? 'https://modernphototools.netlify.app' 
+      ? window.location.origin // Use the current origin (https://modernphototools.netlify.app)
       : 'http://localhost:3001';
     
+    console.log('Environment detection:', {
+      hostname: window.location.hostname,
+      origin: window.location.origin,
+      isProduction,
+      PROXY_BASE_URL
+    });
     console.log('Starting image processing...');
 
     // Step 1: Get upload URL from LightXEditor via proxy
