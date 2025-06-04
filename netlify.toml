@@ -1,0 +1,23 @@
+# netlify.toml
+[build]
+  # Directory to change to before starting a build
+  base = "/"
+  
+  # Directory that contains the deploy-ready HTML files and assets
+  publish = "dist"
+  
+  # Default build command
+  command = "npm run build"
+
+# Redirects and rewrites
+[[redirects]]
+  from = "/api/lightx-proxy"
+  to = "/.netlify/functions/lightx-proxy"
+  status = 200
+  force = true
+
+# For SPA routing
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

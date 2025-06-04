@@ -2,21 +2,27 @@ import { API_KEY } from '../constants';
 
 export async function processImage(toolApiEndpoint: string, imageFile: File): Promise<string> {
   try {
-    // Use the proxy server URLs instead of direct API calls
-    const PROXY_BASE_URL = 'http://localhost:3001';
+    // Use the Netlify function URL in production, fallback to local proxy for development
+    const isProduction = window.location.hostname !== 'localhost';
+    const PROXY_BASE_URL = isProduction 
+      ? 'https://modernphototools.netlify.app' 
+      : 'http://localhost:3001';
     
     console.log('Starting image processing...');
 
     // Step 1: Get upload URL from LightXEditor via proxy
-    const uploadUrlResponse = await fetch(`${PROXY_BASE_URL}/api/lightx/v2/uploadImageUrl`, {
+    const uploadUrlResponse = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        uploadType: 'imageUrl',
-        size: imageFile.size,
-        contentType: imageFile.type,
+        endpoint: 'v2/uploadImageUrl',
+        body: {
+          uploadType: 'imageUrl',
+          size: imageFile.size,
+          contentType: imageFile.type,
+        }
       }),
     });
 
@@ -91,13 +97,16 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
         await new Promise((resolve) => setTimeout(resolve, pollInterval));
       }
 
-      const orderStatusResponse = await fetch(`${PROXY_BASE_URL}/api/lightx/v2/order-status`, {
+      const orderStatusResponse = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          orderId: orderId,
+          endpoint: 'v2/order-status',
+          body: {
+            orderId: orderId,
+          }
         }),
       });
 
