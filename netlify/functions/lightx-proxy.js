@@ -1,7 +1,7 @@
 // netlify/functions/lightx-proxy.js
-const fetch = require('node-fetch');
-
 exports.handler = async function(event, context) {
+  // Dynamic import for node-fetch ES module
+  const { default: fetch } = await import('node-fetch');
   // Only allow POST requests
   if (event.httpMethod !== 'POST') {
     return {
