@@ -125,6 +125,13 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
       
       console.log('Order status response:', JSON.stringify(orderStatus));
       
+      // Check for API-level failure first (no body property)
+      if (orderStatus.status === 'FAIL') {
+        const errorMessage = orderStatus.message || 'Unknown error';
+        const errorDescription = orderStatus.description || '';
+        throw new Error(`Image processing failed: ${errorMessage}${errorDescription ? ` - ${errorDescription}` : ''}`);
+      }
+      
       if (!orderStatus.body) {
         throw new Error(`Invalid order status response: ${JSON.stringify(orderStatus)}`);
       }
@@ -134,10 +141,10 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
         resultUrl = orderStatus.body.output;
         break;
       } 
-      // Check for various failure conditions
-      else if (orderStatus.body.status === 'failed' || orderStatus.status === 'FAIL') {
-        const errorMessage = orderStatus.body?.message || orderStatus.message || 'Unknown error';
-        const errorDescription = orderStatus.body?.description || orderStatus.description || '';
+      // Check for body-level failure condition
+      else if (orderStatus.body.status === 'failed') {
+        const errorMessage = orderStatus.body.message || 'Unknown error';
+        const errorDescription = orderStatus.body.description || '';
         throw new Error(`Image processing failed: ${errorMessage}${errorDescription ? ` - ${errorDescription}` : ''}`);
       }
       // If status is 'init' or any other status, continue polling
