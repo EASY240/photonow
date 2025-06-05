@@ -123,17 +123,24 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
 
       const orderStatus = await orderStatusResponse.json();
       
+      console.log('Order status response:', JSON.stringify(orderStatus));
+      
       if (!orderStatus.body) {
         throw new Error(`Invalid order status response: ${JSON.stringify(orderStatus)}`);
       }
 
+      // Check for successful status with output
       if (orderStatus.body.status === 'active' && orderStatus.body.output) {
         resultUrl = orderStatus.body.output;
         break;
-      } else if (orderStatus.body.status === 'failed') {
-        throw new Error(`Image processing failed: ${orderStatus.body.message || 'Unknown error'}`);
+      } 
+      // Check for various failure conditions
+      else if (orderStatus.body.status === 'failed' || orderStatus.status === 'FAIL') {
+        const errorMessage = orderStatus.body?.message || orderStatus.message || 'Unknown error';
+        const errorDescription = orderStatus.body?.description || orderStatus.description || '';
+        throw new Error(`Image processing failed: ${errorMessage}${errorDescription ? ` - ${errorDescription}` : ''}`);
       }
-      // If status is 'init', continue polling
+      // If status is 'init' or any other status, continue polling
       
       retries++;
     }
