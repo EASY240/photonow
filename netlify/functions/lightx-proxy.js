@@ -64,6 +64,11 @@ exports.handler = async function(event, context) {
       };
     }
     
+    // Log request details (excluding sensitive info)
+    console.log(`Making request to: ${lightxUrl}`);
+    console.log(`Request body: ${JSON.stringify(body)}`);
+    console.log(`API key present: ${apiKey ? 'Yes' : 'No'}`);
+    
     // Make the request to the LightX API
     const response = await fetch(lightxUrl, {
       method: 'POST',
@@ -73,6 +78,10 @@ exports.handler = async function(event, context) {
       },
       body: JSON.stringify(body)
     });
+    
+    console.log(`Response status: ${response.status}`);
+    console.log(`Response status text: ${response.statusText}`);
+    console.log(`Response headers: ${JSON.stringify([...response.headers])}`);
 
     // Get the response data
     const data = await response.json();
