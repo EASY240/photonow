@@ -80,15 +80,15 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
       throw new Error(`Failed to upload image: ${uploadImageResponse.status} - ${errorText}`);
     }
 
-    // Step 3: Call remove-background API via the generic proxy endpoint (using v2 for consistency)
-    // Using v2 to match the upload and status endpoints for API consistency
+    // Step 3: Call remove-background API via the generic proxy endpoint (using v1 which is better documented)
+    // Using v1 for remove-background as it appears to have different authentication requirements than v2
     const removeBackgroundResponse = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        endpoint: 'v2/remove-background',
+        endpoint: 'v1/remove-background',
         body: {
           imageUrl: imageUrl,
           background: 'transparent' // background parameter is required

@@ -46,8 +46,19 @@ exports.handler = async function(event, context) {
       };
     }
     
-    // Construct the LightX API URL
-    const lightxUrl = `https://api.lightxeditor.com/external/api/${endpoint}`;
+    // Construct the LightX API URL based on version
+    // For v1 endpoints, the URL structure is different than v2
+    let lightxUrl;
+    if (endpoint.startsWith('v1/')) {
+      // v1 endpoints use a different URL structure
+      const v1Endpoint = endpoint.replace('v1/', '');
+      lightxUrl = `https://api.lightxeditor.com/api/${v1Endpoint}`;
+    } else {
+      // v2 and other endpoints use the external/api path
+      lightxUrl = `https://api.lightxeditor.com/external/api/${endpoint}`;
+    }
+    
+    console.log(`Constructed URL: ${lightxUrl}`);
     
     // Use the API key from environment variables
     // IMPORTANT: You need to set this in your Netlify environment variables
