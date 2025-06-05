@@ -91,11 +91,11 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
 
     const { orderId } = backgroundRemovalData.body;
 
-    // Step 4: Poll for order status using V1 endpoint
+    // Step 4: Poll for order status using V2 endpoint
     let resultUrl = '';
     let retries = 0;
-    const maxRetries = 5; // As per documentation
-    const pollInterval = 3000; // 3 seconds as per documentation
+    const maxRetries = 15; // Increased from 5 to allow more time for processing
+    const pollInterval = 5000; // Increased to 5 seconds to reduce API calls
 
     while (!resultUrl && retries < maxRetries) {
       // Wait before polling (except for first attempt)
