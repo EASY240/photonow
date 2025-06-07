@@ -41,7 +41,7 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        endpoint: 'v2/uploadImageUrl',
+        endpoint: 'v1/uploadImageUrl',
         body: {
           uploadType: 'imageUrl',
           size: imageFile.size,
