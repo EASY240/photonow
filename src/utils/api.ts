@@ -129,7 +129,7 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          endpoint: 'v2/order-status',
+          endpoint: 'v1/order-status',
           body: {
             orderId: orderId,
           }
