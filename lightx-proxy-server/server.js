@@ -19,7 +19,7 @@ app.use(express.json());
 app.post('/api/lightx-proxy', async (req, res) => {
   try {
     // Enable CORS
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+    res.setHeader('Access-Control-Allow-Origin', 'https://modernphototools.netlify.app/');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     
