@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3001;
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:5173', // Your Vite dev server
+  origin: 'https://modernphototools.netlify.app/', // Your Vite dev server
   credentials: true
 }));
 app.use(express.json());
