@@ -51,8 +51,7 @@ exports.handler = async function(event, context) {
     let lightxUrl;
     if (endpoint.startsWith('v1/')) {
       // v1 endpoints use a different URL structure
-      const v1Endpoint = endpoint.replace('v1/', '');
-      lightxUrl = `https://api.lightxeditor.com/external/api/${v1Endpoint}`;
+      lightxUrl = `https://api.lightxeditor.com/external/api/${Endpoint}`;
     } else {
       // v2 and other endpoints use the external/api path
       lightxUrl = `https://api.lightxeditor.com/external/api/${endpoint}`;
