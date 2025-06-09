@@ -10,26 +10,20 @@ const PORT = process.env.PORT || 3001;
 
 // Middleware
 app.use(cors({
-  origin: 'https://modernphototools.netlify.app/', // Your Vite dev server
-  credentials: true
+  origin: ['https://modernphototools.netlify.app', 'http://localhost:5173'], // Your Vite dev server
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'x-api-key', 'Authorization'],
+  preflightContinue: false,
 }));
 app.use(express.json());
 
 // Generic LightX API proxy endpoint (similar to serverless function approach)
 app.post('/api/lightx-proxy', async (req, res) => {
   try {
-    // Enable CORS
-    res.setHeader('Access-Control-Allow-Origin', 'https://modernphototools.netlify.app/');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    
-    if (req.method === 'OPTIONS') {
-      res.status(200).end();
-      return;
-    }
-    
     const { endpoint, body } = req.body;
-    
+    console.log('Proxy request received: ', { endpoint, body });
+
     if (!endpoint) {
       return res.status(400).json({ error: 'Missing endpoint parameter' });
     }
@@ -37,20 +31,26 @@ app.post('/api/lightx-proxy', async (req, res) => {
     const lightxUrl = `https://api.lightxeditor.com/external/api/${endpoint}`;
     
     console.log(`Proxying to: ${lightxUrl}`);
-    console.log(`Request body:`, JSON.stringify(body));
+    console.log(`Request body:`, JSON.stringify(body, null, 2));
     
     // Use the full API key
     const apiKey = process.env.LIGHTX_API_KEY.trim();
-    
+
+    if (!apiKey) {
+      console.error('LIGHTX_API_KEY not found in environment variables');
+      return res.status(500).json({ error: 'API key not configured' });
+    }
+
     console.log(`Using API key (masked): ${apiKey.substring(0, 5)}...${apiKey.substring(apiKey.length - 5)}`);
-    
+
     const headers = {
       'Content-Type': 'application/json',
       'x-api-key': apiKey,
+      'User-Agent': 'PhotoNow-Proxy/1.0'
     };
-    
-    console.log('Request headers:', headers);
-    
+
+    console.log('Request headers:', { ...headers, 'x-api-key': '[MASKED]' });
+
     const response = await fetch(lightxUrl, {
       method: 'POST',
       headers: headers,
@@ -58,12 +58,30 @@ app.post('/api/lightx-proxy', async (req, res) => {
     });
 
     console.log('Response status:', response.status);
+    console.log('Response headers:', Object.fromEntries(response.headers.entries()));
     
-    const data = await response.json();
-    console.log('Response data:', JSON.stringify(data));
+    const responseText = await response.text();
+    console.log('Raw response:', responseText);
+    
+    let data;
+    try {
+      data = JSON.parse(responseText);
+    } catch (parseError) {
+      console.error('Failed to parse JSON response:', parseError);
+      return res.status(500).json({ 
+        error: 'Invalid JSON response from LightX API', 
+        details: responseText.substring(0, 500) 
+      });
+    }
+    
+    console.log('Parsed response data:', JSON.stringify(data, null, 2));
     
     if (!response.ok) {
-      console.error('LightX API Error:', data);
+      console.error('LightX API Error:', {
+        status: response.status,
+        statusText: response.statusText,
+        data
+      });
       return res.status(response.status).json(data);
     }
 
