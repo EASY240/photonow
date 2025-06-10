@@ -41,7 +41,7 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        endpoint: 'v1/uploadImageUrl',
+        endpoint: 'v2/uploadImageUrl',
         body: {
           uploadType: 'imageUrl',
           size: imageFile.size,
@@ -63,6 +63,20 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
     }
 
     const { uploadImage, imageUrl } = uploadData.body;
+    console.log('Upload successful, imageUrl: ', imageUrl);
+
+    // Add this debugging code to verify image accessibility
+    // try {
+    //   console.log('Testing image URL accessibility...');
+    //   const testResponse = await fetch(imageUrl, { method: 'HEAD' });
+    //   console.log('Image URL test:', {
+    //     status: testResponse.status,
+    //     accessible: testResponse.ok,
+    //     headers: Object.fromEntries(testResponse.headers.entries())
+    //   });
+    // } catch (testError) {
+    //   console.error('Image URL not accessible:', testError);
+    // }
 
     // Step 2: Upload image directly to S3 using the pre-signed URL
     // Pre-signed URLs are designed to be used directly by clients
@@ -80,30 +94,55 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
       throw new Error(`Failed to upload image: ${uploadImageResponse.status} - ${errorText}`);
     }
 
-    // Step 3: Call remove-background API via the generic proxy endpoint (using v1 which is better documented)
-    // Using v1 for remove-background as it appears to have different authentication requirements than v2
-    const removeBackgroundResponse = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        endpoint: 'v1/remove-background',
-        body: {
-          imageUrl: imageUrl,
-          background: 'transparent' // background parameter is required
-        }
-      }),
-    });
+    console.log('S3 upload successful, waiting for image to be available...');
+    
+    // Add delay to ensure image is fully processed and available on CDN
+    await new Promise(resolve => setTimeout(resolve, 2000)); // Wait 2 seconds
 
-    if (!removeBackgroundResponse.ok) {
-      const errorText = await removeBackgroundResponse.text();
-      throw new Error(`Failed to remove background: ${removeBackgroundResponse.status} - ${errorText}`);
+    // Step 3: Call remove-background API with retry logic
+    let removeBackgroundResponse;
+    let backgroundRemovalData;
+    let bgRetries = 0;
+    const maxBgRetries = 3;
+
+    while (bgRetries < maxBgRetries) {
+      try {
+        removeBackgroundResponse = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            endpoint: 'v1/remove-background',
+            body: {
+              imageUrl: imageUrl,
+              // background: 'transparent'
+            }
+          }),
+        });
+
+        if (!removeBackgroundResponse.ok) {
+          const errorText = await removeBackgroundResponse.text();
+          throw new Error(`Failed to remove background: ${removeBackgroundResponse.status} - ${errorText}`);
+        }
+
+        backgroundRemovalData = await removeBackgroundResponse.json();
+        
+        // If we get here without error, break the retry loop
+        break;
+        
+      } catch (error) {
+        bgRetries++;
+        if (bgRetries >= maxBgRetries) {
+          throw error;
+        }
+        
+        console.log(`Remove background attempt ${bgRetries} failed, retrying in 2 seconds...`);
+        await new Promise(resolve => setTimeout(resolve, 2000));
+      }
     }
 
-    const backgroundRemovalData = await removeBackgroundResponse.json();
-    
-    if (!backgroundRemovalData.body || !backgroundRemovalData.body.orderId) {
+    if (!backgroundRemovalData || !backgroundRemovalData.body || !backgroundRemovalData.body.orderId) {
       throw new Error(`Invalid remove background response: ${JSON.stringify(backgroundRemovalData)}`);
     }
 
