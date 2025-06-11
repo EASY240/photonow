@@ -1,234 +1,217 @@
 import { API_KEY } from '../constants';
 
-export async function processImage(toolApiEndpoint: string, imageFile: File): Promise<string> {
+export interface ProcessImageResult {
+  success: boolean;
+  imageUrl?: string;
+  error?: string;
+}
+
+export async function processImage(endpoint: string, imageFile: File, userPrompt?: string): Promise<ProcessImageResult> {
   try {
-    // Validate image before processing
-    const maxFileSize = 10 * 1024 * 1024; // 10MB
-    const supportedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-    
-    if (imageFile.size > maxFileSize) {
-      throw new Error('Image file is too large. Please use an image smaller than 10MB.');
+    // Validate image
+    if (imageFile.size > 10 * 1024 * 1024) {
+      throw new Error('Image size must be less than 10MB');
+    }
+
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+    if (!allowedTypes.includes(imageFile.type)) {
+      throw new Error('Only JPG, PNG, and WebP images are supported');
     }
     
-    if (!supportedTypes.includes(imageFile.type.toLowerCase())) {
-      throw new Error('Unsupported image format. Please use JPG, PNG, or WebP.');
-    }
-    
-    console.log('Image validation passed:', {
-      size: `${(imageFile.size / 1024 / 1024).toFixed(2)}MB`,
-      type: imageFile.type,
-      name: imageFile.name
-    });
-    
-    // Use the Netlify function URL in production, fallback to local proxy for development
-    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-    const PROXY_BASE_URL = isProduction 
-      ? window.location.origin // Use the current origin (https://modernphototools.netlify.app)
-      : 'http://localhost:3001';
-    
-    console.log('Environment detection:', {
-      hostname: window.location.hostname,
-      origin: window.location.origin,
-      isProduction,
-      PROXY_BASE_URL
-    });
-    console.log('Starting image processing...');
+    // Determine the proxy base URL based on environment
+    const PROXY_BASE_URL = import.meta.env.DEV 
+      ? 'http://localhost:3001/api/lightx-proxy'
+      : '/api/lightx-proxy';
+
+    console.log('Using proxy URL:', PROXY_BASE_URL);
+    console.log('Processing with endpoint:', endpoint);
 
     // Step 1: Get upload URL from LightXEditor via proxy
-    const uploadUrlResponse = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+    console.log('Fetching upload URL...');
+    const uploadResponse = await fetch(PROXY_BASE_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         endpoint: 'v2/uploadImageUrl',
-        body: {
-          uploadType: 'imageUrl',
-          size: imageFile.size,
-          contentType: imageFile.type,
-        }
-      }),
+        body: {}
+      })
     });
 
-    if (!uploadUrlResponse.ok) {
-      const errorText = await uploadUrlResponse.text();
-      throw new Error(`Failed to get upload URL: ${uploadUrlResponse.status} - ${errorText}`);
+    if (!uploadResponse.ok) {
+      const errorText = await uploadResponse.text();
+      console.error('Upload URL fetch failed:', errorText);
+      throw new Error(`Failed to get upload URL: ${uploadResponse.status}`);
     }
 
-    const uploadData = await uploadUrlResponse.json();
-    
-    // Check if the response has the expected structure
-    if (!uploadData.body || !uploadData.body.uploadImage || !uploadData.body.imageUrl) {
-      throw new Error(`Invalid upload URL response: ${JSON.stringify(uploadData)}`);
+    const uploadData = await uploadResponse.json();
+    console.log('Upload URL response:', uploadData);
+
+    if (!uploadData.success || !uploadData.data?.uploadUrl) {
+      throw new Error('Invalid upload URL response');
     }
 
-    const { uploadImage, imageUrl } = uploadData.body;
-    console.log('Upload successful, imageUrl: ', imageUrl);
-
-    // Add this debugging code to verify image accessibility
-    // try {
-    //   console.log('Testing image URL accessibility...');
-    //   const testResponse = await fetch(imageUrl, { method: 'HEAD' });
-    //   console.log('Image URL test:', {
-    //     status: testResponse.status,
-    //     accessible: testResponse.ok,
-    //     headers: Object.fromEntries(testResponse.headers.entries())
-    //   });
-    // } catch (testError) {
-    //   console.error('Image URL not accessible:', testError);
-    // }
-
-    // Step 2: Upload image directly to S3 using the pre-signed URL
-    // Pre-signed URLs are designed to be used directly by clients
-    const uploadImageResponse = await fetch(uploadImage, {
+    // Step 2: Upload image to S3 using the pre-signed URL
+    console.log('Uploading image to S3...');
+    const uploadResult = await fetch(uploadData.data.uploadUrl, {
       method: 'PUT',
+      body: imageFile,
       headers: {
         'Content-Type': imageFile.type,
-        'Content-Length': imageFile.size.toString(),
       },
-      body: imageFile,
     });
 
-    if (!uploadImageResponse.ok) {
-      const errorText = await uploadImageResponse.text();
-      throw new Error(`Failed to upload image: ${uploadImageResponse.status} - ${errorText}`);
+    if (!uploadResult.ok) {
+      console.error('S3 upload failed:', uploadResult.status, uploadResult.statusText);
+      throw new Error(`Failed to upload image: ${uploadResult.status}`);
     }
 
-    console.log('S3 upload successful, waiting for image to be available...');
+    console.log('Image uploaded successfully to S3');
+
+    // Add a small delay to ensure the image is available
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    // Step 3: Call the specific API endpoint
+    console.log(`Calling ${endpoint} API...`);
     
-    // Add delay to ensure image is fully processed and available on CDN
-    await new Promise(resolve => setTimeout(resolve, 2000)); // Wait 2 seconds
+    // Prepare the request body based on the endpoint
+    let requestBody: any = {
+      imageUrl: uploadData.data.imageUrl
+    };
 
-    // Step 3: Call remove-background API with retry logic
-    let removeBackgroundResponse;
-    let backgroundRemovalData;
-    let bgRetries = 0;
-    const maxBgRetries = 3;
+    // Add user prompt for endpoints that support it
+    if (userPrompt && userPrompt.trim()) {
+      // Endpoints that typically support text prompts
+      const promptSupportedEndpoints = [
+        'v1/cartoon', 'v1/caricature', 'v1/avatar', 'v1/image-generator',
+        'v1/portrait', 'v1/image2image', 'v1/sketch-to-image', 'v1/background-generator',
+        'v1/filter', 'v1/hairstyle', 'v1/hair-color'
+      ];
+      
+      if (promptSupportedEndpoints.includes(endpoint)) {
+        requestBody.textPrompt = userPrompt;
+      }
+    }
 
-    while (bgRetries < maxBgRetries) {
+    // Special handling for specific endpoints
+    if (endpoint === 'v1/expand-photo') {
+      // Default padding values for expand photo
+      requestBody.leftPadding = 50;
+      requestBody.rightPadding = 50;
+      requestBody.topPadding = 50;
+      requestBody.bottomPadding = 50;
+    }
+
+    const processResponse = await fetch(PROXY_BASE_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        endpoint: endpoint,
+        body: requestBody
+      })
+    });
+
+    if (!processResponse.ok) {
+      const errorText = await processResponse.text();
+      console.error('Process API failed:', errorText);
+      throw new Error(`Failed to process image: ${processResponse.status}`);
+    }
+
+    const processData = await processResponse.json();
+    console.log('Process response:', processData);
+
+    if (!processData.success || !processData.data?.orderId) {
+      throw new Error('Invalid process response');
+    }
+
+    // Step 4: Poll for order status
+    console.log('Polling for order status...');
+    const orderId = processData.data.orderId;
+    let attempts = 0;
+    const maxAttempts = 30;
+    let delay = 2000; // Start with 2 seconds
+
+    // Determine status endpoint based on the processing endpoint
+    const statusEndpoint = endpoint.startsWith('v1/') ? 'v1/order-status' : 'v2/order-status';
+
+    while (attempts < maxAttempts) {
+      await new Promise(resolve => setTimeout(resolve, delay));
+      
       try {
-        removeBackgroundResponse = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+        const statusResponse = await fetch(PROXY_BASE_URL, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            endpoint: 'v1/remove-background',
+            endpoint: statusEndpoint,
             body: {
-              imageUrl: imageUrl,
-              // background: 'transparent'
+              orderId: orderId
             }
-          }),
+          })
         });
 
-        if (!removeBackgroundResponse.ok) {
-          const errorText = await removeBackgroundResponse.text();
-          throw new Error(`Failed to remove background: ${removeBackgroundResponse.status} - ${errorText}`);
+        if (!statusResponse.ok) {
+          console.error(`Status check failed (attempt ${attempts + 1}):`, statusResponse.status);
+          attempts++;
+          delay = Math.min(delay * 1.5, 10000); // Exponential backoff, max 10 seconds
+          continue;
         }
 
-        backgroundRemovalData = await removeBackgroundResponse.json();
-        
-        // If we get here without error, break the retry loop
-        break;
-        
-      } catch (error) {
-        bgRetries++;
-        if (bgRetries >= maxBgRetries) {
-          throw error;
-        }
-        
-        console.log(`Remove background attempt ${bgRetries} failed, retrying in 2 seconds...`);
-        await new Promise(resolve => setTimeout(resolve, 2000));
-      }
-    }
+        const statusData = await statusResponse.json();
+        console.log(`Status check (attempt ${attempts + 1}):`, statusData);
 
-    if (!backgroundRemovalData || !backgroundRemovalData.body || !backgroundRemovalData.body.orderId) {
-      throw new Error(`Invalid remove background response: ${JSON.stringify(backgroundRemovalData)}`);
-    }
-
-    const { orderId } = backgroundRemovalData.body;
-
-    // Step 4: Poll for order status using V2 endpoint with exponential backoff
-    let resultUrl = '';
-    let retries = 0;
-    const maxRetries = 20; // Increased to allow more time for complex images
-    const basePollInterval = 3000; // Start with 3 seconds
-
-    while (!resultUrl && retries < maxRetries) {
-      // Wait before polling (except for first attempt) with exponential backoff
-      if (retries > 0) {
-        const waitTime = Math.min(basePollInterval * Math.pow(1.5, retries - 1), 15000); // Cap at 15 seconds
-        console.log(`Waiting ${waitTime}ms before retry ${retries}...`);
-        await new Promise((resolve) => setTimeout(resolve, waitTime));
-      }
-
-      const orderStatusResponse = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          endpoint: 'v1/order-status',
-          body: {
-            orderId: orderId,
+        if (statusData.success && statusData.data) {
+          const status = statusData.data.status;
+          
+          if (status === 'completed') {
+            if (statusData.data.resultImageUrl) {
+              return {
+                success: true,
+                imageUrl: statusData.data.resultImageUrl
+              };
+            } else {
+              throw new Error('Processing completed but no result image URL provided');
+            }
+          } else if (status === 'failed') {
+            throw new Error('Image processing failed');
+          } else if (status === 'processing' || status === 'pending') {
+            // Continue polling
+            attempts++;
+            delay = Math.min(delay * 1.2, 8000); // Gradual increase, max 8 seconds
+            continue;
+          } else {
+            console.warn('Unknown status:', status);
+            attempts++;
+            delay = Math.min(delay * 1.5, 10000);
+            continue;
           }
-        }),
-      });
-
-      if (!orderStatusResponse.ok) {
-        const errorText = await orderStatusResponse.text();
-        throw new Error(`Failed to get order status: ${orderStatusResponse.status} - ${errorText}`);
-      }
-
-      const orderStatus = await orderStatusResponse.json();
-      
-      console.log('Order status response:', JSON.stringify(orderStatus));
-      
-      // Check for API-level failure first (no body property)
-      if (orderStatus.status === 'FAIL') {
-        const errorMessage = orderStatus.message || 'Unknown error';
-        const errorDescription = orderStatus.description || '';
-        const statusCode = orderStatus.statusCode;
-        
-        // Provide more specific error messages based on status code
-        let userFriendlyMessage = errorMessage;
-        if (statusCode === 55044) {
-          userFriendlyMessage = 'The image could not be processed. This may be due to complex background, image quality, or temporary service issues. Please try with a different image or try again later.';
+        } else {
+          console.error('Invalid status response:', statusData);
+          attempts++;
+          delay = Math.min(delay * 1.5, 10000);
+          continue;
         }
+      } catch (error) {
+        console.error(`Status check error (attempt ${attempts + 1}):`, error);
+        attempts++;
+        delay = Math.min(delay * 1.5, 10000);
         
-        console.error('LightX API Error:', { statusCode, errorMessage, errorDescription });
-        throw new Error(`Image processing failed: ${userFriendlyMessage}${errorDescription ? ` - ${errorDescription}` : ''}`);
+        if (attempts >= maxAttempts) {
+          throw new Error('Failed to get order status after multiple attempts');
+        }
       }
-      
-      if (!orderStatus.body) {
-        throw new Error(`Invalid order status response: ${JSON.stringify(orderStatus)}`);
-      }
-
-      // Check for successful status with output
-      if (orderStatus.body.status === 'active' && orderStatus.body.output) {
-        resultUrl = orderStatus.body.output;
-        break;
-      } 
-      // Check for body-level failure condition
-      else if (orderStatus.body.status === 'failed') {
-        const errorMessage = orderStatus.body.message || 'Unknown error';
-        const errorDescription = orderStatus.body.description || '';
-        throw new Error(`Image processing failed: ${errorMessage}${errorDescription ? ` - ${errorDescription}` : ''}`);
-      }
-      // If status is 'init' or any other status, continue polling
-      
-      retries++;
     }
 
-    if (!resultUrl) {
-      throw new Error('Processing timeout: The image is taking longer than expected to process. This may be due to high server load or image complexity. Please try again later.');
-    }
-    
-    console.log('Image processing completed successfully:', resultUrl);
-
-    return resultUrl;
+    throw new Error('Processing timeout - please try again');
   } catch (error) {
-    console.error('Error processing image:', error);
-    throw error;
+    console.error('Process image error:', error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error occurred'
+    };
   }
 }
