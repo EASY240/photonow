@@ -15,11 +15,7 @@ export const tools: Tool[] = [
     description: 'Clean up imperfections and enhance your photos',
     icon: 'sparkles',
     path: '/tools/ai-cleanup',
-<<<<<<< HEAD
-    apiEndpoint: '/api/external/api/v2/ai-cleanup-picture'
-=======
     apiEndpoint: '/api/external/api/v2/cleanup-picture'
->>>>>>> 6cdeecb (Fix cleanup tool)
   },
   {
     id: 'ai-expand',

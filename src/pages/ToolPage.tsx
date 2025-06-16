@@ -1,21 +1,11 @@
-<<<<<<< HEAD
-import React, { useState, useEffect } from 'react';
-import { useParams, Navigate } from 'react-router-dom';
-import { Download, Loader } from 'lucide-react';
-=======
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { Download, Loader, Brush } from 'lucide-react';
->>>>>>> 6cdeecb (Fix cleanup tool)
 import SEO from '../components/ui/SEO';
 import Button from '../components/ui/Button';
 import ImageDropzone from '../components/ui/ImageDropzone';
 import { tools } from '../data/tools';
-<<<<<<< HEAD
-import { processImage } from '../utils/api';
-=======
 import { processImage, uploadImageAndGetUrl, startCleanupJob, checkOrderStatus } from '../utils/api';
->>>>>>> 6cdeecb (Fix cleanup tool)
 import type { ImageFile, ProcessedImage, Tool } from '../types';
 
 const ToolPage: React.FC = () => {
@@ -27,15 +17,11 @@ const ToolPage: React.FC = () => {
     error: null
   });
   
-<<<<<<< HEAD
-=======
   // AI Cleanup specific state
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [brushSize, setBrushSize] = useState(20);
   const [canvasInitialized, setCanvasInitialized] = useState(false);
-  
->>>>>>> 6cdeecb (Fix cleanup tool)
   // Find the tool based on the toolId param
   const tool = tools.find(t => t.id === toolId);
   
@@ -52,10 +38,6 @@ const ToolPage: React.FC = () => {
       isLoading: false,
       error: null
     });
-<<<<<<< HEAD
-  };
-  
-=======
     setCanvasInitialized(false);
   };
   
@@ -244,7 +226,6 @@ const ToolPage: React.FC = () => {
     }
   }, [selectedImage.preview, tool?.id, canvasInitialized]);
   
->>>>>>> 6cdeecb (Fix cleanup tool)
   const handleProcessImage = async () => {
     if (!selectedImage.file) return;
     
@@ -310,24 +291,16 @@ const ToolPage: React.FC = () => {
             </p>
           </div>
           
-          <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
             <h2 className="text-xl font-semibold mb-4">How to use {tool.name}</h2>
             <ol className="list-decimal list-inside space-y-2 text-gray-700">
-<<<<<<< HEAD
-              <li>Upload your image using the tool below</li>
-              <li>Click the "{tool.name}" button to process your image</li>
-              <li>Wait for the AI to work its magic</li>
-              <li>Download your result when processing is complete</li>
-            </ol>
-=======
               {tool.id === 'ai-cleanup' ? (
                 <>
                   <li>Upload your image using the tool below</li>
-                  <li>Use the brush to paint over the area you want to remove</li>
+                  <li>Use the brush tool to paint over areas you want to remove</li>
                   <li>Adjust brush size as needed for precision</li>
-                  <li>Click "Generate" to process your image</li>
-                  <li>Wait for the AI to intelligently fill in the selected space</li>
-                  <li>Download your result when processing is complete</li>
+                  <li>Click "Generate" to let AI intelligently fill the painted areas</li>
+                  <li>Download your enhanced image when processing is complete</li>
                 </>
               ) : (
                 <>
@@ -338,79 +311,62 @@ const ToolPage: React.FC = () => {
                 </>
               )}
             </ol>
-            {tool.id === 'ai-cleanup' && (
-              <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-                <p className="text-sm text-blue-800">
-                  <strong>Tip:</strong> Upload an image, then use the brush to paint over the area you want to remove. The AI will intelligently fill in the selected space.
-                </p>
-              </div>
-            )}
->>>>>>> 6cdeecb (Fix cleanup tool)
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold">Upload Image</h2>
+            <div className="space-y-6">
               <ImageDropzone 
                 onImageSelect={handleImageSelect}
                 selectedImage={selectedImage}
               />
-<<<<<<< HEAD
-              <Button 
-                fullWidth 
-                onClick={handleProcessImage}
-                disabled={!selectedImage.file || processedImage.isLoading}
-                isLoading={processedImage.isLoading}
-              >
-                {processedImage.isLoading ? 'Processing...' : tool.name}
-=======
-              
+               
               {/* AI Cleanup specific controls */}
               {tool.id === 'ai-cleanup' && selectedImage.preview && (
                 <div className="space-y-4">
-                  <div className="relative border rounded-lg overflow-hidden bg-gray-100">
-                    <img 
-                      src={selectedImage.preview} 
-                      alt="Original" 
-                      className="w-full h-auto block"
-                      style={{ maxHeight: '400px', objectFit: 'contain' }}
+                  <div className="flex items-center gap-4">
+                    <label className="flex items-center gap-2">
+                      <Brush className="w-4 h-4" />
+                      <span className="text-sm font-medium">Brush Size:</span>
+                    </label>
+                    <input
+                      type="range"
+                      min="5"
+                      max="50"
+                      value={brushSize}
+                      onChange={(e) => setBrushSize(Number(e.target.value))}
+                      className="flex-1"
                     />
+                    <span className="text-sm text-gray-600 w-8">{brushSize}px</span>
+                  </div>
+                  
+                  <div className="relative border-2 border-dashed border-gray-300 rounded-lg overflow-hidden">
                     <canvas
                       ref={canvasRef}
-                      className="absolute top-0 left-0 w-full h-full cursor-crosshair"
-                      style={{ mixBlendMode: 'multiply', opacity: 0.7 }}
+                      className="absolute top-0 left-0 cursor-crosshair"
                       onMouseDown={startDrawing}
                       onMouseMove={draw}
-                      onMouseUp={stopDrawing}
-                      onMouseLeave={stopDrawing}
+                      onMouseUp={() => setIsDrawing(false)}
+                      onMouseLeave={() => setIsDrawing(false)}
+                      style={{ mixBlendMode: 'multiply' }}
+                    />
+                    <img
+                      src={selectedImage.preview}
+                      alt="Selected"
+                      className="w-full h-auto"
+                      draggable={false}
                     />
                   </div>
                   
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-2">
-                      <Brush size={16} />
-                      <label className="text-sm font-medium">Brush Size:</label>
-                      <input
-                        type="range"
-                        min="5"
-                        max="50"
-                        value={brushSize}
-                        onChange={(e) => setBrushSize(Number(e.target.value))}
-                        className="w-20"
-                      />
-                      <span className="text-sm text-gray-600">{brushSize}px</span>
-                    </div>
-                    <Button
-                      onClick={clearCanvas}
-                      variant="outline"
-                      size="sm"
-                    >
-                      Clear Mask
-                    </Button>
-                  </div>
+                  <Button
+                    variant="outline"
+                    onClick={clearCanvas}
+                    className="w-full"
+                  >
+                    Clear Mask
+                  </Button>
                 </div>
               )}
-              
+               
               <Button 
                 fullWidth 
                 onClick={tool.id === 'ai-cleanup' ? handleAICleanupGenerate : handleProcessImage}
@@ -418,7 +374,6 @@ const ToolPage: React.FC = () => {
                 isLoading={processedImage.isLoading}
               >
                 {processedImage.isLoading ? 'Processing...' : (tool.id === 'ai-cleanup' ? 'Generate' : tool.name)}
->>>>>>> 6cdeecb (Fix cleanup tool)
               </Button>
             </div>
             
@@ -482,11 +437,7 @@ function getToolDescription(tool: Tool): string {
     case 'remove-background':
       return 'automatically detect and remove backgrounds from any image, leaving you with a clean subject that can be placed on any new background';
     case 'ai-cleanup':
-<<<<<<< HEAD
-      return 'automatically detect and fix imperfections, remove unwanted objects, and enhance the overall quality of your photos';
-=======
       return 'automatically detect and fix imperfections, remove unwanted objects, and enhance the overall quality of your photos. Simply paint over the areas you want to remove and let AI intelligently fill in the space';
->>>>>>> 6cdeecb (Fix cleanup tool)
     case 'ai-expand':
       return 'intelligently expand your images beyond their original boundaries, adding realistic content that matches the original image';
     case 'ai-replace':

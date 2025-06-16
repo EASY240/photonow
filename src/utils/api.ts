@@ -1,7 +1,5 @@
 import { API_KEY } from '../constants';
 
-<<<<<<< HEAD
-=======
 // AI Cleanup V2 API Functions
 export async function uploadImageAndGetUrl(file: File): Promise<string> {
   try {
@@ -132,7 +130,6 @@ export async function checkOrderStatus(orderId: string): Promise<any> {
   }
 }
 
->>>>>>> 6cdeecb (Fix cleanup tool)
 export async function processImage(toolApiEndpoint: string, imageFile: File): Promise<string> {
   try {
     // Validate image before processing
