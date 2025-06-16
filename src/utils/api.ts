@@ -1,5 +1,138 @@
 import { API_KEY } from '../constants';
 
+<<<<<<< HEAD
+=======
+// AI Cleanup V2 API Functions
+export async function uploadImageAndGetUrl(file: File): Promise<string> {
+  try {
+    // Use the Netlify function URL in production, fallback to local proxy for development
+    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+    const PROXY_BASE_URL = isProduction 
+      ? window.location.origin
+      : 'http://localhost:3001';
+
+    // Step 1: Get upload URL
+    const uploadUrlResponse = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        endpoint: 'v2/uploadImageUrl',
+        body: {
+          size: file.size,
+          contentType: file.type,
+        }
+      }),
+    });
+
+    if (!uploadUrlResponse.ok) {
+      const errorText = await uploadUrlResponse.text();
+      throw new Error(`Failed to get upload URL: ${uploadUrlResponse.status} - ${errorText}`);
+    }
+
+    const uploadData = await uploadUrlResponse.json();
+    
+    if (!uploadData.body || !uploadData.body.uploadImage || !uploadData.body.imageUrl) {
+      throw new Error(`Invalid upload URL response: ${JSON.stringify(uploadData)}`);
+    }
+
+    const { uploadImage, imageUrl } = uploadData.body;
+
+    // Step 2: Upload image to the presigned URL
+    const uploadImageResponse = await fetch(uploadImage, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': file.type,
+      },
+      body: file,
+    });
+
+    if (!uploadImageResponse.ok) {
+      const errorText = await uploadImageResponse.text();
+      throw new Error(`Failed to upload image: ${uploadImageResponse.status} - ${errorText}`);
+    }
+
+    return imageUrl;
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    throw error;
+  }
+}
+
+export async function startCleanupJob({ originalImageUrl, maskedImageUrl }: { originalImageUrl: string; maskedImageUrl: string }): Promise<string> {
+  try {
+    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+    const PROXY_BASE_URL = isProduction 
+      ? window.location.origin
+      : 'http://localhost:3001';
+
+    const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        endpoint: 'v2/cleanup-picture',
+        body: {
+          imageUrl: originalImageUrl,
+          maskedImageUrl: maskedImageUrl,
+        }
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Failed to start cleanup job: ${response.status} - ${errorText}`);
+    }
+
+    const data = await response.json();
+    
+    if (!data.body || !data.body.orderId) {
+      throw new Error(`Invalid cleanup job response: ${JSON.stringify(data)}`);
+    }
+
+    return data.body.orderId;
+  } catch (error) {
+    console.error('Error starting cleanup job:', error);
+    throw error;
+  }
+}
+
+export async function checkOrderStatus(orderId: string): Promise<any> {
+  try {
+    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+    const PROXY_BASE_URL = isProduction 
+      ? window.location.origin
+      : 'http://localhost:3001';
+
+    const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        endpoint: 'v2/order-status',
+        body: {
+          orderId: orderId,
+        }
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Failed to check order status: ${response.status} - ${errorText}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error checking order status:', error);
+    throw error;
+  }
+}
+
+>>>>>>> 6cdeecb (Fix cleanup tool)
 export async function processImage(toolApiEndpoint: string, imageFile: File): Promise<string> {
   try {
     // Validate image before processing
