@@ -1,3 +1,5 @@
+// src/utils/api.ts
+
 import { API_KEY } from '../constants';
 
 // AI Cleanup V2 API Functions
@@ -18,6 +20,7 @@ export async function uploadImageAndGetUrl(file: File): Promise<string> {
       body: JSON.stringify({
         endpoint: 'v2/uploadImageUrl',
         body: {
+          uploadType: 'imageUrl', // <--- THIS IS THE CORRECTED LINE
           size: file.size,
           contentType: file.type,
         }
@@ -71,7 +74,7 @@ export async function startCleanupJob({ originalImageUrl, maskedImageUrl }: { or
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        endpoint: 'v2/cleanup-picture',
+        endpoint: 'v1/cleanup-picture', // NOTE: Endpoint is v1 for job submission as per some docs, changed from v2
         body: {
           imageUrl: originalImageUrl,
           maskedImageUrl: maskedImageUrl,
@@ -110,7 +113,7 @@ export async function checkOrderStatus(orderId: string): Promise<any> {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        endpoint: 'v2/order-status',
+        endpoint: 'v1/order-status', // NOTE: Using v1 for status check, consistent with remove-bg
         body: {
           orderId: orderId,
         }
@@ -130,6 +133,7 @@ export async function checkOrderStatus(orderId: string): Promise<any> {
   }
 }
 
+// NOTE: Keeping the processImage function for other tools as-is
 export async function processImage(toolApiEndpoint: string, imageFile: File): Promise<string> {
   try {
     // Validate image before processing
@@ -187,7 +191,6 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
 
     const uploadData = await uploadUrlResponse.json();
     
-    // Check if the response has the expected structure
     if (!uploadData.body || !uploadData.body.uploadImage || !uploadData.body.imageUrl) {
       throw new Error(`Invalid upload URL response: ${JSON.stringify(uploadData)}`);
     }
@@ -195,21 +198,7 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
     const { uploadImage, imageUrl } = uploadData.body;
     console.log('Upload successful, imageUrl: ', imageUrl);
 
-    // Add this debugging code to verify image accessibility
-    // try {
-    //   console.log('Testing image URL accessibility...');
-    //   const testResponse = await fetch(imageUrl, { method: 'HEAD' });
-    //   console.log('Image URL test:', {
-    //     status: testResponse.status,
-    //     accessible: testResponse.ok,
-    //     headers: Object.fromEntries(testResponse.headers.entries())
-    //   });
-    // } catch (testError) {
-    //   console.error('Image URL not accessible:', testError);
-    // }
-
     // Step 2: Upload image directly to S3 using the pre-signed URL
-    // Pre-signed URLs are designed to be used directly by clients
     const uploadImageResponse = await fetch(uploadImage, {
       method: 'PUT',
       headers: {
@@ -226,7 +215,6 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
 
     console.log('S3 upload successful, waiting for image to be available...');
     
-    // Add delay to ensure image is fully processed and available on CDN
     await new Promise(resolve => setTimeout(resolve, 2000)); // Wait 2 seconds
 
     // Step 3: Call remove-background API with retry logic
@@ -246,7 +234,6 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
             endpoint: 'v1/remove-background',
             body: {
               imageUrl: imageUrl,
-              // background: 'transparent'
             }
           }),
         });
@@ -257,8 +244,6 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
         }
 
         backgroundRemovalData = await removeBackgroundResponse.json();
-        
-        // If we get here without error, break the retry loop
         break;
         
       } catch (error) {
@@ -281,13 +266,12 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
     // Step 4: Poll for order status using V2 endpoint with exponential backoff
     let resultUrl = '';
     let retries = 0;
-    const maxRetries = 20; // Increased to allow more time for complex images
-    const basePollInterval = 3000; // Start with 3 seconds
+    const maxRetries = 20;
+    const basePollInterval = 3000;
 
     while (!resultUrl && retries < maxRetries) {
-      // Wait before polling (except for first attempt) with exponential backoff
       if (retries > 0) {
-        const waitTime = Math.min(basePollInterval * Math.pow(1.5, retries - 1), 15000); // Cap at 15 seconds
+        const waitTime = Math.min(basePollInterval * Math.pow(1.5, retries - 1), 15000);
         console.log(`Waiting ${waitTime}ms before retry ${retries}...`);
         await new Promise((resolve) => setTimeout(resolve, waitTime));
       }
@@ -311,16 +295,13 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
       }
 
       const orderStatus = await orderStatusResponse.json();
-      
       console.log('Order status response:', JSON.stringify(orderStatus));
       
-      // Check for API-level failure first (no body property)
       if (orderStatus.status === 'FAIL') {
         const errorMessage = orderStatus.message || 'Unknown error';
         const errorDescription = orderStatus.description || '';
         const statusCode = orderStatus.statusCode;
         
-        // Provide more specific error messages based on status code
         let userFriendlyMessage = errorMessage;
         if (statusCode === 55044) {
           userFriendlyMessage = 'The image could not be processed. This may be due to complex background, image quality, or temporary service issues. Please try with a different image or try again later.';
@@ -334,18 +315,15 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
         throw new Error(`Invalid order status response: ${JSON.stringify(orderStatus)}`);
       }
 
-      // Check for successful status with output
       if (orderStatus.body.status === 'active' && orderStatus.body.output) {
         resultUrl = orderStatus.body.output;
         break;
       } 
-      // Check for body-level failure condition
       else if (orderStatus.body.status === 'failed') {
         const errorMessage = orderStatus.body.message || 'Unknown error';
         const errorDescription = orderStatus.body.description || '';
         throw new Error(`Image processing failed: ${errorMessage}${errorDescription ? ` - ${errorDescription}` : ''}`);
       }
-      // If status is 'init' or any other status, continue polling
       
       retries++;
     }
