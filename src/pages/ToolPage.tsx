@@ -5,7 +5,7 @@ import SEO from '../components/ui/SEO';
 import Button from '../components/ui/Button';
 import ImageDropzone from '../components/ui/ImageDropzone';
 import { tools } from '../data/tools';
-import { processImage, uploadImageAndGetUrl, startCleanupJob, checkOrderStatus } from '../utils/api';
+import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, checkOrderStatus } from '../utils/api';
 import type { ImageFile, ProcessedImage, Tool } from '../types';
 
 const ToolPage: React.FC = () => {
@@ -22,6 +22,14 @@ const ToolPage: React.FC = () => {
   const [isDrawing, setIsDrawing] = useState(false);
   const [brushSize, setBrushSize] = useState(20);
   const [canvasInitialized, setCanvasInitialized] = useState(false);
+  
+  // AI Expand specific state
+  const [padding, setPadding] = useState({
+    top: 50,
+    left: 50,
+    bottom: 50,
+    right: 50
+  });
   // Find the tool based on the toolId param
   const tool = tools.find(t => t.id === toolId);
   
@@ -219,6 +227,94 @@ const ToolPage: React.FC = () => {
     }
   };
   
+  const handleAIExpandGenerate = async () => {
+    if (!selectedImage.file) return;
+    
+    setProcessedImage({
+      url: null,
+      isLoading: true,
+      error: null
+    });
+    
+    try {
+      // Upload the image and get the URL
+      const imageUrl = await uploadImageAndGetUrl(selectedImage.file);
+      
+      // Start the expand job
+      const orderId = await startExpandJob({
+        imageUrl,
+        padding
+      });
+      
+      if (!orderId) {
+        throw new Error('Failed to start expand job');
+      }
+      
+      // Implement polling
+      let pollCount = 0;
+      const maxPolls = 6; // 18 seconds max (3 seconds * 6)
+      
+      const pollInterval = setInterval(async () => {
+        try {
+          const result = await checkOrderStatus(orderId);
+          
+          if (result.body?.status === 'active' && result.body?.output) {
+            clearInterval(pollInterval);
+            setProcessedImage({
+              url: result.body.output,
+              isLoading: false,
+              error: null
+            });
+          } else if (result.body?.status === 'failed') {
+            clearInterval(pollInterval);
+            setProcessedImage({
+              url: null,
+              isLoading: false,
+              error: 'AI expand failed. Please try again with a different image.'
+            });
+          } else {
+            pollCount++;
+            if (pollCount >= maxPolls) {
+              clearInterval(pollInterval);
+              setProcessedImage({
+                url: null,
+                isLoading: false,
+                error: 'Processing timeout. Please try again.'
+              });
+            }
+          }
+        } catch (error) {
+          clearInterval(pollInterval);
+          setProcessedImage({
+            url: null,
+            isLoading: false,
+            error: error instanceof Error ? error.message : 'An error occurred during processing'
+          });
+        }
+      }, 3000);
+      
+      // Safety timeout
+      setTimeout(() => {
+        clearInterval(pollInterval);
+        if (processedImage.isLoading) {
+          setProcessedImage({
+            url: null,
+            isLoading: false,
+            error: 'Processing timeout. Please try again.'
+          });
+        }
+      }, 20000);
+      
+    } catch (error) {
+      console.error('AI Expand error:', error);
+      setProcessedImage({
+        url: null,
+        isLoading: false,
+        error: error instanceof Error ? error.message : 'An unexpected error occurred'
+      });
+    }
+  };
+  
   // Initialize canvas when image is selected for AI Cleanup
   useEffect(() => {
     if (tool?.id === 'ai-cleanup' && selectedImage.preview && !canvasInitialized) {
@@ -302,6 +398,13 @@ const ToolPage: React.FC = () => {
                   <li>Click "Generate" to let AI intelligently fill the painted areas</li>
                   <li>Download your enhanced image when processing is complete</li>
                 </>
+              ) : tool.id === 'ai-expand' ? (
+                <>
+                  <li>Upload your image using the tool below</li>
+                  <li>Adjust the padding values to specify how much to expand each side</li>
+                  <li>Click "Generate" to let AI expand your image with new content</li>
+                  <li>Download your expanded image when processing is complete</li>
+                </>
               ) : (
                 <>
                   <li>Upload your image using the tool below</li>
@@ -366,14 +469,85 @@ const ToolPage: React.FC = () => {
                   </Button>
                 </div>
               )}
+              
+              {/* AI Expand specific controls */}
+              {tool.id === 'ai-expand' && (
+                <div className="space-y-4">
+                  <h3 className="text-lg font-medium">Padding Settings</h3>
+                  <p className="text-sm text-gray-600">Specify how many pixels to add to each side of your image.</p>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Top Padding
+                      </label>
+                      <input
+                        type="number"
+                        min="0"
+                        max="500"
+                        value={padding.top}
+                        onChange={(e) => setPadding(prev => ({ ...prev, top: Number(e.target.value) }))}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Bottom Padding
+                      </label>
+                      <input
+                        type="number"
+                        min="0"
+                        max="500"
+                        value={padding.bottom}
+                        onChange={(e) => setPadding(prev => ({ ...prev, bottom: Number(e.target.value) }))}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Left Padding
+                      </label>
+                      <input
+                        type="number"
+                        min="0"
+                        max="500"
+                        value={padding.left}
+                        onChange={(e) => setPadding(prev => ({ ...prev, left: Number(e.target.value) }))}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Right Padding
+                      </label>
+                      <input
+                        type="number"
+                        min="0"
+                        max="500"
+                        value={padding.right}
+                        onChange={(e) => setPadding(prev => ({ ...prev, right: Number(e.target.value) }))}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
                
               <Button 
                 fullWidth 
-                onClick={tool.id === 'ai-cleanup' ? handleAICleanupGenerate : handleProcessImage}
+                onClick={
+                  tool.id === 'ai-cleanup' ? handleAICleanupGenerate :
+                  tool.id === 'ai-expand' ? handleAIExpandGenerate :
+                  handleProcessImage
+                }
                 disabled={!selectedImage.file || processedImage.isLoading}
                 isLoading={processedImage.isLoading}
               >
-                {processedImage.isLoading ? 'Processing...' : (tool.id === 'ai-cleanup' ? 'Generate' : tool.name)}
+                {processedImage.isLoading ? 'Processing...' : 
+                 (tool.id === 'ai-cleanup' || tool.id === 'ai-expand') ? 'Generate' : tool.name}
               </Button>
             </div>
             

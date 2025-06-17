@@ -340,3 +340,46 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
     throw error;
   }
 }
+
+// AI Expand Photo function
+export async function startExpandJob({ imageUrl, padding }: { imageUrl: string; padding: { top: number; left: number; bottom: number; right: number; } }): Promise<string> {
+  try {
+    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+    const PROXY_BASE_URL = isProduction 
+      ? window.location.origin
+      : 'http://localhost:3001';
+
+    const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        endpoint: 'v1/expand-photo', // The correct endpoint for this tool
+        body: {
+          imageUrl: imageUrl,
+          topPadding: padding.top,
+          leftPadding: padding.left,
+          bottomPadding: padding.bottom,
+          rightPadding: padding.right,
+        }
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Failed to start expand job: ${response.status} - ${errorText}`);
+    }
+
+    const data = await response.json();
+    
+    if (!data.body || !data.body.orderId) {
+      throw new Error(`Invalid expand job response: ${JSON.stringify(data)}`);
+    }
+
+    return data.body.orderId;
+  } catch (error) {
+    console.error('Error starting expand job:', error);
+    throw error;
+  }
+}
