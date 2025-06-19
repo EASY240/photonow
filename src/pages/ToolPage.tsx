@@ -18,7 +18,9 @@ const ToolPage: React.FC = () => {
   });
   
   // AI Cleanup specific state
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
+  const visibleCanvasRef = useRef<HTMLCanvasElement>(null);
+  const dataMaskCanvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [brushSize, setBrushSize] = useState(20);
   const [canvasInitialized, setCanvasInitialized] = useState(false);
@@ -32,7 +34,9 @@ const ToolPage: React.FC = () => {
   });
   
   // AI Replace specific state
-  const replaceCanvasRef = useRef<HTMLCanvasElement>(null);
+  const replaceImageRef = useRef<HTMLImageElement>(null);
+  const replaceVisibleCanvasRef = useRef<HTMLCanvasElement>(null);
+  const replaceDataMaskCanvasRef = useRef<HTMLCanvasElement>(null);
   const [isReplaceDrawing, setIsReplaceDrawing] = useState(false);
   const [replaceBrushSize, setReplaceBrushSize] = useState(20);
   const [replaceCanvasInitialized, setReplaceCanvasInitialized] = useState(false);
@@ -54,28 +58,41 @@ const ToolPage: React.FC = () => {
       error: null
     });
     setCanvasInitialized(false);
+    setReplaceCanvasInitialized(false);
   };
   
-  // Initialize canvas for AI Cleanup
-  const initializeCanvas = () => {
-    if (!canvasRef.current || !selectedImage.preview || canvasInitialized) return;
+  // Handle image load for AI Cleanup - synchronizes canvas with displayed image
+  const handleCleanupImageLoad = (event: React.SyntheticEvent<HTMLImageElement>) => {
+    const image = event.target as HTMLImageElement;
+    const visibleCanvas = visibleCanvasRef.current;
+    const dataCanvas = dataMaskCanvasRef.current;
     
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    if (!visibleCanvas || !dataCanvas) return;
     
-    const img = new Image();
-    img.onload = () => {
-      canvas.width = img.width;
-      canvas.height = img.height;
-      
-      // Fill with black background (unmask area)
-      ctx.fillStyle = '#000000';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      
-      setCanvasInitialized(true);
-    };
-    img.src = selectedImage.preview;
+    // Set canvas dimensions to match the displayed image size
+    const displayWidth = image.clientWidth;
+    const displayHeight = image.clientHeight;
+    
+    // Set both canvases to match displayed image dimensions
+    visibleCanvas.width = displayWidth;
+    visibleCanvas.height = displayHeight;
+    dataCanvas.width = displayWidth;
+    dataCanvas.height = displayHeight;
+    
+    // Initialize data canvas with black background (unmask area)
+    const dataCtx = dataCanvas.getContext('2d');
+    if (dataCtx) {
+      dataCtx.fillStyle = '#000000';
+      dataCtx.fillRect(0, 0, displayWidth, displayHeight);
+    }
+    
+    // Clear visible canvas (transparent background)
+    const visibleCtx = visibleCanvas.getContext('2d');
+    if (visibleCtx) {
+      visibleCtx.clearRect(0, 0, displayWidth, displayHeight);
+    }
+    
+    setCanvasInitialized(true);
   };
   
   // Canvas drawing functions for AI Cleanup
@@ -90,56 +107,86 @@ const ToolPage: React.FC = () => {
   };
   
   const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!isDrawing || !canvasRef.current || tool?.id !== 'ai-cleanup') return;
+    if (!isDrawing || !visibleCanvasRef.current || !dataMaskCanvasRef.current || tool?.id !== 'ai-cleanup') return;
     
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    const visibleCanvas = visibleCanvasRef.current;
+    const dataCanvas = dataMaskCanvasRef.current;
+    const visibleCtx = visibleCanvas.getContext('2d');
+    const dataCtx = dataCanvas.getContext('2d');
     
-    const rect = canvas.getBoundingClientRect();
-    const scaleX = canvas.width / rect.width;
-    const scaleY = canvas.height / rect.height;
+    if (!visibleCtx || !dataCtx) return;
     
-    const x = (e.clientX - rect.left) * scaleX;
-    const y = (e.clientY - rect.top) * scaleY;
+    const rect = visibleCanvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
     
-    ctx.globalCompositeOperation = 'source-over';
-    ctx.fillStyle = '#FFFFFF'; // White for mask area
-    ctx.beginPath();
-    ctx.arc(x, y, brushSize, 0, 2 * Math.PI);
-    ctx.fill();
+    // Draw semi-transparent red on visible canvas for user feedback
+    visibleCtx.globalCompositeOperation = 'source-over';
+    visibleCtx.fillStyle = 'rgba(255, 0, 0, 0.5)';
+    visibleCtx.beginPath();
+    visibleCtx.arc(x, y, brushSize, 0, 2 * Math.PI);
+    visibleCtx.fill();
+    
+    // Draw white on data canvas for API mask
+    dataCtx.globalCompositeOperation = 'source-over';
+    dataCtx.fillStyle = '#FFFFFF';
+    dataCtx.beginPath();
+    dataCtx.arc(x, y, brushSize, 0, 2 * Math.PI);
+    dataCtx.fill();
   };
   
   const clearCanvas = () => {
-    if (!canvasRef.current) return;
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    const visibleCanvas = visibleCanvasRef.current;
+    const dataCanvas = dataMaskCanvasRef.current;
     
-    ctx.fillStyle = '#000000';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    if (visibleCanvas) {
+      const visibleCtx = visibleCanvas.getContext('2d');
+      if (visibleCtx) {
+        visibleCtx.clearRect(0, 0, visibleCanvas.width, visibleCanvas.height);
+      }
+    }
+    
+    if (dataCanvas) {
+      const dataCtx = dataCanvas.getContext('2d');
+      if (dataCtx) {
+        dataCtx.fillStyle = '#000000';
+        dataCtx.fillRect(0, 0, dataCanvas.width, dataCanvas.height);
+      }
+    }
   };
   
-  // Initialize canvas for AI Replace
-  const initializeReplaceCanvas = () => {
-    if (!replaceCanvasRef.current || !selectedImage.preview || replaceCanvasInitialized) return;
+  // Handle image load for AI Replace - synchronizes canvas with displayed image
+  const handleReplaceImageLoad = (event: React.SyntheticEvent<HTMLImageElement>) => {
+    const image = event.target as HTMLImageElement;
+    const visibleCanvas = replaceVisibleCanvasRef.current;
+    const dataCanvas = replaceDataMaskCanvasRef.current;
     
-    const canvas = replaceCanvasRef.current;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    if (!visibleCanvas || !dataCanvas) return;
     
-    const img = new Image();
-    img.onload = () => {
-      canvas.width = img.width;
-      canvas.height = img.height;
-      
-      // Fill with black background (unmask area)
-      ctx.fillStyle = '#000000';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      
-      setReplaceCanvasInitialized(true);
-    };
-    img.src = selectedImage.preview;
+    // Set canvas dimensions to match the displayed image size
+    const displayWidth = image.clientWidth;
+    const displayHeight = image.clientHeight;
+    
+    // Set both canvases to match displayed image dimensions
+    visibleCanvas.width = displayWidth;
+    visibleCanvas.height = displayHeight;
+    dataCanvas.width = displayWidth;
+    dataCanvas.height = displayHeight;
+    
+    // Initialize data canvas with black background (unmask area)
+    const dataCtx = dataCanvas.getContext('2d');
+    if (dataCtx) {
+      dataCtx.fillStyle = '#000000';
+      dataCtx.fillRect(0, 0, displayWidth, displayHeight);
+    }
+    
+    // Clear visible canvas (transparent background)
+    const visibleCtx = visibleCanvas.getContext('2d');
+    if (visibleCtx) {
+      visibleCtx.clearRect(0, 0, displayWidth, displayHeight);
+    }
+    
+    setReplaceCanvasInitialized(true);
   };
   
   // Canvas drawing functions for AI Replace
@@ -154,45 +201,63 @@ const ToolPage: React.FC = () => {
   };
   
   const drawReplace = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!isReplaceDrawing || !replaceCanvasRef.current || tool?.id !== 'ai-replace') return;
+    if (!isReplaceDrawing || !replaceVisibleCanvasRef.current || !replaceDataMaskCanvasRef.current || tool?.id !== 'ai-replace') return;
     
-    const canvas = replaceCanvasRef.current;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    const visibleCanvas = replaceVisibleCanvasRef.current;
+    const dataCanvas = replaceDataMaskCanvasRef.current;
+    const visibleCtx = visibleCanvas.getContext('2d');
+    const dataCtx = dataCanvas.getContext('2d');
     
-    const rect = canvas.getBoundingClientRect();
-    const scaleX = canvas.width / rect.width;
-    const scaleY = canvas.height / rect.height;
+    if (!visibleCtx || !dataCtx) return;
     
-    const x = (e.clientX - rect.left) * scaleX;
-    const y = (e.clientY - rect.top) * scaleY;
+    const rect = visibleCanvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
     
-    ctx.globalCompositeOperation = 'source-over';
-    ctx.fillStyle = '#FFFFFF'; // White for mask area
-    ctx.beginPath();
-    ctx.arc(x, y, replaceBrushSize, 0, 2 * Math.PI);
-    ctx.fill();
+    // Draw semi-transparent red on visible canvas for user feedback
+    visibleCtx.globalCompositeOperation = 'source-over';
+    visibleCtx.fillStyle = 'rgba(255, 0, 0, 0.5)';
+    visibleCtx.beginPath();
+    visibleCtx.arc(x, y, replaceBrushSize, 0, 2 * Math.PI);
+    visibleCtx.fill();
+    
+    // Draw white on data canvas for API mask
+    dataCtx.globalCompositeOperation = 'source-over';
+    dataCtx.fillStyle = '#FFFFFF';
+    dataCtx.beginPath();
+    dataCtx.arc(x, y, replaceBrushSize, 0, 2 * Math.PI);
+    dataCtx.fill();
   };
   
   const clearReplaceCanvas = () => {
-    if (!replaceCanvasRef.current) return;
-    const canvas = replaceCanvasRef.current;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    const visibleCanvas = replaceVisibleCanvasRef.current;
+    const dataCanvas = replaceDataMaskCanvasRef.current;
     
-    ctx.fillStyle = '#000000';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    if (visibleCanvas) {
+      const visibleCtx = visibleCanvas.getContext('2d');
+      if (visibleCtx) {
+        visibleCtx.clearRect(0, 0, visibleCanvas.width, visibleCanvas.height);
+      }
+    }
+    
+    if (dataCanvas) {
+      const dataCtx = dataCanvas.getContext('2d');
+      if (dataCtx) {
+        dataCtx.fillStyle = '#000000';
+        dataCtx.fillRect(0, 0, dataCanvas.width, dataCanvas.height);
+      }
+    }
   };
   
   // Convert canvas to file for AI Replace
   const replaceCanvasToFile = (): Promise<File> => {
     return new Promise((resolve, reject) => {
-      if (!replaceCanvasRef.current) {
+      if (!replaceDataMaskCanvasRef.current) {
         reject(new Error('Canvas not found'));
         return;
       }
       
-      replaceCanvasRef.current.toBlob((blob) => {
+      replaceDataMaskCanvasRef.current.toBlob((blob) => {
         if (!blob) {
           reject(new Error('Failed to create blob from canvas'));
           return;
@@ -207,12 +272,12 @@ const ToolPage: React.FC = () => {
   // Convert canvas to File for AI Cleanup
   const canvasToFile = (): Promise<File> => {
     return new Promise((resolve, reject) => {
-      if (!canvasRef.current) {
+      if (!dataMaskCanvasRef.current) {
         reject(new Error('Canvas not available'));
         return;
       }
       
-      canvasRef.current.toBlob((blob) => {
+      dataMaskCanvasRef.current.toBlob((blob) => {
         if (!blob) {
           reject(new Error('Failed to convert canvas to blob'));
           return;
@@ -506,19 +571,7 @@ const ToolPage: React.FC = () => {
     }
   };
   
-  // Initialize canvas when image is selected for AI Cleanup
-  useEffect(() => {
-    if (tool?.id === 'ai-cleanup' && selectedImage.preview && !canvasInitialized) {
-      setTimeout(initializeCanvas, 100);
-    }
-  }, [selectedImage.preview, tool?.id, canvasInitialized]);
-  
-  // Initialize canvas when image is selected for AI Replace
-  useEffect(() => {
-    if (tool?.id === 'ai-replace' && selectedImage.preview && !replaceCanvasInitialized) {
-      setTimeout(initializeReplaceCanvas, 100);
-    }
-  }, [selectedImage.preview, tool?.id, replaceCanvasInitialized]);
+  // Canvas initialization is now handled by onLoad events on the image elements
   
   const handleProcessImage = async () => {
     if (!selectedImage.file) return;
@@ -649,21 +702,28 @@ const ToolPage: React.FC = () => {
                     <span className="text-sm text-gray-600 w-8">{brushSize}px</span>
                   </div>
                   
-                  <div className="relative border-2 border-dashed border-gray-300 rounded-lg overflow-hidden">
+                  <div className="relative border-2 border-dashed border-gray-300 rounded-lg overflow-hidden" style={{ display: 'inline-block' }}>
+                    <img
+                      ref={imageRef}
+                      src={selectedImage.preview}
+                      alt="Selected"
+                      className="w-full h-auto"
+                      draggable={false}
+                      onLoad={handleCleanupImageLoad}
+                      style={{ maxWidth: '100%', display: 'block' }}
+                    />
                     <canvas
-                      ref={canvasRef}
+                      ref={visibleCanvasRef}
                       className="absolute top-0 left-0 cursor-crosshair"
                       onMouseDown={startDrawing}
                       onMouseMove={draw}
                       onMouseUp={() => setIsDrawing(false)}
                       onMouseLeave={() => setIsDrawing(false)}
-                      style={{ mixBlendMode: 'multiply' }}
+                      style={{ zIndex: 10 }}
                     />
-                    <img
-                      src={selectedImage.preview}
-                      alt="Selected"
-                      className="w-full h-auto"
-                      draggable={false}
+                    <canvas
+                      ref={dataMaskCanvasRef}
+                      style={{ display: 'none' }}
                     />
                   </div>
                   
@@ -775,21 +835,28 @@ const ToolPage: React.FC = () => {
                     />
                   </div>
                   
-                  <div className="relative border-2 border-dashed border-gray-300 rounded-lg overflow-hidden">
+                  <div className="relative border-2 border-dashed border-gray-300 rounded-lg overflow-hidden" style={{ display: 'inline-block' }}>
+                    <img
+                      ref={replaceImageRef}
+                      src={selectedImage.preview}
+                      alt="Selected"
+                      className="w-full h-auto"
+                      draggable={false}
+                      onLoad={handleReplaceImageLoad}
+                      style={{ maxWidth: '100%', display: 'block' }}
+                    />
                     <canvas
-                      ref={replaceCanvasRef}
+                      ref={replaceVisibleCanvasRef}
                       className="absolute top-0 left-0 cursor-crosshair"
                       onMouseDown={startReplaceDrawing}
                       onMouseMove={drawReplace}
                       onMouseUp={() => setIsReplaceDrawing(false)}
                       onMouseLeave={() => setIsReplaceDrawing(false)}
-                      style={{ mixBlendMode: 'multiply' }}
+                      style={{ zIndex: 10 }}
                     />
-                    <img
-                      src={selectedImage.preview}
-                      alt="Selected"
-                      className="w-full h-auto"
-                      draggable={false}
+                    <canvas
+                      ref={replaceDataMaskCanvasRef}
+                      style={{ display: 'none' }}
                     />
                   </div>
                   
