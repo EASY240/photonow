@@ -5,7 +5,7 @@ import SEO from '../components/ui/SEO';
 import Button from '../components/ui/Button';
 import ImageDropzone from '../components/ui/ImageDropzone';
 import { tools } from '../data/tools';
-import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, checkOrderStatus } from '../utils/api';
+import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, checkOrderStatus } from '../utils/api';
 import type { ImageFile, ProcessedImage, Tool } from '../types';
 
 const ToolPage: React.FC = () => {
@@ -30,6 +30,13 @@ const ToolPage: React.FC = () => {
     bottom: 50,
     right: 50
   });
+  
+  // AI Replace specific state
+  const replaceCanvasRef = useRef<HTMLCanvasElement>(null);
+  const [isReplaceDrawing, setIsReplaceDrawing] = useState(false);
+  const [replaceBrushSize, setReplaceBrushSize] = useState(20);
+  const [replaceCanvasInitialized, setReplaceCanvasInitialized] = useState(false);
+  const [textPrompt, setTextPrompt] = useState('');
   // Find the tool based on the toolId param
   const tool = tools.find(t => t.id === toolId);
   
@@ -111,6 +118,90 @@ const ToolPage: React.FC = () => {
     
     ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+  };
+  
+  // Initialize canvas for AI Replace
+  const initializeReplaceCanvas = () => {
+    if (!replaceCanvasRef.current || !selectedImage.preview || replaceCanvasInitialized) return;
+    
+    const canvas = replaceCanvasRef.current;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    
+    const img = new Image();
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      
+      // Fill with black background (unmask area)
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      setReplaceCanvasInitialized(true);
+    };
+    img.src = selectedImage.preview;
+  };
+  
+  // Canvas drawing functions for AI Replace
+  const startReplaceDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (tool?.id !== 'ai-replace') return;
+    setIsReplaceDrawing(true);
+    drawReplace(e);
+  };
+  
+  const stopReplaceDrawing = () => {
+    setIsReplaceDrawing(false);
+  };
+  
+  const drawReplace = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (!isReplaceDrawing || !replaceCanvasRef.current || tool?.id !== 'ai-replace') return;
+    
+    const canvas = replaceCanvasRef.current;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    
+    const x = (e.clientX - rect.left) * scaleX;
+    const y = (e.clientY - rect.top) * scaleY;
+    
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.fillStyle = '#FFFFFF'; // White for mask area
+    ctx.beginPath();
+    ctx.arc(x, y, replaceBrushSize, 0, 2 * Math.PI);
+    ctx.fill();
+  };
+  
+  const clearReplaceCanvas = () => {
+    if (!replaceCanvasRef.current) return;
+    const canvas = replaceCanvasRef.current;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  };
+  
+  // Convert canvas to file for AI Replace
+  const replaceCanvasToFile = (): Promise<File> => {
+    return new Promise((resolve, reject) => {
+      if (!replaceCanvasRef.current) {
+        reject(new Error('Canvas not found'));
+        return;
+      }
+      
+      replaceCanvasRef.current.toBlob((blob) => {
+        if (!blob) {
+          reject(new Error('Failed to create blob from canvas'));
+          return;
+        }
+        
+        const file = new File([blob], 'mask.png', { type: 'image/png' });
+        resolve(file);
+      }, 'image/png');
+    });
   };
   
   // Convert canvas to File for AI Cleanup
@@ -315,12 +406,119 @@ const ToolPage: React.FC = () => {
     }
   };
   
+  const handleAIReplaceGenerate = async () => {
+    if (!selectedImage.file || !textPrompt.trim()) {
+      setProcessedImage({
+        url: null,
+        isLoading: false,
+        error: 'Please provide both an image and a text prompt'
+      });
+      return;
+    }
+    
+    setProcessedImage({
+      url: null,
+      isLoading: true,
+      error: null
+    });
+    
+    try {
+      // Upload the original image
+      const originalImageUrl = await uploadImageAndGetUrl(selectedImage.file);
+      
+      // Get the mask from canvas and upload it
+      const maskFile = await replaceCanvasToFile();
+      const maskedImageUrl = await uploadImageAndGetUrl(maskFile);
+      
+      // Start the replace job
+      const orderId = await startReplaceJob({
+        originalImageUrl,
+        maskedImageUrl,
+        prompt: textPrompt
+      });
+      
+      if (!orderId) {
+        throw new Error('Failed to start replace job');
+      }
+      
+      // Implement polling
+      let pollCount = 0;
+      const maxPolls = 6; // 18 seconds max (3 seconds * 6)
+      
+      const pollInterval = setInterval(async () => {
+        try {
+          const result = await checkOrderStatus(orderId);
+          
+          if (result.body?.status === 'active' && result.body?.output) {
+            clearInterval(pollInterval);
+            setProcessedImage({
+              url: result.body.output,
+              isLoading: false,
+              error: null
+            });
+          } else if (result.body?.status === 'failed') {
+            clearInterval(pollInterval);
+            setProcessedImage({
+              url: null,
+              isLoading: false,
+              error: 'AI replace failed. Please try again with a different image or prompt.'
+            });
+          } else {
+            pollCount++;
+            if (pollCount >= maxPolls) {
+              clearInterval(pollInterval);
+              setProcessedImage({
+                url: null,
+                isLoading: false,
+                error: 'Processing timeout. Please try again.'
+              });
+            }
+          }
+        } catch (error) {
+          clearInterval(pollInterval);
+          setProcessedImage({
+            url: null,
+            isLoading: false,
+            error: error instanceof Error ? error.message : 'An error occurred during processing'
+          });
+        }
+      }, 3000);
+      
+      // Safety timeout
+      setTimeout(() => {
+        clearInterval(pollInterval);
+        if (processedImage.isLoading) {
+          setProcessedImage({
+            url: null,
+            isLoading: false,
+            error: 'Processing timeout. Please try again.'
+          });
+        }
+      }, 20000);
+      
+    } catch (error) {
+      console.error('AI Replace error:', error);
+      setProcessedImage({
+        url: null,
+        isLoading: false,
+        error: error instanceof Error ? error.message : 'An unexpected error occurred'
+      });
+    }
+  };
+  
   // Initialize canvas when image is selected for AI Cleanup
   useEffect(() => {
     if (tool?.id === 'ai-cleanup' && selectedImage.preview && !canvasInitialized) {
       setTimeout(initializeCanvas, 100);
     }
   }, [selectedImage.preview, tool?.id, canvasInitialized]);
+  
+  // Initialize canvas when image is selected for AI Replace
+  useEffect(() => {
+    if (tool?.id === 'ai-replace' && selectedImage.preview && !replaceCanvasInitialized) {
+      setTimeout(initializeReplaceCanvas, 100);
+    }
+  }, [selectedImage.preview, tool?.id, replaceCanvasInitialized]);
   
   const handleProcessImage = async () => {
     if (!selectedImage.file) return;
@@ -404,6 +602,15 @@ const ToolPage: React.FC = () => {
                   <li>Adjust the padding values to specify how much to expand each side</li>
                   <li>Click "Generate" to let AI expand your image with new content</li>
                   <li>Download your expanded image when processing is complete</li>
+                </>
+              ) : tool.id === 'ai-replace' ? (
+                <>
+                  <li>Upload your image using the tool below</li>
+                  <li>Use the brush tool to paint over areas you want to replace</li>
+                  <li>Enter a text prompt describing what you want in the painted areas</li>
+                  <li>Adjust brush size as needed for precision</li>
+                  <li>Click "Generate" to let AI replace the painted areas with your prompt</li>
+                  <li>Download your enhanced image when processing is complete</li>
                 </>
               ) : (
                 <>
@@ -535,19 +742,86 @@ const ToolPage: React.FC = () => {
                   </div>
                 </div>
               )}
+              
+              {/* AI Replace specific controls */}
+              {tool.id === 'ai-replace' && selectedImage.preview && (
+                <div className="space-y-4">
+                  <div className="flex items-center gap-4">
+                    <label className="flex items-center gap-2">
+                      <Brush className="w-4 h-4" />
+                      <span className="text-sm font-medium">Brush Size:</span>
+                    </label>
+                    <input
+                      type="range"
+                      min="5"
+                      max="50"
+                      value={replaceBrushSize}
+                      onChange={(e) => setReplaceBrushSize(Number(e.target.value))}
+                      className="flex-1"
+                    />
+                    <span className="text-sm text-gray-600 w-8">{replaceBrushSize}px</span>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Text Prompt
+                    </label>
+                    <textarea
+                      value={textPrompt}
+                      onChange={(e) => setTextPrompt(e.target.value)}
+                      placeholder="Describe what you want to replace the painted areas with..."
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                      rows={3}
+                    />
+                  </div>
+                  
+                  <div className="relative border-2 border-dashed border-gray-300 rounded-lg overflow-hidden">
+                    <canvas
+                      ref={replaceCanvasRef}
+                      className="absolute top-0 left-0 cursor-crosshair"
+                      onMouseDown={startReplaceDrawing}
+                      onMouseMove={drawReplace}
+                      onMouseUp={() => setIsReplaceDrawing(false)}
+                      onMouseLeave={() => setIsReplaceDrawing(false)}
+                      style={{ mixBlendMode: 'multiply' }}
+                    />
+                    <img
+                      src={selectedImage.preview}
+                      alt="Selected"
+                      className="w-full h-auto"
+                      draggable={false}
+                    />
+                  </div>
+                  
+                  <Button
+                    variant="outline"
+                    onClick={clearReplaceCanvas}
+                    className="w-full"
+                  >
+                    Clear Mask
+                  </Button>
+                  
+                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                    <p className="text-sm text-yellow-800">
+                      <strong>Note:</strong> Paint over the areas you want to replace, then describe what you want in those areas using the text prompt above.
+                    </p>
+                  </div>
+                </div>
+              )}
                
               <Button 
                 fullWidth 
                 onClick={
                   tool.id === 'ai-cleanup' ? handleAICleanupGenerate :
                   tool.id === 'ai-expand' ? handleAIExpandGenerate :
+                  tool.id === 'ai-replace' ? handleAIReplaceGenerate :
                   handleProcessImage
                 }
-                disabled={!selectedImage.file || processedImage.isLoading}
+                disabled={!selectedImage.file || processedImage.isLoading || (tool.id === 'ai-replace' && !textPrompt.trim())}
                 isLoading={processedImage.isLoading}
               >
                 {processedImage.isLoading ? 'Processing...' : 
-                 (tool.id === 'ai-cleanup' || tool.id === 'ai-expand') ? 'Generate' : tool.name}
+                 (tool.id === 'ai-cleanup' || tool.id === 'ai-expand' || tool.id === 'ai-replace') ? 'Generate' : tool.name}
               </Button>
             </div>
             

@@ -383,3 +383,44 @@ export async function startExpandJob({ imageUrl, padding }: { imageUrl: string; 
     throw error;
   }
 }
+
+// AI Replace function
+export async function startReplaceJob({ originalImageUrl, maskedImageUrl, prompt }: { originalImageUrl: string; maskedImageUrl: string; prompt: string; }): Promise<string> {
+  try {
+    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+    const PROXY_BASE_URL = isProduction 
+      ? window.location.origin
+      : 'http://localhost:3001';
+
+    const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        endpoint: 'v1/replace', // The correct endpoint for this tool
+        body: {
+          imageUrl: originalImageUrl,
+          maskedImageUrl: maskedImageUrl,
+          textPrompt: prompt, // Add the text prompt
+        }
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Failed to start replace job: ${response.status} - ${errorText}`);
+    }
+
+    const data = await response.json();
+    
+    if (!data.body || !data.body.orderId) {
+      throw new Error(`Invalid replace job response: ${JSON.stringify(data)}`);
+    }
+
+    return data.body.orderId;
+  } catch (error) {
+    console.error('Error starting replace job:', error);
+    throw error;
+  }
+}
