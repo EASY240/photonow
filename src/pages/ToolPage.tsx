@@ -859,7 +859,7 @@ const ToolPage: React.FC = () => {
                       onMouseMove={drawReplace}
                       onMouseUp={() => setIsReplaceDrawing(false)}
                       onMouseLeave={() => setIsReplaceDrawing(false)}
-                      style={{ zIndex: 10 }}
+                      style={{ zIndex: 10, opacity: 0.5 }}
                     />
                     <canvas
                       ref={replaceDataMaskCanvasRef}

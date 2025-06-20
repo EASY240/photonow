@@ -392,19 +392,26 @@ export async function startReplaceJob({ originalImageUrl, maskedImageUrl, prompt
       ? window.location.origin
       : 'http://localhost:3001';
 
+    // DEFINE THE REQUEST BODY SEPARATELY
+    const requestPayload = {
+      endpoint: 'v1/replace',
+      body: {
+        imageUrl: originalImageUrl,
+        maskedImageUrl: maskedImageUrl,
+        textPrompt: prompt,
+      }
+    };
+    
+    // ADD THIS NEW DEBUGGING LINE
+    console.log('Final payload being sent to proxy:', JSON.stringify(requestPayload, null, 2));
+
     const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        endpoint: 'v1/replace', // The correct endpoint for this tool
-        body: {
-          imageUrl: originalImageUrl,
-          maskedImageUrl: maskedImageUrl,
-          textPrompt: prompt, // Add the text prompt
-        }
-      }),
+      // USE THE VARIABLE HERE
+      body: JSON.stringify(requestPayload)
     });
 
     if (!response.ok) {
