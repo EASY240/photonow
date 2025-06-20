@@ -217,6 +217,10 @@ const ToolPage: React.FC = () => {
     // Draw semi-transparent red on visible canvas for user feedback
     visibleCtx.globalCompositeOperation = 'source-over';
     visibleCtx.fillStyle = 'rgba(255, 0, 0, 0.5)';
+    
+    // ADD THIS DEBUGGING LINE:
+    console.log('Drawing with fillStyle:', visibleCtx.fillStyle);
+    
     visibleCtx.beginPath();
     visibleCtx.arc(x, y, replaceBrushSize, 0, 2 * Math.PI);
     visibleCtx.fill();
@@ -494,6 +498,9 @@ const ToolPage: React.FC = () => {
       // Get the mask from canvas and upload it
       const maskFile = await replaceCanvasToFile();
       const maskedImageUrl = await uploadImageAndGetUrl(maskFile);
+      
+      // ADD THIS CRITICAL DEBUGGING LINE:
+      console.log('Submitting to API with this prompt:', textPrompt);
       
       // Start the replace job
       const orderId = await startReplaceJob({
