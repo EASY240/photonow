@@ -840,6 +840,33 @@ const ToolPage: React.FC = () => {
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                       rows={3}
                     />
+                    
+                    <div className="mt-2">
+                      <span className="text-sm text-gray-600 mb-2 block">Try an example:</span>
+                      <div className="flex flex-wrap gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setTextPrompt('A beautiful cherry blossom tree')}
+                          className="px-3 py-1 text-xs bg-blue-100 text-blue-700 rounded-full hover:bg-blue-200 transition-colors"
+                        >
+                          Cherry Blossom Tree
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setTextPrompt('Sunglasses with a futuristic design, cyberpunk style')}
+                          className="px-3 py-1 text-xs bg-blue-100 text-blue-700 rounded-full hover:bg-blue-200 transition-colors"
+                        >
+                          Futuristic Sunglasses
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setTextPrompt('A classic red brick wall')}
+                          className="px-3 py-1 text-xs bg-blue-100 text-blue-700 rounded-full hover:bg-blue-200 transition-colors"
+                        >
+                          Red Brick Wall
+                        </button>
+                      </div>
+                    </div>
                   </div>
                   
                   <div className="relative border-2 border-dashed border-gray-300 rounded-lg overflow-hidden" style={{ display: 'inline-block' }}>
@@ -877,8 +904,12 @@ const ToolPage: React.FC = () => {
                   
                   <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
                     <p className="text-sm text-yellow-800">
-                      <strong>Note:</strong> Paint over the areas you want to replace, then describe what you want in those areas using the text prompt above.
+                      <strong>Important Note:</strong> This tool generates a new image from your text. For best results:
                     </p>
+                    <ul className="text-sm text-yellow-800 mt-2 ml-4 list-disc space-y-1">
+                      <li>Describe what you want to see, don't give commands. (e.g., say "a tall sunflower," not "replace this with a sunflower").</li>
+                      <li>The AI works best on images containing human faces. Results on objects or landscapes may vary.</li>
+                    </ul>
                   </div>
                 </div>
               )}
