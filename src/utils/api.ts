@@ -2,6 +2,16 @@
 
 import { API_KEY } from '../constants';
 
+// Add this helper function inside src/utils/api.ts
+async function convertUrlToBlob(url: string): Promise<Blob> {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch image from URL: ${url}`);
+  }
+  const blob = await response.blob();
+  return blob;
+}
+
 // AI Cleanup V2 API Functions
 export async function uploadImageAndGetUrl(file: File): Promise<string> {
   try {

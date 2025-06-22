@@ -595,19 +595,34 @@ const ToolPage: React.FC = () => {
     setProcessedImage({ url: null, isLoading: true, error: null });
 
     try {
+      // 1. Always upload the main user image first.
       const mainImageUrl = await uploadImageAndGetUrl(selectedImage.file);
-      
-      const apiParams: { imageUrl: string; styleImageUrl?: string; textPrompt?: string } = { imageUrl: mainImageUrl };
 
+      // 2. Initialize the final styleImageUrl variable.
+      let finalStyleImageUrl: string | undefined = undefined;
+
+      // 3. --- THIS IS THE UPDATED LOGIC ---
       if (selectedPresetUrl) {
-        apiParams.styleImageUrl = selectedPresetUrl;
+          // A. A preset style was chosen.
+          console.log(`Processing preset style from URL: ${selectedPresetUrl}`);
+          // B. Fetch the preset image data and convert it to a Blob.
+          const styleImageBlob = await convertUrlToBlob(selectedPresetUrl);
+          // C. Upload the Blob to get a valid, API-approved URL.
+          finalStyleImageUrl = await uploadImageAndGetUrl(new File([styleImageBlob], "style.jpg", { type: styleImageBlob.type }));
+      
       } else if (cartoonStyleImage) {
-        apiParams.styleImageUrl = await uploadImageAndGetUrl(cartoonStyleImage);
-      } else if (cartoonTextPrompt.trim()) {
-        apiParams.textPrompt = cartoonTextPrompt;
+          // The user uploaded their own style file.
+          // This logic is already correct: just upload the file directly.
+          finalStyleImageUrl = await uploadImageAndGetUrl(cartoonStyleImage);
       }
+      // The text prompt case is handled by the API function logic.
 
-      const orderId = await startCartoonJob(apiParams);
+      // 4. Call the startCartoonJob function with the CORRECTLY PROCESSED style URL.
+      const orderId = await startCartoonJob({
+          imageUrl: mainImageUrl,
+          styleImageUrl: finalStyleImageUrl, // This is now a valid URL
+          textPrompt: finalStyleImageUrl ? undefined : cartoonTextPrompt // Ensure prompt isn't sent with a style image
+      });
 
       // Polling logic
       const maxAttempts = 20; // 20 attempts * 3 seconds = 1 minute timeout
