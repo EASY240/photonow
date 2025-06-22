@@ -439,19 +439,24 @@ export async function startCartoonJob({ imageUrl, styleImageUrl, textPrompt }: {
       ? window.location.origin
       : 'http://localhost:3001';
 
-    // --- START OF THE FIX ---
-    // 1. Create a base object with only the required parameter.
     const jobBody: { [key: string]: string } = {
         imageUrl: imageUrl,
     };
-
-    // 2. Conditionally add the optional parameters ONLY if they exist.
     if (styleImageUrl) {
         jobBody.styleImageUrl = styleImageUrl;
     } else if (textPrompt) {
-        // Use 'else if' to ensure only one style modifier is sent
         jobBody.textPrompt = textPrompt;
     }
+
+    // --- START OF THE FIX ---
+    // DEFINE THE ENTIRE PAYLOAD FOR DEBUGGING
+    const finalPayload = {
+      endpoint: 'v1/cartoon',
+      body: jobBody
+    };
+
+    // ADD THIS CRITICAL DEBUGGING LINE
+    console.error('DEBUGGING: Final payload being sent to proxy:', JSON.stringify(finalPayload, null, 2));
     // --- END OF THE FIX ---
 
     const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
@@ -459,10 +464,8 @@ export async function startCartoonJob({ imageUrl, styleImageUrl, textPrompt }: {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        endpoint: 'v1/cartoon',
-        body: jobBody // Use the new, dynamically built object
-      }),
+      // USE THE VARIABLE HERE
+      body: JSON.stringify(finalPayload)
     });
 
     if (!response.ok) {
