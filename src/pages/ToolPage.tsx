@@ -608,7 +608,7 @@ const ToolPage: React.FC = () => {
           // B. Fetch the preset image data and convert it to a Blob.
           const styleImageBlob = await convertUrlToBlob(selectedPresetUrl);
           // C. Upload the Blob to get a valid, API-approved URL.
-          finalStyleImageUrl = await uploadImageAndGetUrl(new File([styleImageBlob], "style.jpg", { type: styleImageBlob.type }));
+          finalStyleImageUrl = await uploadImageAndGetUrl(new File([styleImageBlob], "style.jpg", { type: 'image/jpeg' }));
       
       } else if (cartoonStyleImage) {
           // The user uploaded their own style file.
