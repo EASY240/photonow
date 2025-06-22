@@ -616,6 +616,13 @@ const ToolPage: React.FC = () => {
       }
 
       // 4. Prepare the parameters for the startCartoonJob API call.
+      // --- START OF THE FIX ---
+      // 1. ADD THIS DEBUGGING LOG TO CONFIRM THE FINAL URLS
+      console.log(`Pausing before job start. Main URL: ${mainImageUrl}, Style URL: ${finalStyleImageUrl}`);
+
+      // 2. ADD A 3-SECOND DELAY TO ALLOW LIGHTX SERVERS TO CATCH UP
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      // --- END OF THE FIX ---
       const orderId = await startCartoonJob({
         imageUrl: mainImageUrl,
         styleImageUrl: finalStyleImageUrl, // This is now a valid URL
