@@ -5,7 +5,7 @@ import SEO from '../components/ui/SEO';
 import Button from '../components/ui/Button';
 import ImageDropzone from '../components/ui/ImageDropzone';
 import { tools } from '../data/tools';
-import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, checkOrderStatus } from '../utils/api';
+import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, checkOrderStatus } from '../utils/api';
 import type { ImageFile, ProcessedImage, Tool } from '../types';
 
 const ToolPage: React.FC = () => {
@@ -41,6 +41,11 @@ const ToolPage: React.FC = () => {
   const [replaceBrushSize, setReplaceBrushSize] = useState(20);
   const [replaceCanvasInitialized, setReplaceCanvasInitialized] = useState(false);
   const [textPrompt, setTextPrompt] = useState('');
+  
+  // AI Cartoon specific state
+  const [cartoonStyleChoice, setCartoonStyleChoice] = useState<'text' | 'image'>('text');
+  const [cartoonTextPrompt, setCartoonTextPrompt] = useState('');
+  const [cartoonStyleImage, setCartoonStyleImage] = useState<ImageFile>({ file: null, preview: null });
   // Find the tool based on the toolId param
   const tool = tools.find(t => t.id === toolId);
   
@@ -578,6 +583,131 @@ const ToolPage: React.FC = () => {
     }
   };
   
+  const handleAICartoonGenerate = async () => {
+    if (!selectedImage.file) {
+      setProcessedImage({
+        url: null,
+        isLoading: false,
+        error: 'Please select an image first'
+      });
+      return;
+    }
+    
+    // Validate inputs based on style choice
+    if (cartoonStyleChoice === 'text' && !cartoonTextPrompt.trim()) {
+      setProcessedImage({
+        url: null,
+        isLoading: false,
+        error: 'Please provide a text prompt describing the desired cartoon style'
+      });
+      return;
+    }
+    
+    if (cartoonStyleChoice === 'image' && !cartoonStyleImage.file) {
+      setProcessedImage({
+        url: null,
+        isLoading: false,
+        error: 'Please upload a style image'
+      });
+      return;
+    }
+    
+    setProcessedImage({
+      url: null,
+      isLoading: true,
+      error: null
+    });
+    
+    try {
+      // Upload the main image
+      const mainImageUrl = await uploadImageAndGetUrl(selectedImage.file);
+      
+      let styleImageUrl: string | undefined;
+      let textPrompt: string | undefined;
+      
+      // Handle conditional inputs based on user choice
+      if (cartoonStyleChoice === 'image' && cartoonStyleImage.file) {
+        styleImageUrl = await uploadImageAndGetUrl(cartoonStyleImage.file);
+      } else if (cartoonStyleChoice === 'text') {
+        textPrompt = cartoonTextPrompt.trim();
+      }
+      
+      // Start the cartoon job
+      const orderId = await startCartoonJob({
+        imageUrl: mainImageUrl,
+        styleImageUrl,
+        textPrompt
+      });
+      
+      if (!orderId) {
+        throw new Error('Failed to start cartoon job');
+      }
+      
+      // Implement polling
+      let pollCount = 0;
+      const maxPolls = 6; // 18 seconds max (3 seconds * 6)
+      
+      const pollInterval = setInterval(async () => {
+        try {
+          const result = await checkOrderStatus(orderId);
+          
+          if (result.body?.status === 'active' && result.body?.output) {
+            clearInterval(pollInterval);
+            setProcessedImage({
+              url: result.body.output,
+              isLoading: false,
+              error: null
+            });
+          } else if (result.body?.status === 'failed') {
+            clearInterval(pollInterval);
+            setProcessedImage({
+              url: null,
+              isLoading: false,
+              error: 'AI cartoon generation failed. Please try again with a different image or style.'
+            });
+          } else {
+            pollCount++;
+            if (pollCount >= maxPolls) {
+              clearInterval(pollInterval);
+              setProcessedImage({
+                url: null,
+                isLoading: false,
+                error: 'Processing timeout. Please try again.'
+              });
+            }
+          }
+        } catch (error) {
+          clearInterval(pollInterval);
+          setProcessedImage({
+            url: null,
+            isLoading: false,
+            error: error instanceof Error ? error.message : 'An error occurred during processing'
+          });
+        }
+      }, 3000);
+      
+      // Safety timeout
+      setTimeout(() => {
+        clearInterval(pollInterval);
+        if (processedImage.isLoading) {
+          setProcessedImage({
+            url: null,
+            isLoading: false,
+            error: 'Processing timeout. Please try again.'
+          });
+        }
+      }, 20000);
+      
+    } catch (error) {
+      console.error('AI Cartoon error:', error);
+      setProcessedImage({
+        url: null,
+        isLoading: false,
+        error: error instanceof Error ? error.message : 'An unexpected error occurred'
+      });
+    }
+  };
+  
   // Canvas initialization is now handled by onLoad events on the image elements
   
   const handleProcessImage = async () => {
@@ -671,6 +801,15 @@ const ToolPage: React.FC = () => {
                   <li>Adjust brush size as needed for precision</li>
                   <li>Click "Generate" to let AI replace the painted areas with your prompt</li>
                   <li>Download your enhanced image when processing is complete</li>
+                </>
+              ) : tool.id === 'ai-cartoon' ? (
+                <>
+                  <li>Upload your photo using the tool below (works best with human faces)</li>
+                  <li>Choose your stylization method: describe a style with text OR upload a style image</li>
+                  <li>If using text: describe the cartoon style you want (e.g., "anime style", "Disney cartoon")</li>
+                  <li>If using a style image: upload a reference image with the desired artistic style</li>
+                  <li>Click "Generate" to transform your photo into cartoon artwork</li>
+                  <li>Download your cartoonized image when processing is complete</li>
                 </>
               ) : (
                 <>
@@ -913,6 +1052,86 @@ const ToolPage: React.FC = () => {
                   </div>
                 </div>
               )}
+              
+              {/* AI Cartoon specific controls */}
+              {tool.id === 'ai-cartoon' && selectedImage.preview && (
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Style Method
+                    </label>
+                    <div className="space-y-2">
+                      <label className="flex items-center">
+                        <input
+                          type="radio"
+                          name="cartoonStyle"
+                          value="text"
+                          checked={cartoonStyleChoice === 'text'}
+                          onChange={(e) => setCartoonStyleChoice(e.target.value as 'text' | 'image')}
+                          className="mr-2"
+                        />
+                        <span className="text-sm">Describe a Style (Text)</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input
+                          type="radio"
+                          name="cartoonStyle"
+                          value="image"
+                          checked={cartoonStyleChoice === 'image'}
+                          onChange={(e) => setCartoonStyleChoice(e.target.value as 'text' | 'image')}
+                          className="mr-2"
+                        />
+                        <span className="text-sm">Use a Style Image</span>
+                      </label>
+                    </div>
+                  </div>
+                  
+                  {cartoonStyleChoice === 'text' && (
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Style Description
+                      </label>
+                      <textarea
+                        value={cartoonTextPrompt}
+                        onChange={(e) => setCartoonTextPrompt(e.target.value)}
+                        placeholder="Describe the cartoon style you want (e.g., 'anime style', 'Disney cartoon', 'watercolor painting')..."
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                        rows={3}
+                      />
+                    </div>
+                  )}
+                  
+                  {cartoonStyleChoice === 'image' && (
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Style Image (Optional)
+                      </label>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            setCartoonStyleImage(file);
+                          }
+                        }}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                      {cartoonStyleImage && (
+                        <p className="text-sm text-gray-600 mt-1">
+                          Selected: {cartoonStyleImage.name}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                  
+                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                    <p className="text-sm text-yellow-800">
+                      <strong>Important Note:</strong> This tool works best on clear photos of human faces. You can either describe a desired cartoon style using text, OR upload a second image to copy its style.
+                    </p>
+                  </div>
+                </div>
+              )}
                
               <Button 
                 fullWidth 
@@ -920,13 +1139,19 @@ const ToolPage: React.FC = () => {
                   tool.id === 'ai-cleanup' ? handleAICleanupGenerate :
                   tool.id === 'ai-expand' ? handleAIExpandGenerate :
                   tool.id === 'ai-replace' ? handleAIReplaceGenerate :
+                  tool.id === 'ai-cartoon' ? handleAICartoonGenerate :
                   handleProcessImage
                 }
-                disabled={!selectedImage.file || processedImage.isLoading || (tool.id === 'ai-replace' && !textPrompt.trim())}
+                disabled={
+                  !selectedImage.file || 
+                  processedImage.isLoading || 
+                  (tool.id === 'ai-replace' && !textPrompt.trim()) ||
+                  (tool.id === 'ai-cartoon' && cartoonStyleChoice === 'text' && !cartoonTextPrompt.trim())
+                }
                 isLoading={processedImage.isLoading}
               >
                 {processedImage.isLoading ? 'Processing...' : 
-                 (tool.id === 'ai-cleanup' || tool.id === 'ai-expand' || tool.id === 'ai-replace') ? 'Generate' : tool.name}
+                 (tool.id === 'ai-cleanup' || tool.id === 'ai-expand' || tool.id === 'ai-replace' || tool.id === 'ai-cartoon') ? 'Generate' : tool.name}
               </Button>
             </div>
             
