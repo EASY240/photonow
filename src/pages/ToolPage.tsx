@@ -5,7 +5,7 @@ import SEO from '../components/ui/SEO';
 import Button from '../components/ui/Button';
 import ImageDropzone from '../components/ui/ImageDropzone';
 import { tools } from '../data/tools';
-import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, checkOrderStatus } from '../utils/api';
+import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, checkOrderStatus, convertUrlToBlob } from '../utils/api';
 import type { ImageFile, ProcessedImage, Tool } from '../types';
 import { maleCartoonStyles, femaleCartoonStyles } from '../constants/cartoonStyles';
 

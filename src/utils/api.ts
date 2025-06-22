@@ -3,7 +3,7 @@
 import { API_KEY } from '../constants';
 
 // Add this helper function inside src/utils/api.ts
-async function convertUrlToBlob(url: string): Promise<Blob> {
+export async function convertUrlToBlob(url: string): Promise<Blob> {
   const response = await fetch(url);
   if (!response.ok) {
     throw new Error(`Failed to fetch image from URL: ${url}`);
