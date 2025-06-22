@@ -446,36 +446,31 @@ export async function startCartoonJob({ imageUrl, styleImageUrl, textPrompt }: {
   try {
     const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
     const PROXY_BASE_URL = isProduction 
-      ? window.location.origin
+      ? window.location.origin 
       : 'http://localhost:3001';
 
-    const jobBody: { [key: string]: string } = {
+    // --- START OF THE FINAL FIX ---
+    // Create the job body object that ALWAYS includes all three keys.
+    // Use the provided values or default to an empty string.
+    const jobBody = {
         imageUrl: imageUrl,
+        styleImageUrl: styleImageUrl || "",
+        textPrompt: textPrompt || ""
     };
-    if (styleImageUrl) {
-        jobBody.styleImageUrl = styleImageUrl;
-    } else if (textPrompt) {
-        jobBody.textPrompt = textPrompt;
-    }
+    // --- END OF THE FINAL FIX ---
 
-    // --- START OF THE FIX ---
-    // DEFINE THE ENTIRE PAYLOAD FOR DEBUGGING
-    const finalPayload = {
-      endpoint: 'v1/cartoon',
-      body: jobBody
-    };
-
-    // ADD THIS CRITICAL DEBUGGING LINE
-    console.error('DEBUGGING: Final payload being sent to proxy:', JSON.stringify(finalPayload, null, 2));
-    // --- END OF THE FIX ---
+    // The debugging log remains useful for one last check.
+    console.error('DEBUGGING (Final Attempt): Payload being sent:', JSON.stringify({ endpoint: 'v1/cartoon', body: jobBody }, null, 2));
 
     const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      // USE THE VARIABLE HERE
-      body: JSON.stringify(finalPayload)
+      body: JSON.stringify({
+        endpoint: 'v1/cartoon',
+        body: jobBody
+      }),
     });
 
     if (!response.ok) {
