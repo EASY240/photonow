@@ -607,21 +607,20 @@ const ToolPage: React.FC = () => {
           console.log(`Processing preset style from URL: ${selectedPresetUrl}`);
           // B. Fetch the preset image data and convert it to a Blob.
           const styleImageBlob = await convertUrlToBlob(selectedPresetUrl);
-          // C. Upload the Blob to get a valid, API-approved URL.
+          // C. Create a File object from the Blob, explicitly setting the correct MIME type.
+          // D. Upload this new File to get a valid, temporary URL for the API.
           finalStyleImageUrl = await uploadImageAndGetUrl(new File([styleImageBlob], "style.jpg", { type: 'image/jpeg' }));
-      
       } else if (cartoonStyleImage) {
-          // The user uploaded their own style file.
-          // This logic is already correct: just upload the file directly.
+          // A style image was manually uploaded.
           finalStyleImageUrl = await uploadImageAndGetUrl(cartoonStyleImage);
       }
-      // The text prompt case is handled by the API function logic.
 
-      // 4. Call the startCartoonJob function with the CORRECTLY PROCESSED style URL.
+      // 4. Prepare the parameters for the startCartoonJob API call.
       const orderId = await startCartoonJob({
-          imageUrl: mainImageUrl,
-          styleImageUrl: finalStyleImageUrl, // This is now a valid URL
-          textPrompt: finalStyleImageUrl ? undefined : cartoonTextPrompt // Ensure prompt isn't sent with a style image
+        imageUrl: mainImageUrl,
+        styleImageUrl: finalStyleImageUrl, // This is now a valid URL
+        // THIS IS THE CRITICAL LOGIC: Only pass textPrompt if there's no style image.
+        textPrompt: finalStyleImageUrl ? undefined : cartoonTextPrompt
       });
 
       // Polling logic
