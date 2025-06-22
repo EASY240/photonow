@@ -7,6 +7,7 @@ import ImageDropzone from '../components/ui/ImageDropzone';
 import { tools } from '../data/tools';
 import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, checkOrderStatus } from '../utils/api';
 import type { ImageFile, ProcessedImage, Tool } from '../types';
+import { maleCartoonStyles, femaleCartoonStyles } from '../constants/cartoonStyles';
 
 const ToolPage: React.FC = () => {
   const { toolId } = useParams<{ toolId: string }>();
@@ -45,7 +46,9 @@ const ToolPage: React.FC = () => {
   // AI Cartoon specific state
   const [cartoonStyleChoice, setCartoonStyleChoice] = useState<'text' | 'image'>('text');
   const [cartoonTextPrompt, setCartoonTextPrompt] = useState('');
-  const [cartoonStyleImage, setCartoonStyleImage] = useState<ImageFile>({ file: null, preview: null });
+  const [cartoonStyleImage, setCartoonStyleImage] = useState<File | null>(null);
+  const [selectedGender, setSelectedGender] = useState<'male' | 'female'>('female');
+  const [selectedPresetUrl, setSelectedPresetUrl] = useState<string | null>(null);
   // Find the tool based on the toolId param
   const tool = tools.find(t => t.id === toolId);
   
@@ -585,16 +588,56 @@ const ToolPage: React.FC = () => {
   
   const handleAICartoonGenerate = async () => {
     if (!selectedImage.file) {
-      setProcessedImage({
-        url: null,
-        isLoading: false,
-        error: 'Please select an image first'
-      });
+      setProcessedImage({ ...processedImage, error: 'Please select an image first.' });
       return;
     }
-    
-    // Validate inputs based on style choice
-    if (cartoonStyleChoice === 'text' && !cartoonTextPrompt.trim()) {
+
+    setProcessedImage({ url: null, isLoading: true, error: null });
+
+    try {
+      const mainImageUrl = await uploadImageAndGetUrl(selectedImage.file);
+      
+      const apiParams: { imageUrl: string; styleImageUrl?: string; textPrompt?: string } = { imageUrl: mainImageUrl };
+
+      if (selectedPresetUrl) {
+        apiParams.styleImageUrl = selectedPresetUrl;
+      } else if (cartoonStyleImage) {
+        apiParams.styleImageUrl = await uploadImageAndGetUrl(cartoonStyleImage);
+      } else if (cartoonTextPrompt.trim()) {
+        apiParams.textPrompt = cartoonTextPrompt;
+      }
+
+      const orderId = await startCartoonJob(apiParams);
+
+      // Polling logic
+      const maxAttempts = 20; // 20 attempts * 3 seconds = 1 minute timeout
+      let attempts = 0;
+      const poll = setInterval(async () => {
+        attempts++;
+        try {
+          const status = await checkOrderStatus(orderId);
+          if (status.status === 'completed' && status.imageUrl) {
+            clearInterval(poll);
+            setProcessedImage({ url: status.imageUrl, isLoading: false, error: null });
+          } else if (status.status === 'failed' || status.status === 'error') {
+            clearInterval(poll);
+            setProcessedImage({ url: null, isLoading: false, error: 'Cartoon generation failed. Please try again.' });
+          }
+        } catch (error) {
+          clearInterval(poll);
+          setProcessedImage({ url: null, isLoading: false, error: 'Failed to check cartoon status.' });
+        }
+
+        if (attempts >= maxAttempts) {
+          clearInterval(poll);
+          setProcessedImage({ url: null, isLoading: false, error: 'Cartoon generation timed out. Please try again.' });
+        }
+      }, 3000);
+
+    } catch (error) {
+      setProcessedImage({ url: null, isLoading: false, error: (error as Error).message || 'An unknown error occurred.' });
+    }
+  };
       setProcessedImage({
         url: null,
         isLoading: false,
@@ -1055,80 +1098,69 @@ const ToolPage: React.FC = () => {
               
               {/* AI Cartoon specific controls */}
               {tool.id === 'ai-cartoon' && selectedImage.preview && (
-                <div className="space-y-4">
+                <div className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Style Method
-                    </label>
-                    <div className="space-y-2">
-                      <label className="flex items-center">
-                        <input
-                          type="radio"
-                          name="cartoonStyle"
-                          value="text"
-                          checked={cartoonStyleChoice === 'text'}
-                          onChange={(e) => setCartoonStyleChoice(e.target.value as 'text' | 'image')}
-                          className="mr-2"
-                        />
-                        <span className="text-sm">Describe a Style (Text)</span>
-                      </label>
-                      <label className="flex items-center">
-                        <input
-                          type="radio"
-                          name="cartoonStyle"
-                          value="image"
-                          checked={cartoonStyleChoice === 'image'}
-                          onChange={(e) => setCartoonStyleChoice(e.target.value as 'text' | 'image')}
-                          className="mr-2"
-                        />
-                        <span className="text-sm">Use a Style Image</span>
-                      </label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Select Persona</label>
+                    <div className="flex gap-4">
+                      <Button
+                        variant={selectedGender === 'female' ? 'primary' : 'outline'}
+                        onClick={() => setSelectedGender('female')}
+                      >
+                        Female
+                      </Button>
+                      <Button
+                        variant={selectedGender === 'male' ? 'primary' : 'outline'}
+                        onClick={() => setSelectedGender('male')}
+                      >
+                        Male
+                      </Button>
                     </div>
                   </div>
-                  
-                  {cartoonStyleChoice === 'text' && (
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Style Description
-                      </label>
-                      <textarea
-                        value={cartoonTextPrompt}
-                        onChange={(e) => setCartoonTextPrompt(e.target.value)}
-                        placeholder="Describe the cartoon style you want (e.g., 'anime style', 'Disney cartoon', 'watercolor painting')..."
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-                        rows={3}
-                      />
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Choose a Preset Style</label>
+                    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
+                      {(selectedGender === 'female' ? femaleCartoonStyles : maleCartoonStyles).map((style) => (
+                        <div
+                          key={style.imageUrl}
+                          className={`cursor-pointer rounded-lg overflow-hidden border-2 ${selectedPresetUrl === style.imageUrl ? 'border-blue-500' : 'border-transparent'}`}
+                          onClick={() => setSelectedPresetUrl(style.imageUrl)}
+                        >
+                          <img src={style.imageUrl} alt={style.name} className="w-full h-auto object-cover" />
+                          <p className="text-center text-xs p-1 bg-gray-100">{style.name}</p>
+                        </div>
+                      ))}
                     </div>
-                  )}
-                  
-                  {cartoonStyleChoice === 'image' && (
+                    {selectedPresetUrl && (
+                      <Button variant="link" onClick={() => setSelectedPresetUrl(null)} className="mt-2 text-sm">
+                        Clear Selection
+                      </Button>
+                    )}
+                  </div>
+
+                  <div className="space-y-4">
+                    <p className="text-sm font-medium text-gray-700 text-center">Or Use a Custom Style</p>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Style Image (Optional)
-                      </label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Upload a Style Image</label>
                       <input
                         type="file"
                         accept="image/*"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) {
-                            setCartoonStyleImage(file);
-                          }
-                        }}
+                        onChange={(e) => setCartoonStyleImage(e.target.files?.[0] || null)}
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        disabled={!!selectedPresetUrl}
                       />
-                      {cartoonStyleImage && (
-                        <p className="text-sm text-gray-600 mt-1">
-                          Selected: {cartoonStyleImage.name}
-                        </p>
-                      )}
                     </div>
-                  )}
-                  
-                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
-                    <p className="text-sm text-yellow-800">
-                      <strong>Important Note:</strong> This tool works best on clear photos of human faces. You can either describe a desired cartoon style using text, OR upload a second image to copy its style.
-                    </p>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Describe a Style with Text</label>
+                      <textarea
+                        value={cartoonTextPrompt}
+                        onChange={(e) => setCartoonTextPrompt(e.target.value)}
+                        placeholder="e.g., 'anime style', 'Disney cartoon'..."
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                        rows={2}
+                        disabled={!!selectedPresetUrl}
+                      />
+                    </div>
                   </div>
                 </div>
               )}
@@ -1142,12 +1174,7 @@ const ToolPage: React.FC = () => {
                   tool.id === 'ai-cartoon' ? handleAICartoonGenerate :
                   handleProcessImage
                 }
-                disabled={
-                  !selectedImage.file || 
-                  processedImage.isLoading || 
-                  (tool.id === 'ai-replace' && !textPrompt.trim()) ||
-                  (tool.id === 'ai-cartoon' && cartoonStyleChoice === 'text' && !cartoonTextPrompt.trim())
-                }
+                disabled={!selectedImage.file || processedImage.isLoading}
                 isLoading={processedImage.isLoading}
               >
                 {processedImage.isLoading ? 'Processing...' : 
