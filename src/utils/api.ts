@@ -439,13 +439,20 @@ export async function startCartoonJob({ imageUrl, styleImageUrl, textPrompt }: {
       ? window.location.origin
       : 'http://localhost:3001';
 
-    // Construct the payload body dynamically.
-    // If a property is undefined, JSON.stringify will omit it.
-    const jobBody = {
+    // --- START OF THE FIX ---
+    // 1. Create a base object with only the required parameter.
+    const jobBody: { [key: string]: string } = {
         imageUrl: imageUrl,
-        styleImageUrl: styleImageUrl,
-        textPrompt: textPrompt
     };
+
+    // 2. Conditionally add the optional parameters ONLY if they exist.
+    if (styleImageUrl) {
+        jobBody.styleImageUrl = styleImageUrl;
+    } else if (textPrompt) {
+        // Use 'else if' to ensure only one style modifier is sent
+        jobBody.textPrompt = textPrompt;
+    }
+    // --- END OF THE FIX ---
 
     const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
       method: 'POST',
@@ -454,7 +461,7 @@ export async function startCartoonJob({ imageUrl, styleImageUrl, textPrompt }: {
       },
       body: JSON.stringify({
         endpoint: 'v1/cartoon',
-        body: jobBody
+        body: jobBody // Use the new, dynamically built object
       }),
     });
 
