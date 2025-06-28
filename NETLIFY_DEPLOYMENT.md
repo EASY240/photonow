@@ -18,7 +18,7 @@ You need to set up your LightX API key as an environment variable in Netlify:
 2. Navigate to Site settings > Build & deploy > Environment
 3. Add a new variable:
    - Key: `LIGHTX_API_KEY`
-   - Value: `18a5dbd5b6884c52b14bbbb69beec315_8a54e2204b40472ba63a9867ddd3c655_andoraitools`
+   - Value: `13fc2dd3a975430b93850487c527d817_90b2d76b36a3491aa0d429457da8e3eb_andoraitools`
 
 ### 2. Deploy to Netlify
 
