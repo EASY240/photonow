@@ -1,23 +1,9 @@
-AI Caricature Generator
+AI Avatar
 Overview
-Welcome to the LightX AI Caricature Generator API V2 Documentation. Our AI Caricature API is engineered to turn photos into high-quality, personalized caricatures. Its smart image processing combines precise feature manipulation with artistic interpretation. The resulting caricatures retain the subject's essence while infusing humor and creative flair, making them ideal for digital art projects, social media content, and entertainment applications, and many other purposes. Discover the Full Guide to Begin!
+Welcome to the LightX AI Avatar API V2 Documentation. Our AI Avatar API generates personalized male and female avatars from just one user photo. It is designed to produce high-quality, distinctive avatar representations that preserve the essence of the original image in terms of detail, accuracy, and realism. The sophisticated algorithms ensure that the generated avatar reflects the nuanced facial features and characteristics of the subject. This digital persona is excellent for identity representation across gaming or social media profiles. Discover the Full Guide to Begin!
 
-How the AI Caricature API Structures Output
-The AI Caricature API enables you to transform your images into exaggerated, stylized caricatures. This tool is designed to work specifically with human faces, making it ideal for creating humorous and artistic portraits.
-
-Here’s how it works:
-When a style image is provided, the API uses it not only to extract the artistic style but also to take structural cues—such as pose and character—from the reference image. This helps ensure the final caricature maintains the pose and composition of the style image while applying its exaggerated features and visual flair.
-
-Output Details
-The face in the output image may differ from the original input due to the exaggerated nature of caricatures.
- 
-The pose and expression are influenced by the style image, maintaining consistency in character orientation.
- 
-The result is a fun, stylized caricature that blends the identity of the input image with the creative distortion and personality of the style reference.  
-Note: This API currently supports only human face detection and may not perform as expected with non-human subjects.
-
-AI Caricature Generator API Rollout
-To access your AI Caricature Generator API, you need to generate an API key. Visit the LightX API to retrieve your key. Insert your image URL and text prompt or add a style image to generate funny caricature characters. Each generation will cost you 1 credit with the output delivered in JPEG format.
+AI Avatar API Rollout
+To access your AI Avatar API, you need to generate an API key. Visit the LightX API to retrieve your key. Insert your image URL and text prompt or add a style image to generate male and female avatars. Each generation will cost you 1 credit with the output delivered in JPEG format.
 
 note
 To ensure seamless processing, it is mandatory to use ImageUpload API for uploading images. External image URLs are not supported and will result in an error.
@@ -78,10 +64,10 @@ Going Forward, use cURL along with x-api-key and your API key (as given below) t
 
 cURL
 
- Method- Post
-curl --location 'https://api.lightxeditor.com/external/api/v1/caricature' \
---header 'x-api-key: <Insert your API Key>' \
+  Method- Post
+curl --location 'https://api.lightxeditor.com/external/api/v1/avatar' \
 --header 'Content-Type: application/json' \
+--header 'x-api-key: <Insert your API Key>' \
 --data '{
 "imageUrl": "https://example.com/your-image.jpg",  // Replace with the URL of your input image
 "styleImageUrl": "https://example.com/your-style-image.jpg",  // Replace with the URL of your input style image
@@ -106,7 +92,7 @@ Response
 orderId: This key is the unique identifier for the order.
 maxRetriesAllowed: The number of retries a user can attempt when the status is "init".
 avgResponseTimeInSec: This is the average time the machine can take to generate the output.
-Status: There are three scenarios: "init" = proccessing, "active" = generated, "failed" = error.
+status: There are three scenarios: "init" = proccessing, "failed" = error.
 
 Once your order Id is generated, input it into the status check system to retrieve and review the results of your API Tool (mentioned below).
 
