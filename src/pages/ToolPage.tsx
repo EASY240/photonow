@@ -8,7 +8,7 @@ import { tools } from '../data/tools';
 import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, checkOrderStatus, convertUrlToBlob } from '../utils/api';
 import type { ImageFile, ProcessedImage, Tool } from '../types';
 import { maleCartoonStyles, femaleCartoonStyles } from '../constants/cartoonStyles';
-import { caricatureStyles } from '../constants/caricatureStyles';
+import { caricatureStyles, Style } from '../constants/caricatureStyles';
 
 const ToolPage: React.FC = () => {
   const { toolId } = useParams<{ toolId: string }>();
@@ -52,7 +52,7 @@ const ToolPage: React.FC = () => {
   const [selectedPresetUrl, setSelectedPresetUrl] = useState<string | null>(null);
   
   // AI Caricature specific state
-  const [caricatureSelectedPresetUrl, setCaricatureSelectedPresetUrl] = useState<string | null>(null);
+  const [caricatureSelectedStyle, setCaricatureSelectedStyle] = useState<Style | null>(null);
   const [caricatureCustomStyleImage, setCaricatureCustomStyleImage] = useState<File | null>(null);
   const [caricatureTextPrompt, setCaricatureTextPrompt] = useState('');
   // Find the tool based on the toolId param
@@ -680,22 +680,21 @@ const ToolPage: React.FC = () => {
       let finalPrompt: string | undefined = caricatureTextPrompt;
 
       // 3. Handle preset style selection
-      if (caricatureSelectedPresetUrl) {
-        console.log(`Processing preset caricature style from URL: ${caricatureSelectedPresetUrl}`);
-        // Fetch the preset image data and convert it to a Blob
-        const styleImageBlob = await convertUrlToBlob(caricatureSelectedPresetUrl);
-        // Create a File object with explicit MIME type to avoid .octet-stream error
-        const styleFile = new File([styleImageBlob], 'style.jpeg', { type: 'image/jpeg' });
-        // Upload this new File to get a valid URL for the API
-        finalStyleUrl = await uploadImageAndGetUrl(styleFile);
-        // Set prompt to undefined when using style image
-        finalPrompt = undefined;
+      if (caricatureSelectedStyle) {
+        // A preset style object was chosen
+        finalPrompt = caricatureSelectedStyle.prompt; // Get the prompt from the selected style object
+        
+        console.log(`Processing preset caricature style: ${caricatureSelectedStyle.name} with prompt: "${finalPrompt}"`);
+        
+        // Fetch the preset image and re-upload it to get a valid URL
+        const styleImageBlob = await convertUrlToBlob(caricatureSelectedStyle.imageUrl);
+        finalStyleUrl = await uploadImageAndGetUrl(new File([styleImageBlob], "style.jpeg", { type: 'image/jpeg' }));
+      
       } else if (caricatureCustomStyleImage) {
-        // Custom style image was uploaded
+        // User uploaded their own style image. The text prompt from the box will be used.
         finalStyleUrl = await uploadImageAndGetUrl(caricatureCustomStyleImage);
-        // Set prompt to undefined when using style image
-        finalPrompt = undefined;
       }
+      // If neither style image is provided, finalPrompt will just be the text from the textarea
 
       // 4. Add debugging log and delay
       console.log(`Caricature job - Main URL: ${mainImageUrl}, Style URL: ${finalStyleUrl}, Prompt: ${finalPrompt}`);
@@ -1167,16 +1166,16 @@ const ToolPage: React.FC = () => {
                       {caricatureStyles.map((style) => (
                         <div
                           key={style.imageUrl}
-                          className={`cursor-pointer rounded-lg overflow-hidden border-2 ${caricatureSelectedPresetUrl === style.imageUrl ? 'border-blue-500' : 'border-transparent'}`}
-                          onClick={() => setCaricatureSelectedPresetUrl(style.imageUrl)}
+                          className={`cursor-pointer rounded-lg overflow-hidden border-2 ${caricatureSelectedStyle?.imageUrl === style.imageUrl ? 'border-blue-500' : 'border-transparent'}`}
+                          onClick={() => setCaricatureSelectedStyle(style)}
                         >
                           <img src={style.imageUrl} alt={style.name} className="w-full h-auto object-cover" />
                           <p className="text-center text-xs p-1 bg-gray-100">{style.name}</p>
                         </div>
                       ))}
                     </div>
-                    {caricatureSelectedPresetUrl && (
-                      <Button variant="link" onClick={() => setCaricatureSelectedPresetUrl(null)} className="mt-2 text-sm">
+                    {caricatureSelectedStyle && (
+                      <Button variant="link" onClick={() => setCaricatureSelectedStyle(null)} className="mt-2 text-sm">
                         Clear Selection
                       </Button>
                     )}
@@ -1191,7 +1190,7 @@ const ToolPage: React.FC = () => {
                         accept="image/*"
                         onChange={(e) => setCaricatureCustomStyleImage(e.target.files?.[0] || null)}
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        disabled={!!caricatureSelectedPresetUrl}
+                        disabled={!!caricatureSelectedStyle}
                       />
                     </div>
                     <div>
@@ -1202,7 +1201,7 @@ const ToolPage: React.FC = () => {
                         placeholder="e.g., 'exaggerated features', 'political cartoon style'..."
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                         rows={2}
-                        disabled={!!caricatureSelectedPresetUrl}
+                        disabled={!!caricatureSelectedStyle}
                       />
                     </div>
                   </div>
