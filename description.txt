@@ -1,0 +1,137 @@
+AI Caricature Generator
+Overview
+Welcome to the LightX AI Caricature Generator API V2 Documentation. Our AI Caricature API is engineered to turn photos into high-quality, personalized caricatures. Its smart image processing combines precise feature manipulation with artistic interpretation. The resulting caricatures retain the subject's essence while infusing humor and creative flair, making them ideal for digital art projects, social media content, and entertainment applications, and many other purposes. Discover the Full Guide to Begin!
+
+How the AI Caricature API Structures Output
+The AI Caricature API enables you to transform your images into exaggerated, stylized caricatures. This tool is designed to work specifically with human faces, making it ideal for creating humorous and artistic portraits.
+
+Here’s how it works:
+When a style image is provided, the API uses it not only to extract the artistic style but also to take structural cues—such as pose and character—from the reference image. This helps ensure the final caricature maintains the pose and composition of the style image while applying its exaggerated features and visual flair.
+
+Output Details
+The face in the output image may differ from the original input due to the exaggerated nature of caricatures.
+ 
+The pose and expression are influenced by the style image, maintaining consistency in character orientation.
+ 
+The result is a fun, stylized caricature that blends the identity of the input image with the creative distortion and personality of the style reference.  
+Note: This API currently supports only human face detection and may not perform as expected with non-human subjects.
+
+AI Caricature Generator API Rollout
+To access your AI Caricature Generator API, you need to generate an API key. Visit the LightX API to retrieve your key. Insert your image URL and text prompt or add a style image to generate funny caricature characters. Each generation will cost you 1 credit with the output delivered in JPEG format.
+
+note
+To ensure seamless processing, it is mandatory to use ImageUpload API for uploading images. External image URLs are not supported and will result in an error.
+
+Image Upload V2
+API v2 Image Upload delivers secure, high-performance image hosting, enabling users to effortlessly generate and manage image URLs. With advanced security measures, optimized processing speed, and seamless integration, it ensures faster, more reliable uploads. Designed for scalability and ease of use, it simplifies image management for developers, e-commerce platforms, and creative applications.
+
+Here are the steps
+
+Choose the preferred parameter for image generation. Insert the size of the image for which you want to generate a URL. Ensure the image size does not exceed 5 MB or 5,242,880 bytes. Finally, choose the file format for the image, either JPEG or PNG. With the imageUrl, you can generate the URL for your image, the style image, and the masked image.
+
+Below are the steps to make this process clearer and easier.
+
+cURL
+
+curl --location 'https://api.lightxeditor.com/external/api/v2/uploadImageUrl' \
+--header 'Content-Type: application/json' \
+--header 'x-api-key: <enter x-api-key>' \
+--data '{
+  "uploadType": "imageUrl", 
+  "size": 791436,   // Image Size in Bytes
+  "contentType": "image/jpeg"   // Image File Format
+}'
+
+Response
+{
+   "statusCode": 2000,
+   "message": "SUCCESS",
+   "body": {
+       "uploadImage": "https://lightx-ai-version-2.s3-accelerate.amazonaws.com/apikey/35b4895058344d109ea8ad059be61d2d.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250127T044301Z&X-Amz-SignedHeaders=content-length%3Bcontent-type%3Bhost&X-Amz-Expires=3599&X-Amz-Credential=AKIA2Y6AHIB47OUAEN64%2F20250127%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Signature=fce9526cb5c8ff129d7e47a21f26955dd3215b0d42e58ce52626f4e66b694384",
+       "imageUrl": "https://d3aa3s3yhl0emm.cloudfront.net/apikey/35b4895058344d109ea8ad059be61d2d.jpeg",
+       "size": 791436
+   }
+}
+
+
+As you can see above, in the response you have uploadImage and ImageURL. uploadImage url will be used to make a Put request, whereas the imageUrl is the final image url which don't have image uploaded rightnow. To upload a image follow the next process.
+
+Next, use the uploadImage URL obtained from the https://api.lightxeditor.com/external/api/v2/uploadImageUrl API to upload your image. To make your imageUrl valid, perform a PUT request to the uploadImage URL. Ensure that the request includes the image file in the correct format while maintaining the required image size. The image should be the same as the one used for uploading image size.
+
+Here is an example of how to make a PUT request using the uploadImage URL along with the image.
+
+cURL
+
+
+curl --location --request PUT 'https://lightx-ai-version-2.s3-accelerate.amazonaws.com/apikey/36f83a00fcd74180acfda42293455843.jpeg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250127T050022Z&X-Amz-SignedHeaders=content-length%3Bcontent-type%3Bhost&X-Amz-Expires=3599&X-Amz-Credential=AKIA2Y6AHIB47OUAEN64%2F20250127%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Signature=093760f15d8302c424823ad671a973ce984cc7ab2f71265ae767afcdf99ef08f' \
+--header 'Content-Type: image/jpeg' \
+--data-binary '@/C:/Users/Downloads/wow.jpg'
+
+
+Once the image is uploaded, you will receive an HTTP 200 OK status, indicating that the upload was successful. You can now access the imageUrl obtained from the https://api.lightxeditor.com/external/api/v2/uploadImageUrl API.
+
+note
+This API generates image URLs that remain valid for 24 hours without consuming any credits or incurring API usage charges, after which the URLs expire.
+
+Quick Steps to Generate with Your API
+Going Forward, use cURL along with x-api-key and your API key (as given below) to generate images with AI. Next, proceed to the "Body" tab to configure the request payload according to the required format and input data as required. Finally, click "Send" to submit the request.
+
+cURL
+
+ Method- Post
+curl --location 'https://api.lightxeditor.com/external/api/v1/caricature' \
+--header 'x-api-key: <Insert your API Key>' \
+--header 'Content-Type: application/json' \
+--data '{
+"imageUrl": "https://example.com/your-image.jpg",  // Replace with the URL of your input image
+"styleImageUrl": "https://example.com/your-style-image.jpg",  // Replace with the URL of your input style image
+"textPrompt": "YourInputPrompt"  // Replace with your specific input prompt
+}'
+
+
+Once your request is completed, visualize the "Response" to verify that the API call is executed successfully (as given below).
+
+Response
+{
+   "statusCode": 2000,
+   "message": "SUCCESS",
+   "body": {
+       "orderId": "7906da5353b504162db5199d6",
+       "maxRetriesAllowed": 5,
+       "avgResponseTimeInSec": 15,
+       "status": "init"
+   }
+}
+
+orderId: This key is the unique identifier for the order.
+maxRetriesAllowed: The number of retries a user can attempt when the status is "init".
+avgResponseTimeInSec: This is the average time the machine can take to generate the output.
+Status: There are three scenarios: "init" = proccessing, "active" = generated, "failed" = error.
+
+Once your order Id is generated, input it into the status check system to retrieve and review the results of your API Tool (mentioned below).
+
+Check Status
+cURL
+
+curl --location --request POST 'https://api.lightxeditor.com/external/api/v1/order-status' \
+--header 'Content-Type: application/json' \
+--header 'x-api-key: <Insert your API Key>' \
+--data '{
+"orderId": "insert your Order ID"
+}'
+
+After hitting orderId as request payload in your check status make sure you make a subsequent API call which means, in every 3 seconds you can hit until you get "status": "active"
+
+note
+The maximum time for receiving output is 15 seconds. You are allowed up to 5 retries for checking the status, with each API call being made every 3 seconds. You need to repeatedly call this API up to 5 times until you receive a status of as active/failed. In case of failed status, no credit will be deducted. When the status is "active," the relevant output will be included in the output attribute of the response.
+
+Output
+{
+   "statusCode": 2000,
+   "message": "SUCCESS",
+   "body": {
+       "orderId": "7906da5353b504162db5199d6",
+       "status": "active",
+       "output": "https://example.com/your-outputimage.jpg"
+   }
+}

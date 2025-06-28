@@ -667,9 +667,12 @@ const ToolPage: React.FC = () => {
   };
   
   const handleAICaricatureGenerate = async () => {
-    if (!selectedImage.file) return;
+    if (!selectedImage.file) {
+      console.error("No user image provided.");
+      return;
+    }
     
-    // Ensure a style image is selected (this should be prevented by UI, but double-check)
+    // A style source (preset or custom) should be guaranteed by the disabled button logic.
     if (!caricatureSelectedStyle && !caricatureCustomStyleImage) {
       setProcessedImage({ url: null, isLoading: false, error: 'Please select a style image before generating.' });
       return;
@@ -678,36 +681,48 @@ const ToolPage: React.FC = () => {
     setProcessedImage({ url: null, isLoading: true, error: null });
 
     try {
-      // A style image is now guaranteed, so no need for complex checks.
-      // Determine the source of the style image.
-      const presetUsed = caricatureSelectedStyle !== null;
-      const styleSourceUrl = presetUsed ? caricatureSelectedStyle.imageUrl : URL.createObjectURL(caricatureCustomStyleImage!);
-      const textToUse = presetUsed ? caricatureSelectedStyle.prompt : caricatureTextPrompt;
+      // --- START OF THE CORRECTED LOGIC ---
 
-      console.log(`Starting Caricature job. Style Source: ${presetUsed ? caricatureSelectedStyle.name : 'Custom Image'}`);
-
-      // 1. Upload main image
+      // 1. Upload the main user image.
       const mainImageUrl = await uploadImageAndGetUrl(selectedImage.file);
 
-      // 2. Fetch/Upload style image
-      const styleImageBlob = await convertUrlToBlob(styleSourceUrl);
-      const finalStyleUrl = await uploadImageAndGetUrl(new File([styleImageBlob], "style.jpeg", { type: 'image/jpeg' }));
-      
-      // Optional: Add a small delay if timeouts are still an issue, but the main fix is the UI logic.
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // 2. Initialize variables for the style and prompt.
+      let finalStyleUrl: string | undefined = undefined;
+      let finalPrompt: string = "";
 
-      // 3. Call the API job. All three parameters will now always be validly populated.
+      // 3. Handle the two different style sources correctly.
+      if (caricatureSelectedStyle) {
+        // Path A: User chose a PRESET style.
+        finalPrompt = caricatureSelectedStyle.prompt; // Get the prompt from the preset.
+        console.log(`Processing PRESET style: ${caricatureSelectedStyle.name}`);
+        
+        // Fetch the preset image and re-upload it to get a valid API URL.
+        const styleImageBlob = await convertUrlToBlob(caricatureSelectedStyle.imageUrl);
+        finalStyleUrl = await uploadImageAndGetUrl(new File([styleImageBlob], "style.jpeg", { type: 'image/jpeg' }));
+
+      } else if (caricatureCustomStyleImage) {
+        // Path B: User uploaded a CUSTOM style image.
+        finalPrompt = caricatureTextPrompt; // Get the prompt from the textarea.
+        console.log("Processing CUSTOM uploaded style image.");
+
+        // Simply upload the user's custom file directly. DO NOT FETCH IT.
+        finalStyleUrl = await uploadImageAndGetUrl(caricatureCustomStyleImage);
+      }
+
+      // --- END OF THE CORRECTED LOGIC ---
+
+      // 4. Call the job with guaranteed valid data.
       const orderId = await startCaricatureJob({
         imageUrl: mainImageUrl,
         styleImageUrl: finalStyleUrl,
-        textPrompt: textToUse || "" // Default to "" if the textarea is empty
+        textPrompt: finalPrompt || "humorous artistic caricature" // Add a fallback prompt
       });
 
-      // 6. Polling logic
-      const maxAttempts = 20;
-      let attempts = 0;
+      // 5. Poll for results with increased patience
+      let retries = 0;
+      const maxRetries = 20; // Increased to 20 for a 60-second wait time
+      
       const poll = setInterval(async () => {
-        attempts++;
         try {
           const status = await checkOrderStatus(orderId);
           if (status.status === 'completed' && status.imageUrl) {
@@ -722,13 +737,15 @@ const ToolPage: React.FC = () => {
           setProcessedImage({ url: null, isLoading: false, error: 'Failed to check caricature status.' });
         }
 
-        if (attempts >= maxAttempts) {
+        retries++;
+        if (retries >= maxRetries) {
           clearInterval(poll);
-          setProcessedImage({ url: null, isLoading: false, error: 'Caricature generation timed out. Please try again.' });
+          setProcessedImage({ url: null, isLoading: false, error: 'Caricature generation took too long to complete. This can happen with complex styles. Please try again.' });
         }
       }, 3000);
 
     } catch (error) {
+      console.error("An error occurred during caricature generation:", error);
       setProcessedImage({ url: null, isLoading: false, error: (error as Error).message || 'An unknown error occurred.' });
     }
   };
