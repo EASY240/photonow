@@ -5,10 +5,11 @@ import SEO from '../components/ui/SEO';
 import Button from '../components/ui/Button';
 import ImageDropzone from '../components/ui/ImageDropzone';
 import { tools } from '../data/tools';
-import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, checkOrderStatus, convertUrlToBlob } from '../utils/api';
+import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, checkOrderStatus, convertUrlToBlob } from '../utils/api';
 import type { ImageFile, ProcessedImage, Tool } from '../types';
 import { maleCartoonStyles, femaleCartoonStyles } from '../constants/cartoonStyles';
 import { caricatureStyles, Style } from '../constants/caricatureStyles';
+import { avatarStyles, AvatarStyle } from '../constants/avatarStyles';
 
 const ToolPage: React.FC = () => {
   const { toolId } = useParams<{ toolId: string }>();
@@ -55,6 +56,12 @@ const ToolPage: React.FC = () => {
   const [caricatureSelectedStyle, setCaricatureSelectedStyle] = useState<Style | null>(null);
   const [caricatureCustomStyleImage, setCaricatureCustomStyleImage] = useState<File | null>(null);
   const [caricatureTextPrompt, setCaricatureTextPrompt] = useState('');
+  
+  // AI Avatar specific state
+  const [avatarSelectedGender, setAvatarSelectedGender] = useState<'male' | 'female'>('male');
+  const [avatarSelectedStyle, setAvatarSelectedStyle] = useState<AvatarStyle | null>(null);
+  const [avatarCustomStyleImage, setAvatarCustomStyleImage] = useState<File | null>(null);
+  const [avatarTextPrompt, setAvatarTextPrompt] = useState('');
   // Find the tool based on the toolId param
   const tool = tools.find(t => t.id === toolId);
   
@@ -749,6 +756,86 @@ const ToolPage: React.FC = () => {
       setProcessedImage({ url: null, isLoading: false, error: (error as Error).message || 'An unknown error occurred.' });
     }
   };
+
+  const handleAIAvatarGenerate = async () => {
+    if (!selectedImage.file) {
+      console.error("No user image provided.");
+      return;
+    }
+    
+    // A style source (preset or custom) should be guaranteed by the disabled button logic.
+    if (!avatarSelectedStyle && !avatarCustomStyleImage) {
+      setProcessedImage({ url: null, isLoading: false, error: 'Please select a style before generating.' });
+      return;
+    }
+
+    setProcessedImage({ url: null, isLoading: true, error: null });
+
+    try {
+      // 1. Upload the main user image.
+      const mainImageUrl = await uploadImageAndGetUrl(selectedImage.file);
+
+      // 2. Initialize variables for the style and prompt.
+      let finalStyleUrl: string | undefined = undefined;
+      let finalPrompt: string = "";
+
+      // 3. Handle the two different style sources correctly.
+      if (avatarSelectedStyle) {
+        // Path A: User chose a PRESET style.
+        finalPrompt = avatarSelectedStyle.prompt; // Get the prompt from the preset.
+        console.log(`Processing PRESET style: ${avatarSelectedStyle.name}`);
+        
+        // Fetch the preset image and re-upload it to get a valid API URL.
+        const styleImageBlob = await convertUrlToBlob(avatarSelectedStyle.imageUrl);
+        finalStyleUrl = await uploadImageAndGetUrl(new File([styleImageBlob], "style.jpeg", { type: 'image/jpeg' }));
+
+      } else if (avatarCustomStyleImage) {
+        // Path B: User uploaded a CUSTOM style image.
+        finalPrompt = avatarTextPrompt; // Get the prompt from the textarea.
+        console.log("Processing CUSTOM uploaded style image.");
+
+        // Simply upload the user's custom file directly.
+        finalStyleUrl = await uploadImageAndGetUrl(avatarCustomStyleImage);
+      }
+
+      // 4. Call the job with guaranteed valid data.
+      const orderId = await startAvatarJob({
+        imageUrl: mainImageUrl,
+        styleImageUrl: finalStyleUrl,
+        textPrompt: finalPrompt || "A high-quality avatar" // Add a fallback prompt
+      });
+
+      // 5. Poll for results with increased patience
+      let retries = 0;
+      const maxRetries = 20; // 60-second wait time
+      
+      const poll = setInterval(async () => {
+        try {
+          const status = await checkOrderStatus(orderId);
+          if (status.status === 'completed' && status.imageUrl) {
+            clearInterval(poll);
+            setProcessedImage({ url: status.imageUrl, isLoading: false, error: null });
+          } else if (status.status === 'failed' || status.status === 'error') {
+            clearInterval(poll);
+            setProcessedImage({ url: null, isLoading: false, error: 'Avatar generation failed. Please try again.' });
+          }
+        } catch (error) {
+          clearInterval(poll);
+          setProcessedImage({ url: null, isLoading: false, error: 'Failed to check avatar status.' });
+        }
+
+        retries++;
+        if (retries >= maxRetries) {
+          clearInterval(poll);
+          setProcessedImage({ url: null, isLoading: false, error: 'Avatar generation took too long to complete. This can happen with complex requests. Please try again.' });
+        }
+      }, 3000);
+
+    } catch (error) {
+      console.error("An error occurred during avatar generation:", error);
+      setProcessedImage({ url: null, isLoading: false, error: (error as Error).message || 'An unknown error occurred.' });
+    }
+  };
   
   // Canvas initialization is now handled by onLoad events on the image elements
   
@@ -852,6 +939,15 @@ const ToolPage: React.FC = () => {
                   <li>If using a style image: upload a reference image with the desired artistic style</li>
                   <li>Click "Generate" to transform your photo into cartoon artwork</li>
                   <li>Download your cartoonized image when processing is complete</li>
+                </>
+              ) : tool.id === 'ai-avatar' ? (
+                <>
+                  <li>Upload a clear photo of a human face using the tool below</li>
+                  <li>Select your gender to see appropriate avatar styles</li>
+                  <li>Choose from preset professional avatar styles OR upload your own style image</li>
+                  <li>Optionally add a text prompt to customize the avatar further</li>
+                  <li>Click "Generate" to create your professional avatar</li>
+                  <li>Download your avatar when processing is complete</li>
                 </>
               ) : (
                 <>
@@ -1220,6 +1316,100 @@ const ToolPage: React.FC = () => {
                   </div>
                 </div>
               )}
+              
+              {/* AI Avatar specific controls */}
+              {tool.id === 'ai-avatar' && selectedImage.preview && (
+                <div className="space-y-6">
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                    <p className="text-sm text-blue-800">
+                      <strong>Note:</strong> This tool generates the best avatars from a single, clear photo of a human face.
+                    </p>
+                  </div>
+                  
+                  {/* Gender Selection */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Select Gender</label>
+                    <div className="flex space-x-4">
+                      <button
+                        type="button"
+                        onClick={() => setAvatarSelectedGender('male')}
+                        className={`px-4 py-2 rounded-md border ${
+                          avatarSelectedGender === 'male'
+                            ? 'bg-blue-500 text-white border-blue-500'
+                            : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                        }`}
+                      >
+                        Male
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setAvatarSelectedGender('female')}
+                        className={`px-4 py-2 rounded-md border ${
+                          avatarSelectedGender === 'female'
+                            ? 'bg-blue-500 text-white border-blue-500'
+                            : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                        }`}
+                      >
+                        Female
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Preset Style Gallery */}
+                  {avatarSelectedGender && (
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Choose a Preset Style</label>
+                      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
+                        {avatarStyles
+                          .filter(style => style.gender === avatarSelectedGender)
+                          .map((style) => (
+                            <div
+                              key={style.imageUrl}
+                              className={`cursor-pointer rounded-lg overflow-hidden border-2 ${
+                                avatarSelectedStyle?.imageUrl === style.imageUrl ? 'border-blue-500' : 'border-transparent'
+                              }`}
+                              onClick={() => setAvatarSelectedStyle(style)}
+                            >
+                              <img src={style.imageUrl} alt={style.name} className="w-full h-auto object-cover" />
+                              <p className="text-center text-xs p-1 bg-gray-100">{style.name}</p>
+                            </div>
+                          ))
+                        }
+                      </div>
+                      {avatarSelectedStyle && (
+                        <Button variant="link" onClick={() => setAvatarSelectedStyle(null)} className="mt-2 text-sm">
+                          Clear Selection
+                        </Button>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Custom Style Section */}
+                  <div className="space-y-4">
+                    <p className="text-sm font-medium text-gray-700 text-center">Or Use a Custom Style</p>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Upload a Style Image</label>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setAvatarCustomStyleImage(e.target.files?.[0] || null)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        disabled={!!avatarSelectedStyle}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Text Prompt (Optional)</label>
+                      <textarea
+                        value={avatarTextPrompt}
+                        onChange={(e) => setAvatarTextPrompt(e.target.value)}
+                        placeholder="Optional: Describe the avatar style you want..."
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                        rows={2}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
                
               <Button 
                 fullWidth 
@@ -1229,13 +1419,16 @@ const ToolPage: React.FC = () => {
                   tool.id === 'ai-replace' ? handleAIReplaceGenerate :
                   tool.id === 'ai-cartoon' ? handleAICartoonGenerate :
                   tool.id === 'ai-caricature' ? handleAICaricatureGenerate :
+                  tool.id === 'ai-avatar' ? handleAIAvatarGenerate :
                   handleProcessImage
                 }
-                disabled={!selectedImage.file || processedImage.isLoading || (tool.id === 'ai-caricature' && !caricatureSelectedStyle && !caricatureCustomStyleImage)}
+                disabled={!selectedImage.file || processedImage.isLoading || 
+                  (tool.id === 'ai-caricature' && !caricatureSelectedStyle && !caricatureCustomStyleImage) ||
+                  (tool.id === 'ai-avatar' && (!avatarSelectedGender || (!avatarSelectedStyle && !avatarCustomStyleImage)))}
                 isLoading={processedImage.isLoading}
               >
                 {processedImage.isLoading ? 'Processing...' : 
-                 (tool.id === 'ai-cleanup' || tool.id === 'ai-expand' || tool.id === 'ai-replace' || tool.id === 'ai-cartoon' || tool.id === 'ai-caricature') ? 'Generate' : tool.name}
+                 (tool.id === 'ai-cleanup' || tool.id === 'ai-expand' || tool.id === 'ai-replace' || tool.id === 'ai-cartoon' || tool.id === 'ai-caricature' || tool.id === 'ai-avatar') ? 'Generate' : tool.name}
               </Button>
             </div>
             
