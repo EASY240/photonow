@@ -5,9 +5,10 @@ import SEO from '../components/ui/SEO';
 import Button from '../components/ui/Button';
 import ImageDropzone from '../components/ui/ImageDropzone';
 import { tools } from '../data/tools';
-import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, checkOrderStatus, convertUrlToBlob } from '../utils/api';
+import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, checkOrderStatus, convertUrlToBlob } from '../utils/api';
 import type { ImageFile, ProcessedImage, Tool } from '../types';
 import { maleCartoonStyles, femaleCartoonStyles } from '../constants/cartoonStyles';
+import { caricatureStyles } from '../constants/caricatureStyles';
 
 const ToolPage: React.FC = () => {
   const { toolId } = useParams<{ toolId: string }>();
@@ -49,6 +50,11 @@ const ToolPage: React.FC = () => {
   const [cartoonStyleImage, setCartoonStyleImage] = useState<File | null>(null);
   const [selectedGender, setSelectedGender] = useState<'male' | 'female'>('female');
   const [selectedPresetUrl, setSelectedPresetUrl] = useState<string | null>(null);
+  
+  // AI Caricature specific state
+  const [caricatureSelectedPresetUrl, setCaricatureSelectedPresetUrl] = useState<string | null>(null);
+  const [caricatureCustomStyleImage, setCaricatureCustomStyleImage] = useState<File | null>(null);
+  const [caricatureTextPrompt, setCaricatureTextPrompt] = useState('');
   // Find the tool based on the toolId param
   const tool = tools.find(t => t.id === toolId);
   
@@ -660,6 +666,78 @@ const ToolPage: React.FC = () => {
     }
   };
   
+  const handleAICaricatureGenerate = async () => {
+    if (!selectedImage.file) return;
+
+    setProcessedImage({ url: null, isLoading: true, error: null });
+
+    try {
+      // 1. Always upload the main user image first.
+      const mainImageUrl = await uploadImageAndGetUrl(selectedImage.file);
+
+      // 2. Initialize variables for style and prompt
+      let finalStyleUrl: string | undefined = undefined;
+      let finalPrompt: string | undefined = caricatureTextPrompt;
+
+      // 3. Handle preset style selection
+      if (caricatureSelectedPresetUrl) {
+        console.log(`Processing preset caricature style from URL: ${caricatureSelectedPresetUrl}`);
+        // Fetch the preset image data and convert it to a Blob
+        const styleImageBlob = await convertUrlToBlob(caricatureSelectedPresetUrl);
+        // Create a File object with explicit MIME type to avoid .octet-stream error
+        const styleFile = new File([styleImageBlob], 'style.jpeg', { type: 'image/jpeg' });
+        // Upload this new File to get a valid URL for the API
+        finalStyleUrl = await uploadImageAndGetUrl(styleFile);
+        // Set prompt to undefined when using style image
+        finalPrompt = undefined;
+      } else if (caricatureCustomStyleImage) {
+        // Custom style image was uploaded
+        finalStyleUrl = await uploadImageAndGetUrl(caricatureCustomStyleImage);
+        // Set prompt to undefined when using style image
+        finalPrompt = undefined;
+      }
+
+      // 4. Add debugging log and delay
+      console.log(`Caricature job - Main URL: ${mainImageUrl}, Style URL: ${finalStyleUrl}, Prompt: ${finalPrompt}`);
+      await new Promise(resolve => setTimeout(resolve, 3000));
+
+      // 5. Start the caricature job
+      const orderId = await startCaricatureJob({
+        imageUrl: mainImageUrl,
+        styleImageUrl: finalStyleUrl,
+        textPrompt: finalPrompt
+      });
+
+      // 6. Polling logic
+      const maxAttempts = 20;
+      let attempts = 0;
+      const poll = setInterval(async () => {
+        attempts++;
+        try {
+          const status = await checkOrderStatus(orderId);
+          if (status.status === 'completed' && status.imageUrl) {
+            clearInterval(poll);
+            setProcessedImage({ url: status.imageUrl, isLoading: false, error: null });
+          } else if (status.status === 'failed' || status.status === 'error') {
+            clearInterval(poll);
+            setProcessedImage({ url: null, isLoading: false, error: 'Caricature generation failed. Please try again.' });
+          }
+        } catch (error) {
+          clearInterval(poll);
+          setProcessedImage({ url: null, isLoading: false, error: 'Failed to check caricature status.' });
+        }
+
+        if (attempts >= maxAttempts) {
+          clearInterval(poll);
+          setProcessedImage({ url: null, isLoading: false, error: 'Caricature generation timed out. Please try again.' });
+        }
+      }, 3000);
+
+    } catch (error) {
+      setProcessedImage({ url: null, isLoading: false, error: (error as Error).message || 'An unknown error occurred.' });
+    }
+  };
+  
   // Canvas initialization is now handled by onLoad events on the image elements
   
   const handleProcessImage = async () => {
@@ -1073,6 +1151,63 @@ const ToolPage: React.FC = () => {
                   </div>
                 </div>
               )}
+              
+              {/* AI Caricature specific controls */}
+              {tool.id === 'ai-caricature' && selectedImage.preview && (
+                <div className="space-y-6">
+                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                    <p className="text-sm text-yellow-800">
+                      <strong>Note:</strong> This tool works best with clear photos of human faces. Results on other subjects may vary.
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Choose a Preset Style</label>
+                    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
+                      {caricatureStyles.map((style) => (
+                        <div
+                          key={style.imageUrl}
+                          className={`cursor-pointer rounded-lg overflow-hidden border-2 ${caricatureSelectedPresetUrl === style.imageUrl ? 'border-blue-500' : 'border-transparent'}`}
+                          onClick={() => setCaricatureSelectedPresetUrl(style.imageUrl)}
+                        >
+                          <img src={style.imageUrl} alt={style.name} className="w-full h-auto object-cover" />
+                          <p className="text-center text-xs p-1 bg-gray-100">{style.name}</p>
+                        </div>
+                      ))}
+                    </div>
+                    {caricatureSelectedPresetUrl && (
+                      <Button variant="link" onClick={() => setCaricatureSelectedPresetUrl(null)} className="mt-2 text-sm">
+                        Clear Selection
+                      </Button>
+                    )}
+                  </div>
+
+                  <div className="space-y-4">
+                    <p className="text-sm font-medium text-gray-700 text-center">Or Use a Custom Style</p>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Upload a Style Image</label>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setCaricatureCustomStyleImage(e.target.files?.[0] || null)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        disabled={!!caricatureSelectedPresetUrl}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Describe a Style with Text</label>
+                      <textarea
+                        value={caricatureTextPrompt}
+                        onChange={(e) => setCaricatureTextPrompt(e.target.value)}
+                        placeholder="e.g., 'exaggerated features', 'political cartoon style'..."
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                        rows={2}
+                        disabled={!!caricatureSelectedPresetUrl}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
                
               <Button 
                 fullWidth 
@@ -1081,13 +1216,14 @@ const ToolPage: React.FC = () => {
                   tool.id === 'ai-expand' ? handleAIExpandGenerate :
                   tool.id === 'ai-replace' ? handleAIReplaceGenerate :
                   tool.id === 'ai-cartoon' ? handleAICartoonGenerate :
+                  tool.id === 'ai-caricature' ? handleAICaricatureGenerate :
                   handleProcessImage
                 }
                 disabled={!selectedImage.file || processedImage.isLoading}
                 isLoading={processedImage.isLoading}
               >
                 {processedImage.isLoading ? 'Processing...' : 
-                 (tool.id === 'ai-cleanup' || tool.id === 'ai-expand' || tool.id === 'ai-replace' || tool.id === 'ai-cartoon') ? 'Generate' : tool.name}
+                 (tool.id === 'ai-cleanup' || tool.id === 'ai-expand' || tool.id === 'ai-replace' || tool.id === 'ai-cartoon' || tool.id === 'ai-caricature') ? 'Generate' : tool.name}
               </Button>
             </div>
             

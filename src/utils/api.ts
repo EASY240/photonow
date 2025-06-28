@@ -490,3 +490,46 @@ export async function startCartoonJob({ imageUrl, styleImageUrl, textPrompt }: {
     throw error;
   }
 }
+
+export async function startCaricatureJob({ imageUrl, styleImageUrl, textPrompt }: { imageUrl: string; styleImageUrl?: string; textPrompt?: string; }): Promise<string> {
+  try {
+    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+    const PROXY_BASE_URL = isProduction 
+      ? window.location.origin
+      : 'http://localhost:3001';
+
+    // Create the job body, ensuring all keys are present, defaulting to "" if undefined.
+    const jobBody = {
+        imageUrl: imageUrl,
+        styleImageUrl: styleImageUrl || "",
+        textPrompt: textPrompt || ""
+    };
+
+    const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        endpoint: 'v1/caricature', // The correct endpoint for this tool
+        body: jobBody
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Failed to start caricature job: ${response.status} - ${errorText}`);
+    }
+
+    const data = await response.json();
+     
+    if (!data.body || !data.body.orderId) {
+      throw new Error(`Invalid caricature job response: ${JSON.stringify(data)}`);
+    }
+
+    return data.body.orderId;
+  } catch (error) {
+    console.error('Error starting caricature job:', error);
+    throw error;
+  }
+}
