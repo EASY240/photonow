@@ -668,43 +668,39 @@ const ToolPage: React.FC = () => {
   
   const handleAICaricatureGenerate = async () => {
     if (!selectedImage.file) return;
+    
+    // Ensure a style image is selected (this should be prevented by UI, but double-check)
+    if (!caricatureSelectedStyle && !caricatureCustomStyleImage) {
+      setProcessedImage({ url: null, isLoading: false, error: 'Please select a style image before generating.' });
+      return;
+    }
 
     setProcessedImage({ url: null, isLoading: true, error: null });
 
     try {
-      // 1. Always upload the main user image first.
+      // A style image is now guaranteed, so no need for complex checks.
+      // Determine the source of the style image.
+      const presetUsed = caricatureSelectedStyle !== null;
+      const styleSourceUrl = presetUsed ? caricatureSelectedStyle.imageUrl : URL.createObjectURL(caricatureCustomStyleImage!);
+      const textToUse = presetUsed ? caricatureSelectedStyle.prompt : caricatureTextPrompt;
+
+      console.log(`Starting Caricature job. Style Source: ${presetUsed ? caricatureSelectedStyle.name : 'Custom Image'}`);
+
+      // 1. Upload main image
       const mainImageUrl = await uploadImageAndGetUrl(selectedImage.file);
 
-      // 2. Initialize variables for style and prompt
-      let finalStyleUrl: string | undefined = undefined;
-      let finalPrompt: string | undefined = caricatureTextPrompt;
-
-      // 3. Handle preset style selection
-      if (caricatureSelectedStyle) {
-        // A preset style object was chosen
-        finalPrompt = caricatureSelectedStyle.prompt; // Get the prompt from the selected style object
-        
-        console.log(`Processing preset caricature style: ${caricatureSelectedStyle.name} with prompt: "${finalPrompt}"`);
-        
-        // Fetch the preset image and re-upload it to get a valid URL
-        const styleImageBlob = await convertUrlToBlob(caricatureSelectedStyle.imageUrl);
-        finalStyleUrl = await uploadImageAndGetUrl(new File([styleImageBlob], "style.jpeg", { type: 'image/jpeg' }));
+      // 2. Fetch/Upload style image
+      const styleImageBlob = await convertUrlToBlob(styleSourceUrl);
+      const finalStyleUrl = await uploadImageAndGetUrl(new File([styleImageBlob], "style.jpeg", { type: 'image/jpeg' }));
       
-      } else if (caricatureCustomStyleImage) {
-        // User uploaded their own style image. The text prompt from the box will be used.
-        finalStyleUrl = await uploadImageAndGetUrl(caricatureCustomStyleImage);
-      }
-      // If neither style image is provided, finalPrompt will just be the text from the textarea
+      // Optional: Add a small delay if timeouts are still an issue, but the main fix is the UI logic.
+      await new Promise(resolve => setTimeout(resolve, 2000));
 
-      // 4. Add debugging log and delay
-      console.log(`Caricature job - Main URL: ${mainImageUrl}, Style URL: ${finalStyleUrl}, Prompt: ${finalPrompt}`);
-      await new Promise(resolve => setTimeout(resolve, 3000));
-
-      // 5. Start the caricature job
+      // 3. Call the API job. All three parameters will now always be validly populated.
       const orderId = await startCaricatureJob({
         imageUrl: mainImageUrl,
         styleImageUrl: finalStyleUrl,
-        textPrompt: finalPrompt
+        textPrompt: textToUse || "" // Default to "" if the textarea is empty
       });
 
       // 6. Polling logic
@@ -1198,7 +1194,7 @@ const ToolPage: React.FC = () => {
                       <textarea
                         value={caricatureTextPrompt}
                         onChange={(e) => setCaricatureTextPrompt(e.target.value)}
-                        placeholder="e.g., 'exaggerated features', 'political cartoon style'..."
+                        placeholder="Optional: Add descriptive text to modify your chosen style..."
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                         rows={2}
                         disabled={!!caricatureSelectedStyle}
@@ -1218,7 +1214,7 @@ const ToolPage: React.FC = () => {
                   tool.id === 'ai-caricature' ? handleAICaricatureGenerate :
                   handleProcessImage
                 }
-                disabled={!selectedImage.file || processedImage.isLoading}
+                disabled={!selectedImage.file || processedImage.isLoading || (tool.id === 'ai-caricature' && !caricatureSelectedStyle && !caricatureCustomStyleImage)}
                 isLoading={processedImage.isLoading}
               >
                 {processedImage.isLoading ? 'Processing...' : 
