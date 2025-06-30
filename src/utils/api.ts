@@ -143,6 +143,97 @@ export async function checkOrderStatus(orderId: string): Promise<any> {
   }
 }
 
+export async function pollJobUntilComplete(orderId: string): Promise<string> {
+  try {
+    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+    const PROXY_BASE_URL = isProduction 
+      ? window.location.origin
+      : 'http://localhost:3001';
+
+    let resultUrl = '';
+    let retries = 0;
+    const maxRetries = 20;
+    const basePollInterval = 3000;
+
+    while (!resultUrl && retries < maxRetries) {
+      if (retries > 0) {
+        const waitTime = Math.min(basePollInterval * Math.pow(1.5, retries - 1), 15000);
+        console.log(`Waiting ${waitTime}ms before retry ${retries}...`);
+        await new Promise((resolve) => setTimeout(resolve, waitTime));
+      }
+
+      const orderStatusResponse = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          endpoint: 'v1/order-status',
+          body: {
+            orderId: orderId,
+          }
+        }),
+      });
+
+      if (!orderStatusResponse.ok) {
+        const errorText = await orderStatusResponse.text();
+        throw new Error(`Failed to get order status: ${orderStatusResponse.status} - ${errorText}`);
+      }
+
+      const orderStatus = await orderStatusResponse.json();
+      console.log('Order status response:', JSON.stringify(orderStatus));
+      
+      if (orderStatus.status === 'FAIL') {
+        const errorMessage = orderStatus.message || 'Unknown error';
+        const errorDescription = orderStatus.description || '';
+        const statusCode = orderStatus.statusCode;
+        
+        let userFriendlyMessage = errorMessage;
+        if (statusCode === 55044) {
+          userFriendlyMessage = 'The image could not be processed. This may be due to complex background, image quality, or temporary service issues. Please try with a different image or try again later.';
+        }
+        
+        console.error('LightX API Error:', { statusCode, errorMessage, errorDescription });
+        throw new Error(`Image processing failed: ${userFriendlyMessage}${errorDescription ? ` - ${errorDescription}` : ''}`);
+      }
+      
+      if (!orderStatus.body) {
+        throw new Error(`Invalid order status response: ${JSON.stringify(orderStatus)}`);
+      }
+
+      console.log('Checking exit condition:', {
+        status: orderStatus.body.status,
+        output: orderStatus.body.output,
+        statusCheck: orderStatus.body.status === 'active',
+        outputCheck: !!orderStatus.body.output,
+        bothConditions: orderStatus.body.status === 'active' && orderStatus.body.output
+      });
+
+      if (orderStatus.body.status === 'active' && orderStatus.body.output) {
+        console.log('Exit condition met! Setting resultUrl and breaking...');
+        resultUrl = orderStatus.body.output;
+        break;
+      } else if (orderStatus.body.status === 'failed') {
+        const errorMessage = orderStatus.body.message || 'Unknown error';
+        const errorDescription = orderStatus.body.description || '';
+        throw new Error(`Image processing failed: ${errorMessage}${errorDescription ? ` - ${errorDescription}` : ''}`);
+      }
+      
+      retries++;
+    }
+
+    if (!resultUrl) {
+      throw new Error('Processing timeout: The image is taking longer than expected to process. This may be due to high server load or image complexity. Please try again later.');
+    }
+    
+    console.log('Image processing completed successfully:', resultUrl);
+    return resultUrl;
+  } catch (error) {
+    console.error('Error polling job status:', error);
+    throw error;
+  }
+}
+
 // NOTE: Keeping the processImage function for other tools as-is
 export async function processImage(toolApiEndpoint: string, imageFile: File): Promise<string> {
   try {
