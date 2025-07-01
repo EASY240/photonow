@@ -461,35 +461,45 @@ const handleAICartoonGenerate = async () => {
   setProcessedImage({ url: null, isLoading: true, error: null });
 
   try {
-    // 1. Always upload the main user image first.
+    // 1. Upload the main user image
     const mainImageUrl = await uploadImageAndGetUrl(selectedImage.file);
 
-    // 2. Initialize the final styleImageUrl variable.
+    // 2. Initialize final parameters
     let finalStyleImageUrl: string | undefined = undefined;
+    let finalPrompt: string = "";
 
-    // 3. Handle style image processing
+    // 3. Handle the two different style sources correctly
     if (selectedPresetUrl) {
-      // A. A preset style was chosen.
+      // === PATH A: USER CHOSE A PRESET STYLE ===
+      finalPrompt = "cartoon style transformation"; // Default for preset
       console.log(`Processing preset style from URL: ${selectedPresetUrl}`);
-      // B. Fetch the preset image data and convert it to a Blob.
+      
+      // Fetch the preset image and re-upload it
       const styleImageBlob = await convertUrlToBlob(selectedPresetUrl);
-      // C. Create a File object from the Blob, explicitly setting the correct MIME type.
-      // D. Upload this new File to get a valid, temporary URL for the API.
       finalStyleImageUrl = await uploadImageAndGetUrl(new File([styleImageBlob], "style.jpg", { type: 'image/jpeg' }));
+
     } else if (cartoonStyleImage) {
-      // A style image was manually uploaded.
+      // === PATH B: USER UPLOADED A CUSTOM STYLE IMAGE (THIS IS THE FIX) ===
+      finalPrompt = cartoonTextPrompt; // CRITICAL: Get the prompt from the TEXTAREA state
+      console.log("Processing CUSTOM uploaded style image.");
+
+      // CRITICAL: Upload the user's local file directly
       finalStyleImageUrl = await uploadImageAndGetUrl(cartoonStyleImage);
+    
+    } else {
+      // Path C: User is using TEXT-PROMPT ONLY
+      finalPrompt = cartoonTextPrompt;
     }
 
     // 4. Add debugging and delay
     console.log(`Pausing before job start. Main URL: ${mainImageUrl}, Style URL: ${finalStyleImageUrl}`);
     await new Promise(resolve => setTimeout(resolve, 3000));
     
-    // 5. Start the cartoon job
+    // 5. Start the cartoon job with corrected logic
     const orderId = await startCartoonJob({
       imageUrl: mainImageUrl,
       styleImageUrl: finalStyleImageUrl,
-      textPrompt: finalStyleImageUrl ? undefined : cartoonTextPrompt
+      textPrompt: finalPrompt || "cartoon style transformation" // ALWAYS send the prompt, never undefined
     });
 
     const resultUrl = await pollJobUntilComplete(orderId);
@@ -514,7 +524,7 @@ const handleAICaricatureGenerate = async () => {
     return;
   }
   
-  // A style source (preset or custom) should be guaranteed by the disabled button logic.
+  // A style source (preset or custom) should be guaranteed by the disabled button logic
   if (!caricatureSelectedStyle && !caricatureCustomStyleImage) {
     setProcessedImage({ url: null, isLoading: false, error: 'Please select a style image before generating.' });
     return;
@@ -523,33 +533,33 @@ const handleAICaricatureGenerate = async () => {
   setProcessedImage({ url: null, isLoading: true, error: null });
 
   try {
-    // 1. Upload the main user image.
+    // 1. Upload the main user image
     const mainImageUrl = await uploadImageAndGetUrl(selectedImage.file);
 
-    // 2. Initialize variables for the style and prompt.
+    // 2. Initialize final parameters
     let finalStyleUrl: string | undefined = undefined;
     let finalPrompt: string = "";
 
-    // 3. Handle the two different style sources correctly.
+    // 3. Handle the two different style sources correctly
     if (caricatureSelectedStyle) {
-      // Path A: User chose a PRESET style.
-      finalPrompt = caricatureSelectedStyle.prompt;
+      // === PATH A: USER CHOSE A PRESET STYLE ===
+      finalPrompt = caricatureSelectedStyle.prompt; // Get the prompt from the preset data
       console.log(`Processing PRESET style: ${caricatureSelectedStyle.name}`);
       
-      // Fetch the preset image and re-upload it to get a valid API URL.
+      // Fetch the preset image and re-upload it
       const styleImageBlob = await convertUrlToBlob(caricatureSelectedStyle.imageUrl);
       finalStyleUrl = await uploadImageAndGetUrl(new File([styleImageBlob], "style.jpeg", { type: 'image/jpeg' }));
 
     } else if (caricatureCustomStyleImage) {
-      // Path B: User uploaded a CUSTOM style image.
-      finalPrompt = caricatureTextPrompt;
+      // === PATH B: USER UPLOADED A CUSTOM STYLE IMAGE (THIS IS THE FIX) ===
+      finalPrompt = caricatureTextPrompt; // CRITICAL: Get the prompt from the TEXTAREA state
       console.log("Processing CUSTOM uploaded style image.");
 
-      // Simply upload the user's custom file directly.
+      // CRITICAL: Upload the user's local file directly
       finalStyleUrl = await uploadImageAndGetUrl(caricatureCustomStyleImage);
     }
 
-    // 4. Call the job with guaranteed valid data.
+    // 4. Call the job with guaranteed valid data
     const orderId = await startCaricatureJob({
       imageUrl: mainImageUrl,
       styleImageUrl: finalStyleUrl,
@@ -578,7 +588,7 @@ const handleAIAvatarGenerate = async () => {
     return;
   }
   
-  // A style source (preset or custom) should be guaranteed by the disabled button logic.
+  // A style source (preset or custom) should be guaranteed by the disabled button logic
   if (!avatarSelectedStyle && !avatarCustomStyleImage) {
     setProcessedImage({ url: null, isLoading: false, error: 'Please select a style before generating.' });
     return;
@@ -587,33 +597,33 @@ const handleAIAvatarGenerate = async () => {
   setProcessedImage({ url: null, isLoading: true, error: null });
 
   try {
-    // 1. Upload the main user image.
+    // 1. Upload the main user image
     const mainImageUrl = await uploadImageAndGetUrl(selectedImage.file);
 
-    // 2. Initialize variables for the style and prompt.
+    // 2. Initialize final parameters
     let finalStyleUrl: string | undefined = undefined;
     let finalPrompt: string = "";
 
-    // 3. Handle the two different style sources correctly.
+    // 3. Handle the two different style sources correctly
     if (avatarSelectedStyle) {
-      // Path A: User chose a PRESET style.
-      finalPrompt = avatarSelectedStyle.prompt;
+      // === PATH A: USER CHOSE A PRESET STYLE ===
+      finalPrompt = avatarSelectedStyle.prompt; // Get the prompt from the preset data
       console.log(`Processing PRESET style: ${avatarSelectedStyle.name}`);
       
-      // Fetch the preset image and re-upload it to get a valid API URL.
+      // Fetch the preset image and re-upload it
       const styleImageBlob = await convertUrlToBlob(avatarSelectedStyle.imageUrl);
       finalStyleUrl = await uploadImageAndGetUrl(new File([styleImageBlob], "style.jpeg", { type: 'image/jpeg' }));
 
     } else if (avatarCustomStyleImage) {
-      // Path B: User uploaded a CUSTOM style image.
-      finalPrompt = avatarTextPrompt;
+      // === PATH B: USER UPLOADED A CUSTOM STYLE IMAGE (THIS IS THE FIX) ===
+      finalPrompt = avatarTextPrompt; // CRITICAL: Get the prompt from the TEXTAREA state
       console.log("Processing CUSTOM uploaded style image.");
 
-      // Simply upload the user's custom file directly.
+      // CRITICAL: Upload the user's local file directly
       finalStyleUrl = await uploadImageAndGetUrl(avatarCustomStyleImage);
     }
 
-    // 4. Call the job with guaranteed valid data.
+    // 4. Call the job with guaranteed valid data
     const orderId = await startAvatarJob({
       imageUrl: mainImageUrl,
       styleImageUrl: finalStyleUrl,
