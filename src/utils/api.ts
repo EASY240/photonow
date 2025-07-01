@@ -540,18 +540,20 @@ export async function startCartoonJob({ imageUrl, styleImageUrl, textPrompt }: {
       ? window.location.origin
       : 'http://localhost:3001';
 
-    // Create the job body object with only non-empty values
+    // Create the job body object with only imageUrl initially
     const jobBody: any = {
         imageUrl: imageUrl
     };
     
-    // Only add optional parameters if they have actual values
+    // CRITICAL: LightX API constraint - cannot send both styleImageUrl and textPrompt together
+    // Priority: styleImageUrl takes precedence over textPrompt
     if (styleImageUrl && styleImageUrl.trim() !== '') {
         jobBody.styleImageUrl = styleImageUrl;
-    }
-    
-    if (textPrompt && textPrompt.trim() !== '') {
+        // Do NOT include textPrompt when styleImageUrl is present
+        console.log('Using styleImageUrl, skipping textPrompt due to API constraint');
+    } else if (textPrompt && textPrompt.trim() !== '') {
         jobBody.textPrompt = textPrompt;
+        console.log('Using textPrompt (no styleImageUrl provided)');
     }
 
     console.log('DEBUGGING (Final Attempt): Payload being sent:', JSON.stringify({ endpoint: 'v1/cartoon', body: jobBody }, null, 2));
@@ -592,18 +594,18 @@ export async function startCaricatureJob({ imageUrl, styleImageUrl, textPrompt }
       ? window.location.origin
       : 'http://localhost:3001';
 
-    // Create the job body with only non-empty values
+    // Create the job body with only imageUrl initially
     const jobBody: any = {
         imageUrl: imageUrl
     };
     
-    // Only add optional parameters if they have actual values
+    // Apply the same constraint for caricature API
     if (styleImageUrl && styleImageUrl.trim() !== '') {
         jobBody.styleImageUrl = styleImageUrl;
-    }
-    
-    if (textPrompt && textPrompt.trim() !== '') {
+        console.log('Using styleImageUrl, skipping textPrompt due to API constraint');
+    } else if (textPrompt && textPrompt.trim() !== '') {
         jobBody.textPrompt = textPrompt;
+        console.log('Using textPrompt (no styleImageUrl provided)');
     }
 
     const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
@@ -642,18 +644,18 @@ export async function startAvatarJob({ imageUrl, styleImageUrl, textPrompt }: { 
       ? window.location.origin
       : 'http://localhost:3001';
 
-    // Create the job body with only non-empty values
+    // Create the job body with only imageUrl initially
     const jobBody: any = {
         imageUrl: imageUrl
     };
     
-    // Only add optional parameters if they have actual values
+    // Apply the same constraint for avatar API
     if (styleImageUrl && styleImageUrl.trim() !== '') {
         jobBody.styleImageUrl = styleImageUrl;
-    }
-    
-    if (textPrompt && textPrompt.trim() !== '') {
+        console.log('Using styleImageUrl, skipping textPrompt due to API constraint');
+    } else if (textPrompt && textPrompt.trim() !== '') {
         jobBody.textPrompt = textPrompt;
+        console.log('Using textPrompt (no styleImageUrl provided)');
     }
 
     const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
