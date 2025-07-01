@@ -1,9 +1,12 @@
-AI Avatar
+Turn Yourself into Cartoon Character
 Overview
-Welcome to the LightX AI Avatar API V2 Documentation. Our AI Avatar API generates personalized male and female avatars from just one user photo. It is designed to produce high-quality, distinctive avatar representations that preserve the essence of the original image in terms of detail, accuracy, and realism. The sophisticated algorithms ensure that the generated avatar reflects the nuanced facial features and characteristics of the subject. This digital persona is excellent for identity representation across gaming or social media profiles. Discover the Full Guide to Begin!
+Welcome to the LightX AI Cartoon API V2 Documentation. Transform pictures into high-quality cartoon representations with our AI Cartoon Character Generator API. Its advanced rendering techniques convert images into stylized cartoon versions with bold outlines, exaggerated features, and rich colors. An ideal storytelling within your creative projects, marketing materials, and personalized artwork is assured with these engaging and artistic cartoons. Discover the Full Guide to Begin!
 
-AI Avatar API Rollout
-To access your AI Avatar API, you need to generate an API key. Visit the LightX API to retrieve your key. Insert your image URL and text prompt or add a style image to generate male and female avatars. Each generation will cost you 1 credit with the output delivered in JPEG format.
+How the AI Cartoon Generator API Structures Output
+The AI Cartoon Generator API allows you to transform your images into fun and stylized cartoon artwork. It is designed specifically to detect and work with human faces only, ensuring accurate and expressive cartoon results. When a style image is provided along with the input image, the API uses both the visual style and pose reference from the style image to guide the cartoonization process.
+
+AI Cartoon Generator API Rollout
+To access your AI Cartoon Generator API, you need to generate an API key. Visit the LightX API to retrieve your key. Insert your image URL, and text prompt or add a style image to generate classic cartoon characters. Each generation will cost you 1 credit with the output delivered in JPEG format.
 
 note
 To ensure seamless processing, it is mandatory to use ImageUpload API for uploading images. External image URLs are not supported and will result in an error.
@@ -42,7 +45,7 @@ Response
 
 As you can see above, in the response you have uploadImage and ImageURL. uploadImage url will be used to make a Put request, whereas the imageUrl is the final image url which don't have image uploaded rightnow. To upload a image follow the next process.
 
-Next, use the uploadImage URL obtained from the https://api.lightxeditor.com/external/api/v2/uploadImageUrl API to upload your image. To make your imageUrl valid, perform a PUT request to the uploadImage URL. Ensure that the request includes the image file in the correct format while maintaining the required image size. The image should be the same as the one used for uploading image size.
+Next, use the uploadImage URL obtained from the https://api.lightxeditor.com/external/api/v2/uploadImageUrl API to upload your image. To make your imageUrl valid, perform a PUT request to the uploadImage URL. Ensure that the request includes the image file in the correct format while maintaining the required image size. The image should be the same as the one used for uploading image size.ssss
 
 Here is an example of how to make a PUT request using the uploadImage URL along with the image.
 
@@ -64,10 +67,10 @@ Going Forward, use cURL along with x-api-key and your API key (as given below) t
 
 cURL
 
-  Method- Post
-curl --location 'https://api.lightxeditor.com/external/api/v1/avatar' \
---header 'Content-Type: application/json' \
+ Method- Post
+curl --location 'https://api.lightxeditor.com/external/api/v1/cartoon' \
 --header 'x-api-key: <Insert your API Key>' \
+--header 'Content-Type: application/json' \
 --data '{
 "imageUrl": "https://example.com/your-image.jpg",  // Replace with the URL of your input image
 "styleImageUrl": "https://example.com/your-style-image.jpg",  // Replace with the URL of your input style image
@@ -78,7 +81,7 @@ curl --location 'https://api.lightxeditor.com/external/api/v1/avatar' \
 Once your request is completed, visualize the "Response" to verify that the API call is executed successfully (as given below).
 
 Response
-{
+ {
    "statusCode": 2000,
    "message": "SUCCESS",
    "body": {
@@ -92,7 +95,7 @@ Response
 orderId: This key is the unique identifier for the order.
 maxRetriesAllowed: The number of retries a user can attempt when the status is "init".
 avgResponseTimeInSec: This is the average time the machine can take to generate the output.
-status: There are three scenarios: "init" = proccessing, "failed" = error.
+Status: There are three scenarios: "init" = proccessing, "active" = generated, "failed" = error.
 
 Once your order Id is generated, input it into the status check system to retrieve and review the results of your API Tool (mentioned below).
 

@@ -239,8 +239,7 @@ const ToolPage: React.FC = () => {
     visibleCtx.globalCompositeOperation = 'source-over';
     visibleCtx.fillStyle = 'rgba(255, 0, 0, 0.5)';
     
-    // ADD THIS DEBUGGING LINE:
-    console.log('Drawing with fillStyle:', visibleCtx.fillStyle);
+
     
     visibleCtx.beginPath();
     visibleCtx.arc(x, y, replaceBrushSize, 0, 2 * Math.PI);
@@ -491,9 +490,10 @@ const handleAICartoonGenerate = async () => {
       finalPrompt = cartoonTextPrompt;
     }
 
-    // 4. Add debugging and delay
-    console.log(`Pausing before job start. Main URL: ${mainImageUrl}, Style URL: ${finalStyleImageUrl}`);
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    // 4. Clean debug logging (FIXED: removed problematic template literal)
+    console.log('Main URL:', mainImageUrl);
+    console.log('Style URL:', finalStyleImageUrl);
+    console.log('Text Prompt:', finalPrompt);
     
     // 5. Start the cartoon job with corrected logic
     const orderId = await startCartoonJob({
