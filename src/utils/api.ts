@@ -537,21 +537,24 @@ export async function startCartoonJob({ imageUrl, styleImageUrl, textPrompt }: {
   try {
     const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
     const PROXY_BASE_URL = isProduction 
-      ? window.location.origin 
+      ? window.location.origin
       : 'http://localhost:3001';
 
-    // --- START OF THE FINAL FIX ---
-    // Create the job body object that ALWAYS includes all three keys.
-    // Use the provided values or default to an empty string.
-    const jobBody = {
-        imageUrl: imageUrl,
-        styleImageUrl: styleImageUrl || "",
-        textPrompt: textPrompt || ""
+    // Create the job body object with only non-empty values
+    const jobBody: any = {
+        imageUrl: imageUrl
     };
-    // --- END OF THE FINAL FIX ---
+    
+    // Only add optional parameters if they have actual values
+    if (styleImageUrl && styleImageUrl.trim() !== '') {
+        jobBody.styleImageUrl = styleImageUrl;
+    }
+    
+    if (textPrompt && textPrompt.trim() !== '') {
+        jobBody.textPrompt = textPrompt;
+    }
 
-    // The debugging log remains useful for one last check.
-    console.error('DEBUGGING (Final Attempt): Payload being sent:', JSON.stringify({ endpoint: 'v1/cartoon', body: jobBody }, null, 2));
+    console.log('DEBUGGING (Final Attempt): Payload being sent:', JSON.stringify({ endpoint: 'v1/cartoon', body: jobBody }, null, 2));
 
     const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
       method: 'POST',
@@ -589,12 +592,19 @@ export async function startCaricatureJob({ imageUrl, styleImageUrl, textPrompt }
       ? window.location.origin
       : 'http://localhost:3001';
 
-    // Create the job body, ensuring all keys are present, defaulting to "" if undefined.
-    const jobBody = {
-        imageUrl: imageUrl,
-        styleImageUrl: styleImageUrl || "",
-        textPrompt: textPrompt || ""
+    // Create the job body with only non-empty values
+    const jobBody: any = {
+        imageUrl: imageUrl
     };
+    
+    // Only add optional parameters if they have actual values
+    if (styleImageUrl && styleImageUrl.trim() !== '') {
+        jobBody.styleImageUrl = styleImageUrl;
+    }
+    
+    if (textPrompt && textPrompt.trim() !== '') {
+        jobBody.textPrompt = textPrompt;
+    }
 
     const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
       method: 'POST',
@@ -602,7 +612,7 @@ export async function startCaricatureJob({ imageUrl, styleImageUrl, textPrompt }
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        endpoint: 'v1/caricature', // The correct endpoint for this tool
+        endpoint: 'v1/caricature',
         body: jobBody
       }),
     });
@@ -632,12 +642,19 @@ export async function startAvatarJob({ imageUrl, styleImageUrl, textPrompt }: { 
       ? window.location.origin
       : 'http://localhost:3001';
 
-    // Create the job body, ensuring all keys are present.
-    const jobBody = {
-        imageUrl: imageUrl,
-        styleImageUrl: styleImageUrl || "",
-        textPrompt: textPrompt || ""
+    // Create the job body with only non-empty values
+    const jobBody: any = {
+        imageUrl: imageUrl
     };
+    
+    // Only add optional parameters if they have actual values
+    if (styleImageUrl && styleImageUrl.trim() !== '') {
+        jobBody.styleImageUrl = styleImageUrl;
+    }
+    
+    if (textPrompt && textPrompt.trim() !== '') {
+        jobBody.textPrompt = textPrompt;
+    }
 
     const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
       method: 'POST',
@@ -645,7 +662,7 @@ export async function startAvatarJob({ imageUrl, styleImageUrl, textPrompt }: { 
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        endpoint: 'v1/avatar', // The correct endpoint for this tool
+        endpoint: 'v1/avatar',
         body: jobBody
       }),
     });
