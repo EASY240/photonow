@@ -5,7 +5,7 @@ import SEO from '../components/ui/SEO';
 import Button from '../components/ui/Button';
 import ImageDropzone from '../components/ui/ImageDropzone';
 import { tools } from '../data/tools';
-import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, checkOrderStatus, convertUrlToBlob } from '../utils/api';
+import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete } from '../utils/api';
 import type { ImageFile, ProcessedImage, Tool } from '../types';
 import { maleCartoonStyles, femaleCartoonStyles } from '../constants/cartoonStyles';
 import { caricatureStyles, Style } from '../constants/caricatureStyles';
@@ -342,62 +342,13 @@ const ToolPage: React.FC = () => {
       if (!orderId) {
         throw new Error('Failed to start cleanup job');
       }
-      
-      // Implement polling
-      let pollCount = 0;
-      const maxPolls = 6; // 18 seconds max (3 seconds * 6)
-      
-      const pollInterval = setInterval(async () => {
-        try {
-          const result = await checkOrderStatus(orderId);
-          
-          if (result.body?.status === 'active' && result.body?.output) {
-            clearInterval(pollInterval);
-            setProcessedImage({
-              url: result.body.output,
-              isLoading: false,
-              error: null
-            });
-          } else if (result.body?.status === 'failed') {
-            clearInterval(pollInterval);
-            setProcessedImage({
-              url: null,
-              isLoading: false,
-              error: 'AI cleanup failed. Please try again with a different image.'
-            });
-          } else {
-            pollCount++;
-            if (pollCount >= maxPolls) {
-              clearInterval(pollInterval);
-              setProcessedImage({
-                url: null,
-                isLoading: false,
-                error: 'Processing timeout. Please try again.'
-              });
-            }
-          }
-        } catch (error) {
-          clearInterval(pollInterval);
-          setProcessedImage({
-            url: null,
-            isLoading: false,
-            error: error instanceof Error ? error.message : 'An error occurred during processing'
-          });
-        }
-      }, 3000);
-      
-      // Safety timeout
-      setTimeout(() => {
-        clearInterval(pollInterval);
-        if (processedImage.isLoading) {
-          setProcessedImage({
-            url: null,
-            isLoading: false,
-            error: 'Processing timeout. Please try again.'
-          });
-        }
-      }, 20000);
-      
+
+      const resultUrl = await pollJobUntilComplete(orderId);
+      setProcessedImage({
+        url: resultUrl,
+        isLoading: false,
+        error: null
+      });
     } catch (error) {
       console.error('AI Cleanup error:', error);
       setProcessedImage({
@@ -407,7 +358,7 @@ const ToolPage: React.FC = () => {
       });
     }
   };
-  
+
   const handleAIExpandGenerate = async () => {
     if (!selectedImage.file) return;
     
@@ -430,62 +381,13 @@ const ToolPage: React.FC = () => {
       if (!orderId) {
         throw new Error('Failed to start expand job');
       }
-      
-      // Implement polling
-      let pollCount = 0;
-      const maxPolls = 6; // 18 seconds max (3 seconds * 6)
-      
-      const pollInterval = setInterval(async () => {
-        try {
-          const result = await checkOrderStatus(orderId);
-          
-          if (result.body?.status === 'active' && result.body?.output) {
-            clearInterval(pollInterval);
-            setProcessedImage({
-              url: result.body.output,
-              isLoading: false,
-              error: null
-            });
-          } else if (result.body?.status === 'failed') {
-            clearInterval(pollInterval);
-            setProcessedImage({
-              url: null,
-              isLoading: false,
-              error: 'AI expand failed. Please try again with a different image.'
-            });
-          } else {
-            pollCount++;
-            if (pollCount >= maxPolls) {
-              clearInterval(pollInterval);
-              setProcessedImage({
-                url: null,
-                isLoading: false,
-                error: 'Processing timeout. Please try again.'
-              });
-            }
-          }
-        } catch (error) {
-          clearInterval(pollInterval);
-          setProcessedImage({
-            url: null,
-            isLoading: false,
-            error: error instanceof Error ? error.message : 'An error occurred during processing'
-          });
-        }
-      }, 3000);
-      
-      // Safety timeout
-      setTimeout(() => {
-        clearInterval(pollInterval);
-        if (processedImage.isLoading) {
-          setProcessedImage({
-            url: null,
-            isLoading: false,
-            error: 'Processing timeout. Please try again.'
-          });
-        }
-      }, 20000);
-      
+
+      const resultUrl = await pollJobUntilComplete(orderId);
+      setProcessedImage({
+        url: resultUrl,
+        isLoading: false,
+        error: null
+      });
     } catch (error) {
       console.error('AI Expand error:', error);
       setProcessedImage({
@@ -495,348 +397,245 @@ const ToolPage: React.FC = () => {
       });
     }
   };
-  
-  const handleAIReplaceGenerate = async () => {
-    if (!selectedImage.file || !textPrompt.trim()) {
-      setProcessedImage({
-        url: null,
-        isLoading: false,
-        error: 'Please provide both an image and a text prompt'
-      });
-      return;
-    }
-    
+
+const handleAIReplaceGenerate = async () => {
+  if (!selectedImage.file || !textPrompt.trim()) {
     setProcessedImage({
       url: null,
-      isLoading: true,
+      isLoading: false,
+      error: 'Please provide both an image and a text prompt'
+    });
+    return;
+  }
+  
+  setProcessedImage({
+    url: null,
+    isLoading: true,
+    error: null
+  });
+  
+  try {
+    // Upload the original image
+    const originalImageUrl = await uploadImageAndGetUrl(selectedImage.file);
+    
+    // Get the mask from canvas and upload it
+    const maskFile = await replaceCanvasToFile();
+    const maskedImageUrl = await uploadImageAndGetUrl(maskFile);
+    
+    console.log('Submitting to API with this prompt:', textPrompt);
+    
+    // Start the replace job
+    const orderId = await startReplaceJob({
+      originalImageUrl,
+      maskedImageUrl,
+      prompt: textPrompt
+    });
+
+    if (!orderId) {
+      throw new Error('Failed to start replace job');
+    }
+
+    const resultUrl = await pollJobUntilComplete(orderId);
+    setProcessedImage({
+      url: resultUrl,
+      isLoading: false,
       error: null
     });
     
-    try {
-      // Upload the original image
-      const originalImageUrl = await uploadImageAndGetUrl(selectedImage.file);
-      
-      // Get the mask from canvas and upload it
-      const maskFile = await replaceCanvasToFile();
-      const maskedImageUrl = await uploadImageAndGetUrl(maskFile);
-      
-      // ADD THIS CRITICAL DEBUGGING LINE:
-      console.log('Submitting to API with this prompt:', textPrompt);
-      
-      // Start the replace job
-      const orderId = await startReplaceJob({
-        originalImageUrl,
-        maskedImageUrl,
-        prompt: textPrompt
-      });
-      
-      if (!orderId) {
-        throw new Error('Failed to start replace job');
-      }
-      
-      // Implement polling
-      let pollCount = 0;
-      const maxPolls = 6; // 18 seconds max (3 seconds * 6)
-      
-      const pollInterval = setInterval(async () => {
-        try {
-          const result = await checkOrderStatus(orderId);
-          
-          if (result.body?.status === 'active' && result.body?.output) {
-            clearInterval(pollInterval);
-            setProcessedImage({
-              url: result.body.output,
-              isLoading: false,
-              error: null
-            });
-          } else if (result.body?.status === 'failed') {
-            clearInterval(pollInterval);
-            setProcessedImage({
-              url: null,
-              isLoading: false,
-              error: 'AI replace failed. Please try again with a different image or prompt.'
-            });
-          } else {
-            pollCount++;
-            if (pollCount >= maxPolls) {
-              clearInterval(pollInterval);
-              setProcessedImage({
-                url: null,
-                isLoading: false,
-                error: 'Processing timeout. Please try again.'
-              });
-            }
-          }
-        } catch (error) {
-          clearInterval(pollInterval);
-          setProcessedImage({
-            url: null,
-            isLoading: false,
-            error: error instanceof Error ? error.message : 'An error occurred during processing'
-          });
-        }
-      }, 3000);
-      
-      // Safety timeout
-      setTimeout(() => {
-        clearInterval(pollInterval);
-        if (processedImage.isLoading) {
-          setProcessedImage({
-            url: null,
-            isLoading: false,
-            error: 'Processing timeout. Please try again.'
-          });
-        }
-      }, 20000);
-      
-    } catch (error) {
-      console.error('AI Replace error:', error);
-      setProcessedImage({
-        url: null,
-        isLoading: false,
-        error: error instanceof Error ? error.message : 'An unexpected error occurred'
-      });
-    }
-  };
-  
-  const handleAICartoonGenerate = async () => {
-    if (!selectedImage.file) {
-      setProcessedImage({ ...processedImage, error: 'Please select an image first.' });
-      return;
+  } catch (error) {
+    console.error('AI Replace error:', error);
+    setProcessedImage({
+      url: null,
+      isLoading: false,
+      error: error instanceof Error ? error.message : 'An unexpected error occurred'
+    });
+  }
+};
+
+const handleAICartoonGenerate = async () => {
+  if (!selectedImage.file) {
+    setProcessedImage({ ...processedImage, error: 'Please select an image first.' });
+    return;
+  }
+
+  setProcessedImage({ url: null, isLoading: true, error: null });
+
+  try {
+    // 1. Always upload the main user image first.
+    const mainImageUrl = await uploadImageAndGetUrl(selectedImage.file);
+
+    // 2. Initialize the final styleImageUrl variable.
+    let finalStyleImageUrl: string | undefined = undefined;
+
+    // 3. Handle style image processing
+    if (selectedPresetUrl) {
+      // A. A preset style was chosen.
+      console.log(`Processing preset style from URL: ${selectedPresetUrl}`);
+      // B. Fetch the preset image data and convert it to a Blob.
+      const styleImageBlob = await convertUrlToBlob(selectedPresetUrl);
+      // C. Create a File object from the Blob, explicitly setting the correct MIME type.
+      // D. Upload this new File to get a valid, temporary URL for the API.
+      finalStyleImageUrl = await uploadImageAndGetUrl(new File([styleImageBlob], "style.jpg", { type: 'image/jpeg' }));
+    } else if (cartoonStyleImage) {
+      // A style image was manually uploaded.
+      finalStyleImageUrl = await uploadImageAndGetUrl(cartoonStyleImage);
     }
 
-    setProcessedImage({ url: null, isLoading: true, error: null });
-
-    try {
-      // 1. Always upload the main user image first.
-      const mainImageUrl = await uploadImageAndGetUrl(selectedImage.file);
-
-      // 2. Initialize the final styleImageUrl variable.
-      let finalStyleImageUrl: string | undefined = undefined;
-
-      // 3. --- THIS IS THE UPDATED LOGIC ---
-      if (selectedPresetUrl) {
-          // A. A preset style was chosen.
-          console.log(`Processing preset style from URL: ${selectedPresetUrl}`);
-          // B. Fetch the preset image data and convert it to a Blob.
-          const styleImageBlob = await convertUrlToBlob(selectedPresetUrl);
-          // C. Create a File object from the Blob, explicitly setting the correct MIME type.
-          // D. Upload this new File to get a valid, temporary URL for the API.
-          finalStyleImageUrl = await uploadImageAndGetUrl(new File([styleImageBlob], "style.jpg", { type: 'image/jpeg' }));
-      } else if (cartoonStyleImage) {
-          // A style image was manually uploaded.
-          finalStyleImageUrl = await uploadImageAndGetUrl(cartoonStyleImage);
-      }
-
-      // 4. Prepare the parameters for the startCartoonJob API call.
-      // --- START OF THE FIX ---
-      // 1. ADD THIS DEBUGGING LOG TO CONFIRM THE FINAL URLS
-      console.log(`Pausing before job start. Main URL: ${mainImageUrl}, Style URL: ${finalStyleImageUrl}`);
-
-      // 2. ADD A 3-SECOND DELAY TO ALLOW LIGHTX SERVERS TO CATCH UP
-      await new Promise(resolve => setTimeout(resolve, 3000));
-      // --- END OF THE FIX ---
-      const orderId = await startCartoonJob({
-        imageUrl: mainImageUrl,
-        styleImageUrl: finalStyleImageUrl, // This is now a valid URL
-        // THIS IS THE CRITICAL LOGIC: Only pass textPrompt if there's no style image.
-        textPrompt: finalStyleImageUrl ? undefined : cartoonTextPrompt
-      });
-
-      // Polling logic
-      const maxAttempts = 20; // 20 attempts * 3 seconds = 1 minute timeout
-      let attempts = 0;
-      const poll = setInterval(async () => {
-        attempts++;
-        try {
-          const status = await checkOrderStatus(orderId);
-          if (status.status === 'completed' && status.imageUrl) {
-            clearInterval(poll);
-            setProcessedImage({ url: status.imageUrl, isLoading: false, error: null });
-          } else if (status.status === 'failed' || status.status === 'error') {
-            clearInterval(poll);
-            setProcessedImage({ url: null, isLoading: false, error: 'Cartoon generation failed. Please try again.' });
-          }
-        } catch (error) {
-          clearInterval(poll);
-          setProcessedImage({ url: null, isLoading: false, error: 'Failed to check cartoon status.' });
-        }
-
-        if (attempts >= maxAttempts) {
-          clearInterval(poll);
-          setProcessedImage({ url: null, isLoading: false, error: 'Cartoon generation timed out. Please try again.' });
-        }
-      }, 3000);
-
-    } catch (error) {
-      setProcessedImage({ url: null, isLoading: false, error: (error as Error).message || 'An unknown error occurred.' });
-    }
-  };
-  
-  const handleAICaricatureGenerate = async () => {
-    if (!selectedImage.file) {
-      console.error("No user image provided.");
-      return;
-    }
+    // 4. Add debugging and delay
+    console.log(`Pausing before job start. Main URL: ${mainImageUrl}, Style URL: ${finalStyleImageUrl}`);
+    await new Promise(resolve => setTimeout(resolve, 3000));
     
-    // A style source (preset or custom) should be guaranteed by the disabled button logic.
-    if (!caricatureSelectedStyle && !caricatureCustomStyleImage) {
-      setProcessedImage({ url: null, isLoading: false, error: 'Please select a style image before generating.' });
-      return;
-    }
+    // 5. Start the cartoon job
+    const orderId = await startCartoonJob({
+      imageUrl: mainImageUrl,
+      styleImageUrl: finalStyleImageUrl,
+      textPrompt: finalStyleImageUrl ? undefined : cartoonTextPrompt
+    });
 
-    setProcessedImage({ url: null, isLoading: true, error: null });
+    const resultUrl = await pollJobUntilComplete(orderId);
+    setProcessedImage({ 
+      url: resultUrl, 
+      isLoading: false, 
+      error: null 
+    });
 
-    try {
-      // --- START OF THE CORRECTED LOGIC ---
+  } catch (error) {
+    setProcessedImage({ 
+      url: null, 
+      isLoading: false, 
+      error: (error as Error).message || 'An unknown error occurred.' 
+    });
+  }
+};
 
-      // 1. Upload the main user image.
-      const mainImageUrl = await uploadImageAndGetUrl(selectedImage.file);
-
-      // 2. Initialize variables for the style and prompt.
-      let finalStyleUrl: string | undefined = undefined;
-      let finalPrompt: string = "";
-
-      // 3. Handle the two different style sources correctly.
-      if (caricatureSelectedStyle) {
-        // Path A: User chose a PRESET style.
-        finalPrompt = caricatureSelectedStyle.prompt; // Get the prompt from the preset.
-        console.log(`Processing PRESET style: ${caricatureSelectedStyle.name}`);
-        
-        // Fetch the preset image and re-upload it to get a valid API URL.
-        const styleImageBlob = await convertUrlToBlob(caricatureSelectedStyle.imageUrl);
-        finalStyleUrl = await uploadImageAndGetUrl(new File([styleImageBlob], "style.jpeg", { type: 'image/jpeg' }));
-
-      } else if (caricatureCustomStyleImage) {
-        // Path B: User uploaded a CUSTOM style image.
-        finalPrompt = caricatureTextPrompt; // Get the prompt from the textarea.
-        console.log("Processing CUSTOM uploaded style image.");
-
-        // Simply upload the user's custom file directly. DO NOT FETCH IT.
-        finalStyleUrl = await uploadImageAndGetUrl(caricatureCustomStyleImage);
-      }
-
-      // --- END OF THE CORRECTED LOGIC ---
-
-      // 4. Call the job with guaranteed valid data.
-      const orderId = await startCaricatureJob({
-        imageUrl: mainImageUrl,
-        styleImageUrl: finalStyleUrl,
-        textPrompt: finalPrompt || "humorous artistic caricature" // Add a fallback prompt
-      });
-
-      // 5. Poll for results with increased patience
-      let retries = 0;
-      const maxRetries = 20; // Increased to 20 for a 60-second wait time
-      
-      const poll = setInterval(async () => {
-        try {
-          const status = await checkOrderStatus(orderId);
-          if (status.status === 'completed' && status.imageUrl) {
-            clearInterval(poll);
-            setProcessedImage({ url: status.imageUrl, isLoading: false, error: null });
-          } else if (status.status === 'failed' || status.status === 'error') {
-            clearInterval(poll);
-            setProcessedImage({ url: null, isLoading: false, error: 'Caricature generation failed. Please try again.' });
-          }
-        } catch (error) {
-          clearInterval(poll);
-          setProcessedImage({ url: null, isLoading: false, error: 'Failed to check caricature status.' });
-        }
-
-        retries++;
-        if (retries >= maxRetries) {
-          clearInterval(poll);
-          setProcessedImage({ url: null, isLoading: false, error: 'Caricature generation took too long to complete. This can happen with complex styles. Please try again.' });
-        }
-      }, 3000);
-
-    } catch (error) {
-      console.error("An error occurred during caricature generation:", error);
-      setProcessedImage({ url: null, isLoading: false, error: (error as Error).message || 'An unknown error occurred.' });
-    }
-  };
-
-  const handleAIAvatarGenerate = async () => {
-    if (!selectedImage.file) {
-      console.error("No user image provided.");
-      return;
-    }
-    
-    // A style source (preset or custom) should be guaranteed by the disabled button logic.
-    if (!avatarSelectedStyle && !avatarCustomStyleImage) {
-      setProcessedImage({ url: null, isLoading: false, error: 'Please select a style before generating.' });
-      return;
-    }
-
-    setProcessedImage({ url: null, isLoading: true, error: null });
-
-    try {
-      // 1. Upload the main user image.
-      const mainImageUrl = await uploadImageAndGetUrl(selectedImage.file);
-
-      // 2. Initialize variables for the style and prompt.
-      let finalStyleUrl: string | undefined = undefined;
-      let finalPrompt: string = "";
-
-      // 3. Handle the two different style sources correctly.
-      if (avatarSelectedStyle) {
-        // Path A: User chose a PRESET style.
-        finalPrompt = avatarSelectedStyle.prompt; // Get the prompt from the preset.
-        console.log(`Processing PRESET style: ${avatarSelectedStyle.name}`);
-        
-        // Fetch the preset image and re-upload it to get a valid API URL.
-        const styleImageBlob = await convertUrlToBlob(avatarSelectedStyle.imageUrl);
-        finalStyleUrl = await uploadImageAndGetUrl(new File([styleImageBlob], "style.jpeg", { type: 'image/jpeg' }));
-
-      } else if (avatarCustomStyleImage) {
-        // Path B: User uploaded a CUSTOM style image.
-        finalPrompt = avatarTextPrompt; // Get the prompt from the textarea.
-        console.log("Processing CUSTOM uploaded style image.");
-
-        // Simply upload the user's custom file directly.
-        finalStyleUrl = await uploadImageAndGetUrl(avatarCustomStyleImage);
-      }
-
-      // 4. Call the job with guaranteed valid data.
-      const orderId = await startAvatarJob({
-        imageUrl: mainImageUrl,
-        styleImageUrl: finalStyleUrl,
-        textPrompt: finalPrompt || "A high-quality avatar" // Add a fallback prompt
-      });
-
-      // 5. Poll for results with increased patience
-      let retries = 0;
-      const maxRetries = 20; // 60-second wait time
-      
-      const poll = setInterval(async () => {
-        try {
-          const status = await checkOrderStatus(orderId);
-          if (status.status === 'completed' && status.imageUrl) {
-            clearInterval(poll);
-            setProcessedImage({ url: status.imageUrl, isLoading: false, error: null });
-          } else if (status.status === 'failed' || status.status === 'error') {
-            clearInterval(poll);
-            setProcessedImage({ url: null, isLoading: false, error: 'Avatar generation failed. Please try again.' });
-          }
-        } catch (error) {
-          clearInterval(poll);
-          setProcessedImage({ url: null, isLoading: false, error: 'Failed to check avatar status.' });
-        }
-
-        retries++;
-        if (retries >= maxRetries) {
-          clearInterval(poll);
-          setProcessedImage({ url: null, isLoading: false, error: 'Avatar generation took too long to complete. This can happen with complex requests. Please try again.' });
-        }
-      }, 3000);
-
-    } catch (error) {
-      console.error("An error occurred during avatar generation:", error);
-      setProcessedImage({ url: null, isLoading: false, error: (error as Error).message || 'An unknown error occurred.' });
-    }
-  };
+const handleAICaricatureGenerate = async () => {
+  if (!selectedImage.file) {
+    console.error("No user image provided.");
+    return;
+  }
   
+  // A style source (preset or custom) should be guaranteed by the disabled button logic.
+  if (!caricatureSelectedStyle && !caricatureCustomStyleImage) {
+    setProcessedImage({ url: null, isLoading: false, error: 'Please select a style image before generating.' });
+    return;
+  }
+
+  setProcessedImage({ url: null, isLoading: true, error: null });
+
+  try {
+    // 1. Upload the main user image.
+    const mainImageUrl = await uploadImageAndGetUrl(selectedImage.file);
+
+    // 2. Initialize variables for the style and prompt.
+    let finalStyleUrl: string | undefined = undefined;
+    let finalPrompt: string = "";
+
+    // 3. Handle the two different style sources correctly.
+    if (caricatureSelectedStyle) {
+      // Path A: User chose a PRESET style.
+      finalPrompt = caricatureSelectedStyle.prompt;
+      console.log(`Processing PRESET style: ${caricatureSelectedStyle.name}`);
+      
+      // Fetch the preset image and re-upload it to get a valid API URL.
+      const styleImageBlob = await convertUrlToBlob(caricatureSelectedStyle.imageUrl);
+      finalStyleUrl = await uploadImageAndGetUrl(new File([styleImageBlob], "style.jpeg", { type: 'image/jpeg' }));
+
+    } else if (caricatureCustomStyleImage) {
+      // Path B: User uploaded a CUSTOM style image.
+      finalPrompt = caricatureTextPrompt;
+      console.log("Processing CUSTOM uploaded style image.");
+
+      // Simply upload the user's custom file directly.
+      finalStyleUrl = await uploadImageAndGetUrl(caricatureCustomStyleImage);
+    }
+
+    // 4. Call the job with guaranteed valid data.
+    const orderId = await startCaricatureJob({
+      imageUrl: mainImageUrl,
+      styleImageUrl: finalStyleUrl,
+      textPrompt: finalPrompt || "humorous artistic caricature"
+    });
+
+    const resultUrl = await pollJobUntilComplete(orderId);
+    setProcessedImage({ 
+      url: resultUrl, 
+      isLoading: false, 
+      error: null 
+    });
+  } catch (error) {
+    console.error("An error occurred during caricature generation:", error);
+    setProcessedImage({ 
+      url: null, 
+      isLoading: false, 
+      error: (error as Error).message || 'An unknown error occurred.' 
+    });
+  }
+};
+
+const handleAIAvatarGenerate = async () => {
+  if (!selectedImage.file) {
+    console.error("No user image provided.");
+    return;
+  }
+  
+  // A style source (preset or custom) should be guaranteed by the disabled button logic.
+  if (!avatarSelectedStyle && !avatarCustomStyleImage) {
+    setProcessedImage({ url: null, isLoading: false, error: 'Please select a style before generating.' });
+    return;
+  }
+
+  setProcessedImage({ url: null, isLoading: true, error: null });
+
+  try {
+    // 1. Upload the main user image.
+    const mainImageUrl = await uploadImageAndGetUrl(selectedImage.file);
+
+    // 2. Initialize variables for the style and prompt.
+    let finalStyleUrl: string | undefined = undefined;
+    let finalPrompt: string = "";
+
+    // 3. Handle the two different style sources correctly.
+    if (avatarSelectedStyle) {
+      // Path A: User chose a PRESET style.
+      finalPrompt = avatarSelectedStyle.prompt;
+      console.log(`Processing PRESET style: ${avatarSelectedStyle.name}`);
+      
+      // Fetch the preset image and re-upload it to get a valid API URL.
+      const styleImageBlob = await convertUrlToBlob(avatarSelectedStyle.imageUrl);
+      finalStyleUrl = await uploadImageAndGetUrl(new File([styleImageBlob], "style.jpeg", { type: 'image/jpeg' }));
+
+    } else if (avatarCustomStyleImage) {
+      // Path B: User uploaded a CUSTOM style image.
+      finalPrompt = avatarTextPrompt;
+      console.log("Processing CUSTOM uploaded style image.");
+
+      // Simply upload the user's custom file directly.
+      finalStyleUrl = await uploadImageAndGetUrl(avatarCustomStyleImage);
+    }
+
+    // 4. Call the job with guaranteed valid data.
+    const orderId = await startAvatarJob({
+      imageUrl: mainImageUrl,
+      styleImageUrl: finalStyleUrl,
+      textPrompt: finalPrompt || "A high-quality avatar"
+    });
+
+    const resultUrl = await pollJobUntilComplete(orderId);
+    setProcessedImage({ 
+      url: resultUrl, 
+      isLoading: false, 
+      error: null 
+    });
+  } catch (error) {
+    console.error("An error occurred during avatar generation:", error);
+    setProcessedImage({ 
+      url: null, 
+      isLoading: false, 
+      error: (error as Error).message || 'An unknown error occurred.' 
+    });
+  }
+};
+
   // Canvas initialization is now handled by onLoad events on the image elements
   
   const handleProcessImage = async () => {
