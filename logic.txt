@@ -1,0 +1,64 @@
+// Inside the AI Product Photoshoot Component
+
+const handleGenerate = async () => {
+    // 1. Check for required inputs and set loading state
+    if (!userImage) {
+        setStatusMessage("Please upload a product image first.");
+        return;
+    }
+    // A style source (preset, custom image, or text) is needed.
+    if (!selectedStyle && !customStyleImage && !textPrompt) {
+        setStatusMessage("Please select a style, upload a style image, or enter a text prompt.");
+        return;
+    }
+
+    setLoading(true);
+    setStatusMessage("Preparing your product image...");
+
+    try {
+        // 2. Upload the main product image
+        const mainImageUrl = await uploadImageAndGetUrl(userImage);
+        setStatusMessage("Preparing your style...");
+
+        // 3. Initialize final parameters
+        let finalStyleUrl: string | undefined = undefined;
+        let finalPrompt: string = "";
+
+        // 4. Correctly determine the style source and prepare parameters
+        if (selectedStyle) {
+            // Path A: User chose a PRESET style.
+            finalPrompt = selectedStyle.prompt;
+            const styleImageBlob = await convertUrlToBlob(selectedStyle.imageUrl);
+            finalStyleUrl = await uploadImageAndGetUrl(new File([styleImageBlob], "style.jpeg", { type: 'image/jpeg' }));
+        } else if (customStyleImage) {
+            // Path B: User uploaded a CUSTOM style image.
+            finalPrompt = textPrompt; // Use the text from the textarea
+            finalStyleUrl = await uploadImageAndGetUrl(customStyleImage);
+        } else {
+            // Path C: User is using ONLY a text prompt.
+            finalPrompt = textPrompt;
+        }
+
+        // 5. Call the API job function with all parameters
+        setStatusMessage("Generating your product photo...");
+        const orderId = await startProductPhotoshootJob({
+            imageUrl: mainImageUrl,
+            styleImageUrl: finalStyleUrl,
+            textPrompt: finalPrompt,
+        });
+
+        // 6. Use our robust, unified poller to get the result
+        setStatusMessage("Finalizing your image... this can take a moment.");
+        const resultUrl = await pollJobUntilComplete(orderId);
+
+        // 7. Display the result and clean up
+        setFinalImage(resultUrl);
+        setStatusMessage("Your professional product photo is ready!");
+
+    } catch (error) {
+        console.error("An error occurred during product photo generation:", error);
+        setStatusMessage(`Error: ${error.message}`);
+    } finally {
+        setLoading(false);
+    }
+};

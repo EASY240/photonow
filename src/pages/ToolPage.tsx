@@ -5,11 +5,12 @@ import SEO from '../components/ui/SEO';
 import Button from '../components/ui/Button';
 import ImageDropzone from '../components/ui/ImageDropzone';
 import { tools } from '../data/tools';
-import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete } from '../utils/api';
+import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, startProductPhotoshootJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete } from '../utils/api';
 import type { ImageFile, ProcessedImage, Tool } from '../types';
 import { maleCartoonStyles, femaleCartoonStyles } from '../constants/cartoonStyles';
 import { caricatureStyles, Style } from '../constants/caricatureStyles';
 import { avatarStyles, AvatarStyle } from '../constants/avatarStyles';
+import { productStyles, suggestedPrompts, type ProductStyle } from '../constants/productStyles';
 
 const ToolPage: React.FC = () => {
   const { toolId } = useParams<{ toolId: string }>();
@@ -62,6 +63,11 @@ const ToolPage: React.FC = () => {
   const [avatarSelectedStyle, setAvatarSelectedStyle] = useState<AvatarStyle | null>(null);
   const [avatarCustomStyleImage, setAvatarCustomStyleImage] = useState<File | null>(null);
   const [avatarTextPrompt, setAvatarTextPrompt] = useState('');
+  
+  // AI Product Photoshoot specific state
+  const [selectedProductStyle, setSelectedProductStyle] = useState<ProductStyle | null>(null);
+  const [productCustomStyleImage, setProductCustomStyleImage] = useState<File | null>(null);
+  const [productTextPrompt, setProductTextPrompt] = useState('');
   // Find the tool based on the toolId param
   const tool = tools.find(t => t.id === toolId);
   
@@ -646,6 +652,75 @@ const handleAIAvatarGenerate = async () => {
   }
 };
 
+const handleAIProductPhotoshootGenerate = async () => {
+  if (!selectedImage.file) {
+    console.error("No user image provided.");
+    return;
+  }
+  
+  // A style source (preset, custom image, or text) is needed
+  if (!selectedProductStyle && !productCustomStyleImage && !productTextPrompt) {
+    setProcessedImage({ url: null, isLoading: false, error: 'Please select a style, upload a style image, or enter a text prompt.' });
+    return;
+  }
+
+  setProcessedImage({ url: null, isLoading: true, error: null });
+
+  try {
+    // 1. Upload the main product image
+    const mainImageUrl = await uploadImageAndGetUrl(selectedImage.file);
+
+    // 2. Initialize final parameters
+    let finalStyleUrl: string | undefined = undefined;
+    let finalPrompt: string = "";
+
+    // 3. Correctly determine the style source and prepare parameters
+    if (selectedProductStyle) {
+      // Path A: User chose a PRESET style
+      finalPrompt = selectedProductStyle.prompt;
+      console.log(`Processing PRESET style: ${selectedProductStyle.name}`);
+      
+      // Fetch the preset image and re-upload it
+      const styleImageBlob = await convertUrlToBlob(selectedProductStyle.imageUrl);
+      finalStyleUrl = await uploadImageAndGetUrl(new File([styleImageBlob], "style.jpeg", { type: 'image/jpeg' }));
+
+    } else if (productCustomStyleImage) {
+      // Path B: User uploaded a CUSTOM style image
+      finalPrompt = productTextPrompt; // Use the text from the textarea
+      console.log("Processing CUSTOM uploaded style image.");
+      
+      // Upload the user's local file directly
+      finalStyleUrl = await uploadImageAndGetUrl(productCustomStyleImage);
+    } else {
+      // Path C: User is using ONLY a text prompt
+      finalPrompt = productTextPrompt;
+    }
+
+    // 4. Call the API job function with all parameters
+    const orderId = await startProductPhotoshootJob({
+      imageUrl: mainImageUrl,
+      styleImageUrl: finalStyleUrl,
+      textPrompt: finalPrompt,
+    });
+
+    // 5. Use our robust, unified poller to get the result
+    const resultUrl = await pollJobUntilComplete(orderId);
+    setProcessedImage({ 
+      url: resultUrl, 
+      isLoading: false, 
+      error: null 
+    });
+
+  } catch (error) {
+    console.error("An error occurred during product photo generation:", error);
+    setProcessedImage({ 
+      url: null, 
+      isLoading: false, 
+      error: (error as Error).message || 'An unknown error occurred.' 
+    });
+  }
+};
+
   // Canvas initialization is now handled by onLoad events on the image elements
   
   const handleProcessImage = async () => {
@@ -757,6 +832,14 @@ const handleAIAvatarGenerate = async () => {
                   <li>Optionally add a text prompt to customize the avatar further</li>
                   <li>Click "Generate" to create your professional avatar</li>
                   <li>Download your avatar when processing is complete</li>
+                </>
+              ) : tool.id === 'ai-product-photoshoot' ? (
+                <>
+                  <li>Upload a clear photo of your product using the tool below</li>
+                  <li>Choose from preset professional photoshoot styles OR upload your own style image</li>
+                  <li>Optionally add a text prompt to describe the desired scene or background</li>
+                  <li>Click "Generate" to create your professional product photo</li>
+                  <li>Download your enhanced product photo when processing is complete</li>
                 </>
               ) : (
                 <>
@@ -1219,6 +1302,95 @@ const handleAIAvatarGenerate = async () => {
                   </div>
                 </div>
               )}
+              
+              {/* AI Product Photoshoot specific controls */}
+              {tool.id === 'ai-product-photoshoot' && selectedImage.preview && (
+                <div className="space-y-6">
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+                    <p className="text-sm text-green-800">
+                      <strong>Note:</strong> This tool works best with clear product photos on neutral backgrounds.
+                    </p>
+                  </div>
+                  
+                  {/* Preset Style Gallery */}
+                  <div>
+                    <h3 className="text-lg font-semibold mb-4">Choose a Style</h3>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-h-96 overflow-y-auto">
+                      {productStyles.map((style) => (
+                        <div
+                          key={style.name}
+                          onClick={() => {
+                            setSelectedProductStyle(style);
+                            setProductCustomStyleImage(null); // Clear custom image when preset is selected
+                          }}
+                          className={`cursor-pointer rounded-lg overflow-hidden border-2 ${
+                            selectedProductStyle?.name === style.name ? 'border-blue-500' : 'border-transparent'
+                          }`}
+                        >
+                          <img
+                            src={style.imageUrl}
+                            alt={style.name}
+                            className="w-full h-24 object-cover"
+                          />
+                          <div className="p-2 bg-gray-50">
+                            <p className="text-sm font-medium text-center">{style.name}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Custom Style Image Upload */}
+                  <div>
+                    <h3 className="text-lg font-semibold mb-4">Or Upload a Custom Style Image</h3>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0] || null;
+                        setProductCustomStyleImage(file);
+                        if (file) {
+                          setSelectedProductStyle(null); // Clear preset when custom image is uploaded
+                        }
+                      }}
+                      className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                    />
+                    {productCustomStyleImage && (
+                      <p className="mt-2 text-sm text-green-600">Custom style image selected: {productCustomStyleImage.name}</p>
+                    )}
+                  </div>
+
+                  {/* Suggested Prompts */}
+                  <div>
+                    <h3 className="text-lg font-semibold mb-4">Don't have a style? Try these prompts</h3>
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {suggestedPrompts.map((prompt) => (
+                        <button
+                          key={prompt}
+                          onClick={() => setProductTextPrompt(prompt)}
+                          className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded-full border transition-colors"
+                        >
+                          {prompt}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Text Prompt Input */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Text Prompt (Optional)
+                    </label>
+                    <textarea
+                      value={productTextPrompt}
+                      onChange={(e) => setProductTextPrompt(e.target.value)}
+                      placeholder="Describe the style or setting you want for your product photo..."
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      rows={3}
+                    />
+                  </div>
+                </div>
+              )}
                
               <Button 
                 fullWidth 
@@ -1229,15 +1401,17 @@ const handleAIAvatarGenerate = async () => {
                   tool.id === 'ai-cartoon' ? handleAICartoonGenerate :
                   tool.id === 'ai-caricature' ? handleAICaricatureGenerate :
                   tool.id === 'ai-avatar' ? handleAIAvatarGenerate :
+                  tool.id === 'ai-product-photoshoot' ? handleAIProductPhotoshootGenerate :
                   handleProcessImage
                 }
                 disabled={!selectedImage.file || processedImage.isLoading || 
                   (tool.id === 'ai-caricature' && !caricatureSelectedStyle && !caricatureCustomStyleImage) ||
-                  (tool.id === 'ai-avatar' && (!avatarSelectedGender || (!avatarSelectedStyle && !avatarCustomStyleImage)))}
+                  (tool.id === 'ai-avatar' && (!avatarSelectedGender || (!avatarSelectedStyle && !avatarCustomStyleImage))) ||
+                  (tool.id === 'ai-product-photoshoot' && !selectedProductStyle && !productCustomStyleImage && !productTextPrompt)}
                 isLoading={processedImage.isLoading}
               >
                 {processedImage.isLoading ? 'Processing...' : 
-                 (tool.id === 'ai-cleanup' || tool.id === 'ai-expand' || tool.id === 'ai-replace' || tool.id === 'ai-cartoon' || tool.id === 'ai-caricature' || tool.id === 'ai-avatar') ? 'Generate' : tool.name}
+                 (tool.id === 'ai-cleanup' || tool.id === 'ai-expand' || tool.id === 'ai-replace' || tool.id === 'ai-cartoon' || tool.id === 'ai-caricature' || tool.id === 'ai-avatar' || tool.id === 'ai-product-photoshoot') ? 'Generate' : tool.name}
               </Button>
             </div>
             
@@ -1308,6 +1482,8 @@ function getToolDescription(tool: Tool): string {
       return 'replace objects or areas in your images with AI-generated content that seamlessly blends with the rest of the image';
     case 'ai-cartoon':
       return 'transform your photos into cartoon-style artwork with various artistic styles';
+    case 'ai-product-photoshoot':
+      return 'create professional product photography with AI-generated backgrounds and lighting that make your products look stunning';
     default:
       return 'transform and enhance your images with professional-quality results';
   }

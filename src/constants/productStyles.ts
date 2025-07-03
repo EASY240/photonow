@@ -1,9 +1,7 @@
-// src/constants/productStyles.ts
-
-export interface ProductStyle { 
-  name: string; 
-  imageUrl: string; 
-  prompt: string; 
+export interface ProductStyle {
+  name: string;
+  imageUrl: string;
+  prompt: string;
 }
 
 export const productStyles: ProductStyle[] = [
@@ -17,8 +15,6 @@ export const productStyles: ProductStyle[] = [
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_photoshoot/thumb/1696842020705.jpg',
     prompt: 'A product displayed in a field of lavenders, rustic and natural setting, calm and soothing atmosphere, product photoshoot.'
   },
-
-  // Category: Apparel
   {
     name: 'Winter',
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_photoshoot/thumb/1720604089570.jpg',
@@ -64,8 +60,6 @@ export const productStyles: ProductStyle[] = [
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_photoshoot/thumb/1720604084689.jpg',
     prompt: 'Adventure and outdoor apparel photoshoot, mountain or forest background, rugged and durable clothing.'
   },
-
-  // Category: Cherishable
   {
     name: 'Rosebed',
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/a0ca0330-f483-4c55-8a2f-18ce0db0c39e.jpg',
@@ -76,8 +70,6 @@ export const productStyles: ProductStyle[] = [
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/bd2b6d55-4709-4a1a-90de-0f48e73f68d7.jpg',
     prompt: 'A product artfully arranged with flowing silk ribbons, elegant and delicate presentation, studio shot.'
   },
-
-  // Category: Mountain
   {
     name: 'River',
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_photoshoot/thumb/1696842119732.jpg',
@@ -88,8 +80,6 @@ export const productStyles: ProductStyle[] = [
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_photoshoot/thumb/1696842119524.jpg',
     prompt: 'Product photoshoot with a majestic waterfall in the background, misty and powerful nature scene.'
   },
-
-  // Category: Mood
   {
     name: 'Tree Stump',
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_photoshoot/thumb/1696841244508.jpg',
@@ -100,8 +90,6 @@ export const productStyles: ProductStyle[] = [
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_photoshoot/thumb/1696841244245.jpg',
     prompt: 'Product photoshoot on a mountain peak, dramatic sky, expansive and adventurous mood.'
   },
-
-  // Category: Interior
   {
     name: 'Kitchen',
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_photoshoot/thumb/1696842034380.jpg',
@@ -112,8 +100,6 @@ export const productStyles: ProductStyle[] = [
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_photoshoot/thumb/1696842033958.jpg',
     prompt: 'Cosmetic product displayed in a luxurious, spa-like bathroom, clean and fresh aesthetic.'
   },
-
-  // Category: Footwear
   {
     name: 'Sneakers',
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_photoshoot/thumb/1720509574349.jpg',
@@ -124,8 +110,6 @@ export const productStyles: ProductStyle[] = [
     imageUrl: 'https://d2k373fi2nomq1.cloudfront.net/d531c933d42142669d274a55c946108c/206c0e5fc3f54894a3add602580c195a',
     prompt: 'Lifestyle photoshoot of sandals on a sunny beach, sand and waves in the background, relaxed summer vibe.'
   },
-
-  // Category: Surface
   {
     name: 'Rose Pink',
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_photoshoot/thumb/1696841982317.jpg',
@@ -136,8 +120,6 @@ export const productStyles: ProductStyle[] = [
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_photoshoot/thumb/1696841982080.jpg',
     prompt: 'Product displayed on a light coral colored background, soft and warm aesthetic, studio product shot.'
   },
-
-  // Category: Furniture
   {
     name: 'Storage',
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_photoshoot/thumb/1720509555427.jpg',
@@ -148,8 +130,6 @@ export const productStyles: ProductStyle[] = [
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_photoshoot/thumb/1720509554980.jpg',
     prompt: 'A stylish sofa featured in a modern living room, highlighting its texture and comfort.'
   },
-
-  // Category: Plant
   {
     name: 'Pilea',
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_photoshoot/thumb/1696841995995.jpg',
@@ -160,8 +140,6 @@ export const productStyles: ProductStyle[] = [
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_photoshoot/thumb/1696841995739.jpg',
     prompt: 'Product displayed next to a beautiful Hoya plant, biophilic design, natural and calming.'
   },
-
-  // Category: Jewellery
   {
     name: 'Ring',
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_photoshoot/thumb/1720432988340.jpg',
@@ -172,8 +150,6 @@ export const productStyles: ProductStyle[] = [
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_photoshoot/thumb/1720432988007.jpg',
     prompt: 'An elegant pendant necklace display, soft focus background, highlighting the craftsmanship.'
   },
-
-  // Category: Texture
   {
     name: 'Marble Table',
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_photoshoot/thumb/1696842062430.jpg',
@@ -184,8 +160,6 @@ export const productStyles: ProductStyle[] = [
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_photoshoot/thumb/1696842062164.jpg',
     prompt: 'Product placed on a surface with realistic liquid ripples, creative and dynamic studio shot.'
   },
-
-  // Category: Creative
   {
     name: 'Graffiti',
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_photoshoot/thumb/1696842006896.jpg',
@@ -196,8 +170,6 @@ export const productStyles: ProductStyle[] = [
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_photoshoot/thumb/1696842006566.jpg',
     prompt: 'Product displayed with a background of colorful fireworks, celebratory and exciting mood.'
   },
-
-  // Category: Accessories
   {
     name: 'Berries',
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_photoshoot/thumb/1696919338904.jpg',
@@ -207,65 +179,20 @@ export const productStyles: ProductStyle[] = [
     name: 'Coffee Beans',
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_photoshoot/thumb/1696842044157.jpg',
     prompt: 'A product surrounded by aromatic roasted coffee beans, warm and rich atmosphere.'
-  },
+  }
+];
 
-  // Category: Black Friday
-  {
-    name: 'Nature',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_photoshoot/thumb/1730886774404.jpg',
-    prompt: 'Black Friday sale theme, product placed in a dramatic nature scene with high contrast lighting.'
-  },
-  {
-    name: 'smoke',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_photoshoot/thumb/1730886766527.jpg',
-    prompt: 'Black Friday theme, product emerging from dramatic black smoke, mysterious and high-end feel.'
-  },
-
-  // Category: Holi
-  {
-    name: 'Glow',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/hd/ai_photoshoot/1739512623058.jpg',
-    prompt: 'Holi festival theme, product surrounded by glowing neon powder colors on a dark background.'
-  },
-  {
-    name: 'SmokyHues',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/hd/ai_photoshoot/1739512623906.jpg',
-    prompt: 'Holi festival theme, product with explosions of colorful smoke and powder, vibrant and celebratory.'
-  },
-
-  // Category: Diwali
-  {
-    name: 'Gifts',
-    imageUrl: 'https://d2k373fi2nomq1.cloudfront.net/7966a18a3de743c3b899e8ef13db2563/4d93241290ca4dee861407ddef9a6a63',
-    prompt: 'Diwali festival theme, product displayed as a gift, surrounded by traditional decorations and diyas.'
-  },
-  {
-    name: 'Lanterns',
-    imageUrl: 'https://d2k373fi2nomq1.cloudfront.net/7966a18a3de743c3b899e8ef13db2563/0cc90b7a16ee445f8bdbee40437815aa',
-    prompt: 'Diwali festival theme, product photoshoot with beautiful glowing lanterns in the background, festive and warm.'
-  },
-
-  // Category: Christmas
-  {
-    name: 'Goodies',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/9389bf05-732f-45ba-be24-08a520afd476.jpg',
-    prompt: 'Christmas theme, product surrounded by festive goodies like cookies and candy canes in a cozy setting.'
-  },
-  {
-    name: 'Decor',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/7ef4cce9-bf04-4235-8b00-3a051c4e243a.jpg',
-    prompt: 'Christmas theme, product placed among elegant Christmas decorations, ornaments, and pine branches.'
-  },
-
-  // Category: New Year
-  {
-    name: 'Party',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_photoshoot/thumb/1702897020985.jpg',
-    prompt: 'New Year\'s Eve party theme, product with confetti, champagne, and clock striking midnight.'
-  },
-  {
-    name: 'Decoration',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_photoshoot/thumb/1702897022574.jpg',
-    prompt: 'New Year\'s theme, product displayed with gold and silver decorations, festive and glamorous.'
-  },
+export const suggestedPrompts = [
+  'an object on a marble counter',
+  'an object on water-rippling water',
+  'an object surrounded by rose petals',
+  'an object on a mountain',
+  'an object on a kitchen counter',
+  'an object on a rock',
+  'waterfall in background',
+  'an object on top of a lotus flower',
+  'an object on snowy mountain',
+  'an object with golden light',
+  'an object in the sky',
+  'cloudy sky'
 ];
