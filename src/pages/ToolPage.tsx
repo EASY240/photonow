@@ -5,7 +5,7 @@ import SEO from '../components/ui/SEO';
 import Button from '../components/ui/Button';
 import ImageDropzone from '../components/ui/ImageDropzone';
 import { tools } from '../data/tools';
-import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, startProductPhotoshootJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete } from '../utils/api';
+import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, startProductPhotoshootJob, startBackgroundGeneratorJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete } from '../utils/api';
 import type { ImageFile, ProcessedImage, Tool } from '../types';
 import { maleCartoonStyles, femaleCartoonStyles } from '../constants/cartoonStyles';
 import { caricatureStyles, Style } from '../constants/caricatureStyles';
@@ -68,6 +68,9 @@ const ToolPage: React.FC = () => {
   const [selectedProductStyle, setSelectedProductStyle] = useState<ProductStyle | null>(null);
   const [productCustomStyleImage, setProductCustomStyleImage] = useState<File | null>(null);
   const [productTextPrompt, setProductTextPrompt] = useState('');
+  
+  // AI Background Generator specific state
+  const [backgroundTextPrompt, setBackgroundTextPrompt] = useState('');
   // Find the tool based on the toolId param
   const tool = tools.find(t => t.id === toolId);
   
@@ -721,6 +724,47 @@ const handleAIProductPhotoshootGenerate = async () => {
   }
 };
 
+const handleAIBackgroundGeneratorGenerate = async () => {
+  if (!selectedImage.file) {
+    setProcessedImage({ url: null, isLoading: false, error: 'Please select an image first.' });
+    return;
+  }
+
+  if (!backgroundTextPrompt.trim()) {
+    setProcessedImage({ url: null, isLoading: false, error: 'Please enter a text prompt describing the background you want.' });
+    return;
+  }
+
+  setProcessedImage({ url: null, isLoading: true, error: null });
+
+  try {
+    // Upload the main image
+    const mainImageUrl = await uploadImageAndGetUrl(selectedImage.file);
+
+    // Start the background generator job
+    const orderId = await startBackgroundGeneratorJob({
+      imageUrl: mainImageUrl,
+      textPrompt: backgroundTextPrompt
+    });
+
+    // Poll for completion
+    const resultUrl = await pollJobUntilComplete(orderId);
+    setProcessedImage({ 
+      url: resultUrl, 
+      isLoading: false, 
+      error: null 
+    });
+
+  } catch (error) {
+    console.error('An error occurred during background generation:', error);
+    setProcessedImage({ 
+      url: null, 
+      isLoading: false, 
+      error: (error as Error).message || 'An unknown error occurred.' 
+    });
+  }
+};
+
   // Canvas initialization is now handled by onLoad events on the image elements
   
   const handleProcessImage = async () => {
@@ -840,6 +884,14 @@ const handleAIProductPhotoshootGenerate = async () => {
                   <li>Optionally add a text prompt to describe the desired scene or background</li>
                   <li>Click "Generate" to create your professional product photo</li>
                   <li>Download your enhanced product photo when processing is complete</li>
+                </>
+              ) : tool.id === 'ai-background-generator' ? (
+                <>
+                  <li>Upload your image using the tool below</li>
+                  <li>Enter a text prompt describing the background you want to generate</li>
+                  <li>Be specific about scenes, settings, colors, textures, and style preferences</li>
+                  <li>Click "Generate" to let AI create a custom background for your image</li>
+                  <li>Download your enhanced image when processing is complete</li>
                 </>
               ) : (
                 <>
@@ -975,6 +1027,34 @@ const handleAIProductPhotoshootGenerate = async () => {
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
                     </div>
+                  </div>
+                </div>
+              )}
+              
+              {/* AI Background Generator specific controls */}
+              {tool.id === 'ai-background-generator' && (
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Background Description
+                    </label>
+                    <textarea
+                      value={backgroundTextPrompt}
+                      onChange={(e) => setBackgroundTextPrompt(e.target.value)}
+                      placeholder="Describe the background you want to generate (e.g., 'sunset beach with palm trees', 'modern office interior', 'mountain landscape with snow')..."
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                      rows={4}
+                    />
+                  </div>
+                  
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                    <h4 className="text-sm font-medium text-blue-800 mb-2">💡 Tips for better results:</h4>
+                    <ul className="text-xs text-blue-700 space-y-1">
+                      <li>• Be specific about the scene or setting you want</li>
+                      <li>• Include details about lighting, colors, and mood</li>
+                      <li>• Mention the style (realistic, artistic, vintage, etc.)</li>
+                      <li>• Example: "Professional studio with soft lighting and neutral background"</li>
+                    </ul>
                   </div>
                 </div>
               )}
@@ -1392,8 +1472,7 @@ const handleAIProductPhotoshootGenerate = async () => {
                 </div>
               )}
                
-              <Button 
-                fullWidth 
+              <Button
                 onClick={
                   tool.id === 'ai-cleanup' ? handleAICleanupGenerate :
                   tool.id === 'ai-expand' ? handleAIExpandGenerate :
@@ -1402,16 +1481,29 @@ const handleAIProductPhotoshootGenerate = async () => {
                   tool.id === 'ai-caricature' ? handleAICaricatureGenerate :
                   tool.id === 'ai-avatar' ? handleAIAvatarGenerate :
                   tool.id === 'ai-product-photoshoot' ? handleAIProductPhotoshootGenerate :
+                  tool.id === 'ai-background-generator' ? handleAIBackgroundGeneratorGenerate :
                   handleProcessImage
                 }
-                disabled={!selectedImage.file || processedImage.isLoading || 
+                disabled={
+                  !selectedImage.file || 
+                  processedImage.isLoading ||
+                  (tool.id === 'ai-replace' && !textPrompt.trim()) ||
+                  (tool.id === 'ai-background-generator' && !backgroundTextPrompt.trim()) ||
+                  (tool.id === 'ai-cartoon' && cartoonStyleChoice === 'text' && !cartoonTextPrompt.trim()) ||
                   (tool.id === 'ai-caricature' && !caricatureSelectedStyle && !caricatureCustomStyleImage) ||
-                  (tool.id === 'ai-avatar' && (!avatarSelectedGender || (!avatarSelectedStyle && !avatarCustomStyleImage))) ||
-                  (tool.id === 'ai-product-photoshoot' && !selectedProductStyle && !productCustomStyleImage && !productTextPrompt)}
-                isLoading={processedImage.isLoading}
+                  (tool.id === 'ai-avatar' && !avatarSelectedStyle && !avatarCustomStyleImage) ||
+                  (tool.id === 'ai-product-photoshoot' && !selectedProductStyle && !productCustomStyleImage && !productTextPrompt)
+                }
+                className="w-full"
               >
-                {processedImage.isLoading ? 'Processing...' : 
-                 (tool.id === 'ai-cleanup' || tool.id === 'ai-expand' || tool.id === 'ai-replace' || tool.id === 'ai-cartoon' || tool.id === 'ai-caricature' || tool.id === 'ai-avatar' || tool.id === 'ai-product-photoshoot') ? 'Generate' : tool.name}
+                {processedImage.isLoading ? (
+                  <>
+                    <Loader className="w-4 h-4 mr-2 animate-spin" />
+                    Generating...
+                  </>
+                ) : (
+                  `Generate ${tool.name}`
+                )}
               </Button>
             </div>
             
@@ -1484,6 +1576,8 @@ function getToolDescription(tool: Tool): string {
       return 'transform your photos into cartoon-style artwork with various artistic styles';
     case 'ai-product-photoshoot':
       return 'create professional product photography with AI-generated backgrounds and lighting that make your products look stunning';
+    case 'ai-background-generator':
+      return 'generate stunning new backgrounds for your images using AI, perfect for creating professional-looking photos with custom scenes';
     default:
       return 'transform and enhance your images with professional-quality results';
   }

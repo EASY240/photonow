@@ -1,12 +1,9 @@
-AI Product Photoshoot
+AI Background Generator
 Overview
-Welcome to the LightX AI Product Photoshoot API V2 Documentation. Employ our AI Product Photoshoot API to automate the product photography process for e-commerce, marketing, and cataloging. Generate custom backgrounds that complement products using text prompts and style images. Experience an instant, cost-effective, and effortless way to achieve visually appealing, polished product images for a professional presentation, consistent branding, and consumer engagement. Discover the Full Guide to Begin!
+Welcome to the LightX AI Background Generator API V2 Documentation. Generate custom backgrounds for images using our AI Background Generator API. Alternatively, background generation via a text prompt, that allows users to specify scenes or settings with preferred color schemes, textures, and additional details. The result always is a seamlessly integrated custom background that aligns with the user's requirements. Discover the Full Guide to Begin!
 
-How the AI Product Photoshoot API Structures Output
-The AI Product Photoshoot API allows you to generate professional-looking product photos using just a product image, a style image, and an optional text prompt. This tool is ideal for creating clean, stylized product shots without the need for a physical photoshoot setup.
-
-AI Product Photoshoot API Rollout
-To access your AI Product Photoshoot API, you need to generate an API key. Visit the LightX API to retrieve your key. Insert your product image URL and text prompt or add a style image to generate an astonishing product photoshoot. Each generation will cost you 1 credit with the output delivered in JPEG format.
+AI Background Photoshoot API Rollout
+To access your AI background generator API, you need to generate an API key. Visit the LightX API to retrieve your key. Insert your image URL and text prompt to generate amazing backgrounds. Each generation will cost you 1 credit with the output delivered in JPEG format.
 
 note
 To ensure seamless processing, it is mandatory to use ImageUpload API for uploading images. External image URLs are not supported and will result in an error.
@@ -67,21 +64,19 @@ Going Forward, use cURL along with x-api-key and your API key (as given below) t
 
 cURL
 
-    Method- Post
-curl --location 'https://api.lightxeditor.com/external/api/v1/product-photoshoot' \
+ Method- Post
+curl --location 'https://api.lightxeditor.com/external/api/v1/background-generator' \
 --header 'Content-Type: application/json' \
 --header 'x-api-key: <Insert your API Key>' \
 --data '{
- "imageUrl": "https://example.com/your-image.jpg",  // Replace with the URL of your input image
-  "styleImageUrl": "https://example.com/your-style-image.jpg",  // Replace with the URL of your input style image
-  "textPrompt": "YourInputPrompt"  // Replace with your specific input prompt
+"imageUrl": "https://example.com/your-image.jpg",  // Replace with the URL of your input image
+"textPrompt": "YourInputPrompt"  // Replace with your specific input prompt
 }'
-
 
 Once your request is completed, visualize the "Response" to verify that the API call is executed successfully (as given below).
 
 Response
-{
+ {
    "statusCode": 2000,
    "message": "SUCCESS",
    "body": {
@@ -104,7 +99,7 @@ cURL
 
 curl --location --request POST 'https://api.lightxeditor.com/external/api/v1/order-status' \
 --header 'Content-Type: application/json' \
---header 'x-api-key: <Insert your API Key>' \
+--header 'x-api-key:  <Insert your API Key>' \
 --data '{
 "orderId": "insert your Order ID"
 }'
