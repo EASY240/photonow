@@ -771,3 +771,49 @@ export async function startBackgroundGeneratorJob({ imageUrl, textPrompt }: { im
     throw error;
   }
 }
+
+export async function startImageGeneratorJob({ textPrompt, width, height }: { textPrompt: string; width?: number; height?: number; }): Promise<string> {
+  try {
+    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+    const PROXY_BASE_URL = isProduction 
+      ? window.location.origin
+      : 'http://localhost:3001';
+
+    const jobBody: any = {
+      textPrompt: textPrompt
+    };
+    
+    // Add resolution if provided
+    if (width && height) {
+      jobBody.width = width;
+      jobBody.height = height;
+    }
+
+    const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        endpoint: 'v1/text2image',
+        body: jobBody
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Failed to start image generator job: ${response.status} - ${errorText}`);
+    }
+
+    const data = await response.json();
+    
+    if (!data.body || !data.body.orderId) {
+      throw new Error(`Invalid image generator job response: ${JSON.stringify(data)}`);
+    }
+
+    return data.body.orderId;
+  } catch (error) {
+    console.error('Error starting image generator job:', error);
+    throw error;
+  }
+}

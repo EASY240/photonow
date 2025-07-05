@@ -5,12 +5,13 @@ import SEO from '../components/ui/SEO';
 import Button from '../components/ui/Button';
 import ImageDropzone from '../components/ui/ImageDropzone';
 import { tools } from '../data/tools';
-import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, startProductPhotoshootJob, startBackgroundGeneratorJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete } from '../utils/api';
+import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, startProductPhotoshootJob, startBackgroundGeneratorJob, startImageGeneratorJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete } from '../utils/api';
 import type { ImageFile, ProcessedImage, Tool } from '../types';
 import { maleCartoonStyles, femaleCartoonStyles } from '../constants/cartoonStyles';
 import { caricatureStyles, Style } from '../constants/caricatureStyles';
 import { avatarStyles, AvatarStyle } from '../constants/avatarStyles';
 import { productStyles, suggestedPrompts, type ProductStyle } from '../constants/productStyles';
+import { imageResolutions, suggestedPrompts as imageGeneratorPrompts, type ImageResolution } from '../constants/imageGeneratorOptions';
 
 const ToolPage: React.FC = () => {
   const { toolId } = useParams<{ toolId: string }>();
@@ -71,6 +72,10 @@ const ToolPage: React.FC = () => {
   
   // AI Background Generator specific state
   const [backgroundTextPrompt, setBackgroundTextPrompt] = useState('');
+  
+  // AI Image Generator specific state
+  const [imageGeneratorTextPrompt, setImageGeneratorTextPrompt] = useState('');
+  const [selectedResolution, setSelectedResolution] = useState<ImageResolution>(imageResolutions[0]); // Default to square
   // Find the tool based on the toolId param
   const tool = tools.find(t => t.id === toolId);
   
@@ -765,6 +770,40 @@ const handleAIBackgroundGeneratorGenerate = async () => {
   }
 };
 
+const handleAIImageGeneratorGenerate = async () => {
+  if (!imageGeneratorTextPrompt.trim()) {
+    setProcessedImage({ url: null, isLoading: false, error: 'Please enter a text prompt describing the image you want to generate.' });
+    return;
+  }
+
+  setProcessedImage({ url: null, isLoading: true, error: null });
+
+  try {
+    // Start the image generator job
+    const orderId = await startImageGeneratorJob({
+      textPrompt: imageGeneratorTextPrompt,
+      width: selectedResolution.width,
+      height: selectedResolution.height
+    });
+
+    // Poll for completion
+    const resultUrl = await pollJobUntilComplete(orderId);
+    setProcessedImage({ 
+      url: resultUrl, 
+      isLoading: false, 
+      error: null 
+    });
+
+  } catch (error) {
+    console.error('An error occurred during image generation:', error);
+    setProcessedImage({ 
+      url: null, 
+      isLoading: false, 
+      error: (error as Error).message || 'An unknown error occurred.' 
+    });
+  }
+};
+
   // Canvas initialization is now handled by onLoad events on the image elements
   
   const handleProcessImage = async () => {
@@ -892,6 +931,15 @@ const handleAIBackgroundGeneratorGenerate = async () => {
                   <li>Be specific about scenes, settings, colors, textures, and style preferences</li>
                   <li>Click "Generate" to let AI create a custom background for your image</li>
                   <li>Download your enhanced image when processing is complete</li>
+                </>
+              ) : tool.id === 'ai-image-generator' ? (
+                <>
+                  <li>Select your desired image resolution from the available options</li>
+                  <li>Enter a detailed text prompt describing the image you want to create</li>
+                  <li>Use suggested prompts for inspiration or create your own custom description</li>
+                  <li>Be specific about style, colors, composition, and artistic elements</li>
+                  <li>Click "Generate" to let AI create your unique image</li>
+                  <li>Download your generated image when processing is complete</li>
                 </>
               ) : (
                 <>
@@ -1471,6 +1519,106 @@ const handleAIBackgroundGeneratorGenerate = async () => {
                   </div>
                 </div>
               )}
+              
+              {/* AI Background Generator specific controls */}
+              {tool.id === 'ai-background-generator' && selectedImage.preview && (
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Background Description
+                    </label>
+                    <textarea
+                      value={backgroundTextPrompt}
+                      onChange={(e) => setBackgroundTextPrompt(e.target.value)}
+                      placeholder="Describe the background you want to generate..."
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                      rows={3}
+                    />
+                    
+                    <div className="mt-2">
+                      <span className="text-sm text-gray-600 mb-2 block">💡 Tips for better results:</span>
+                      <ul className="text-sm text-gray-600 ml-4 list-disc space-y-1">
+                        <li>Be specific about scenes, settings, colors, and textures</li>
+                        <li>Mention lighting conditions (bright, soft, dramatic, etc.)</li>
+                        <li>Include style preferences (realistic, artistic, vintage, etc.)</li>
+                        <li>Example: "Professional studio with soft lighting and neutral background"</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              )}
+              
+              {/* AI Image Generator specific controls */}
+              {tool.id === 'ai-image-generator' && (
+                <div className="space-y-6">
+                  {/* Resolution Selector */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                      Image Resolution
+                    </label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                      {imageResolutions.map((resolution) => (
+                        <div
+                          key={`${resolution.width}x${resolution.height}`}
+                          className={`cursor-pointer p-3 border-2 rounded-lg transition-colors ${
+                            selectedResolution.width === resolution.width && selectedResolution.height === resolution.height
+                              ? 'border-blue-500 bg-blue-50'
+                              : 'border-gray-200 hover:border-gray-300'
+                          }`}
+                          onClick={() => setSelectedResolution(resolution)}
+                        >
+                          <div className="text-sm font-medium">{resolution.name}</div>
+                          <div className="text-xs text-gray-500">{resolution.aspectRatio}</div>
+                          <div className="text-xs text-gray-400">{resolution.width}x{resolution.height} px</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  {/* Text Prompt Input */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Image Description
+                    </label>
+                    <textarea
+                      value={imageGeneratorTextPrompt}
+                      onChange={(e) => setImageGeneratorTextPrompt(e.target.value)}
+                      placeholder="Describe the image you want to generate in detail..."
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                      rows={4}
+                    />
+                    
+                    <div className="mt-2">
+                      <span className="text-sm text-gray-600 mb-2 block">💡 Tips for better results:</span>
+                      <ul className="text-sm text-gray-600 ml-4 list-disc space-y-1">
+                        <li>Be specific about style, colors, composition, and artistic elements</li>
+                        <li>Include details about lighting, mood, and atmosphere</li>
+                        <li>Mention art styles (realistic, cartoon, anime, oil painting, etc.)</li>
+                        <li>Add quality descriptors (high quality, detailed, masterpiece, etc.)</li>
+                      </ul>
+                    </div>
+                  </div>
+                  
+                  {/* Suggested Prompts */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                      Suggested Prompts
+                    </label>
+                    <div className="grid grid-cols-1 gap-2 max-h-64 overflow-y-auto">
+                      {imageGeneratorPrompts.map((prompt, index) => (
+                        <button
+                          key={index}
+                          type="button"
+                          onClick={() => setImageGeneratorTextPrompt(prompt)}
+                          className="text-left px-3 py-2 text-sm bg-gray-50 hover:bg-gray-100 rounded-md border transition-colors"
+                        >
+                          {prompt}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
                
               <Button
                 onClick={
@@ -1482,13 +1630,15 @@ const handleAIBackgroundGeneratorGenerate = async () => {
                   tool.id === 'ai-avatar' ? handleAIAvatarGenerate :
                   tool.id === 'ai-product-photoshoot' ? handleAIProductPhotoshootGenerate :
                   tool.id === 'ai-background-generator' ? handleAIBackgroundGeneratorGenerate :
+                  tool.id === 'ai-image-generator' ? handleAIImageGeneratorGenerate :
                   handleProcessImage
                 }
                 disabled={
-                  !selectedImage.file || 
                   processedImage.isLoading ||
+                  (tool.id !== 'ai-image-generator' && !selectedImage.file) ||
                   (tool.id === 'ai-replace' && !textPrompt.trim()) ||
                   (tool.id === 'ai-background-generator' && !backgroundTextPrompt.trim()) ||
+                  (tool.id === 'ai-image-generator' && !imageGeneratorTextPrompt.trim()) ||
                   (tool.id === 'ai-cartoon' && cartoonStyleChoice === 'text' && !cartoonTextPrompt.trim()) ||
                   (tool.id === 'ai-caricature' && !caricatureSelectedStyle && !caricatureCustomStyleImage) ||
                   (tool.id === 'ai-avatar' && !avatarSelectedStyle && !avatarCustomStyleImage) ||
