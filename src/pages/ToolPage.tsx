@@ -770,6 +770,25 @@ const handleAIBackgroundGeneratorGenerate = async () => {
   }
 };
 
+// Add this function to resize images client-side if needed
+const resizeImageToResolution = async (imageUrl: string, targetWidth: number, targetHeight: number): Promise<string> => {
+  return new Promise((resolve) => {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d')!;
+    const img = new Image();
+    
+    img.onload = () => {
+      canvas.width = targetWidth;
+      canvas.height = targetHeight;
+      ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+      resolve(canvas.toDataURL('image/png'));
+    };
+    
+    img.crossOrigin = 'anonymous';
+    img.src = imageUrl;
+  });
+};
+
 const handleAIImageGeneratorGenerate = async () => {
   if (!imageGeneratorTextPrompt.trim()) {
     setProcessedImage({ url: null, isLoading: false, error: 'Please enter a text prompt describing the image you want to generate.' });
@@ -788,8 +807,16 @@ const handleAIImageGeneratorGenerate = async () => {
 
     // Poll for completion
     const resultUrl = await pollJobUntilComplete(orderId);
+
+    // Optionally resize to match selected resolution
+    const resizedUrl = await resizeImageToResolution(
+      resultUrl, 
+      selectedResolution.width, 
+      selectedResolution.height
+    );
+
     setProcessedImage({ 
-      url: resultUrl, 
+      url: resizedUrl, 
       isLoading: false, 
       error: null 
     });
@@ -954,10 +981,13 @@ const handleAIImageGeneratorGenerate = async () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-6">
-              <ImageDropzone 
-                onImageSelect={handleImageSelect}
-                selectedImage={selectedImage}
-              />
+              {/* Show ImageDropzone for all tools except AI Image Generator */}
+              {tool.id !== 'ai-image-generator' && (
+                <ImageDropzone 
+                  onImageSelect={handleImageSelect}
+                  selectedImage={selectedImage}
+                />
+              )}
                
               {/* AI Cleanup specific controls */}
               {tool.id === 'ai-cleanup' && selectedImage.preview && (
@@ -1583,18 +1613,19 @@ const handleAIImageGeneratorGenerate = async () => {
                     <textarea
                       value={imageGeneratorTextPrompt}
                       onChange={(e) => setImageGeneratorTextPrompt(e.target.value)}
-                      placeholder="Describe the image you want to generate in detail..."
+                      placeholder="Describe the image you want to generate in detail (e.g., 'a majestic mountain landscape at sunset', 'portrait of a cat wearing sunglasses', 'abstract digital art with vibrant colors')..."
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                       rows={4}
                     />
                     
-                    <div className="mt-2">
-                      <span className="text-sm text-gray-600 mb-2 block">💡 Tips for better results:</span>
-                      <ul className="text-sm text-gray-600 ml-4 list-disc space-y-1">
-                        <li>Be specific about style, colors, composition, and artistic elements</li>
-                        <li>Include details about lighting, mood, and atmosphere</li>
-                        <li>Mention art styles (realistic, cartoon, anime, oil painting, etc.)</li>
-                        <li>Add quality descriptors (high quality, detailed, masterpiece, etc.)</li>
+                    {/* Updated Tips Section to match AI Background Generator */}
+                    <div className="mt-3 bg-blue-50 border border-blue-200 rounded-lg p-3">
+                      <h4 className="text-sm font-medium text-blue-800 mb-2">💡 Tips for better results:</h4>
+                      <ul className="text-xs text-blue-700 space-y-1">
+                        <li>• Be specific about style, colors, composition, and artistic elements</li>
+                        <li>• Include details about lighting, mood, and atmosphere</li>
+                        <li>• Mention art styles (realistic, cartoon, anime, oil painting, etc.)</li>
+                        <li>• Add quality descriptors (high quality, detailed, masterpiece, etc.)</li>
                       </ul>
                     </div>
                   </div>
