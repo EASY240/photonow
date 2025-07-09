@@ -1,7 +1,5 @@
 // src/utils/api.ts
 
-import { API_KEY } from '../constants';
-
 // Add this helper function inside src/utils/api.ts
 export async function convertUrlToBlob(url: string): Promise<Blob> {
   const response = await fetch(url);

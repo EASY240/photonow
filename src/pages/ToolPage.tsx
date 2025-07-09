@@ -29,6 +29,7 @@ const ToolPage: React.FC = () => {
   const [isDrawing, setIsDrawing] = useState(false);
   const [brushSize, setBrushSize] = useState(20);
   const [canvasInitialized, setCanvasInitialized] = useState(false);
+  const [isMaskDrawn, setIsMaskDrawn] = useState(false);
   
   // AI Expand specific state
   const [padding, setPadding] = useState({
@@ -94,6 +95,7 @@ const ToolPage: React.FC = () => {
     });
     setCanvasInitialized(false);
     setReplaceCanvasInitialized(false);
+    setIsMaskDrawn(false);
   };
   
   // Handle image load for AI Cleanup - synchronizes canvas with displayed image
@@ -142,32 +144,10 @@ const ToolPage: React.FC = () => {
   };
   
   const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!isDrawing || !visibleCanvasRef.current || !dataMaskCanvasRef.current || tool?.id !== 'ai-cleanup') return;
+    if (!isDrawing || tool?.id !== 'ai-cleanup') return;
     
-    const visibleCanvas = visibleCanvasRef.current;
-    const dataCanvas = dataMaskCanvasRef.current;
-    const visibleCtx = visibleCanvas.getContext('2d');
-    const dataCtx = dataCanvas.getContext('2d');
-    
-    if (!visibleCtx || !dataCtx) return;
-    
-    const rect = visibleCanvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    
-    // Draw semi-transparent red on visible canvas for user feedback
-    visibleCtx.globalCompositeOperation = 'source-over';
-    visibleCtx.fillStyle = 'rgba(255, 0, 0, 0.5)';
-    visibleCtx.beginPath();
-    visibleCtx.arc(x, y, brushSize, 0, 2 * Math.PI);
-    visibleCtx.fill();
-    
-    // Draw white on data canvas for API mask
-    dataCtx.globalCompositeOperation = 'source-over';
-    dataCtx.fillStyle = '#FFFFFF';
-    dataCtx.beginPath();
-    dataCtx.arc(x, y, brushSize, 0, 2 * Math.PI);
-    dataCtx.fill();
+    const { x, y } = getCoordinatesFromEvent(e.nativeEvent);
+    drawAtPoint(x, y);
   };
   
   const clearCanvas = () => {
@@ -188,6 +168,72 @@ const ToolPage: React.FC = () => {
         dataCtx.fillRect(0, 0, dataCanvas.width, dataCanvas.height);
       }
     }
+    
+    setIsMaskDrawn(false);
+  };
+  
+  // Helper function to get coordinates from mouse or touch events
+  const getCoordinatesFromEvent = (event: MouseEvent | Touch): { x: number; y: number } => {
+    const canvas = visibleCanvasRef.current;
+    if (!canvas) return { x: 0, y: 0 };
+    
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top
+    };
+  };
+  
+  // Function to draw at a specific point (used by both mouse and touch)
+  const drawAtPoint = (x: number, y: number) => {
+    if (!visibleCanvasRef.current || !dataMaskCanvasRef.current || tool?.id !== 'ai-cleanup') return;
+    
+    const visibleCanvas = visibleCanvasRef.current;
+    const dataCanvas = dataMaskCanvasRef.current;
+    const visibleCtx = visibleCanvas.getContext('2d');
+    const dataCtx = dataCanvas.getContext('2d');
+    
+    if (!visibleCtx || !dataCtx) return;
+    
+    // Set mask drawn flag on first draw
+    if (!isMaskDrawn) {
+      setIsMaskDrawn(true);
+    }
+    
+    // Draw semi-transparent red on visible canvas for user feedback
+    visibleCtx.globalCompositeOperation = 'source-over';
+    visibleCtx.fillStyle = 'rgba(255, 0, 0, 0.5)';
+    visibleCtx.beginPath();
+    visibleCtx.arc(x, y, brushSize, 0, 2 * Math.PI);
+    visibleCtx.fill();
+    
+    // Draw white on data canvas for API mask
+    dataCtx.globalCompositeOperation = 'source-over';
+    dataCtx.fillStyle = '#FFFFFF';
+    dataCtx.beginPath();
+    dataCtx.arc(x, y, brushSize, 0, 2 * Math.PI);
+    dataCtx.fill();
+  };
+  
+  // Touch event handlers for AI Cleanup
+  const handleDrawStart = (event: React.TouchEvent<HTMLCanvasElement>) => {
+    setIsDrawing(true);
+    event.preventDefault(); // Prevent page scrolling
+    const touch = event.touches[0];
+    const { x, y } = getCoordinatesFromEvent(touch);
+    drawAtPoint(x, y);
+  };
+  
+  const handleDrawMove = (event: React.TouchEvent<HTMLCanvasElement>) => {
+    if (!isDrawing) return;
+    event.preventDefault();
+    const touch = event.touches[0];
+    const { x, y } = getCoordinatesFromEvent(touch);
+    drawAtPoint(x, y);
+  };
+  
+  const handleDrawEnd = () => {
+    setIsDrawing(false);
   };
   
   // Handle image load for AI Replace - synchronizes canvas with displayed image
@@ -330,6 +376,17 @@ const ToolPage: React.FC = () => {
   // AI Cleanup specific generate function
   const handleAICleanupGenerate = async () => {
     if (!selectedImage.file) return;
+    
+    // --- VALIDATION: Check if mask is drawn ---
+    if (!isMaskDrawn) {
+      setProcessedImage({
+        url: null,
+        isLoading: false,
+        error: 'Error: Please paint over the area you want to clean up before generating.'
+      });
+      return;
+    }
+    // --- END OF VALIDATION ---
     
     setProcessedImage({
       url: null,
@@ -1025,6 +1082,9 @@ const handleAIImageGeneratorGenerate = async () => {
                       onMouseMove={draw}
                       onMouseUp={() => setIsDrawing(false)}
                       onMouseLeave={() => setIsDrawing(false)}
+                      onTouchStart={handleDrawStart}
+                      onTouchMove={handleDrawMove}
+                      onTouchEnd={handleDrawEnd}
                       style={{ zIndex: 10 }}
                     />
                     <canvas
