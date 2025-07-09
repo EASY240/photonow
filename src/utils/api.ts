@@ -595,7 +595,9 @@ export async function startCartoonJob({ imageUrl, styleImageUrl, textPrompt }: {
         jobBody.styleImageUrl = styleImageUrl;
         // Do NOT include textPrompt when styleImageUrl is present
         console.log('Using styleImageUrl, skipping textPrompt due to API constraint');
-    } else if (textPrompt && textPrompt.trim() !== '') {
+    }
+
+    if (textPrompt && textPrompt.trim() !== '') {
         jobBody.textPrompt = textPrompt;
         console.log('Using textPrompt (no styleImageUrl provided)');
     }
