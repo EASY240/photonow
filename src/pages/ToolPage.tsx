@@ -49,7 +49,6 @@ const ToolPage: React.FC = () => {
   const [textPrompt, setTextPrompt] = useState('');
   
   // AI Cartoon specific state
-  const [cartoonStyleChoice, setCartoonStyleChoice] = useState<'text' | 'image'>('text');
   const [cartoonTextPrompt, setCartoonTextPrompt] = useState('');
   const [cartoonStyleImage, setCartoonStyleImage] = useState<File | null>(null);
   const [selectedGender, setSelectedGender] = useState<'male' | 'female'>('female');
@@ -1710,7 +1709,7 @@ const handleAIImageGeneratorGenerate = async () => {
                   </div>
                 </div>
               )}
-               
+
               <Button
                 onClick={
                   tool.id === 'ai-cleanup' ? handleAICleanupGenerate :
@@ -1730,7 +1729,7 @@ const handleAIImageGeneratorGenerate = async () => {
                   (tool.id === 'ai-replace' && !textPrompt.trim()) ||
                   (tool.id === 'ai-background-generator' && !backgroundTextPrompt.trim()) ||
                   (tool.id === 'ai-image-generator' && !imageGeneratorTextPrompt.trim()) ||
-                  (tool.id === 'ai-cartoon' && cartoonStyleChoice === 'text' && !cartoonTextPrompt.trim()) ||
+                  (tool.id === 'ai-cartoon' && !(selectedPresetUrl || cartoonStyleImage?.name)) ||
                   (tool.id === 'ai-caricature' && !caricatureSelectedStyle && !caricatureCustomStyleImage) ||
                   (tool.id === 'ai-avatar' && !avatarSelectedStyle && !avatarCustomStyleImage) ||
                   (tool.id === 'ai-product-photoshoot' && !selectedProductStyle && !productCustomStyleImage && !productTextPrompt)
