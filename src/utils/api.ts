@@ -700,7 +700,8 @@ export async function startAvatarJob({ imageUrl, styleImageUrl, textPrompt }: { 
     if (styleImageUrl && styleImageUrl.trim() !== '') {
         jobBody.styleImageUrl = styleImageUrl;
         console.log('Using styleImageUrl, skipping textPrompt due to API constraint');
-    } else if (textPrompt && textPrompt.trim() !== '') {
+    }
+    if (textPrompt && textPrompt.trim() !== '') {
         jobBody.textPrompt = textPrompt;
         console.log('Using textPrompt (no styleImageUrl provided)');
     }
