@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
-import { Download, Loader, Brush } from 'lucide-react';
+import { Download, Loader, Brush, XCircle } from 'lucide-react';
 import SEO from '../components/ui/SEO';
 import Button from '../components/ui/Button';
 import ImageDropzone from '../components/ui/ImageDropzone';
@@ -233,6 +233,23 @@ const ToolPage: React.FC = () => {
   
   const handleDrawEnd = () => {
     setIsDrawing(false);
+  };
+  
+  // Clear selection handler functions
+  const handleCartoonClearSelection = () => {
+    setSelectedPresetUrl(null);
+  };
+  
+  const handleCaricatureClearSelection = () => {
+    setCaricatureSelectedStyle(null);
+  };
+  
+  const handleAvatarClearSelection = () => {
+    setAvatarSelectedStyle(null);
+  };
+  
+  const handleProductClearSelection = () => {
+    setSelectedProductStyle(null);
   };
   
   // Handle image load for AI Replace - synchronizes canvas with displayed image
@@ -1324,22 +1341,33 @@ const handleAIImageGeneratorGenerate = async () => {
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Choose a Preset Style</label>
                     <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
-                      {(selectedGender === 'female' ? femaleCartoonStyles : maleCartoonStyles).map((style) => (
-                        <div
-                          key={style.imageUrl}
-                          className={`cursor-pointer rounded-lg overflow-hidden border-2 ${selectedPresetUrl === style.imageUrl ? 'border-blue-500' : 'border-transparent'}`}
-                          onClick={() => setSelectedPresetUrl(style.imageUrl)}
-                        >
-                          <img src={style.imageUrl} alt={style.name} className="w-full h-auto object-cover" />
-                          <p className="text-center text-xs p-1 bg-gray-100">{style.name}</p>
-                        </div>
-                      ))}
+                      {(selectedGender === 'female' ? femaleCartoonStyles : maleCartoonStyles).map((style) => {
+                        const isSelected = selectedPresetUrl === style.imageUrl;
+                        return (
+                          <div
+                            key={style.imageUrl}
+                            className={`relative cursor-pointer rounded-lg overflow-hidden border-2 transition-all group ${
+                              isSelected ? 'border-blue-500 shadow-lg' : 'border-transparent hover:border-gray-300'
+                            }`}
+                            onClick={() => setSelectedPresetUrl(style.imageUrl)}
+                          >
+                            {/* The "Clear Selection" button - shows ONLY on the selected item */}
+                            {isSelected && (
+                              <button
+                                type="button"
+                                onClick={(e) => { e.stopPropagation(); handleCartoonClearSelection(); }}
+                                className="absolute top-1 right-1 z-10 p-1 bg-white bg-opacity-70 rounded-full text-red-600 hover:bg-opacity-100 hover:scale-110 transition-transform"
+                                aria-label="Clear selection"
+                              >
+                                <XCircle size={20} />
+                              </button>
+                            )}
+                            <img src={style.imageUrl} alt={style.name} className="w-full h-auto object-cover" />
+                            <p className="text-center text-xs p-1 bg-gray-100">{style.name}</p>
+                          </div>
+                        );
+                      })}
                     </div>
-                    {selectedPresetUrl && (
-                      <Button variant="link" onClick={() => setSelectedPresetUrl(null)} className="mt-2 text-sm">
-                        Clear Selection
-                      </Button>
-                    )}
                   </div>
 
                   <div className="space-y-4">
@@ -1381,22 +1409,33 @@ const handleAIImageGeneratorGenerate = async () => {
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Choose a Preset Style</label>
                     <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
-                      {caricatureStyles.map((style) => (
-                        <div
-                          key={style.imageUrl}
-                          className={`cursor-pointer rounded-lg overflow-hidden border-2 ${caricatureSelectedStyle?.imageUrl === style.imageUrl ? 'border-blue-500' : 'border-transparent'}`}
-                          onClick={() => setCaricatureSelectedStyle(style)}
-                        >
-                          <img src={style.imageUrl} alt={style.name} className="w-full h-auto object-cover" />
-                          <p className="text-center text-xs p-1 bg-gray-100">{style.name}</p>
-                        </div>
-                      ))}
+                      {caricatureStyles.map((style) => {
+                        const isSelected = caricatureSelectedStyle?.imageUrl === style.imageUrl;
+                        return (
+                          <div
+                            key={style.imageUrl}
+                            className={`relative cursor-pointer rounded-lg overflow-hidden border-2 transition-all group ${
+                              isSelected ? 'border-blue-500 shadow-lg' : 'border-transparent hover:border-gray-300'
+                            }`}
+                            onClick={() => setCaricatureSelectedStyle(style)}
+                          >
+                            {/* The "Clear Selection" button - shows ONLY on the selected item */}
+                            {isSelected && (
+                              <button
+                                type="button"
+                                onClick={(e) => { e.stopPropagation(); handleCaricatureClearSelection(); }}
+                                className="absolute top-1 right-1 z-10 p-1 bg-white bg-opacity-70 rounded-full text-red-600 hover:bg-opacity-100 hover:scale-110 transition-transform"
+                                aria-label="Clear selection"
+                              >
+                                <XCircle size={20} />
+                              </button>
+                            )}
+                            <img src={style.imageUrl} alt={style.name} className="w-full h-auto object-cover" />
+                            <p className="text-center text-xs p-1 bg-gray-100">{style.name}</p>
+                          </div>
+                        );
+                      })}
                     </div>
-                    {caricatureSelectedStyle && (
-                      <Button variant="link" onClick={() => setCaricatureSelectedStyle(null)} className="mt-2 text-sm">
-                        Clear Selection
-                      </Button>
-                    )}
                   </div>
 
                   <div className="space-y-4">
@@ -1471,25 +1510,34 @@ const handleAIImageGeneratorGenerate = async () => {
                       <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
                         {avatarStyles
                           .filter(style => style.gender === avatarSelectedGender)
-                          .map((style) => (
-                            <div
-                              key={style.imageUrl}
-                              className={`cursor-pointer rounded-lg overflow-hidden border-2 ${
-                                avatarSelectedStyle?.imageUrl === style.imageUrl ? 'border-blue-500' : 'border-transparent'
-                              }`}
-                              onClick={() => setAvatarSelectedStyle(style)}
-                            >
-                              <img src={style.imageUrl} alt={style.name} className="w-full h-auto object-cover" />
-                              <p className="text-center text-xs p-1 bg-gray-100">{style.name}</p>
-                            </div>
-                          ))
+                          .map((style) => {
+                            const isSelected = avatarSelectedStyle?.imageUrl === style.imageUrl;
+                            return (
+                              <div
+                                key={style.imageUrl}
+                                className={`relative cursor-pointer rounded-lg overflow-hidden border-2 transition-all group ${
+                                  isSelected ? 'border-blue-500 shadow-lg' : 'border-transparent hover:border-gray-300'
+                                }`}
+                                onClick={() => setAvatarSelectedStyle(style)}
+                              >
+                                {/* The "Clear Selection" button - shows ONLY on the selected item */}
+                                {isSelected && (
+                                  <button
+                                    type="button"
+                                    onClick={(e) => { e.stopPropagation(); handleAvatarClearSelection(); }}
+                                    className="absolute top-1 right-1 z-10 p-1 bg-white bg-opacity-70 rounded-full text-red-600 hover:bg-opacity-100 hover:scale-110 transition-transform"
+                                    aria-label="Clear selection"
+                                  >
+                                    <XCircle size={20} />
+                                  </button>
+                                )}
+                                <img src={style.imageUrl} alt={style.name} className="w-full h-auto object-cover" />
+                                <p className="text-center text-xs p-1 bg-gray-100">{style.name}</p>
+                              </div>
+                            );
+                          })
                         }
                       </div>
-                      {avatarSelectedStyle && (
-                        <Button variant="link" onClick={() => setAvatarSelectedStyle(null)} className="mt-2 text-sm">
-                          Clear Selection
-                        </Button>
-                      )}
                     </div>
                   )}
 
@@ -1533,27 +1581,41 @@ const handleAIImageGeneratorGenerate = async () => {
                   <div>
                     <h3 className="text-lg font-semibold mb-4">Choose a Style</h3>
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-h-96 overflow-y-auto">
-                      {productStyles.map((style) => (
-                        <div
-                          key={style.name}
-                          onClick={() => {
-                            setSelectedProductStyle(style);
-                            setProductCustomStyleImage(null); // Clear custom image when preset is selected
-                          }}
-                          className={`cursor-pointer rounded-lg overflow-hidden border-2 ${
-                            selectedProductStyle?.name === style.name ? 'border-blue-500' : 'border-transparent'
-                          }`}
-                        >
-                          <img
-                            src={style.imageUrl}
-                            alt={style.name}
-                            className="w-full h-24 object-cover"
-                          />
-                          <div className="p-2 bg-gray-50">
-                            <p className="text-sm font-medium text-center">{style.name}</p>
+                      {productStyles.map((style) => {
+                        const isSelected = selectedProductStyle?.name === style.name;
+                        return (
+                          <div
+                            key={style.name}
+                            onClick={() => {
+                              setSelectedProductStyle(style);
+                              setProductCustomStyleImage(null); // Clear custom image when preset is selected
+                            }}
+                            className={`relative cursor-pointer rounded-lg overflow-hidden border-2 transition-all group ${
+                              isSelected ? 'border-blue-500 shadow-lg' : 'border-transparent hover:border-gray-300'
+                            }`}
+                          >
+                            {/* The "Clear Selection" button - shows ONLY on the selected item */}
+                            {isSelected && (
+                              <button
+                                type="button"
+                                onClick={(e) => { e.stopPropagation(); handleProductClearSelection(); }}
+                                className="absolute top-1 right-1 z-10 p-1 bg-white bg-opacity-70 rounded-full text-red-600 hover:bg-opacity-100 hover:scale-110 transition-transform"
+                                aria-label="Clear selection"
+                              >
+                                <XCircle size={20} />
+                              </button>
+                            )}
+                            <img
+                              src={style.imageUrl}
+                              alt={style.name}
+                              className="w-full h-24 object-cover"
+                            />
+                            <div className="p-2 bg-gray-50">
+                              <p className="text-sm font-medium text-center">{style.name}</p>
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   </div>
 
