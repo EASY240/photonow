@@ -5,13 +5,14 @@ import SEO from '../components/ui/SEO';
 import Button from '../components/ui/Button';
 import ImageDropzone from '../components/ui/ImageDropzone';
 import { tools } from '../data/tools';
-import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, startProductPhotoshootJob, startBackgroundGeneratorJob, startImageGeneratorJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete } from '../utils/api';
+import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, startProductPhotoshootJob, startBackgroundGeneratorJob, startImageGeneratorJob, startPortraitJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete } from '../utils/api';
 import type { ImageFile, ProcessedImage, Tool } from '../types';
 import { maleCartoonStyles, femaleCartoonStyles } from '../constants/cartoonStyles';
 import { caricatureStyles, Style } from '../constants/caricatureStyles';
 import { avatarStyles, AvatarStyle } from '../constants/avatarStyles';
 import { productStyles, suggestedPrompts, type ProductStyle } from '../constants/productStyles';
 import { imageResolutions, suggestedPrompts as imageGeneratorPrompts, type ImageResolution } from '../constants/imageGeneratorOptions';
+import { portraitStyles, suggestedPortraitPrompts, type PortraitStyle } from '../constants/portraitStyles';
 
 const ToolPage: React.FC = () => {
   const { toolId } = useParams<{ toolId: string }>();
@@ -76,6 +77,12 @@ const ToolPage: React.FC = () => {
   // AI Image Generator specific state
   const [imageGeneratorTextPrompt, setImageGeneratorTextPrompt] = useState('');
   const [selectedResolution, setSelectedResolution] = useState<ImageResolution>(imageResolutions[0]); // Default to square
+  
+  // AI Portrait specific state
+  const [portraitSelectedGender, setPortraitSelectedGender] = useState<'male' | 'female'>('female');
+  const [portraitSelectedStyle, setPortraitSelectedStyle] = useState<PortraitStyle | null>(null);
+  const [portraitCustomStyleImage, setPortraitCustomStyleImage] = useState<File | null>(null);
+  const [portraitTextPrompt, setPortraitTextPrompt] = useState('');
   // Find the tool based on the toolId param
   const tool = tools.find(t => t.id === toolId);
   
@@ -733,6 +740,70 @@ const handleAIAvatarGenerate = async () => {
   }
 };
 
+const handleAIPortraitGenerate = async () => {
+  if (!selectedImage.file) {
+    console.error("No user image provided.");
+    return;
+  }
+  
+  // A style source (preset or custom) should be guaranteed by the disabled button logic
+  if (!portraitSelectedStyle && !portraitCustomStyleImage) {
+    setProcessedImage({ url: null, isLoading: false, error: 'Please select a style before generating.' });
+    return;
+  }
+
+  setProcessedImage({ url: null, isLoading: true, error: null });
+
+  try {
+    // 1. Upload the main user image
+    const mainImageUrl = await uploadImageAndGetUrl(selectedImage.file);
+
+    // 2. Initialize final parameters
+    let finalStyleUrl: string | undefined = undefined;
+    let finalPrompt: string = "";
+
+    // 3. Handle the two different style sources correctly
+    if (portraitSelectedStyle) {
+      // === PATH A: USER CHOSE A PRESET STYLE ===
+      finalPrompt = portraitSelectedStyle.prompt; // Get the prompt from the preset data
+      console.log(`Processing PRESET style: ${portraitSelectedStyle.name}`);
+      
+      // Fetch the preset image and re-upload it
+      const styleImageBlob = await convertUrlToBlob(portraitSelectedStyle.imageUrl);
+      finalStyleUrl = await uploadImageAndGetUrl(new File([styleImageBlob], "style.jpeg", { type: 'image/jpeg' }));
+
+    } else if (portraitCustomStyleImage) {
+      // === PATH B: USER UPLOADED A CUSTOM STYLE IMAGE ===
+      finalPrompt = portraitTextPrompt; // Get the prompt from the TEXTAREA state
+      console.log("Processing CUSTOM uploaded style image.");
+
+      // Upload the user's local file directly
+      finalStyleUrl = await uploadImageAndGetUrl(portraitCustomStyleImage);
+    }
+
+    // 4. Call the job with guaranteed valid data
+    const orderId = await startPortraitJob({
+      imageUrl: mainImageUrl,
+      styleImageUrl: finalStyleUrl,
+      textPrompt: finalPrompt || "A high-quality portrait"
+    });
+
+    const resultUrl = await pollJobUntilComplete(orderId);
+    setProcessedImage({ 
+      url: resultUrl, 
+      isLoading: false, 
+      error: null 
+    });
+  } catch (error) {
+    console.error("An error occurred during portrait generation:", error);
+    setProcessedImage({ 
+      url: null, 
+      isLoading: false, 
+      error: (error as Error).message || 'An unknown error occurred.' 
+    });
+  }
+};
+
 const handleAIProductPhotoshootGenerate = async () => {
   if (!selectedImage.file) {
     console.error("No user image provided.");
@@ -1015,6 +1086,15 @@ const handleAIImageGeneratorGenerate = async () => {
                   <li>Optionally add a text prompt to customize the avatar further</li>
                   <li>Click "Generate" to create your professional avatar</li>
                   <li>Download your avatar when processing is complete</li>
+                </>
+              ) : tool.id === 'ai-portrait' ? (
+                <>
+                  <li>Upload a clear photo of a person's face using the tool below</li>
+                  <li>Select your gender to see appropriate portrait styles</li>
+                  <li>Choose from preset realistic portrait styles OR upload your own style image</li>
+                  <li>Use suggested prompts or add your own text prompt to customize the portrait</li>
+                  <li>Click "Generate" to create your realistic portrait</li>
+                  <li>Download your portrait when processing is complete</li>
                 </>
               ) : tool.id === 'ai-product-photoshoot' ? (
                 <>
@@ -1568,6 +1648,126 @@ const handleAIImageGeneratorGenerate = async () => {
                 </div>
               )}
               
+              {/* AI Portrait specific controls */}
+              {tool.id === 'ai-portrait' && selectedImage.preview && (
+                <div className="space-y-6">
+                  <div className="bg-purple-50 border border-purple-200 rounded-lg p-3">
+                    <p className="text-sm text-purple-800">
+                      <strong>Note:</strong> For best results, use a clear photo of a person's face.
+                    </p>
+                  </div>
+                  
+                  {/* Gender Selection */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Select Gender</label>
+                    <div className="flex space-x-4">
+                      <button
+                        type="button"
+                        onClick={() => setPortraitSelectedGender('female')}
+                        className={`px-4 py-2 rounded-md border ${
+                          portraitSelectedGender === 'female'
+                            ? 'bg-blue-500 text-white border-blue-500'
+                            : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                        }`}
+                      >
+                        Female
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setPortraitSelectedGender('male')}
+                        className={`px-4 py-2 rounded-md border ${
+                          portraitSelectedGender === 'male'
+                            ? 'bg-blue-500 text-white border-blue-500'
+                            : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                        }`}
+                      >
+                        Male
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Preset Style Gallery */}
+                  {portraitSelectedGender && (
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Choose a Preset Style</label>
+                      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
+                        {portraitStyles
+                          .filter(style => style.gender === portraitSelectedGender)
+                          .map((style) => {
+                            const isSelected = portraitSelectedStyle?.imageUrl === style.imageUrl;
+                            return (
+                              <div
+                                key={style.imageUrl}
+                                className={`relative cursor-pointer rounded-lg overflow-hidden border-2 transition-all group ${
+                                  isSelected ? 'border-blue-500 shadow-lg' : 'border-transparent hover:border-gray-300'
+                                }`}
+                                onClick={() => setPortraitSelectedStyle(style)}
+                              >
+                                {/* The "Clear Selection" button - shows ONLY on the selected item */}
+                                {isSelected && (
+                                  <button
+                                    type="button"
+                                    onClick={(e) => { e.stopPropagation(); setPortraitSelectedStyle(null); }}
+                                    className="absolute top-1 right-1 z-10 p-1 bg-white bg-opacity-70 rounded-full text-red-600 hover:bg-opacity-100 hover:scale-110 transition-transform"
+                                    aria-label="Clear selection"
+                                  >
+                                    <XCircle size={20} />
+                                  </button>
+                                )}
+                                <img src={style.imageUrl} alt={style.name} className="w-full h-auto object-cover" />
+                                <p className="text-center text-xs p-1 bg-gray-100">{style.name}</p>
+                              </div>
+                            );
+                          })
+                        }
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Suggested Prompts */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Suggested Prompts</label>
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {suggestedPortraitPrompts.map((prompt) => (
+                        <button
+                          key={prompt}
+                          onClick={() => setPortraitTextPrompt(prompt)}
+                          className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded-full border transition-colors"
+                        >
+                          {prompt}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Custom Style Section */}
+                  <div className="space-y-4">
+                    <p className="text-sm font-medium text-gray-700 text-center">Or Use a Custom Style</p>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Upload a Style Image</label>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setPortraitCustomStyleImage(e.target.files?.[0] || null)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        disabled={!!portraitSelectedStyle}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Text Prompt</label>
+                      <textarea
+                        value={portraitTextPrompt}
+                        onChange={(e) => setPortraitTextPrompt(e.target.value)}
+                        placeholder="Describe the portrait style you want..."
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                        rows={2}
+                        disabled={!!portraitSelectedStyle}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+              
               {/* AI Product Photoshoot specific controls */}
               {tool.id === 'ai-product-photoshoot' && selectedImage.preview && (
                 <div className="space-y-6">
@@ -1780,6 +1980,7 @@ const handleAIImageGeneratorGenerate = async () => {
                   tool.id === 'ai-cartoon' ? handleAICartoonGenerate :
                   tool.id === 'ai-caricature' ? handleAICaricatureGenerate :
                   tool.id === 'ai-avatar' ? handleAIAvatarGenerate :
+                  tool.id === 'ai-portrait' ? handleAIPortraitGenerate :
                   tool.id === 'ai-product-photoshoot' ? handleAIProductPhotoshootGenerate :
                   tool.id === 'ai-background-generator' ? handleAIBackgroundGeneratorGenerate :
                   tool.id === 'ai-image-generator' ? handleAIImageGeneratorGenerate :
@@ -1794,6 +1995,7 @@ const handleAIImageGeneratorGenerate = async () => {
                   (tool.id === 'ai-cartoon' && !(selectedPresetUrl || cartoonStyleImage?.name)) ||
                   (tool.id === 'ai-caricature' && !caricatureSelectedStyle && !caricatureCustomStyleImage) ||
                   (tool.id === 'ai-avatar' && !avatarSelectedStyle && !avatarCustomStyleImage) ||
+                  (tool.id === 'ai-portrait' && !portraitSelectedStyle && !portraitCustomStyleImage) ||
                   (tool.id === 'ai-product-photoshoot' && !selectedProductStyle && !productCustomStyleImage && !productTextPrompt)
                 }
                 className="w-full"
@@ -1876,6 +2078,8 @@ function getToolDescription(tool: Tool): string {
       return 'replace objects or areas in your images with AI-generated content that seamlessly blends with the rest of the image';
     case 'ai-cartoon':
       return 'transform your photos into cartoon-style artwork with various artistic styles';
+    case 'ai-portrait':
+      return 'create realistic portrait transformations with professional styling and artistic effects';
     case 'ai-product-photoshoot':
       return 'create professional product photography with AI-generated backgrounds and lighting that make your products look stunning';
     case 'ai-background-generator':

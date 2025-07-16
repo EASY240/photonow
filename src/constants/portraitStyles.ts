@@ -16,12 +16,7 @@ export const portraitStyles: PortraitStyle[] = [
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_male/thumb/1721888196773.jpg',
     prompt: 'A selfie of a male as a powerful Wizard, wearing magical robes, in a fantasy library setting.'
   },
-  {
-    gender: 'male',
-    name: 'Vampire',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_male/thumb/1721888196645.jpg',
-    prompt: 'A selfie of a male as a sophisticated Vampire, gothic attire, pale skin, mysterious dark background.'
-  },
+
   {
     gender: 'male',
     name: 'Trench Coat',
@@ -58,18 +53,8 @@ export const portraitStyles: PortraitStyle[] = [
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_male/thumb/1721891373055.jpg',
     prompt: 'A selfie of a male in a vibrant abstract art style, using geometric shapes and non-realistic colors.'
   },
-  {
-    gender: 'male',
-    name: 'Cyberpunk',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_male/thumb/1721820555898.jpg',
-    prompt: 'A selfie of a male in a Cyberpunk style, with neon lights, futuristic attire, and cybernetic enhancements.'
-  },
-  {
-    gender: 'male',
-    name: 'Steampunk',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_male/thumb/1721820557168.jpg',
-    prompt: 'A selfie of a male in a Steampunk style, wearing Victorian clothing with brass gears and goggles.'
-  },
+
+
   {
     gender: 'male',
     name: 'Wooden',
@@ -82,18 +67,8 @@ export const portraitStyles: PortraitStyle[] = [
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_male/thumb/1721820777195.jpg',
     prompt: 'A selfie of a male reimagined as a classical Stone sculpture, with a marble or granite texture.'
   },
-  {
-    gender: 'male',
-    name: 'Zombie',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_male/thumb/1721820658049.jpg',
-    prompt: 'A selfie of a male as a scary Zombie, with decaying skin and a post-apocalyptic background.'
-  },
-  {
-    gender: 'male',
-    name: 'Tentacles',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_male/thumb/1721820657896.jpg',
-    prompt: 'A scary selfie of a male with cosmic horror Tentacles emerging around him, lovecraftian style.'
-  },
+
+
   {
     gender: 'male',
     name: 'Thriller',
@@ -280,18 +255,8 @@ export const portraitStyles: PortraitStyle[] = [
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/7cd237c1-9274-46e1-bddb-c1953d00f075.jpg',
     prompt: 'A stylish selfie of a male dressed up for a New Year\'s celebration, looking sharp in a suit.'
   },
-  {
-    gender: 'male',
-    name: 'Demon',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_male/thumb/1728970930407.jpg',
-    prompt: 'A scary Halloween selfie of a male as a Demon, with horns and glowing red eyes.'
-  },
-  {
-    gender: 'male',
-    name: 'Zombie',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_male/thumb/1728970929891.jpg',
-    prompt: 'A terrifying Halloween selfie of a male as a freshly turned Zombie, spooky background.'
-  },
+
+
 
   // --- Female Styles ---
   {
@@ -408,12 +373,7 @@ export const portraitStyles: PortraitStyle[] = [
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_female/thumb/1721822382528.jpg',
     prompt: 'A selfie of a female rendered in a colorful abstract painting style, bold shapes and lines.'
   },
-  {
-    gender: 'female',
-    name: 'Cyberpunk',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_female/thumb/1721893611894.jpg',
-    prompt: 'A fantasy selfie of a female in a Cyberpunk world, neon-drenched city, futuristic look.'
-  },
+
   {
     gender: 'female',
     name: 'Goddess',
@@ -492,112 +452,28 @@ export const portraitStyles: PortraitStyle[] = [
     imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_female/thumb/1721885285866.jpg',
     prompt: 'A royal selfie of a female as a powerful Queen, wearing a crown and regal jewelry.'
   },
-  {
-    gender: 'female',
-    name: 'Zombie',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_female/thumb/1721885956290.jpg',
-    prompt: 'A scary selfie of a female as a Zombie, with a haunting look, perfect for Halloween.'
-  },
-  {
-    gender: 'female',
-    name: 'Wendingo',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_female/thumb/1721885956121.jpg',
-    prompt: 'A terrifying selfie of a female as the mythical Wendigo, with antlers and a monstrous form.'
-  },
-  {
-    gender: 'female',
-    name: 'Vintage',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_female/thumb/1721894502729.jpg',
-    prompt: 'A classic selfie of a female in a vintage style, like a 1950s film star.'
-  },
-  {
-    gender: 'female',
-    name: 'Urban',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_female/thumb/1721894502550.jpg',
-    prompt: 'A classic selfie of a female with a cool, urban look, set against a city backdrop.'
-  },
-  {
-    gender: 'female',
-    name: 'Snow',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_female/thumb/1721894859655.jpg',
-    prompt: 'A selfie of a female transformed into the cartoon princess Snow White, classic animated style.'
-  },
-  {
-    gender: 'female',
-    name: 'Sleeping',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_female/thumb/1721894859518.jpg',
-    prompt: 'A selfie of a female as the cartoon princess Sleeping Beauty, beautiful and serene.'
-  },
-  {
-    gender: 'female',
-    name: 'Demon',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/hd/ai_selfie_female/1728017698553.jpg',
-    prompt: 'A scary Halloween selfie of a female as a powerful Demon queen, with horns and a dark aura.'
-  },
-  {
-    gender: 'female',
-    name: 'Vampire',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/hd/ai_selfie_female/1728017698805.jpg',
-    prompt: 'A Halloween selfie of a female as an elegant and dangerous Vampire, in a gothic setting.'
-  },
-  {
-    gender: 'female',
-    name: 'Bohemian',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/dcbd28ec-3270-4cd0-98f6-424ed7fbb1dc.jpg',
-    prompt: 'A selfie of a female with a stylish Bohemian look for a New Year\'s party, free-spirited and chic.'
-  },
-  {
-    gender: 'female',
-    name: 'Tuxedo',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/7a99d6ed-d001-4d22-9ee5-8d4e19aa7842.jpg',
-    prompt: 'A selfie of a female looking sharp and sophisticated in a tailored Tuxedo for a New Year\'s celebration.'
-  },
-  {
-    gender: 'female',
-    name: 'Radiance',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/hd/ai_selfie_female/1737443530257.jpg',
-    prompt: 'A selfie of a female radiating happiness on Valentine\'s Day, surrounded by a soft, romantic glow.'
-  },
-  {
-    gender: 'female',
-    name: 'Balloons',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/hd/ai_selfie_female/1737443531051.jpg',
-    prompt: 'A fun Valentine\'s Day selfie of a female surrounded by heart-shaped balloons.'
-  },
-  {
-    gender: 'female',
-    name: 'Holi Fusion',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/hd/ai_selfie_female/1738581165859.jpg',
-    prompt: 'A selfie of a female celebrating Holi, with a modern fusion of traditional wear and colorful powders.'
-  },
-  {
-    gender: 'female',
-    name: 'Rangbela',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/hd/ai_selfie_female/1738581166954.jpg',
-    prompt: 'A joyous selfie of a female playing with colors during Holi, a beautiful Rangbela.'
-  },
-  {
-    gender: 'female',
-    name: 'Lehenga',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/hd/ai_selfie_female/1721880727239.jpg',
-    prompt: 'A selfie of a female in a stunning traditional Lehenga, celebrating the festival of Diwali.'
-  },
-  {
-    gender: 'female',
-    name: 'Saree',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/hd/ai_selfie_female/1721822187515.jpg',
-    prompt: 'A selfie of a female wearing an elegant Saree, with festive lights for Diwali in the background.'
-  },
-  {
-    gender: 'female',
-    name: 'Turtleneck',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/hd/ai_selfie_female/1734081700993.jpg',
-    prompt: 'A cozy Christmas selfie of a female in a warm turtleneck sweater by a fireplace.'
-  },
-  {
-    gender: 'female',
-    name: 'Scarf',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/hd/ai_selfie_female/1734081700577.jpg',
-    prompt: 'A festive Christmas selfie of a female wearing a colorful scarf in a snowy setting.'
-  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+];
+
+export const suggestedPortraitPrompts = [
+  'Professional headshot with soft lighting',
+  'Artistic portrait with dramatic shadows',
+  'Vintage style with warm tones',
+  'Modern minimalist portrait',
+  'Fantasy character transformation',
+  'Cinematic movie poster style',
+  'Oil painting classical portrait',
+  'Digital art cyberpunk style'
 ];
