@@ -5,14 +5,15 @@ import SEO from '../components/ui/SEO';
 import Button from '../components/ui/Button';
 import ImageDropzone from '../components/ui/ImageDropzone';
 import { tools } from '../data/tools';
-import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, startProductPhotoshootJob, startBackgroundGeneratorJob, startImageGeneratorJob, startPortraitJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete } from '../utils/api';
-import type { ImageFile, ProcessedImage, Tool } from '../types';
+import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, startProductPhotoshootJob, startBackgroundGeneratorJob, startImageGeneratorJob, startPortraitJob, startFaceSwapJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete } from '../utils/api';
+import type { ImageFile, ProcessedImage, Tool, FaceSwapStyle } from '../types';
 import { maleCartoonStyles, femaleCartoonStyles } from '../constants/cartoonStyles';
 import { caricatureStyles, Style } from '../constants/caricatureStyles';
 import { avatarStyles, AvatarStyle } from '../constants/avatarStyles';
 import { productStyles, suggestedPrompts, type ProductStyle } from '../constants/productStyles';
 import { imageResolutions, suggestedPrompts as imageGeneratorPrompts, type ImageResolution } from '../constants/imageGeneratorOptions';
 import { portraitStyles, suggestedPortraitPrompts, type PortraitStyle } from '../constants/portraitStyles';
+import { faceSwapStyles } from '../constants/faceSwapStyles';
 
 const ToolPage: React.FC = () => {
   const { toolId } = useParams<{ toolId: string }>();
@@ -83,6 +84,11 @@ const ToolPage: React.FC = () => {
   const [portraitSelectedStyle, setPortraitSelectedStyle] = useState<PortraitStyle | null>(null);
   const [portraitCustomStyleImage, setPortraitCustomStyleImage] = useState<File | null>(null);
   const [portraitTextPrompt, setPortraitTextPrompt] = useState('');
+  
+  // AI Face Swap specific state
+  const [faceSwapTargetImage, setFaceSwapTargetImage] = useState<ImageFile>({ file: null, preview: null });
+  const [faceSwapSourceImage, setFaceSwapSourceImage] = useState<ImageFile>({ file: null, preview: null });
+  const [selectedFaceSwapPreset, setSelectedFaceSwapPreset] = useState<FaceSwapStyle | null>(null);
   // Find the tool based on the toolId param
   const tool = tools.find(t => t.id === toolId);
   
@@ -103,6 +109,55 @@ const ToolPage: React.FC = () => {
     setReplaceCanvasInitialized(false);
     setIsMaskDrawn(false);
   };
+
+const handleAIFaceSwapGenerate = async () => {
+  // Validate that we have a target image
+  if (!faceSwapTargetImage.file) {
+    setProcessedImage({ url: null, isLoading: false, error: 'Please upload a target image.' });
+    return;
+  }
+  
+  // Validate that we have a source face (either preset or uploaded)
+  if (!selectedFaceSwapPreset && !faceSwapSourceImage.file) {
+    setProcessedImage({ url: null, isLoading: false, error: 'Please select a preset face or upload a source face image.' });
+    return;
+  }
+  
+  setProcessedImage({ url: null, isLoading: true, error: null });
+
+  try {
+    // 1. Upload target image
+    const targetImageUrl = await uploadImageAndGetUrl(faceSwapTargetImage.file);
+
+    // 2. Get source face image URL
+    let sourceImageUrl: string;
+    
+    if (selectedFaceSwapPreset) {
+      // Use preset face - convert URL to blob and upload
+      const sourceImageBlob = await convertUrlToBlob(selectedFaceSwapPreset.imageUrl);
+      sourceImageUrl = await uploadImageAndGetUrl(new File([sourceImageBlob], "source-face.jpeg", { type: 'image/jpeg' }));
+    } else {
+      // Use uploaded source image
+      sourceImageUrl = await uploadImageAndGetUrl(faceSwapSourceImage.file!);
+    }
+
+    // 3. Start face swap job
+    const orderId = await startFaceSwapJob({
+      imageUrl: targetImageUrl,
+      styleImageUrl: sourceImageUrl,
+    });
+
+    // 4. Poll until complete
+    const resultUrl = await pollJobUntilComplete(orderId);
+
+    // 5. Display the result
+    setProcessedImage({ url: resultUrl, isLoading: false, error: null });
+
+  } catch (error) {
+    console.error("An error occurred during face swap generation:", error);
+    setProcessedImage({ url: null, isLoading: false, error: (error as Error).message });
+  }
+};
   
   // Handle image load for AI Cleanup - synchronizes canvas with displayed image
   const handleCleanupImageLoad = (event: React.SyntheticEvent<HTMLImageElement>) => {
@@ -1096,6 +1151,13 @@ const handleAIImageGeneratorGenerate = async () => {
                   <li>Click "Generate" to create your realistic portrait</li>
                   <li>Download your portrait when processing is complete</li>
                 </>
+              ) : tool.id === 'ai-face-swap' ? (
+                <>
+                  <li>Upload a target image (the photo you want to modify) using the first dropzone</li>
+                  <li>Either choose a preset face from the gallery OR upload your own source face image</li>
+                  <li>Click "Generate" to swap the faces</li>
+                  <li>Download your face-swapped image when processing is complete</li>
+                </>
               ) : tool.id === 'ai-product-photoshoot' ? (
                 <>
                   <li>Upload a clear photo of your product using the tool below</li>
@@ -1134,12 +1196,70 @@ const handleAIImageGeneratorGenerate = async () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-6">
-              {/* Show ImageDropzone for all tools except AI Image Generator */}
-              {tool.id !== 'ai-image-generator' && (
+              {/* Show ImageDropzone for all tools except AI Image Generator and AI Face Swap */}
+              {tool.id !== 'ai-image-generator' && tool.id !== 'ai-face-swap' && (
                 <ImageDropzone 
                   onImageSelect={handleImageSelect}
                   selectedImage={selectedImage}
                 />
+              )}
+              
+              {/* AI Face Swap specific image inputs */}
+              {tool.id === 'ai-face-swap' && (
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="text-lg font-medium mb-2">1. Upload Target Image</h3>
+                    <p className="text-sm text-gray-600 mb-3">The photo you want to modify</p>
+                    <ImageDropzone 
+                      onImageSelect={(imageFile) => setFaceSwapTargetImage(imageFile)}
+                      selectedImage={faceSwapTargetImage}
+                    />
+                  </div>
+                  
+                  <div>
+                    <h3 className="text-lg font-medium mb-2">2. Upload Source Face Image</h3>
+                    <p className="text-sm text-gray-600 mb-3">The face you want to use (disabled if preset selected)</p>
+                    <ImageDropzone 
+                      onImageSelect={(imageFile) => setFaceSwapSourceImage(imageFile)}
+                      selectedImage={faceSwapSourceImage}
+                      disabled={!!selectedFaceSwapPreset}
+                    />
+                  </div>
+                  
+                  <div>
+                    <h3 className="text-lg font-medium mb-2">Or Choose a Preset Source Face</h3>
+                    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4">
+                      {faceSwapStyles.map((style) => {
+                        const isSelected = selectedFaceSwapPreset?.imageUrl === style.imageUrl;
+                        return (
+                          <div
+                            key={style.imageUrl}
+                            className={`relative cursor-pointer rounded-lg overflow-hidden border-2 transition-all group ${
+                              isSelected ? 'border-blue-500 shadow-lg' : 'border-transparent hover:border-gray-300'
+                            }`}
+                            onClick={() => {
+                              setSelectedFaceSwapPreset(style);
+                              setFaceSwapSourceImage({ file: null, preview: null });
+                            }}
+                          >
+                            {isSelected && (
+                              <button
+                                type="button"
+                                onClick={(e) => { e.stopPropagation(); setSelectedFaceSwapPreset(null); }}
+                                className="absolute top-1 right-1 z-10 p-1 bg-white bg-opacity-70 rounded-full text-red-600 hover:bg-opacity-100 hover:scale-110 transition-transform"
+                                aria-label="Clear selection"
+                              >
+                                <XCircle size={20} />
+                              </button>
+                            )}
+                            <img src={style.imageUrl} alt={style.name} className="w-full h-auto object-cover" />
+                            <p className="text-center text-xs p-1 bg-gray-100">{style.name}</p>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
               )}
                
               {/* AI Cleanup specific controls */}
@@ -1981,6 +2101,7 @@ const handleAIImageGeneratorGenerate = async () => {
                   tool.id === 'ai-caricature' ? handleAICaricatureGenerate :
                   tool.id === 'ai-avatar' ? handleAIAvatarGenerate :
                   tool.id === 'ai-portrait' ? handleAIPortraitGenerate :
+                  tool.id === 'ai-face-swap' ? handleAIFaceSwapGenerate :
                   tool.id === 'ai-product-photoshoot' ? handleAIProductPhotoshootGenerate :
                   tool.id === 'ai-background-generator' ? handleAIBackgroundGeneratorGenerate :
                   tool.id === 'ai-image-generator' ? handleAIImageGeneratorGenerate :
@@ -1988,7 +2109,7 @@ const handleAIImageGeneratorGenerate = async () => {
                 }
                 disabled={
                   processedImage.isLoading ||
-                  (tool.id !== 'ai-image-generator' && !selectedImage.file) ||
+                  (tool.id !== 'ai-image-generator' && tool.id !== 'ai-face-swap' && !selectedImage.file) ||
                   (tool.id === 'ai-replace' && !textPrompt.trim()) ||
                   (tool.id === 'ai-background-generator' && !backgroundTextPrompt.trim()) ||
                   (tool.id === 'ai-image-generator' && !imageGeneratorTextPrompt.trim()) ||
@@ -1996,6 +2117,7 @@ const handleAIImageGeneratorGenerate = async () => {
                   (tool.id === 'ai-caricature' && !caricatureSelectedStyle && !caricatureCustomStyleImage) ||
                   (tool.id === 'ai-avatar' && !avatarSelectedStyle && !avatarCustomStyleImage) ||
                   (tool.id === 'ai-portrait' && !portraitSelectedStyle && !portraitCustomStyleImage) ||
+                  (tool.id === 'ai-face-swap' && (!faceSwapTargetImage.file || (!selectedFaceSwapPreset && !faceSwapSourceImage.file))) ||
                   (tool.id === 'ai-product-photoshoot' && !selectedProductStyle && !productCustomStyleImage && !productTextPrompt)
                 }
                 className="w-full"
@@ -2080,6 +2202,8 @@ function getToolDescription(tool: Tool): string {
       return 'transform your photos into cartoon-style artwork with various artistic styles';
     case 'ai-portrait':
       return 'create realistic portrait transformations with professional styling and artistic effects';
+    case 'ai-face-swap':
+      return 'seamlessly swap faces between two images, allowing you to replace faces in photos with either preset faces or custom source images';
     case 'ai-product-photoshoot':
       return 'create professional product photography with AI-generated backgrounds and lighting that make your products look stunning';
     case 'ai-background-generator':

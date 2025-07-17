@@ -865,3 +865,43 @@ export async function startPortraitJob({ imageUrl, styleImageUrl, textPrompt }: 
     throw error;
   }
 }
+
+export async function startFaceSwapJob({ imageUrl, styleImageUrl }: { imageUrl: string; styleImageUrl: string; }): Promise<string> {
+  try {
+    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+    const PROXY_BASE_URL = isProduction 
+      ? window.location.origin 
+      : 'http://localhost:3001';
+
+    // This payload is simple and only contains the two required image URLs.
+    const jobBody = {
+        imageUrl: imageUrl, // Target image
+        styleImageUrl: styleImageUrl, // Source face image
+    };
+
+    const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        endpoint: 'v1/face-swap', // The correct endpoint for this tool
+        body: jobBody
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Failed to start face swap job: ${response.status} - ${errorText}`);
+    }
+
+    const data = await response.json();
+    
+    if (!data.body || !data.body.orderId) {
+      throw new Error(`Invalid face swap job response: ${JSON.stringify(data)}`);
+    }
+
+    return data.body.orderId;
+  } catch (error) {
+    console.error('Error starting face swap job:', error);
+    throw error;
+  }
+}

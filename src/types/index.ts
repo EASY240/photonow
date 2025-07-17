@@ -17,3 +17,9 @@ export interface ProcessedImage {
   isLoading: boolean;
   error: string | null;
 }
+
+export interface FaceSwapStyle {
+  name: string;
+  imageUrl: string;
+  gender: 'male' | 'female' | 'any';
+}

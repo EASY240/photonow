@@ -3,3 +3,5 @@ export const SITE_DESCRIPTION = 'Free online photo editing tools powered by AI. 
 
 export const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 export const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+
+export { faceSwapStyles } from './faceSwapStyles';
