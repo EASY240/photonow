@@ -1,12 +1,12 @@
-AI portrait
+AI Outfit
 Overview
-Welcome to the AI Portrait API V2 Documentation. Our AI Portrait API enables the creation of both realistic and stylized portraits from various input data, including text descriptions. It allows users to apply different artistic styles to their portraits, providing a flexible tool for customizing visual attributes such as facial features, backgrounds, and artistic effects. Leveraging advanced algorithms, the API ensures that every portrait reflects the input details with high precision, delivering visually compelling and personalized results. Discover the Full Guide to Begin!
+Welcome to our AI Clothes Changer API V2 Documentation! This API enables users to virtually try on outfits, transforming clothing in photos while maintaining a realistic fit and natural look. The API allows outfit generations and custom styling through text prompts. With flexible outfit generation, it supports various body types and provides accurate sizing, making it perfect for fashion apps, e-commerce, and virtual styling platforms. Discover the Full Guide to Begin!
 
-How the AI Portrait API Structures Output
-The AI Portrait API enables users to generate high-quality portrait images from their input photos. When you provide a style image, the API uses it as a reference to guide the artistic direction of the output.
+How the AI Outfit API Structures Output
+The AI Outfit API allows you to virtually try on and visualize different outfits on your image using just a text prompt and an optional style image. Whether you're aiming for a professional look, a casual vibe, or a sporty appearance, the API intelligently overlays the desired outfit onto your photo while preserving your pose and facial features.
 
-AI Portrait API Rollout
-To access your AI Portrait API, you need to generate an API key. Visit the LightX API to retrieve your key. Insert your image URL and text prompt or add a style image to generate portraits. Each generation will cost you 1 credit with the output delivered in JPEG format.
+AI Outfit API Rollout
+To access your AI Outfit Changer API, you need to generate an API key. Visit the LightX API to retrieve your key. Insert your image URL and text prompt to change the outfit of the character. Each generation will cost you 1 credit with the output delivered in JPEG format.
 
 note
 To ensure seamless processing, it is mandatory to use ImageUpload API for uploading images. External image URLs are not supported and will result in an error.
@@ -68,15 +68,13 @@ Going Forward, use cURL along with x-api-key and your API key (as given below) t
 cURL
 
   Method- Post
-curl --location 'https://api.lightxeditor.com/external/api/v1/portrait' \
+curl --location 'https://api.lightxeditor.com/external/api/v1/outfit' \
 --header 'Content-Type: application/json' \
 --header 'x-api-key: <Insert your API Key>' \
 --data '{
 "imageUrl": "https://example.com/your-image.jpg",  // Replace with the URL of your input image
-"styleImageUrl": "https://example.com/your-style-image.jpg",  // Replace with the URL of your input style image
 "textPrompt": "YourInputPrompt"  // Replace with your specific input prompt
 }'
-
 
 Once your request is completed, visualize the "Response" to verify that the API call is executed successfully (as given below).
 

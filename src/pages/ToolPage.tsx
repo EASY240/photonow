@@ -5,7 +5,7 @@ import SEO from '../components/ui/SEO';
 import Button from '../components/ui/Button';
 import ImageDropzone from '../components/ui/ImageDropzone';
 import { tools } from '../data/tools';
-import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, startProductPhotoshootJob, startBackgroundGeneratorJob, startImageGeneratorJob, startPortraitJob, startFaceSwapJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete } from '../utils/api';
+import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, startProductPhotoshootJob, startBackgroundGeneratorJob, startImageGeneratorJob, startPortraitJob, startFaceSwapJob, startOutfitJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete } from '../utils/api';
 import type { ImageFile, ProcessedImage, Tool, FaceSwapStyle } from '../types';
 import { maleCartoonStyles, femaleCartoonStyles } from '../constants/cartoonStyles';
 import { caricatureStyles, Style } from '../constants/caricatureStyles';
@@ -14,6 +14,7 @@ import { productStyles, suggestedPrompts, type ProductStyle } from '../constants
 import { imageResolutions, suggestedPrompts as imageGeneratorPrompts, type ImageResolution } from '../constants/imageGeneratorOptions';
 import { portraitStyles, suggestedPortraitPrompts, type PortraitStyle } from '../constants/portraitStyles';
 import { faceSwapStyles } from '../constants/faceSwapStyles';
+import { presetOutfitStyles, suggestedOutfitPrompts, type OutfitStyle } from '../constants/outfitStyles';
 
 const ToolPage: React.FC = () => {
   const { toolId } = useParams<{ toolId: string }>();
@@ -89,6 +90,10 @@ const ToolPage: React.FC = () => {
   const [faceSwapTargetImage, setFaceSwapTargetImage] = useState<ImageFile>({ file: null, preview: null });
   const [faceSwapSourceImage, setFaceSwapSourceImage] = useState<ImageFile>({ file: null, preview: null });
   const [selectedFaceSwapPreset, setSelectedFaceSwapPreset] = useState<FaceSwapStyle | null>(null);
+  
+  // AI Outfit specific state
+  const [outfitTextPrompt, setOutfitTextPrompt] = useState('');
+  
   // Find the tool based on the toolId param
   const tool = tools.find(t => t.id === toolId);
   
@@ -1030,6 +1035,41 @@ const handleAIImageGeneratorGenerate = async () => {
   }
 };
 
+const handleAIOutfitGenerate = async () => {
+  if (!selectedImage.file) {
+    setProcessedImage({ url: null, isLoading: false, error: 'Please upload an image.' });
+    return;
+  }
+  
+  if (!outfitTextPrompt.trim()) {
+    setProcessedImage({ url: null, isLoading: false, error: 'Please enter a text prompt describing the outfit you want.' });
+    return;
+  }
+
+  setProcessedImage({ url: null, isLoading: true, error: null });
+
+  try {
+    // 1. Upload the image
+    const imageUrl = await uploadImageAndGetUrl(selectedImage.file);
+
+    // 2. Start the outfit job
+    const orderId = await startOutfitJob({
+      imageUrl: imageUrl,
+      textPrompt: outfitTextPrompt,
+    });
+
+    // 3. Poll until complete
+    const resultUrl = await pollJobUntilComplete(orderId);
+
+    // 4. Display the result
+    setProcessedImage({ url: resultUrl, isLoading: false, error: null });
+
+  } catch (error) {
+    console.error("An error occurred during outfit generation:", error);
+    setProcessedImage({ url: null, isLoading: false, error: (error as Error).message });
+  }
+};
+
   // Canvas initialization is now handled by onLoad events on the image elements
   
   const handleProcessImage = async () => {
@@ -1182,6 +1222,15 @@ const handleAIImageGeneratorGenerate = async () => {
                   <li>Be specific about style, colors, composition, and artistic elements</li>
                   <li>Click "Generate" to let AI create your unique image</li>
                   <li>Download your generated image when processing is complete</li>
+                </>
+              ) : tool.id === 'ai-outfit' ? (
+                <>
+                  <li>Upload a clear photo of a person using the tool below</li>
+                  <li>Choose from preset outfit styles organized by category OR use suggested prompts</li>
+                  <li>Enter a detailed text prompt describing the outfit you want to apply</li>
+                  <li>Be specific about clothing type, style, colors, and materials</li>
+                  <li>Click "Generate" to let AI change the outfit in your photo</li>
+                  <li>Download your transformed image when processing is complete</li>
                 </>
               ) : (
                 <>
@@ -2091,6 +2140,84 @@ const handleAIImageGeneratorGenerate = async () => {
                   </div>
                 </div>
               )}
+              
+              {/* AI Outfit specific controls */}
+              {tool.id === 'ai-outfit' && selectedImage.preview && (
+                <div className="space-y-6">
+                  <div className="bg-purple-50 border border-purple-200 rounded-lg p-3">
+                    <p className="text-sm text-purple-800">
+                      <strong>Note:</strong> This tool works best with clear photos of people wearing clothing.
+                    </p>
+                  </div>
+                  
+                  {/* Preset Outfit Styles */}
+                  <div>
+                    <h3 className="text-lg font-semibold mb-4">Choose an Outfit Style</h3>
+                    {Object.entries(
+                      presetOutfitStyles.reduce((acc, style) => {
+                        if (!acc[style.category]) acc[style.category] = [];
+                        acc[style.category].push(style);
+                        return acc;
+                      }, {} as Record<string, typeof presetOutfitStyles>)
+                    ).map(([category, styles]) => (
+                      <div key={category} className="mb-6">
+                        <h4 className="text-md font-medium text-gray-700 mb-3">{category}</h4>
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                          {styles.map((style) => (
+                            <button
+                              key={style.name}
+                              onClick={() => setOutfitTextPrompt(style.prompt)}
+                              className="p-3 text-left bg-gray-50 hover:bg-gray-100 rounded-lg border transition-colors"
+                            >
+                              <div className="text-sm font-medium">{style.name}</div>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Suggested Prompts */}
+                  <div>
+                    <h3 className="text-lg font-semibold mb-4">Suggested Outfit Ideas</h3>
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {suggestedOutfitPrompts.map((prompt) => (
+                        <button
+                          key={prompt}
+                          onClick={() => setOutfitTextPrompt(prompt)}
+                          className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded-full border transition-colors"
+                        >
+                          {prompt}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Text Prompt Input */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Outfit Description
+                    </label>
+                    <textarea
+                      value={outfitTextPrompt}
+                      onChange={(e) => setOutfitTextPrompt(e.target.value)}
+                      placeholder="Describe the outfit you want to apply (e.g., 'elegant black evening dress', 'casual denim jacket and jeans', 'professional business suit')..."
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                      rows={4}
+                    />
+                    
+                    <div className="mt-3 bg-blue-50 border border-blue-200 rounded-lg p-3">
+                      <h4 className="text-sm font-medium text-blue-800 mb-2">💡 Tips for better results:</h4>
+                      <ul className="text-xs text-blue-700 space-y-1">
+                        <li>• Be specific about clothing type, style, colors, and materials</li>
+                        <li>• Include details about fit and silhouette (loose, fitted, flowing, etc.)</li>
+                        <li>• Mention specific garments (dress, shirt, pants, jacket, etc.)</li>
+                        <li>• Add style descriptors (casual, formal, vintage, modern, etc.)</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <Button
                 onClick={
@@ -2105,6 +2232,7 @@ const handleAIImageGeneratorGenerate = async () => {
                   tool.id === 'ai-product-photoshoot' ? handleAIProductPhotoshootGenerate :
                   tool.id === 'ai-background-generator' ? handleAIBackgroundGeneratorGenerate :
                   tool.id === 'ai-image-generator' ? handleAIImageGeneratorGenerate :
+                  tool.id === 'ai-outfit' ? handleAIOutfitGenerate :
                   handleProcessImage
                 }
                 disabled={
@@ -2118,7 +2246,8 @@ const handleAIImageGeneratorGenerate = async () => {
                   (tool.id === 'ai-avatar' && !avatarSelectedStyle && !avatarCustomStyleImage) ||
                   (tool.id === 'ai-portrait' && !portraitSelectedStyle && !portraitCustomStyleImage) ||
                   (tool.id === 'ai-face-swap' && (!faceSwapTargetImage.file || (!selectedFaceSwapPreset && !faceSwapSourceImage.file))) ||
-                  (tool.id === 'ai-product-photoshoot' && !selectedProductStyle && !productCustomStyleImage && !productTextPrompt)
+                  (tool.id === 'ai-product-photoshoot' && !selectedProductStyle && !productCustomStyleImage && !productTextPrompt) ||
+                  (tool.id === 'ai-outfit' && (!selectedImage.file || !outfitTextPrompt.trim()))
                 }
                 className="w-full"
               >
@@ -2208,6 +2337,8 @@ function getToolDescription(tool: Tool): string {
       return 'create professional product photography with AI-generated backgrounds and lighting that make your products look stunning';
     case 'ai-background-generator':
       return 'generate stunning new backgrounds for your images using AI, perfect for creating professional-looking photos with custom scenes';
+    case 'ai-outfit':
+      return 'virtually change clothing on people in photos using AI, allowing you to transform outfits with simple text descriptions';
     default:
       return 'transform and enhance your images with professional-quality results';
   }

@@ -1,50 +1,40 @@
 // Inside ToolPage.tsx, with the other handleGenerate functions
 
-const handleAIPortraitGenerate = async () => {
-    if (!selectedImage.file) { return; }
-    // A style source (preset, custom image, or text prompt) is needed
-    if (!portraitSelectedStyle && !portraitCustomStyleImage && !portraitTextPrompt) {
-        setProcessedImage({ url: null, isLoading: false, error: 'Please select a preset style, upload a custom style, or enter a text prompt.' });
+const handleAIOutfitGenerate = async () => {
+    // 1. Validate inputs
+    if (!selectedImage.file) {
+        setProcessedImage({ url: null, isLoading: false, error: "Please upload an image first." });
         return;
     }
-    
+    if (!outfitTextPrompt.trim()) {
+        setProcessedImage({ url: null, isLoading: false, error: "Please describe the outfit you want or select a style." });
+        return;
+    }
+
     setProcessedImage({ url: null, isLoading: true, error: null });
+    // setStatusMessage("Preparing your image...");
 
     try {
-        // 1. Upload main user image
+        // 2. Upload the main image
         const mainImageUrl = await uploadImageAndGetUrl(selectedImage.file);
 
-        // 2. Initialize final parameters
-        let finalStyleUrl: string | undefined = undefined;
-        let finalPrompt: string = "";
+        // setStatusMessage("Generating your new outfit...");
 
-        // 3. Handle the different style sources correctly
-        if (portraitSelectedStyle) {
-            finalPrompt = portraitSelectedStyle.prompt;
-            const styleImageBlob = await convertUrlToBlob(portraitSelectedStyle.imageUrl);
-            finalStyleUrl = await uploadImageAndGetUrl(new File([styleImageBlob], "style.jpeg", { type: 'image/jpeg' }));
-        } else if (portraitCustomStyleImage) {
-            finalPrompt = portraitTextPrompt;
-            finalStyleUrl = await uploadImageAndGetUrl(portraitCustomStyleImage);
-        } else {
-            finalPrompt = portraitTextPrompt;
-        }
-
-        // 4. Call the job with ALL required keys, defaulting to ""
-        const orderId = await startPortraitJob({
+        // 3. Call the API job function. The logic is simple.
+        const orderId = await startOutfitJob({
             imageUrl: mainImageUrl,
-            styleImageUrl: finalStyleUrl,
-            textPrompt: finalPrompt,
+            textPrompt: outfitTextPrompt,
         });
 
-        // 5. Patient polling using our unified poller
+        // 4. Patient polling using our unified poller.
+        // setStatusMessage("Finalizing your look...");
         const resultUrl = await pollJobUntilComplete(orderId);
 
-        // 6. Display the result
+        // 5. Display the result.
         setProcessedImage({ url: resultUrl, isLoading: false, error: null });
 
     } catch (error) {
-        console.error("An error occurred during portrait generation:", error);
+        console.error("An error occurred during outfit generation:", error);
         setProcessedImage({ url: null, isLoading: false, error: (error as Error).message });
     }
 };
