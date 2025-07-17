@@ -62,7 +62,15 @@ export async function uploadImageAndGetUrl(file: File): Promise<string> {
       throw new Error(`Failed to upload image: ${uploadImageResponse.status} - ${errorText}`);
     }
 
-    return imageUrl;
+    // Clean the returned URL by removing any potential backticks, spaces, and other unwanted characters
+    const cleanImageUrl = imageUrl.trim().replace(/[\`\s'"]/g, '');
+    
+    console.log('DEBUG: Original imageUrl from upload:', JSON.stringify(imageUrl));
+    console.log('DEBUG: Original imageUrl length:', imageUrl.length);
+    console.log('DEBUG: Cleaned imageUrl from upload:', JSON.stringify(cleanImageUrl));
+    console.log('DEBUG: Cleaned imageUrl length:', cleanImageUrl.length);
+
+    return cleanImageUrl;
   } catch (error) {
     console.error('Error uploading image:', error);
     throw error;
@@ -942,6 +950,76 @@ export async function startOutfitJob({ imageUrl, textPrompt }: { imageUrl: strin
     return data.body.orderId;
   } catch (error) {
     console.error('Error starting outfit job:', error);
+    throw error;
+  }
+}
+
+interface ImageToImageParams {
+  imageUrl: string;
+  textPrompt: string;
+  styleImageUrl?: string;
+  strength?: number;
+  styleStrength?: number;
+}
+
+export async function startImageToImageJob(params: ImageToImageParams): Promise<string> {
+  try {
+    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+    const PROXY_BASE_URL = isProduction 
+      ? window.location.origin
+      : 'http://localhost:3001';
+
+    // Clean URLs by removing any potential backticks, spaces, and other unwanted characters
+    const cleanImageUrl = params.imageUrl.trim().replace(/[\`\s'"]/g, '');
+    const cleanStyleImageUrl = params.styleImageUrl ? params.styleImageUrl.trim().replace(/[\`\s'"]/g, '') : undefined;
+    
+    console.log('DEBUG: Original imageUrl:', JSON.stringify(params.imageUrl));
+    console.log('DEBUG: Original imageUrl length:', params.imageUrl.length);
+    console.log('DEBUG: Cleaned imageUrl:', JSON.stringify(cleanImageUrl));
+    console.log('DEBUG: Cleaned imageUrl length:', cleanImageUrl.length);
+    
+    if (params.styleImageUrl) {
+      console.log('DEBUG: Original styleImageUrl:', JSON.stringify(params.styleImageUrl));
+      console.log('DEBUG: Original styleImageUrl length:', params.styleImageUrl.length);
+      console.log('DEBUG: Cleaned styleImageUrl:', JSON.stringify(cleanStyleImageUrl));
+      console.log('DEBUG: Cleaned styleImageUrl length:', cleanStyleImageUrl?.length);
+    }
+
+    // Build the payload dynamically, only including optional keys if they have a value.
+    const jobBody: { [key: string]: any } = {
+        imageUrl: cleanImageUrl,
+        textPrompt: params.textPrompt
+    };
+    if (cleanStyleImageUrl) jobBody.styleImageUrl = cleanStyleImageUrl;
+    if (params.strength !== undefined) jobBody.strength = params.strength;
+    if (params.styleStrength !== undefined) jobBody.styleStrength = params.styleStrength;
+    
+    console.log('DEBUG: Final jobBody in startImageToImageJob:', jobBody);
+    console.log('DEBUG: JSON.stringify(jobBody):', JSON.stringify(jobBody));
+    
+    const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        endpoint: 'v1/image2image', // The correct endpoint for this tool
+        body: jobBody
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Failed to start image-to-image job: ${response.status} - ${errorText}`);
+    }
+
+    const data = await response.json();
+    
+    if (!data.body || !data.body.orderId) {
+      throw new Error(`Invalid image-to-image job response: ${JSON.stringify(data)}`);
+    }
+
+    return data.body.orderId;
+  } catch (error) {
+    console.error('Error starting image-to-image job:', error);
     throw error;
   }
 }

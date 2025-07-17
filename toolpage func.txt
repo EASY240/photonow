@@ -1,40 +1,49 @@
 // Inside ToolPage.tsx, with the other handleGenerate functions
 
-const handleAIOutfitGenerate = async () => {
+const handleAIImageToImageGenerate = async () => {
     // 1. Validate inputs
-    if (!selectedImage.file) {
-        setProcessedImage({ url: null, isLoading: false, error: "Please upload an image first." });
+    if (!i2iMainImage.file || !i2iTextPrompt.trim()) {
+        setProcessedImage({ url: null, isLoading: false, error: "Please provide a main image and a text prompt." });
         return;
     }
-    if (!outfitTextPrompt.trim()) {
-        setProcessedImage({ url: null, isLoading: false, error: "Please describe the outfit you want or select a style." });
-        return;
-    }
-
+    
     setProcessedImage({ url: null, isLoading: true, error: null });
-    // setStatusMessage("Preparing your image...");
+    // setStatusMessage("Preparing your images...");
 
     try {
         // 2. Upload the main image
-        const mainImageUrl = await uploadImageAndGetUrl(selectedImage.file);
+        const mainImageUrl = await uploadImageAndGetUrl(i2iMainImage.file);
 
-        // setStatusMessage("Generating your new outfit...");
+        // 3. Conditionally upload the style image if it exists
+        let styleImageUrl: string | undefined = undefined;
+        if (i2iStyleImage.file) {
+            styleImageUrl = await uploadImageAndGetUrl(i2iStyleImage.file);
+        }
 
-        // 3. Call the API job function. The logic is simple.
-        const orderId = await startOutfitJob({
+        // 4. Construct the parameters object for the API call
+        const apiParams = {
             imageUrl: mainImageUrl,
-            textPrompt: outfitTextPrompt,
-        });
+            textPrompt: i2iTextPrompt,
+            styleImageUrl: styleImageUrl,
+            strength: i2iStrength,
+            // Only send styleStrength if a style image was used
+            styleStrength: styleImageUrl ? i2iStyleStrength : undefined
+        };
 
-        // 4. Patient polling using our unified poller.
-        // setStatusMessage("Finalizing your look...");
+        // setStatusMessage("Transforming your image...");
+
+        // 5. Call the API job function
+        const orderId = await startImageToImageJob(apiParams);
+        
+        // 6. Patient polling using our unified poller
+        // setStatusMessage("Finalizing your new creation...");
         const resultUrl = await pollJobUntilComplete(orderId);
 
-        // 5. Display the result.
+        // 7. Display the result
         setProcessedImage({ url: resultUrl, isLoading: false, error: null });
 
     } catch (error) {
-        console.error("An error occurred during outfit generation:", error);
+        console.error("An error occurred during Image to Image generation:", error);
         setProcessedImage({ url: null, isLoading: false, error: (error as Error).message });
     }
 };

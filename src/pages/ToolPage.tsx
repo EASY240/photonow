@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
-import { Download, Loader, Brush, XCircle } from 'lucide-react';
+import { Download, Loader, Brush, XCircle, HelpCircle } from 'lucide-react';
 import SEO from '../components/ui/SEO';
 import Button from '../components/ui/Button';
 import ImageDropzone from '../components/ui/ImageDropzone';
 import { tools } from '../data/tools';
-import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, startProductPhotoshootJob, startBackgroundGeneratorJob, startImageGeneratorJob, startPortraitJob, startFaceSwapJob, startOutfitJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete } from '../utils/api';
+import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, startProductPhotoshootJob, startBackgroundGeneratorJob, startImageGeneratorJob, startPortraitJob, startFaceSwapJob, startOutfitJob, startImageToImageJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete } from '../utils/api';
 import type { ImageFile, ProcessedImage, Tool, FaceSwapStyle } from '../types';
 import { maleCartoonStyles, femaleCartoonStyles } from '../constants/cartoonStyles';
 import { caricatureStyles, Style } from '../constants/caricatureStyles';
@@ -93,6 +93,13 @@ const ToolPage: React.FC = () => {
   
   // AI Outfit specific state
   const [outfitTextPrompt, setOutfitTextPrompt] = useState('');
+  
+  // AI Image to Image specific state
+  const [i2iMainImage, setI2iMainImage] = useState<ImageFile>({ file: null, preview: null });
+  const [i2iStyleImage, setI2iStyleImage] = useState<ImageFile>({ file: null, preview: null });
+  const [i2iTextPrompt, setI2iTextPrompt] = useState('');
+  const [i2iStrength, setI2iStrength] = useState(0.5); // Default value from 0.0 to 1.0
+  const [i2iStyleStrength, setI2iStyleStrength] = useState(0.9); // Default value from 0.0 to 1.0
   
   // Find the tool based on the toolId param
   const tool = tools.find(t => t.id === toolId);
@@ -1070,6 +1077,55 @@ const handleAIOutfitGenerate = async () => {
   }
 };
 
+const handleAIImageToImageGenerate = async () => {
+  if (!i2iMainImage.file) {
+    setProcessedImage({ url: null, isLoading: false, error: 'Please upload a main image.' });
+    return;
+  }
+  
+  if (!i2iTextPrompt.trim()) {
+    setProcessedImage({ url: null, isLoading: false, error: 'Please enter a text prompt describing the transformation you want.' });
+    return;
+  }
+
+  setProcessedImage({ url: null, isLoading: true, error: null });
+
+  try {
+    // 1. Upload the main image
+    const mainImageUrl = await uploadImageAndGetUrl(i2iMainImage.file);
+    console.log('DEBUG: mainImageUrl after upload:', mainImageUrl);
+
+    // 2. Upload style image if provided
+    let styleImageUrl: string | undefined;
+    if (i2iStyleImage.file) {
+      styleImageUrl = await uploadImageAndGetUrl(i2iStyleImage.file);
+      console.log('DEBUG: styleImageUrl after upload:', styleImageUrl);
+    }
+
+    // 3. Start the image-to-image job
+    const jobParams = {
+      imageUrl: mainImageUrl,
+      textPrompt: i2iTextPrompt,
+      styleImageUrl: styleImageUrl,
+      strength: i2iStrength,
+      styleStrength: i2iStyleImage.file ? i2iStyleStrength : undefined,
+    };
+    console.log('DEBUG: jobParams before API call:', jobParams);
+    
+    const orderId = await startImageToImageJob(jobParams);
+
+    // 4. Poll until complete
+    const resultUrl = await pollJobUntilComplete(orderId);
+
+    // 5. Display the result
+    setProcessedImage({ url: resultUrl, isLoading: false, error: null });
+
+  } catch (error) {
+     console.error("An error occurred during image-to-image generation:", error);
+     setProcessedImage({ url: null, isLoading: false, error: (error as Error).message });
+   }
+ };
+
   // Canvas initialization is now handled by onLoad events on the image elements
   
   const handleProcessImage = async () => {
@@ -1232,6 +1288,16 @@ const handleAIOutfitGenerate = async () => {
                   <li>Click "Generate" to let AI change the outfit in your photo</li>
                   <li>Download your transformed image when processing is complete</li>
                 </>
+              ) : tool.id === 'ai-image-to-image' ? (
+                <>
+                  <li>Upload your main image that you want to transform</li>
+                  <li>Optionally upload a style reference image for visual guidance</li>
+                  <li>Adjust the Image Strength slider to control how much the result resembles your main image</li>
+                  <li>Adjust the Style Strength slider to control how much the result follows your style image</li>
+                  <li>Enter a detailed text prompt describing the transformation you want</li>
+                  <li>Click "Generate" to let AI transform your image based on your prompt and settings</li>
+                  <li>Download your transformed image when processing is complete</li>
+                </>
               ) : (
                 <>
                   <li>Upload your image using the tool below</li>
@@ -1245,8 +1311,8 @@ const handleAIOutfitGenerate = async () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-6">
-              {/* Show ImageDropzone for all tools except AI Image Generator and AI Face Swap */}
-              {tool.id !== 'ai-image-generator' && tool.id !== 'ai-face-swap' && (
+              {/* Show ImageDropzone for all tools except AI Image Generator, AI Face Swap, and AI Image to Image */}
+              {tool.id !== 'ai-image-generator' && tool.id !== 'ai-face-swap' && tool.id !== 'ai-image-to-image' && (
                 <ImageDropzone 
                   onImageSelect={handleImageSelect}
                   selectedImage={selectedImage}
@@ -2218,6 +2284,113 @@ const handleAIOutfitGenerate = async () => {
                   </div>
                 </div>
               )}
+              
+              {/* AI Image to Image specific controls */}
+              {tool.id === 'ai-image-to-image' && (
+                <div className="space-y-6">
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                    <p className="text-sm text-blue-800">
+                      <strong>Note:</strong> Upload a main image to transform and optionally a style reference image for visual guidance.
+                    </p>
+                  </div>
+                  
+                  {/* Main Image Upload */}
+                  <div>
+                    <h3 className="text-lg font-semibold mb-2">1. Main Image</h3>
+                    <p className="text-sm text-gray-600 mb-3">The image you want to transform</p>
+                    <ImageDropzone 
+                      onImageSelect={(imageFile) => setI2iMainImage(imageFile)}
+                      selectedImage={i2iMainImage}
+                    />
+                  </div>
+                  
+                  {/* Style Image Upload */}
+                  <div>
+                    <h3 className="text-lg font-semibold mb-2">2. Style Reference Image (Optional)</h3>
+                    <p className="text-sm text-gray-600 mb-3">Upload an image to use as style guidance</p>
+                    <ImageDropzone 
+                      onImageSelect={(imageFile) => setI2iStyleImage(imageFile)}
+                      selectedImage={i2iStyleImage}
+                    />
+                  </div>
+                  
+                  {/* Strength Sliders */}
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Image Strength: {i2iStrength.toFixed(1)}
+                      </label>
+                      <input
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.1"
+                        value={i2iStrength}
+                        onChange={(e) => setI2iStrength(Number(e.target.value))}
+                        className="w-full"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">
+                        Higher strength makes the result look more like your main image
+                      </p>
+                    </div>
+                    
+                    <div>
+                      <div className="flex items-center gap-2 mb-2">
+                        <label className="text-sm font-medium text-gray-700">
+                          Style Strength: {i2iStyleStrength.toFixed(1)}
+                        </label>
+                        <div className="relative group">
+                          <HelpCircle className="w-4 h-4 text-gray-400 cursor-help" />
+                          <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-800 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
+                            Slider is disabled if no style image has been uploaded
+                            <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <input
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.1"
+                        value={i2iStyleStrength}
+                        onChange={(e) => setI2iStyleStrength(Number(e.target.value))}
+                        disabled={!i2iStyleImage.file}
+                        className="w-full disabled:opacity-50 disabled:cursor-not-allowed"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">
+                        Higher strength makes the result look more like your style image
+                        {!i2iStyleImage.file && " (disabled - upload a style image first)"}
+                      </p>
+                    </div>
+                  </div>
+                  
+                  {/* Text Prompt Input */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Enter Prompt *
+                    </label>
+                    <textarea
+                      value={i2iTextPrompt}
+                      onChange={(e) => setI2iTextPrompt(e.target.value)}
+                      placeholder="Describe the final image you want to create (e.g., 'turn this into a watercolor painting', 'make it look like a vintage photograph', 'transform into a cyberpunk scene')..."
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                      rows={4}
+                      required
+                    />
+                    
+                    <div className="mt-3 bg-green-50 border border-green-200 rounded-lg p-3">
+                      <h4 className="text-sm font-medium text-green-800 mb-2">💡 Tips for better results:</h4>
+                      <ul className="text-xs text-green-700 space-y-1">
+                        <li>• Be specific about the style, mood, or transformation you want</li>
+                        <li>• Mention artistic styles (watercolor, oil painting, digital art, etc.)</li>
+                        <li>• Include lighting and atmosphere details (dramatic, soft, bright, etc.)</li>
+                        <li>• Use the Image Strength slider to control how much of the original to keep</li>
+                        <li>• Use the Style Strength slider to control style reference influence</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <Button
                 onClick={
@@ -2233,11 +2406,12 @@ const handleAIOutfitGenerate = async () => {
                   tool.id === 'ai-background-generator' ? handleAIBackgroundGeneratorGenerate :
                   tool.id === 'ai-image-generator' ? handleAIImageGeneratorGenerate :
                   tool.id === 'ai-outfit' ? handleAIOutfitGenerate :
+                  tool.id === 'ai-image-to-image' ? handleAIImageToImageGenerate :
                   handleProcessImage
                 }
                 disabled={
                   processedImage.isLoading ||
-                  (tool.id !== 'ai-image-generator' && tool.id !== 'ai-face-swap' && !selectedImage.file) ||
+                  (tool.id !== 'ai-image-generator' && tool.id !== 'ai-face-swap' && tool.id !== 'ai-image-to-image' && !selectedImage.file) ||
                   (tool.id === 'ai-replace' && !textPrompt.trim()) ||
                   (tool.id === 'ai-background-generator' && !backgroundTextPrompt.trim()) ||
                   (tool.id === 'ai-image-generator' && !imageGeneratorTextPrompt.trim()) ||
@@ -2247,7 +2421,8 @@ const handleAIOutfitGenerate = async () => {
                   (tool.id === 'ai-portrait' && !portraitSelectedStyle && !portraitCustomStyleImage) ||
                   (tool.id === 'ai-face-swap' && (!faceSwapTargetImage.file || (!selectedFaceSwapPreset && !faceSwapSourceImage.file))) ||
                   (tool.id === 'ai-product-photoshoot' && !selectedProductStyle && !productCustomStyleImage && !productTextPrompt) ||
-                  (tool.id === 'ai-outfit' && (!selectedImage.file || !outfitTextPrompt.trim()))
+                  (tool.id === 'ai-outfit' && (!selectedImage.file || !outfitTextPrompt.trim())) ||
+                  (tool.id === 'ai-image-to-image' && (!i2iMainImage.file || !i2iTextPrompt.trim()))
                 }
                 className="w-full"
               >
@@ -2339,6 +2514,8 @@ function getToolDescription(tool: Tool): string {
       return 'generate stunning new backgrounds for your images using AI, perfect for creating professional-looking photos with custom scenes';
     case 'ai-outfit':
       return 'virtually change clothing on people in photos using AI, allowing you to transform outfits with simple text descriptions';
+    case 'ai-image-to-image':
+      return 'transform any image based on text prompts and optional style references, with adjustable strength controls for precise artistic control';
     default:
       return 'transform and enhance your images with professional-quality results';
   }
