@@ -1023,3 +1023,58 @@ export async function startImageToImageJob(params: ImageToImageParams): Promise<
     throw error;
   }
 }
+
+interface SketchToImageParams {
+  imageUrl: string; // The user's sketch, either drawn or uploaded
+  textPrompt: string;
+  strength?: number;
+  styleImageUrl?: string;
+  styleStrength?: number;
+}
+
+export async function startSketchToImageJob(params: SketchToImageParams): Promise<string> {
+  try {
+    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+    const PROXY_BASE_URL = isProduction 
+      ? window.location.origin
+      : 'http://localhost:3001';
+
+    // Clean URLs by removing any potential backticks, spaces, and other unwanted characters
+    const cleanImageUrl = params.imageUrl.trim().replace(/[\`\s'"]/g, '');
+    const cleanStyleImageUrl = params.styleImageUrl ? params.styleImageUrl.trim().replace(/[\`\s'"]/g, '') : undefined;
+
+    // Dynamically build the payload. This is our proven robust pattern.
+    const jobBody: { [key: string]: any } = {
+        imageUrl: cleanImageUrl,
+        textPrompt: params.textPrompt,
+    };
+    if (params.strength !== undefined) jobBody.strength = params.strength;
+    if (cleanStyleImageUrl) jobBody.styleImageUrl = cleanStyleImageUrl;
+    if (params.styleStrength !== undefined) jobBody.styleStrength = params.styleStrength;
+    
+    const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        endpoint: 'v1/sketch2image', // The correct endpoint for this tool
+        body: jobBody
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Failed to start sketch-to-image job: ${response.status} - ${errorText}`);
+    }
+
+    const data = await response.json();
+    
+    if (!data.body || !data.body.orderId) {
+      throw new Error(`Invalid sketch-to-image job response: ${JSON.stringify(data)}`);
+    }
+
+    return data.body.orderId;
+  } catch (error) {
+    console.error('Error starting sketch-to-image job:', error);
+    throw error;
+  }
+}

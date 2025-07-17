@@ -1,15 +1,12 @@
-AI Image to Image
+AI Sketch to Image
 Overview
-Welcome to the LightX AI Image to Image API V2 Documentation. The AI Image to Image API transforms your input images into completely new versions. You can adjust features like style, composition, or details while keeping the original image's key elements intact. It’s perfect for creative projects, marketing visuals, or reimagining photos with a fresh perspective. Discover the Full Guide to Begin!
-
-How the AI Image to Image API Structures Output
-The AI Image to Image API transforms your input images into completely new versions while preserving the core structure and content. By using a style image, the API intelligently blends its style, composition, or visual characteristics into the input image, allowing you to reimagine the original scene with a fresh creative perspective.
-
-AI Image to Image API Rollout
-To access your AI Image to Image API, you need to generate an API key. Visit the LightX API to retrieve your key. Insert your image URL, strength and text prompt or add a style image to generate images. Each generation will cost you 1 credit with the output delivered in JPEG format.
+Welcome to the LightX AI Sketch to Image API V2 Documentation. Turn your rough sketches into detailed, high-quality images with the AI Sketch to Image API. Use text prompts to guide the AI in creating a polished and professional final image. This tool is ideal for bringing creative ideas to life in art projects, design work, or storytelling. Discover the Full Guide to Begin!
 
 note
 In strength, the Higher style strength makes the generated image look more like your imageUrl, reducing the strength makes it appear less similar. In styleStrength, the Higher style strength makes the generated image look more like your styleImageUrl, while lower strength makes it look less similar.
+
+AI Sketch to Image API Rollout
+To access your AI Sketch to Image API, you need to generate an API key. Visit the LightX API to retrieve your key. Insert your image URL, strength and text prompt or add a style image to generate images. Each generation will cost you 1 credit with the output delivered in JPEG format.
 
 note
 To ensure seamless processing, it is mandatory to use ImageUpload API for uploading images. External image URLs are not supported and will result in an error.
@@ -66,12 +63,12 @@ note
 This API generates image URLs that remain valid for 24 hours without consuming any credits or incurring API usage charges, after which the URLs expire.
 
 Quick Steps to Generate with Your API
-Going Forward, use cURL along with x-api-key and your API key (as given below) to generate images with AI. Next, proceed to the "Body" tab to configure the request payload according to the required format and input data as required. Finally, click "Send" to submit the request.
+Going Forward, use cURL along with x-api-key and your API key (as given below) to generate images with your sketch. Next, proceed to the "Body" tab to configure the request payload according to the required format and input data as required. Finally, click "Send" to submit the request.
 
 cURL
 
   Method- Post
-curl --location 'https://api.lightxeditor.com/external/api/v1/image2image' \
+curl --location 'https://api.lightxeditor.com/external/api/v1/sketch2image' \
 --header 'Content-Type: application/json' \
 --header 'x-api-key: <Insert your API Key>' \
 --data '{
@@ -80,6 +77,7 @@ curl --location 'https://api.lightxeditor.com/external/api/v1/image2image' \
 "textPrompt": "YourInputPrompt",  // Replace with your specific input prompt
 "styleImageUrl": "https://example.com/your-style-image.jpg",  // Replace with the URL of your input style image
 "styleStrength" : 0.9  // Keep it between 0.0 to 1
+
 }'
 
 
@@ -97,7 +95,10 @@ Response
    }
 }
 
-orderId: This key is the unique identifier for the order. maxRetriesAllowed: The number of retries a user can attempt when the status is "init". avgResponseTimeInSec: This is the average time the machine can take to generate the output. status: There are three scenarios: "init" = proccessing, "failed" = error.
+orderId: This key is the unique identifier for the order.
+maxRetriesAllowed: The number of retries a user can attempt when the status is "init".
+avgResponseTimeInSec: This is the average time the machine can take to generate the output.
+status: There are three scenarios: "init" = proccessing, "failed" = error.
 
 Once your order Id is generated, input it into the status check system to retrieve and review the results of your API Tool (mentioned below).
 

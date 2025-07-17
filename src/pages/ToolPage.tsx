@@ -5,7 +5,7 @@ import SEO from '../components/ui/SEO';
 import Button from '../components/ui/Button';
 import ImageDropzone from '../components/ui/ImageDropzone';
 import { tools } from '../data/tools';
-import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, startProductPhotoshootJob, startBackgroundGeneratorJob, startImageGeneratorJob, startPortraitJob, startFaceSwapJob, startOutfitJob, startImageToImageJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete } from '../utils/api';
+import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, startProductPhotoshootJob, startBackgroundGeneratorJob, startImageGeneratorJob, startPortraitJob, startFaceSwapJob, startOutfitJob, startImageToImageJob, startSketchToImageJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete } from '../utils/api';
 import type { ImageFile, ProcessedImage, Tool, FaceSwapStyle } from '../types';
 import { maleCartoonStyles, femaleCartoonStyles } from '../constants/cartoonStyles';
 import { caricatureStyles, Style } from '../constants/caricatureStyles';
@@ -30,7 +30,8 @@ const ToolPage: React.FC = () => {
   const visibleCanvasRef = useRef<HTMLCanvasElement>(null);
   const dataMaskCanvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
-  const [brushSize, setBrushSize] = useState(20);
+
+  const [cleanupBrushSize, setCleanupBrushSize] = useState(20);
   const [canvasInitialized, setCanvasInitialized] = useState(false);
   const [isMaskDrawn, setIsMaskDrawn] = useState(false);
   
@@ -100,6 +101,18 @@ const ToolPage: React.FC = () => {
   const [i2iTextPrompt, setI2iTextPrompt] = useState('');
   const [i2iStrength, setI2iStrength] = useState(0.5); // Default value from 0.0 to 1.0
   const [i2iStyleStrength, setI2iStyleStrength] = useState(0.9); // Default value from 0.0 to 1.0
+  
+  // AI Sketch to Image specific state
+  const [s2iInputMode, setS2iInputMode] = useState<'draw' | 'upload'>('upload'); // To switch between drawing and uploading
+  const [s2iSketchImage, setS2iSketchImage] = useState<ImageFile>({ file: null, preview: null });
+  const [s2iStyleImage, setS2iStyleImage] = useState<ImageFile>({ file: null, preview: null });
+  const [s2iTextPrompt, setS2iTextPrompt] = useState('');
+  const [s2iStrength, setS2iStrength] = useState(0.8); // Higher default to respect sketch more
+  const [s2iStyleStrength, setS2iStyleStrength] = useState(0.5); // Lower default
+  const drawingCanvasRef = useRef<HTMLCanvasElement>(null); // For the drawing canvas
+  const [isDrawingSketch, setIsDrawingSketch] = useState(false);
+  const [s2iBrushSize, setS2iBrushSize] = useState(5);
+  const [s2iBrushColor, setS2iBrushColor] = useState('#000000');
   
   // Find the tool based on the toolId param
   const tool = tools.find(t => t.id === toolId);
@@ -277,14 +290,14 @@ const handleAIFaceSwapGenerate = async () => {
     visibleCtx.globalCompositeOperation = 'source-over';
     visibleCtx.fillStyle = 'rgba(255, 0, 0, 0.5)';
     visibleCtx.beginPath();
-    visibleCtx.arc(x, y, brushSize, 0, 2 * Math.PI);
+    visibleCtx.arc(x, y, cleanupBrushSize, 0, 2 * Math.PI);
     visibleCtx.fill();
     
     // Draw white on data canvas for API mask
     dataCtx.globalCompositeOperation = 'source-over';
     dataCtx.fillStyle = '#FFFFFF';
     dataCtx.beginPath();
-    dataCtx.arc(x, y, brushSize, 0, 2 * Math.PI);
+    dataCtx.arc(x, y, cleanupBrushSize, 0, 2 * Math.PI);
     dataCtx.fill();
   };
   
@@ -1126,6 +1139,101 @@ const handleAIImageToImageGenerate = async () => {
    }
  };
 
+ const handleAISketchToImageGenerate = async () => {
+   // Validation
+   if (s2iInputMode === 'upload' && !s2iSketchImage.file) {
+     setProcessedImage({ url: null, isLoading: false, error: 'Please upload a sketch image.' });
+     return;
+   }
+   
+   if (s2iInputMode === 'draw') {
+     const canvas = drawingCanvasRef.current;
+     if (!canvas) {
+       setProcessedImage({ url: null, isLoading: false, error: 'Drawing canvas not available.' });
+       return;
+     }
+     
+     // Check if canvas has any drawing (not just white)
+     const ctx = canvas.getContext('2d');
+     if (!ctx) {
+       setProcessedImage({ url: null, isLoading: false, error: 'Cannot access drawing canvas.' });
+       return;
+     }
+     
+     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+     const data = imageData.data;
+     let hasDrawing = false;
+     
+     // Check if any pixel is not white (255, 255, 255)
+     for (let i = 0; i < data.length; i += 4) {
+       if (data[i] !== 255 || data[i + 1] !== 255 || data[i + 2] !== 255) {
+         hasDrawing = true;
+         break;
+       }
+     }
+     
+     if (!hasDrawing) {
+       setProcessedImage({ url: null, isLoading: false, error: 'Please draw something on the canvas first.' });
+       return;
+     }
+   }
+   
+   if (!s2iTextPrompt.trim()) {
+     setProcessedImage({ url: null, isLoading: false, error: 'Please enter a text prompt describing the final image you want.' });
+     return;
+   }
+
+   setProcessedImage({ url: null, isLoading: true, error: null });
+
+   try {
+     let sketchImageUrl: string;
+     
+     if (s2iInputMode === 'upload') {
+       // Upload the sketch file
+       sketchImageUrl = await uploadImageAndGetUrl(s2iSketchImage.file!);
+     } else {
+       // Convert canvas to blob and upload
+       const canvas = drawingCanvasRef.current!;
+       const blob = await new Promise<Blob>((resolve) => {
+         canvas.toBlob((blob) => resolve(blob!), 'image/png');
+       });
+       
+       sketchImageUrl = await uploadImageAndGetUrl(blob);
+     }
+     
+     console.log('DEBUG: sketchImageUrl after upload:', sketchImageUrl);
+
+     // Upload style image if provided
+     let styleImageUrl: string | undefined;
+     if (s2iStyleImage.file) {
+       styleImageUrl = await uploadImageAndGetUrl(s2iStyleImage.file);
+       console.log('DEBUG: styleImageUrl after upload:', styleImageUrl);
+     }
+
+     // Start the sketch-to-image job
+     const jobParams = {
+       imageUrl: sketchImageUrl,
+       textPrompt: s2iTextPrompt,
+       strength: s2iStrength,
+       styleImageUrl: styleImageUrl,
+       styleStrength: s2iStyleImage.file ? s2iStyleStrength : undefined,
+     };
+     console.log('DEBUG: sketch-to-image jobParams before API call:', jobParams);
+     
+     const orderId = await startSketchToImageJob(jobParams);
+
+     // Poll until complete
+     const resultUrl = await pollJobUntilComplete(orderId);
+
+     // Display the result
+     setProcessedImage({ url: resultUrl, isLoading: false, error: null });
+
+   } catch (error) {
+     console.error("An error occurred during sketch-to-image generation:", error);
+     setProcessedImage({ url: null, isLoading: false, error: (error as Error).message });
+   }
+ };
+
   // Canvas initialization is now handled by onLoad events on the image elements
   
   const handleProcessImage = async () => {
@@ -1174,6 +1282,25 @@ const handleAIImageToImageGenerate = async () => {
       }
     };
   }, [processedImage.url]);
+
+  // Initialize canvas with white background when drawing mode is selected
+  useEffect(() => {
+    if (tool.id === 'ai-sketch-to-image' && s2iInputMode === 'draw' && drawingCanvasRef.current) {
+      const canvas = drawingCanvasRef.current;
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        // Set canvas size
+        canvas.width = 512;
+        canvas.height = 512;
+        // Fill with white background
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        // Set drawing properties
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+      }
+    }
+  }, [tool.id, s2iInputMode]);
   
   return (
     <>
@@ -1298,6 +1425,18 @@ const handleAIImageToImageGenerate = async () => {
                   <li>Click "Generate" to let AI transform your image based on your prompt and settings</li>
                   <li>Download your transformed image when processing is complete</li>
                 </>
+              ) : tool.id === 'ai-sketch-to-image' ? (
+                <>
+                  <li>Choose to either draw your sketch or upload an existing sketch image</li>
+                  <li>If drawing: Use the canvas to create your sketch with the drawing tools</li>
+                  <li>If uploading: Select your sketch image file</li>
+                  <li>Enter a detailed text prompt describing the final image you want to create</li>
+                  <li>Optionally upload a style reference image for visual guidance</li>
+                  <li>Adjust the Sketch Adherence slider to control how closely AI follows your sketch</li>
+                  <li>Adjust the Style Strength slider if using a style image</li>
+                  <li>Click "Generate" to transform your sketch into a rendered image</li>
+                  <li>Download your transformed image when processing is complete</li>
+                </>
               ) : (
                 <>
                   <li>Upload your image using the tool below</li>
@@ -1311,8 +1450,8 @@ const handleAIImageToImageGenerate = async () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-6">
-              {/* Show ImageDropzone for all tools except AI Image Generator, AI Face Swap, and AI Image to Image */}
-              {tool.id !== 'ai-image-generator' && tool.id !== 'ai-face-swap' && tool.id !== 'ai-image-to-image' && (
+              {/* Show ImageDropzone for all tools except AI Image Generator, AI Face Swap, AI Image to Image, and AI Sketch to Image */}
+              {tool.id !== 'ai-image-generator' && tool.id !== 'ai-face-swap' && tool.id !== 'ai-image-to-image' && tool.id !== 'ai-sketch-to-image' && (
                 <ImageDropzone 
                   onImageSelect={handleImageSelect}
                   selectedImage={selectedImage}
@@ -1389,11 +1528,11 @@ const handleAIImageToImageGenerate = async () => {
                       type="range"
                       min="5"
                       max="50"
-                      value={brushSize}
-                      onChange={(e) => setBrushSize(Number(e.target.value))}
+                      value={cleanupBrushSize}
+                      onChange={(e) => setCleanupBrushSize(Number(e.target.value))}
                       className="flex-1"
                     />
-                    <span className="text-sm text-gray-600 w-8">{brushSize}px</span>
+                    <span className="text-sm text-gray-600 w-8">{cleanupBrushSize}px</span>
                   </div>
                   
                   <div className="relative border-2 border-dashed border-gray-300 rounded-lg overflow-hidden" style={{ display: 'inline-block' }}>
@@ -2391,6 +2530,235 @@ const handleAIImageToImageGenerate = async () => {
                   </div>
                 </div>
               )}
+              
+              {/* AI Sketch to Image specific controls */}
+              {tool.id === 'ai-sketch-to-image' && (
+                <div className="space-y-6">
+                  <div className="bg-purple-50 border border-purple-200 rounded-lg p-3">
+                    <p className="text-sm text-purple-800">
+                      <strong>Note:</strong> Create or upload a sketch, then describe the final image you want to generate.
+                    </p>
+                  </div>
+                  
+                  {/* Input Mode Switcher */}
+                  <div>
+                    <h3 className="text-lg font-semibold mb-3">1. Choose Input Method</h3>
+                    <div className="flex space-x-4">
+                      <button
+                        type="button"
+                        onClick={() => setS2iInputMode('upload')}
+                        className={`px-4 py-2 rounded-md border ${
+                          s2iInputMode === 'upload'
+                            ? 'bg-blue-500 text-white border-blue-500'
+                            : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                        }`}
+                      >
+                        Upload Sketch
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setS2iInputMode('draw')}
+                        className={`px-4 py-2 rounded-md border ${
+                          s2iInputMode === 'draw'
+                            ? 'bg-blue-500 text-white border-blue-500'
+                            : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                        }`}
+                      >
+                        Draw Sketch
+                      </button>
+                    </div>
+                  </div>
+                  
+                  {/* Conditional Input */}
+                  {s2iInputMode === 'upload' ? (
+                    <div>
+                      <h3 className="text-lg font-semibold mb-2">2. Upload Your Sketch</h3>
+                      <p className="text-sm text-gray-600 mb-3">Upload an existing sketch or drawing</p>
+                      <ImageDropzone 
+                        onImageSelect={(imageFile) => setS2iSketchImage(imageFile)}
+                        selectedImage={s2iSketchImage}
+                      />
+                    </div>
+                  ) : (
+                    <div>
+                      <h3 className="text-lg font-semibold mb-2">2. Draw Your Sketch</h3>
+                      <p className="text-sm text-gray-600 mb-3">Use the canvas below to draw your sketch</p>
+                      
+                      {/* Drawing Controls */}
+                      <div className="flex items-center gap-4 mb-3">
+                        <label className="flex items-center gap-2">
+                          <span className="text-sm font-medium">Brush Size:</span>
+                        </label>
+                        <input
+                          type="range"
+                          min="1"
+                          max="20"
+                          value={s2iBrushSize}
+                          onChange={(e) => setS2iBrushSize(Number(e.target.value))}
+                          className="flex-1"
+                        />
+                        <span className="text-sm text-gray-600 w-8">{s2iBrushSize}px</span>
+                        
+                        <label className="flex items-center gap-2">
+                          <span className="text-sm font-medium">Color:</span>
+                          <input
+                            type="color"
+                            value={s2iBrushColor}
+                            onChange={(e) => setS2iBrushColor(e.target.value)}
+                            className="w-8 h-8 rounded border"
+                          />
+                        </label>
+                        
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const canvas = drawingCanvasRef.current;
+                            if (canvas) {
+                              const ctx = canvas.getContext('2d');
+                              if (ctx) {
+                                ctx.fillStyle = 'white';
+                                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                              }
+                            }
+                          }}
+                          className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded border"
+                        >
+                          Clear
+                        </button>
+                      </div>
+                      
+                      {/* Drawing Canvas */}
+                      <div className="border-2 border-gray-300 rounded-lg overflow-hidden">
+                        <canvas
+                          ref={drawingCanvasRef}
+                          width={400}
+                          height={400}
+                          className="w-full h-auto cursor-crosshair bg-white"
+                          onMouseDown={(e) => {
+                            setIsDrawingSketch(true);
+                            const canvas = drawingCanvasRef.current;
+                            if (canvas) {
+                              const rect = canvas.getBoundingClientRect();
+                              const x = (e.clientX - rect.left) * (canvas.width / rect.width);
+                              const y = (e.clientY - rect.top) * (canvas.height / rect.height);
+                              const ctx = canvas.getContext('2d');
+                              if (ctx) {
+                                ctx.beginPath();
+                                ctx.moveTo(x, y);
+                              }
+                            }
+                          }}
+                          onMouseMove={(e) => {
+                            if (!isDrawingSketch) return;
+                            const canvas = drawingCanvasRef.current;
+                            if (canvas) {
+                              const rect = canvas.getBoundingClientRect();
+                              const x = (e.clientX - rect.left) * (canvas.width / rect.width);
+                              const y = (e.clientY - rect.top) * (canvas.height / rect.height);
+                              const ctx = canvas.getContext('2d');
+                              if (ctx) {
+                                ctx.lineTo(x, y);
+                                ctx.strokeStyle = s2iBrushColor;
+                                ctx.lineWidth = s2iBrushSize;
+                                ctx.lineCap = 'round';
+                                ctx.stroke();
+                              }
+                            }
+                          }}
+                          onMouseUp={() => setIsDrawingSketch(false)}
+                          onMouseLeave={() => setIsDrawingSketch(false)}
+                        />
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Text Prompt Input */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      3. Describe the Final Image *
+                    </label>
+                    <textarea
+                      value={s2iTextPrompt}
+                      onChange={(e) => setS2iTextPrompt(e.target.value)}
+                      placeholder="Describe the final image you want to create from your sketch (e.g., 'a realistic portrait of a woman', 'a fantasy castle in a magical forest', 'a modern car design')..."
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                      rows={4}
+                      required
+                    />
+                  </div>
+                  
+                  {/* Style Image Upload */}
+                  <div>
+                    <h3 className="text-lg font-semibold mb-2">4. Style Reference Image </h3>
+                    <p className="text-sm text-gray-600 mb-3">Upload an image to use as style guidance</p>
+                    <ImageDropzone 
+                      onImageSelect={(imageFile) => setS2iStyleImage(imageFile)}
+                      selectedImage={s2iStyleImage}
+                    />
+                  </div>
+                  
+                  {/* Strength Sliders */}
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Sketch Adherence: {s2iStrength.toFixed(1)}
+                      </label>
+                      <input
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.1"
+                        value={s2iStrength}
+                        onChange={(e) => setS2iStrength(Number(e.target.value))}
+                        className="w-full"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">
+                        Higher values make the result follow your sketch more closely
+                      </p>
+                    </div>
+                    
+                    <div>
+                      <div className="flex items-center gap-2 mb-2">
+                        <label className="text-sm font-medium text-gray-700">
+                          Style Strength: {s2iStyleStrength.toFixed(1)}
+                        </label>
+                        <div className="relative group">
+                          <HelpCircle className="w-4 h-4 text-gray-400 cursor-help" />
+                          <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-800 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
+                            This slider is disabled if no style image is present
+                            <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <input
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.1"
+                        value={s2iStyleStrength}
+                        onChange={(e) => setS2iStyleStrength(Number(e.target.value))}
+                        disabled={!s2iStyleImage.file}
+                        className="w-full disabled:opacity-50 disabled:cursor-not-allowed"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">
+                        Higher values make the result look more like your style image
+                        {!s2iStyleImage.file && " (disabled - upload a style image first)"}
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+                    <h4 className="text-sm font-medium text-green-800 mb-2">💡 Tips for better results:</h4>
+                    <ul className="text-xs text-green-700 space-y-1">
+                      <li>• Use clear, simple sketches with defined shapes and lines</li>
+                      <li>• Be specific in your text prompt about style, colors, and details</li>
+                      <li>• Higher sketch adherence preserves your drawing structure</li>
+                      <li>• Style images help guide the artistic direction</li>
+                      <li>• Try different combinations of sketch and style strength</li>
+                    </ul>
+                  </div>
+                </div>
+              )}
 
               <Button
                 onClick={
@@ -2407,11 +2775,12 @@ const handleAIImageToImageGenerate = async () => {
                   tool.id === 'ai-image-generator' ? handleAIImageGeneratorGenerate :
                   tool.id === 'ai-outfit' ? handleAIOutfitGenerate :
                   tool.id === 'ai-image-to-image' ? handleAIImageToImageGenerate :
+                  tool.id === 'ai-sketch-to-image' ? handleAISketchToImageGenerate :
                   handleProcessImage
                 }
                 disabled={
                   processedImage.isLoading ||
-                  (tool.id !== 'ai-image-generator' && tool.id !== 'ai-face-swap' && tool.id !== 'ai-image-to-image' && !selectedImage.file) ||
+                  (tool.id !== 'ai-image-generator' && tool.id !== 'ai-face-swap' && tool.id !== 'ai-image-to-image' && tool.id !== 'ai-sketch-to-image' && !selectedImage.file) ||
                   (tool.id === 'ai-replace' && !textPrompt.trim()) ||
                   (tool.id === 'ai-background-generator' && !backgroundTextPrompt.trim()) ||
                   (tool.id === 'ai-image-generator' && !imageGeneratorTextPrompt.trim()) ||
@@ -2422,7 +2791,11 @@ const handleAIImageToImageGenerate = async () => {
                   (tool.id === 'ai-face-swap' && (!faceSwapTargetImage.file || (!selectedFaceSwapPreset && !faceSwapSourceImage.file))) ||
                   (tool.id === 'ai-product-photoshoot' && !selectedProductStyle && !productCustomStyleImage && !productTextPrompt) ||
                   (tool.id === 'ai-outfit' && (!selectedImage.file || !outfitTextPrompt.trim())) ||
-                  (tool.id === 'ai-image-to-image' && (!i2iMainImage.file || !i2iTextPrompt.trim()))
+                  (tool.id === 'ai-image-to-image' && (!i2iMainImage.file || !i2iTextPrompt.trim())) ||
+                  (tool.id === 'ai-sketch-to-image' && (
+                    (s2iInputMode === 'upload' && !s2iSketchImage.file) ||
+                    !s2iTextPrompt.trim()
+                  ))
                 }
                 className="w-full"
               >
