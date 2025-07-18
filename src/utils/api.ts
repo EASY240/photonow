@@ -1118,3 +1118,43 @@ export async function startHairstyleJob({ imageUrl, textPrompt }: { imageUrl: st
     throw error;
   }
 }
+
+export async function startUpscaleJob({ imageUrl, quality }: { imageUrl: string; quality: 2 | 4; }): Promise<string> {
+  try {
+    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+    const PROXY_BASE_URL = isProduction
+      ? window.location.origin
+      : 'http://localhost:3001';
+
+    // This payload contains the two required keys.
+    const jobBody = {
+      imageUrl: imageUrl,
+      quality: quality,
+    };
+
+    const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        endpoint: 'v2/upscale', // IMPORTANT: This is a v2 endpoint
+        body: jobBody
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Failed to start upscale job: ${response.status} - ${errorText}`);
+    }
+
+    const data = await response.json();
+    
+    if (!data.body || !data.body.orderId) {
+      throw new Error(`Invalid upscale job response: ${JSON.stringify(data)}`);
+    }
+
+    return data.body.orderId;
+  } catch (error) {
+    console.error('Error starting upscale job:', error);
+    throw error;
+  }
+}

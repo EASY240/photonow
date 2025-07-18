@@ -1,40 +1,28 @@
-// Inside ToolPage.tsx, with the other handleGenerate functions
+// Inside ToolPage.tsx
 
-const handleAIHairstyleGenerate = async () => {
-    // 1. Validate inputs
-    if (!selectedImage.file) {
-        setProcessedImage({ url: null, isLoading: false, error: "Please upload an image of a person first." });
-        return;
-    }
-    if (!hairstyleTextPrompt.trim()) {
-        setProcessedImage({ url: null, isLoading: false, error: "Please describe the hairstyle you want to generate." });
-        return;
-    }
-
+const handleAIUpscalerGenerate = async () => {
+    if (!selectedImage.file) { return; }
+    
     setProcessedImage({ url: null, isLoading: true, error: null });
-    // setStatusMessage("Preparing your photo...");
 
     try {
-        // 2. Upload the main image
+        // 1. Upload the main image.
         const mainImageUrl = await uploadImageAndGetUrl(selectedImage.file);
         
-        // setStatusMessage("Applying your new hairstyle...");
-
-        // 3. Call the API job function. The logic is simple and direct.
-        const orderId = await startHairstyleJob({
+        // 2. Call the API job function with the user's selected (and validated) factor.
+        const orderId = await startUpscaleJob({
             imageUrl: mainImageUrl,
-            textPrompt: hairstyleTextPrompt,
+            quality: upscaleFactor,
         });
 
-        // 4. Patiently poll for the result using our unified function.
-        // setStatusMessage("Finalizing your new look...");
+        // 3. Use our unified poller to get the result.
         const resultUrl = await pollJobUntilComplete(orderId);
 
-        // 5. Display the final result.
+        // 4. Display the upscaled image.
         setProcessedImage({ url: resultUrl, isLoading: false, error: null });
 
     } catch (error) {
-        console.error("An error occurred during hairstyle generation:", error);
+        console.error("An error occurred during image upscaling:", error);
         setProcessedImage({ url: null, isLoading: false, error: (error as Error).message });
     }
 };

@@ -5,7 +5,7 @@ import SEO from '../components/ui/SEO';
 import Button from '../components/ui/Button';
 import ImageDropzone from '../components/ui/ImageDropzone';
 import { tools } from '../data/tools';
-import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, startProductPhotoshootJob, startBackgroundGeneratorJob, startImageGeneratorJob, startPortraitJob, startFaceSwapJob, startOutfitJob, startImageToImageJob, startSketchToImageJob, startHairstyleJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete } from '../utils/api';
+import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, startProductPhotoshootJob, startBackgroundGeneratorJob, startImageGeneratorJob, startPortraitJob, startFaceSwapJob, startOutfitJob, startImageToImageJob, startSketchToImageJob, startHairstyleJob, startUpscaleJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete } from '../utils/api';
 import type { ImageFile, ProcessedImage, Tool, FaceSwapStyle } from '../types';
 import { maleCartoonStyles, femaleCartoonStyles } from '../constants/cartoonStyles';
 import { caricatureStyles, Style } from '../constants/caricatureStyles';
@@ -118,6 +118,11 @@ const ToolPage: React.FC = () => {
   // AI Hairstyle state
   const [hairstyleTextPrompt, setHairstyleTextPrompt] = useState('');
   
+  // AI Image Upscaler state
+  const [upscaleFactor, setUpscaleFactor] = useState<2 | 4>(2);
+  const [imageDimensions, setImageDimensions] = useState<{ width: number; height: number } | null>(null);
+  const [availableUpscaleOptions, setAvailableUpscaleOptions] = useState<(2 | 4)[]>([2, 4]);
+  
   // Find the tool based on the toolId param
   const tool = tools.find(t => t.id === toolId);
   
@@ -137,6 +142,31 @@ const ToolPage: React.FC = () => {
     setCanvasInitialized(false);
     setReplaceCanvasInitialized(false);
     setIsMaskDrawn(false);
+    setImageDimensions(null); // Reset dimensions on new image select
+
+    if (imageFile.file && imageFile.preview) {
+      const img = new Image();
+      img.onload = () => {
+        // We have the dimensions! Store them in state.
+        const dimensions = { width: img.naturalWidth, height: img.naturalHeight };
+        console.log("Image dimensions:", dimensions);
+        setImageDimensions(dimensions);
+
+        // --- THE VALIDATION LOGIC ---
+        const longestSide = Math.max(dimensions.width, dimensions.height);
+        if (longestSide > 2048) {
+          setAvailableUpscaleOptions([]); // No options available
+          setProcessedImage({ url: null, isLoading: false, error: "Image is too large (max 2048px on longest side) and cannot be upscaled." });
+        } else if (longestSide > 1024) {
+          setAvailableUpscaleOptions([2]); // Only 2x is available
+          setUpscaleFactor(2); // Automatically select 2x
+        } else {
+          setAvailableUpscaleOptions([2, 4]); // Both 2x and 4x are available
+          setUpscaleFactor(2); // Default to 2x
+        }
+      };
+      img.src = imageFile.preview;
+    }
   };
 
 const handleAIFaceSwapGenerate = async () => {
@@ -1275,6 +1305,33 @@ const handleAIImageToImageGenerate = async () => {
    }
  };
 
+ const handleAIUpscalerGenerate = async () => {
+   if (!selectedImage.file) { return; }
+   
+   setProcessedImage({ url: null, isLoading: true, error: null });
+
+   try {
+       // 1. Upload the main image.
+       const mainImageUrl = await uploadImageAndGetUrl(selectedImage.file);
+       
+       // 2. Call the API job function with the user's selected (and validated) factor.
+       const orderId = await startUpscaleJob({
+           imageUrl: mainImageUrl,
+           quality: upscaleFactor,
+       });
+
+       // 3. Use our unified poller to get the result.
+       const resultUrl = await pollJobUntilComplete(orderId);
+
+       // 4. Display the upscaled image.
+       setProcessedImage({ url: resultUrl, isLoading: false, error: null });
+
+   } catch (error) {
+       console.error("An error occurred during image upscaling:", error);
+       setProcessedImage({ url: null, isLoading: false, error: (error as Error).message });
+   }
+ };
+
   // Canvas initialization is now handled by onLoad events on the image elements
   
   const handleProcessImage = async () => {
@@ -1485,6 +1542,13 @@ const handleAIImageToImageGenerate = async () => {
                   <li>Or click on one of the suggested hairstyle prompts for inspiration</li>
                   <li>Click "Generate" to see the new hairstyle applied to your photo</li>
                   <li>Download your result when processing is complete</li>
+                </>
+              ) : tool.id === 'ai-image-upscaler' ? (
+                <>
+                  <li>Upload your image using the tool below (max 2048px on longest side)</li>
+                  <li>Select an upscale factor (2x or 4x) based on your image size</li>
+                  <li>Click "Generate" to enhance your image with AI upscaling</li>
+                  <li>Download your high-resolution result when processing is complete</li>
                 </>
               ) : (
                 <>
@@ -2849,6 +2913,73 @@ const handleAIImageToImageGenerate = async () => {
                   </div>
                 </div>
               )}
+              
+              {/* AI Image Upscaler specific controls */}
+              {tool.id === 'ai-image-upscaler' && selectedImage.preview && (
+                <div className="space-y-4">
+                  {/* Display Image Dimensions */}
+                  {imageDimensions && (
+                    <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                      <h4 className="text-sm font-medium text-gray-800 mb-1">Current Image Size:</h4>
+                      <p className="text-sm text-gray-600">{imageDimensions.width} x {imageDimensions.height}px</p>
+                    </div>
+                  )}
+                  
+                  {/* Upscale Factor Selection */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                      Select Upscale Factor
+                    </label>
+                    <div className="flex gap-3">
+                      <button
+                        type="button"
+                        onClick={() => setUpscaleFactor(2)}
+                        disabled={!availableUpscaleOptions.includes(2)}
+                        className={`px-4 py-2 rounded-md border transition-colors ${
+                          upscaleFactor === 2
+                            ? 'bg-blue-500 text-white border-blue-500'
+                            : availableUpscaleOptions.includes(2)
+                            ? 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                            : 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
+                        }`}
+                      >
+                        2X
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setUpscaleFactor(4)}
+                        disabled={!availableUpscaleOptions.includes(4)}
+                        className={`px-4 py-2 rounded-md border transition-colors ${
+                          upscaleFactor === 4
+                            ? 'bg-blue-500 text-white border-blue-500'
+                            : availableUpscaleOptions.includes(4)
+                            ? 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                            : 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
+                        }`}
+                      >
+                        4X
+                      </button>
+                    </div>
+                    {availableUpscaleOptions.length === 0 && (
+                      <p className="text-sm text-red-600 mt-2">
+                        Image is too large for upscaling. Maximum size is 2048px on the longest side.
+                      </p>
+                    )}
+                    {availableUpscaleOptions.length === 1 && availableUpscaleOptions[0] === 2 && (
+                      <p className="text-sm text-amber-600 mt-2">
+                        Only 2X upscaling is available for images larger than 1024px on the longest side.
+                      </p>
+                    )}
+                  </div>
+                  
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                    <h4 className="text-sm font-medium text-blue-800 mb-2">💡 Tip:</h4>
+                    <p className="text-xs text-blue-700">
+                      AI upscaling works best on photos and detailed images. The larger the upscale factor, the longer the processing time.
+                    </p>
+                  </div>
+                </div>
+              )}
 
               <Button
                 onClick={
@@ -2867,6 +2998,7 @@ const handleAIImageToImageGenerate = async () => {
                   tool.id === 'ai-image-to-image' ? handleAIImageToImageGenerate :
                   tool.id === 'ai-sketch-to-image' ? handleAISketchToImageGenerate :
                   tool.id === 'ai-hairstyle' ? handleAIHairstyleGenerate :
+                  tool.id === 'ai-image-upscaler' ? handleAIUpscalerGenerate :
                   handleProcessImage
                 }
                 disabled={
@@ -2887,7 +3019,8 @@ const handleAIImageToImageGenerate = async () => {
                     (s2iInputMode === 'upload' && !s2iSketchImage.file) ||
                     !s2iTextPrompt.trim()
                   )) ||
-                  (tool.id === 'ai-hairstyle' && (!selectedImage.file || !hairstyleTextPrompt.trim()))
+                  (tool.id === 'ai-hairstyle' && (!selectedImage.file || !hairstyleTextPrompt.trim())) ||
+                  (tool.id === 'ai-image-upscaler' && (!selectedImage.file || availableUpscaleOptions.length === 0))
                 }
                 className="w-full"
               >
@@ -2983,6 +3116,8 @@ function getToolDescription(tool: Tool): string {
       return 'transform any image based on text prompts and optional style references, with adjustable strength controls for precise artistic control';
     case 'ai-hairstyle':
       return 'virtually try on new hairstyles by uploading a photo and describing the desired look, perfect for experimenting with different hair styles and colors';
+    case 'ai-image-upscaler':
+      return 'enhance image resolution and quality using advanced AI upscaling technology, supporting 2x and 4x enlargement while preserving fine details and sharpness';
     default:
       return 'transform and enhance your images with professional-quality results';
   }
