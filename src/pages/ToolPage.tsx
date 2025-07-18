@@ -5,7 +5,7 @@ import SEO from '../components/ui/SEO';
 import Button from '../components/ui/Button';
 import ImageDropzone from '../components/ui/ImageDropzone';
 import { tools } from '../data/tools';
-import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, startProductPhotoshootJob, startBackgroundGeneratorJob, startImageGeneratorJob, startPortraitJob, startFaceSwapJob, startOutfitJob, startImageToImageJob, startSketchToImageJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete } from '../utils/api';
+import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, startProductPhotoshootJob, startBackgroundGeneratorJob, startImageGeneratorJob, startPortraitJob, startFaceSwapJob, startOutfitJob, startImageToImageJob, startSketchToImageJob, startHairstyleJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete } from '../utils/api';
 import type { ImageFile, ProcessedImage, Tool, FaceSwapStyle } from '../types';
 import { maleCartoonStyles, femaleCartoonStyles } from '../constants/cartoonStyles';
 import { caricatureStyles, Style } from '../constants/caricatureStyles';
@@ -15,6 +15,7 @@ import { imageResolutions, suggestedPrompts as imageGeneratorPrompts, type Image
 import { portraitStyles, suggestedPortraitPrompts, type PortraitStyle } from '../constants/portraitStyles';
 import { faceSwapStyles } from '../constants/faceSwapStyles';
 import { presetOutfitStyles, suggestedOutfitPrompts, type OutfitStyle } from '../constants/outfitStyles';
+import { suggestedHairstylePrompts } from '../constants/hairstylePrompts';
 
 const ToolPage: React.FC = () => {
   const { toolId } = useParams<{ toolId: string }>();
@@ -113,6 +114,9 @@ const ToolPage: React.FC = () => {
   const [isDrawingSketch, setIsDrawingSketch] = useState(false);
   const [s2iBrushSize, setS2iBrushSize] = useState(5);
   const [s2iBrushColor, setS2iBrushColor] = useState('#000000');
+  
+  // AI Hairstyle state
+  const [hairstyleTextPrompt, setHairstyleTextPrompt] = useState('');
   
   // Find the tool based on the toolId param
   const tool = tools.find(t => t.id === toolId);
@@ -1234,6 +1238,43 @@ const handleAIImageToImageGenerate = async () => {
    }
  };
 
+ const handleAIHairstyleGenerate = async () => {
+   // Validate that we have an image
+   if (!selectedImage.file) {
+     setProcessedImage({ url: null, isLoading: false, error: 'Please upload an image.' });
+     return;
+   }
+   
+   // Validate that we have a text prompt
+   if (!hairstyleTextPrompt.trim()) {
+     setProcessedImage({ url: null, isLoading: false, error: 'Please enter a hairstyle description.' });
+     return;
+   }
+   
+   setProcessedImage({ url: null, isLoading: true, error: null });
+ 
+   try {
+     // Upload the image
+     const imageUrl = await uploadImageAndGetUrl(selectedImage.file);
+ 
+     // Start the hairstyle job
+     const orderId = await startHairstyleJob({
+       imageUrl: imageUrl,
+       textPrompt: hairstyleTextPrompt,
+     });
+ 
+     // Poll until complete
+     const resultUrl = await pollJobUntilComplete(orderId);
+ 
+     // Display the result
+     setProcessedImage({ url: resultUrl, isLoading: false, error: null });
+ 
+   } catch (error) {
+     console.error("An error occurred during hairstyle generation:", error);
+     setProcessedImage({ url: null, isLoading: false, error: (error as Error).message });
+   }
+ };
+
   // Canvas initialization is now handled by onLoad events on the image elements
   
   const handleProcessImage = async () => {
@@ -1436,6 +1477,14 @@ const handleAIImageToImageGenerate = async () => {
                   <li>Adjust the Style Strength slider if using a style image</li>
                   <li>Click "Generate" to transform your sketch into a rendered image</li>
                   <li>Download your transformed image when processing is complete</li>
+                </>
+              ) : tool.id === 'ai-hairstyle' ? (
+                <>
+                  <li>Upload a clear, front-facing photo of yourself or someone else</li>
+                  <li>Describe the hairstyle you want to try on in the text box</li>
+                  <li>Or click on one of the suggested hairstyle prompts for inspiration</li>
+                  <li>Click "Generate" to see the new hairstyle applied to your photo</li>
+                  <li>Download your result when processing is complete</li>
                 </>
               ) : (
                 <>
@@ -2759,6 +2808,47 @@ const handleAIImageToImageGenerate = async () => {
                   </div>
                 </div>
               )}
+              
+              {/* AI Hairstyle specific controls */}
+              {tool.id === 'ai-hairstyle' && selectedImage.preview && (
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Describe the hairstyle you want to try on
+                    </label>
+                    <textarea
+                      value={hairstyleTextPrompt}
+                      onChange={(e) => setHairstyleTextPrompt(e.target.value)}
+                      placeholder="Describe the hairstyle you want to try on..."
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                      rows={3}
+                    />
+                  </div>
+                  
+                  <div>
+                    <h3 className="text-sm font-medium text-gray-700 mb-3">Or choose from suggested prompts:</h3>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                      {suggestedHairstylePrompts.map((prompt, index) => (
+                        <button
+                          key={index}
+                          type="button"
+                          onClick={() => setHairstyleTextPrompt(prompt)}
+                          className="px-3 py-2 text-xs bg-gray-100 hover:bg-blue-100 border border-gray-300 rounded-md transition-colors duration-200 text-left"
+                        >
+                          {prompt}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                    <h4 className="text-sm font-medium text-blue-800 mb-2">💡 Tip:</h4>
+                    <p className="text-xs text-blue-700">
+                      For best results, use a clear, front-facing photo with good lighting.
+                    </p>
+                  </div>
+                </div>
+              )}
 
               <Button
                 onClick={
@@ -2776,6 +2866,7 @@ const handleAIImageToImageGenerate = async () => {
                   tool.id === 'ai-outfit' ? handleAIOutfitGenerate :
                   tool.id === 'ai-image-to-image' ? handleAIImageToImageGenerate :
                   tool.id === 'ai-sketch-to-image' ? handleAISketchToImageGenerate :
+                  tool.id === 'ai-hairstyle' ? handleAIHairstyleGenerate :
                   handleProcessImage
                 }
                 disabled={
@@ -2795,7 +2886,8 @@ const handleAIImageToImageGenerate = async () => {
                   (tool.id === 'ai-sketch-to-image' && (
                     (s2iInputMode === 'upload' && !s2iSketchImage.file) ||
                     !s2iTextPrompt.trim()
-                  ))
+                  )) ||
+                  (tool.id === 'ai-hairstyle' && (!selectedImage.file || !hairstyleTextPrompt.trim()))
                 }
                 className="w-full"
               >
@@ -2889,6 +2981,8 @@ function getToolDescription(tool: Tool): string {
       return 'virtually change clothing on people in photos using AI, allowing you to transform outfits with simple text descriptions';
     case 'ai-image-to-image':
       return 'transform any image based on text prompts and optional style references, with adjustable strength controls for precise artistic control';
+    case 'ai-hairstyle':
+      return 'virtually try on new hairstyles by uploading a photo and describing the desired look, perfect for experimenting with different hair styles and colors';
     default:
       return 'transform and enhance your images with professional-quality results';
   }

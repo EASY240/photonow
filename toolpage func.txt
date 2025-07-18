@@ -1,55 +1,40 @@
 // Inside ToolPage.tsx, with the other handleGenerate functions
 
-const handleAISketchToImageGenerate = async () => {
-    // 1. Determine the source of the sketch and validate inputs
-    const isDrawingMode = s2iInputMode === 'draw';
-    const hasUploadedSketch = s2iSketchImage.file !== null;
-    const hasDrawnSketch = /* Add logic here to check if the drawing canvas is empty */;
-    
-    if ((!isDrawingMode && !hasUploadedSketch) || (isDrawingMode && !hasDrawnSketch) || !s2iTextPrompt.trim()) {
-        setProcessedImage({ url: null, isLoading: false, error: "Please provide a sketch (by drawing or uploading) and a text prompt." });
+const handleAIHairstyleGenerate = async () => {
+    // 1. Validate inputs
+    if (!selectedImage.file) {
+        setProcessedImage({ url: null, isLoading: false, error: "Please upload an image of a person first." });
         return;
     }
-    
+    if (!hairstyleTextPrompt.trim()) {
+        setProcessedImage({ url: null, isLoading: false, error: "Please describe the hairstyle you want to generate." });
+        return;
+    }
+
     setProcessedImage({ url: null, isLoading: true, error: null });
+    // setStatusMessage("Preparing your photo...");
 
     try {
-        // 2. Prepare the main sketch image File object
-        let sketchFile: File;
-        if (isDrawingMode) {
-            // Convert the drawing canvas to a file
-            sketchFile = await new Promise(res => drawingCanvasRef.current!.toBlob(b => res(new File([b!], "drawing.png", {type: "image/png"})), 'image/png'));
-        } else {
-            sketchFile = s2iSketchImage.file!;
-        }
-
-        // 3. Upload the main sketch image
-        const mainSketchUrl = await uploadImageAndGetUrl(sketchFile);
+        // 2. Upload the main image
+        const mainImageUrl = await uploadImageAndGetUrl(selectedImage.file);
         
-        // 4. Conditionally upload the style image if it exists
-        let styleImageUrl: string | undefined = undefined;
-        if (s2iStyleImage.file) {
-            styleImageUrl = await uploadImageAndGetUrl(s2iStyleImage.file);
-        }
+        // setStatusMessage("Applying your new hairstyle...");
 
-        // 5. Construct the final parameters for the API call
-        const apiParams = {
-            imageUrl: mainSketchUrl,
-            textPrompt: s2iTextPrompt,
-            strength: s2iStrength,
-            styleImageUrl: styleImageUrl,
-            styleStrength: styleImageUrl ? s2iStyleStrength : undefined
-        };
+        // 3. Call the API job function. The logic is simple and direct.
+        const orderId = await startHairstyleJob({
+            imageUrl: mainImageUrl,
+            textPrompt: hairstyleTextPrompt,
+        });
 
-        // 6. Call the job and poll for the result
-        const orderId = await startSketchToImageJob(apiParams);
+        // 4. Patiently poll for the result using our unified function.
+        // setStatusMessage("Finalizing your new look...");
         const resultUrl = await pollJobUntilComplete(orderId);
-        
-        // 7. Display the final image
+
+        // 5. Display the final result.
         setProcessedImage({ url: resultUrl, isLoading: false, error: null });
 
     } catch (error) {
-        console.error("An error occurred during Sketch to Image generation:", error);
+        console.error("An error occurred during hairstyle generation:", error);
         setProcessedImage({ url: null, isLoading: false, error: (error as Error).message });
     }
 };

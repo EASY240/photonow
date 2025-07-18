@@ -1,12 +1,16 @@
-AI Sketch to Image
+AI Image Upscaler
 Overview
-Welcome to the LightX AI Sketch to Image API V2 Documentation. Turn your rough sketches into detailed, high-quality images with the AI Sketch to Image API. Use text prompts to guide the AI in creating a polished and professional final image. This tool is ideal for bringing creative ideas to life in art projects, design work, or storytelling. Discover the Full Guide to Begin!
+Welcome to the LightX AI image upscaler API Documentation. This API enhances image resolution up to 4x—upscaling, sharpening, and restoring clarity. Perfect for improving low-quality or pixelated images while preserving detail. Easily integrate high-quality upscaling into your apps or workflows and turn simple photos into 4K.
 
-note
-In strength, the Higher style strength makes the generated image look more like your imageUrl, reducing the strength makes it appear less similar. In styleStrength, the Higher style strength makes the generated image look more like your styleImageUrl, while lower strength makes it look less similar.
+AI Image Upscaler API Rollout
+Our image upscaling feature has some size limits to keep in mind:
 
-AI Sketch to Image API Rollout
-To access your AI Sketch to Image API, you need to generate an API key. Visit the LightX API to retrieve your key. Insert your image URL, strength and text prompt or add a style image to generate images. Each generation will cost you 1 credit with the output delivered in JPEG format.
+If your image is 1024x1024 pixels or smaller, you can upscale it 2x or 4x.
+If your image is bigger than 1024x1024 but smaller than 2048x2048, you can only upscale it 2x.
+If your image is larger than 2048x2048, it won't work and will show an error.
+To avoid errors, make sure the longest side of your image is not more than 2048 pixels before trying to upscale it.
+
+To access your AI Image Upscaler API, you need to generate an API key. Visit the LightX API to retrieve your key. Insert your image URL and increase the quality of the image. Each generation will cost you 1 credit with the output delivered in JPEG format.
 
 note
 To ensure seamless processing, it is mandatory to use ImageUpload API for uploading images. External image URLs are not supported and will result in an error.
@@ -63,23 +67,18 @@ note
 This API generates image URLs that remain valid for 24 hours without consuming any credits or incurring API usage charges, after which the URLs expire.
 
 Quick Steps to Generate with Your API
-Going Forward, use cURL along with x-api-key and your API key (as given below) to generate images with your sketch. Next, proceed to the "Body" tab to configure the request payload according to the required format and input data as required. Finally, click "Send" to submit the request.
+Going Forward, use cURL along with x-api-key and your API key (as given below) to generate images with AI. Next, proceed to the "Body" tab to configure the request payload according to the required format and input data as required. Finally, click "Send" to submit the request.
 
 cURL
 
   Method- Post
-curl --location 'https://api.lightxeditor.com/external/api/v1/sketch2image' \
---header 'Content-Type: application/json' \
---header 'x-api-key: <Insert your API Key>' \
---data '{
-"imageUrl": "https://example.com/your-image.jpg",  // Replace with the URL of your input image
-"strength" : 0.5,  // Keep it between 0.0 to 1
-"textPrompt": "YourInputPrompt",  // Replace with your specific input prompt
-"styleImageUrl": "https://example.com/your-style-image.jpg",  // Replace with the URL of your input style image
-"styleStrength" : 0.9  // Keep it between 0.0 to 1
-
+curl --location 'https://api.lightxeditor.com/external/api/v2/upscale/' \ 
+--header 'Content-Type: application/json' \ 
+--header 'x-api-key: <enter x-api-key>' \ 
+--data '{ 
+"imageUrl": "imageUrl", 
+"quality": 2   # 2X or 4X only
 }'
-
 
 Once your request is completed, visualize the "Response" to verify that the API call is executed successfully (as given below).
 
@@ -105,7 +104,7 @@ Once your order Id is generated, input it into the status check system to retrie
 Check Status
 cURL
 
-curl --location --request POST 'https://api.lightxeditor.com/external/api/v1/order-status' \
+curl --location --request POST 'https://api.lightxeditor.com/external/api/v2/order-status' \
 --header 'Content-Type: application/json' \
 --header 'x-api-key: <Insert your API Key>' \
 --data '{
