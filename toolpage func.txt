@@ -1,28 +1,56 @@
-// Inside ToolPage.tsx
+// Inside ToolPage.tsx, with the other handleGenerate functions
 
-const handleAIUpscalerGenerate = async () => {
-    if (!selectedImage.file) { return; }
-    
+const handleAIFilterGenerate = async () => {
+    // 1. Validate inputs and set loading state
+    if (!selectedImage.file) {
+        setProcessedImage({ url: null, isLoading: false, error: "Please upload an image first." });
+        return;
+    }
+    if (!filterSelectedStyle && !filterCustomStyleImage && !filterTextPrompt) {
+        setProcessedImage({ url: null, isLoading: false, error: "Please select a preset style, upload a custom style, or enter a text prompt." });
+        return;
+    }
+
     setProcessedImage({ url: null, isLoading: true, error: null });
+    // setStatusMessage("Preparing your photo...");
 
     try {
-        // 1. Upload the main image.
+        // 2. Upload the main image
         const mainImageUrl = await uploadImageAndGetUrl(selectedImage.file);
-        
-        // 2. Call the API job function with the user's selected (and validated) factor.
-        const orderId = await startUpscaleJob({
+
+        // 3. Initialize final parameters
+        let finalStyleUrl: string | undefined = undefined;
+        let finalPrompt: string = "";
+
+        // 4. Correctly determine the style source
+        if (filterSelectedStyle) {
+            finalPrompt = filterSelectedStyle.prompt;
+            const styleImageBlob = await convertUrlToBlob(filterSelectedStyle.imageUrl);
+            finalStyleUrl = await uploadImageAndGetUrl(new File([styleImageBlob], "style.jpeg", { type: 'image/jpeg' }));
+        } else if (filterCustomStyleImage) {
+            finalPrompt = filterTextPrompt;
+            finalStyleUrl = await uploadImageAndGetUrl(filterCustomStyleImage);
+        } else {
+            finalPrompt = filterTextPrompt;
+        }
+
+        // 5. Call the API job function with all parameters
+        // setStatusMessage("Applying your creative filter...");
+        const orderId = await startAIFilterJob({
             imageUrl: mainImageUrl,
-            quality: upscaleFactor,
+            styleImageUrl: finalStyleUrl,
+            textPrompt: finalPrompt,
         });
 
-        // 3. Use our unified poller to get the result.
+        // 6. Use our robust, unified poller
+        // setStatusMessage("Finalizing your artwork...");
         const resultUrl = await pollJobUntilComplete(orderId);
 
-        // 4. Display the upscaled image.
+        // 7. Display the result
         setProcessedImage({ url: resultUrl, isLoading: false, error: null });
 
     } catch (error) {
-        console.error("An error occurred during image upscaling:", error);
+        console.error("An error occurred during AI filter generation:", error);
         setProcessedImage({ url: null, isLoading: false, error: (error as Error).message });
     }
 };

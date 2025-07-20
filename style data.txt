@@ -1,160 +1,367 @@
-// src/constants/outfitStyles.ts
+// src/constants/filterStyles.ts
 
-export interface OutfitStyle { 
+export interface AIFilterStyle { 
   category: string;
   name: string; 
+  imageUrl: string; 
   prompt: string; 
 }
 
-export const presetOutfitStyles: OutfitStyle[] = [
-
-  // Category: Wedding
+export const aiFilterStyles: AIFilterStyle[] = [
+  // Category: Ghibli
   {
-    category: 'Wedding',
-    name: '2-Piece',
-    prompt: 'A model wearing a modern and elegant 2-piece wedding outfit, professional studio photoshoot.'
+    category: 'Ghibli',
+    name: 'Inari',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/97040181-69e1-440d-9c44-45944dd8b8cd.jpg',
+    prompt: 'A character portrait in the whimsical Ghibli art style, reminiscent of Inari shrines, detailed and enchanting.'
   },
   {
-    category: 'Wedding',
-    name: 'Jacket',
-    prompt: 'A model in a sophisticated wedding jacket, suitable for a chic and formal ceremony.'
+    category: 'Ghibli',
+    name: 'Shade',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/5d3e262d-c4f0-45f6-a350-47552640cf03.png',
+    prompt: 'A character portrait in the Ghibli art style, with dramatic shading and a mysterious atmosphere.'
   },
   {
-    category: 'Wedding',
-    name: 'A-Line',
-    prompt: 'A model wearing a classic A-Line wedding gown, timeless and graceful, full-length view.'
+    category: 'Ghibli',
+    name: 'Zenya',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/962a4918-202c-4a71-a27e-953807d1fd5c.jpg',
+    prompt: 'A serene character portrait in the Ghibli art style, peaceful and elegant, with a Zen-like quality.'
   },
   {
-    category: 'Wedding',
-    name: '3 Piece Suit',
-    prompt: 'A model looking dapper in a perfectly tailored 3-piece wedding suit, formal and sharp.'
+    category: 'Ghibli',
+    name: 'Storm',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/f80b85ab-ea22-40d0-9e91-3793b24d605c.jpg',
+    prompt: 'A dynamic character portrait in the Ghibli art style, set during a dramatic storm, emotional and powerful.'
   },
   {
-    category: 'Wedding',
-    name: 'Gown',
-    prompt: 'A model in a breathtaking, floor-length wedding gown, romantic and elegant.'
+    category: 'Ghibli',
+    name: 'Noon',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/b7497ed5-0d04-4334-9ca7-ec842cd4cdbb.jpg',
+    prompt: 'A bright, sunlit character portrait in the Ghibli art style, capturing the warmth of noon.'
+  },
+  
+  {
+    category: 'Ghibli',
+    name: 'Vanta',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/eb201d22-7d86-4877-9393-dc41585ebe6d.jpg',
+    prompt: 'A dark and moody character portrait in the Ghibli art style, using deep, rich colors.'
   },
   {
-    category: 'Wedding',
-    name: 'Classic Suit',
-    prompt: 'A model wearing a timeless classic suit for a wedding, sophisticated and elegant.'
-  },
-
-  // Category: Smart Casual
-  {
-    category: 'Smart Casual',
-    name: 'Jacket',
-    prompt: 'A model wearing a stylish jacket, embodying a perfect smart casual look for an urban setting.'
+    category: 'Ghibli',
+    name: 'Sora',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/d05772c7-f23f-4167-b74b-62bdcea87e9c.jpg',
+    prompt: 'A character portrait in the Ghibli art style, set against a vast, beautiful sky (Sora).'
   },
   {
-    category: 'Smart Casual',
-    name: 'Jacket',
-    prompt: 'A model in a fashionable smart casual jacket, effortlessly chic for a day out.'
+    category: 'Ghibli',
+    name: 'Flare',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/bab0fa8a-101c-49fe-95ed-60adc1822e5e.jpg',
+    prompt: 'A character portrait in the Ghibli art style, with a dramatic lens flare effect, cinematic and warm.'
   },
   {
-    category: 'Smart Casual',
-    name: 'Cardigan',
-    prompt: 'A model looking cozy and stylish in a layered smart casual cardigan.'
+    category: 'Ghibli',
+    name: 'Nova',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/85c36eb9-5442-4b4e-a2af-7a4a4305c878.jpg',
+    prompt: 'A brilliant, star-like character portrait in the Ghibli art style, glowing with energy.'
   },
   {
-    category: 'Smart Casual',
-    name: 'Cardigan',
-    prompt: 'A model in a comfortable knit cardigan, the essence of smart casual fashion.'
+    category: 'Ghibli',
+    name: 'Maven',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/2b37d621-c778-45de-afb1-64dc206d8996.jpg',
+    prompt: 'A wise and knowledgeable character portrait in the Ghibli art style, perhaps in a library or workshop.'
   },
   {
-    category: 'Smart Casual',
-    name: 'Blouse shirt',
-    prompt: 'A model in an elegant blouse shirt, perfect for a smart casual office look or evening.'
+    category: 'Ghibli',
+    name: 'Aeris',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/14239796-54fd-47d4-9c3f-f19ae892c96a.jpg',
+    prompt: 'An ethereal, airy character portrait in the Ghibli art style, gentle and light.'
   },
   {
-    category: 'Smart Casual',
-    name: 'Button-up',
-    prompt: 'A model wearing a crisp button-up shirt, a versatile staple of smart casual style.'
+    category: 'Ghibli',
+    name: 'Viera',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/4c5c7bab-b5a0-4c18-b8d8-81260d41b03a.jpg',
+    prompt: 'A fantasy character portrait of a Viera in the Ghibli art style, elegant and strong.'
   },
-
-  // Category: Athleisure
+  
   {
-    category: 'Athleisure',
-    name: 'Sports Bra',
-    prompt: 'A model in a trendy and supportive sports bra, athleisure style, in a fitness studio.'
-  },
-  {
-    category: 'Athleisure',
-    name: 'Basketball',
-    prompt: 'A model wearing basketball-inspired athleisure wear on an urban court, sporty and cool.'
+    category: 'Ghibli',
+    name: 'Tilly',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/36fb723f-ed65-408a-bf23-dc3c0d16e920.jpg',
+    prompt: 'A charming and friendly character portrait in the Ghibli art style.'
   },
   {
-    category: 'Athleisure',
-    name: 'Hoodie',
-    prompt: 'A model in a comfortable athleisure hoodie, perfect for a casual, sporty look.'
+    category: 'Ghibli',
+    name: 'Nami',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/504003f9-1d41-45f9-926d-2f6d7147c259.jpg',
+    prompt: 'A character portrait in the Ghibli art style, near the ocean waves (Nami).'
   },
   {
-    category: 'Athleisure',
-    name: 'Hoodie',
-    prompt: 'A model showcasing a different style of athleisure hoodie, street style fashion.'
-  },
-  {
-    category: 'Athleisure',
-    name: 'Tank Top',
-    prompt: 'A model in a breathable athleisure tank top, looking ready for a workout.'
-  },
-  {
-    category: 'Athleisure',
-    name: 'Polo',
-    prompt: 'A model in a classic polo shirt, styled for a sophisticated athleisure look.'
+    category: 'Ghibli',
+    name: 'Hazel',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/6af53161-065f-4e2c-95a2-f0e4cf58a6f2.jpg',
+    prompt: 'A character portrait in the Ghibli art style, with warm, hazel-toned colors, set in a forest.'
   },
 
-  // Category: Jackets (Inferred)
+  // Category: Accessories
   {
-    category: 'Jackets',
-    name: 'Denim Jacket',
-    prompt: 'A model in a timeless denim jacket, casual street style photoshoot.'
+    category: 'Accessories',
+    name: 'Floral Crown',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_filter/thumb/1735294968955.jpg',
+    prompt: 'A portrait of a person wearing a beautiful and delicate Floral Crown, bohemian and ethereal style.'
   },
   {
-    category: 'Jackets',
-    name: 'Denim Jacket',
-    prompt: 'A model showcasing a fashionable denim jacket against an urban background.'
+    category: 'Accessories',
+    name: 'Scarf',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/hd/ai_filter/1735294969683.jpg',
+    prompt: 'A portrait of a person wearing a stylish Scarf, adding a touch of elegance or coziness.'
+  },
+  {
+    category: 'Accessories',
+    name: 'Beanie',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/hd/ai_filter/1735294967692.jpg',
+    prompt: 'A portrait of a person wearing a cozy Beanie, casual and cool street style.'
+  },
+  {
+    category: 'Accessories',
+    name: 'Baseball Cap',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/hd/ai_filter/1735294967301.jpg',
+    prompt: 'A portrait of a person wearing a sporty Baseball Cap, casual and relaxed.'
+  },
+  {
+    category: 'Accessories',
+    name: 'Crown',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/hd/ai_filter/1735294968483.jpg',
+    prompt: 'A portrait of a person wearing a royal Crown, looking regal and powerful.'
+  },
+  {
+    category: 'Accessories',
+    name: 'Chain',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/hd/ai_filter/1735294968063.jpg',
+    prompt: 'A portrait of a person wearing a bold Chain necklace, modern and stylish.'
+  },
+  {
+    category: 'Accessories',
+    name: 'Sunglasses',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/hd/ai_filter/1735294970098.jpg',
+    prompt: 'A portrait of a person wearing cool Sunglasses, mysterious and fashionable.'
   },
 
-  // Category: Sweaters (Inferred)
+
+  // Category: Anime
   {
-    category: 'Sweaters',
-    name: 'Sweater',
-    prompt: 'A model wearing a cozy knit sweater, perfect for a warm and stylish autumn look.'
+    category: 'Anime',
+    name: 'Gintocki',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_filter/thumb/1716531622371.jpg',
+    prompt: 'A person transformed into the anime character Gintoki Sakata, with silver hair and samurai attire.'
   },
   {
-    category: 'Sweaters',
-    name: 'Turtleneck',
-    prompt: 'A model in a chic turtleneck sweater, exuding sophistication and warmth.'
+    category: 'Anime',
+    name: 'H X H',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_filter/thumb/1716531620868.jpg',
+    prompt: 'A person in the distinct art style of the anime Hunter x Hunter.'
+  },
+  {
+    category: 'Anime',
+    name: 'Saitaama',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_filter/thumb/1716531619290.jpg',
+    prompt: 'A person transformed into the anime character Saitama from One-Punch Man, bald and wearing his hero suit.'
+  },
+  
+  {
+    category: 'Anime',
+    name: 'Ichingo',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_filter/thumb/1716531612965.jpg',
+    prompt: 'A person transformed into the anime character Ichigo Kurosaki from Bleach, with orange hair and Soul Reaper garb.'
+  },
+  {
+    category: 'Anime',
+    name: 'Sunade',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_filter/thumb/1716531611429.jpg',
+    prompt: 'A person transformed into the anime character Tsunade from Naruto, with her signature look.'
+  },
+  {
+    category: 'Anime',
+    name: 'Lufy',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_filter/thumb/1716531609842.jpg',
+    prompt: 'A person transformed into the anime character Monkey D. Luffy from One Piece, with his straw hat.'
+  },
+  {
+    category: 'Anime',
+    name: 'Rizza',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_filter/thumb/1716531608285.jpg',
+    prompt: 'A person transformed into the anime character Riza Hawkeye from Fullmetal Alchemist.'
+  },
+  {
+    category: 'Anime',
+    name: 'Orihime',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_filter/thumb/1716531606684.jpg',
+    prompt: 'A person transformed into the anime character Orihime Inoue from Bleach.'
+  },
+  
+  
+  // Category: Vintage
+  {
+    category: 'Vintage',
+    name: '1990s',
+    imageUrl: 'https://d2k373fi2nomq1.cloudfront.net/d531c933d42142669d274a55c946108c/0d3d215d0cf645769449223588572076',
+    prompt: 'A portrait in the style of the 1990s, with grunge or pop fashion and a film grain look.'
+  },
+  {
+    category: 'Vintage',
+    name: 'Victorian',
+    imageUrl: 'https://d2k373fi2nomq1.cloudfront.net/d531c933d42142669d274a55c946108c/1a415a7a51bb436c841068395131c43e',
+    prompt: 'An elegant portrait in the Victorian era style, with elaborate clothing and a formal setting.'
+  },
+  {
+    category: 'Vintage',
+    name: '1980s',
+    imageUrl: 'https://d2k373fi2nomq1.cloudfront.net/d531c933d42142669d274a55c946108c/9fe8f49883e548f88cf1364c52036685',
+    prompt: 'A portrait with a vibrant 1980s aesthetic, big hair, neon colors, and retro vibes.'
+  },
+  {
+    category: 'Vintage',
+    name: '1950s',
+    imageUrl: 'https://d2k373fi2nomq1.cloudfront.net/d531c933d42142669d274a55c946108c/f99d72dbe94c498fb060d466a66b43f7',
+    prompt: 'A classic portrait in the style of the 1950s, with pin-up or rockabilly fashion.'
+  },
+  {
+    category: 'Vintage',
+    name: '1920s',
+    imageUrl: 'https://d2k373fi2nomq1.cloudfront.net/d531c933d42142669d274a55c946108c/ab593ec4339f439195d1a139e7a967ad',
+    prompt: 'A glamorous portrait in the style of the Roaring 1920s, with flapper dresses and art deco elements.'
+  },
+  {
+    category: 'Vintage',
+    name: '1990s',
+    imageUrl: 'https://d2k373fi2nomq1.cloudfront.net/d531c933d42142669d274a55c946108c/d47960ae2f8a4116aaebe364430cfa0d',
+    prompt: 'A portrait with a distinct 1990s vibe, featuring baggy clothes and a cool, casual attitude.'
+  },
+  {
+    category: 'Vintage',
+    name: 'Victorian',
+    imageUrl: 'https://d2k373fi2nomq1.cloudfront.net/d531c933d42142669d274a55c946108c/40bd1e0c04674ba9a5eac56c09a37a77',
+    prompt: 'A person dressed in refined Victorian attire, with a classic, historical aesthetic.'
+  },
+  {
+    category: 'Vintage',
+    name: '1960s',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_filter/thumb/1697183633556.jpg',
+    prompt: 'A portrait with a groovy 1960s look, featuring psychedelic patterns and mod fashion.'
+  },
+  {
+    category: 'Vintage',
+    name: '18th Century',
+    imageUrl: 'https://d2k373fi2nomq1.cloudfront.net/d531c933d42142669d274a55c946108c/4f5c4b1cfcf74cb7a64691edc6182192',
+    prompt: 'A portrait in the opulent style of the 18th Century, with powdered wigs and rococo fashion.'
+  },
+  {
+    category: 'Vintage',
+    name: '1970s',
+    imageUrl: 'https://d2k373fi2nomq1.cloudfront.net/d531c933d42142669d274a55c946108c/8db4bca57f7f40ba98d450b063639130',
+    prompt: 'A portrait with a funky 1970s disco or hippie vibe, bell bottoms and bold prints.'
+  },
+  {
+    category: 'Vintage',
+    name: '1940s',
+    imageUrl: 'https://d2k373fi2nomq1.cloudfront.net/d531c933d42142669d274a55c946108c/90ad339af0084bd8980a7eff718bbe92',
+    prompt: 'A classic portrait from the 1940s wartime era, with elegant and practical fashion.'
+  },
+  {
+    category: 'Vintage',
+    name: '18th Century',
+    imageUrl: 'https://d2k373fi2nomq1.cloudfront.net/d531c933d42142669d274a55c946108c/ebc6bf54a9064a48b26c443e169f9300',
+    prompt: 'A person depicted in the lavish and aristocratic style of the 18th Century.'
+  },
+  {
+    category: 'Vintage',
+    name: '1920s',
+    imageUrl: 'https://d2k373fi2nomq1.cloudfront.net/d531c933d42142669d274a55c946108c/b70b16a65bc14458b82682c74a147cba',
+    prompt: 'A portrait capturing the jazz age glamour of the 1920s.'
+  },
+  {
+    category: 'Vintage',
+    name: '1930s',
+    imageUrl: 'https://d2k373fi2nomq1.cloudfront.net/d531c933d42142669d274a55c946108c/18d628cc3d1b4fc6870b1127ee7b2804',
+    prompt: 'A portrait reflecting the elegant and resilient fashion of the 1930s.'
+  },
+  {
+    category: 'Vintage',
+    name: '1970s',
+    imageUrl: 'https://d2k373fi2nomq1.cloudfront.net/d531c933d42142669d274a55c946108c/ead1d101ea794f6aa1fa5f0a7c8f82de',
+    prompt: 'A person with a cool, retro 1970s style, full of peace and love.'
+  },
+  {
+    category: 'Vintage',
+    name: '1960s',
+    imageUrl: 'https://d2k373fi2nomq1.cloudfront.net/d531c933d42142669d274a55c946108c/3238694a8cdc45889fa6847b304b191c',
+    prompt: 'A portrait with the iconic, revolutionary fashion of the swinging 1960s.'
   },
 
-  // Category: Traditional (Inferred)
+  // Category: Lights
   {
-    category: 'Traditional',
-    name: 'Kebaya',
-    prompt: 'A model wearing a beautiful, intricate traditional Kebaya blouse, celebrating cultural heritage.'
+    category: 'Lights',
+    name: 'Sunset',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/964ca646-31ad-4e72-9768-5dd1ea831880.jpg',
+    prompt: 'A portrait with beautiful sunset lighting, warm golden hour glow, dramatic colors.'
   },
   {
-    category: 'Traditional',
-    name: 'Highland',
-    prompt: 'A model dressed in Scottish Highland attire, featuring traditional tartan patterns.'
-  },
-
-  // Category: Bohemian (Inferred)
-  {
-    category: 'Bohemian',
-    name: 'Bohemian',
-    prompt: 'A model with a free-spirited bohemian look, featuring flowing fabrics and earthy tones.'
+    category: 'Lights',
+    name: 'Laser',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/f9a577ed-e548-4e61-a66d-352f023b35c1.jpg',
+    prompt: 'A futuristic portrait with dramatic laser light effects, vibrant and energetic.'
   },
   {
-    category: 'Bohemian',
-    name: 'Funky',
-    prompt: 'A model in a funky, eclectic outfit with bold colors and unique patterns, expressing individuality.'
+    category: 'Lights',
+    name: 'Fireworks',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/f0a43cd7-6541-4f75-bed7-972b9e0820e7.jpg',
+    prompt: 'A celebratory portrait with a background of exploding fireworks, bright and colorful.'
   },
-];
-
-export const suggestedOutfitPrompts: string[] = [
-  "Vibrant balloons", "Urban brick wall", "Lush garden scene", "Serene ocean view", 
-  "Abstract painting", "Graffiti-covered wall", "Rustic barn", "City skyline", 
-  "Enchanting forest landscape", "Majestic mountain range"
+  {
+    category: 'Lights',
+    name: 'Northern',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/4fc40ddf-2df9-4063-bce3-1c675b614a3a.jpg',
+    prompt: 'A magical portrait with the Northern Lights (Aurora Borealis) in the sky.'
+  },
+  {
+    category: 'Lights',
+    name: 'Bokeh',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/6574b9b8-188d-40c9-9835-6369f42403e5.jpg',
+    prompt: 'A portrait with a beautiful bokeh effect, soft, out-of-focus lights in the background.'
+  },
+  {
+    category: 'Lights',
+    name: 'Cinematic',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/b08cd6bc-d8cc-4d33-a47f-57eb57dd3b6b.jpg',
+    prompt: 'A portrait with dramatic cinematic lighting, high contrast and moody atmosphere.'
+  },
+  {
+    category: 'Lights',
+    name: 'Golden',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/a8359ee0-5de5-4f7a-ac30-cc2300d98a69.jpg',
+    prompt: 'A portrait bathed in a warm, golden light, creating a luxurious and beautiful look.'
+  },
+  {
+    category: 'Lights',
+    name: 'Disco',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/dcdaae26-51c0-4f71-b0c7-17dddf14e1a2.jpg',
+    prompt: 'A fun portrait under a disco ball, with sparkling, colorful lights.'
+  },
+  {
+    category: 'Lights',
+    name: 'Lighthouse',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/45790c87-47d5-4aba-8fb3-87c00851284c.jpg',
+    prompt: 'A dramatic portrait with a powerful beam of light from a lighthouse.'
+  },
+  {
+    category: 'Lights',
+    name: 'Dramatic',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/0f5567aa-1790-44fe-8a92-40f747d4e077.jpg',
+    prompt: 'A portrait with intense, dramatic lighting, creating strong shadows and highlights.'
+  },
+  {
+    category: 'Lights',
+    name: 'Neon',
+    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/product_thumb/72aa49b2-4660-473f-b0a7-0f7eb8e8102d.jpg',
+    prompt: 'A portrait illuminated by vibrant neon lights, cyberpunk or retro aesthetic.'
+  },
 ];

@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
-import { Download, Loader, Brush, XCircle, HelpCircle } from 'lucide-react';
+import { Download, Loader, Brush, XCircle, HelpCircle, X } from 'lucide-react';
 import SEO from '../components/ui/SEO';
 import Button from '../components/ui/Button';
 import ImageDropzone from '../components/ui/ImageDropzone';
 import { tools } from '../data/tools';
-import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, startProductPhotoshootJob, startBackgroundGeneratorJob, startImageGeneratorJob, startPortraitJob, startFaceSwapJob, startOutfitJob, startImageToImageJob, startSketchToImageJob, startHairstyleJob, startUpscaleJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete } from '../utils/api';
+import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, startProductPhotoshootJob, startBackgroundGeneratorJob, startImageGeneratorJob, startPortraitJob, startFaceSwapJob, startOutfitJob, startImageToImageJob, startSketchToImageJob, startHairstyleJob, startUpscaleJob, startAIFilterJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete } from '../utils/api';
 import type { ImageFile, ProcessedImage, Tool, FaceSwapStyle } from '../types';
 import { maleCartoonStyles, femaleCartoonStyles } from '../constants/cartoonStyles';
 import { caricatureStyles, Style } from '../constants/caricatureStyles';
@@ -16,6 +16,7 @@ import { portraitStyles, suggestedPortraitPrompts, type PortraitStyle } from '..
 import { faceSwapStyles } from '../constants/faceSwapStyles';
 import { presetOutfitStyles, suggestedOutfitPrompts, type OutfitStyle } from '../constants/outfitStyles';
 import { suggestedHairstylePrompts } from '../constants/hairstylePrompts';
+import { aiFilterStyles, filterCategories, type AIFilterStyle } from '../constants/filterStyles';
 
 const ToolPage: React.FC = () => {
   const { toolId } = useParams<{ toolId: string }>();
@@ -122,6 +123,13 @@ const ToolPage: React.FC = () => {
   const [upscaleFactor, setUpscaleFactor] = useState<2 | 4>(2);
   const [imageDimensions, setImageDimensions] = useState<{ width: number; height: number } | null>(null);
   const [availableUpscaleOptions, setAvailableUpscaleOptions] = useState<(2 | 4)[]>([2, 4]);
+  
+  // AI Filter state
+  const [filterSelectedCategory, setFilterSelectedCategory] = useState<string>('Ghibli');
+  const [filterSelectedStyle, setFilterSelectedStyle] = useState<AIFilterStyle | null>(null);
+  const [filterCustomStyleImage, setFilterCustomStyleImage] = useState<File | null>(null);
+  const [filterTextPrompt, setFilterTextPrompt] = useState('');
+  const [filterUseCustom, setFilterUseCustom] = useState(false);
   
   // Find the tool based on the toolId param
   const tool = tools.find(t => t.id === toolId);
@@ -367,6 +375,10 @@ const handleAIFaceSwapGenerate = async () => {
   
   const handleAvatarClearSelection = () => {
     setAvatarSelectedStyle(null);
+  };
+
+  const handleFilterClearSelection = () => {
+    setFilterSelectedStyle(null);
   };
   
   const handleProductClearSelection = () => {
@@ -1330,6 +1342,58 @@ const handleAIImageToImageGenerate = async () => {
        console.error("An error occurred during image upscaling:", error);
        setProcessedImage({ url: null, isLoading: false, error: (error as Error).message });
    }
+ };
+
+ const handleAIFilterGenerate = async () => {
+     // 1. Validate inputs and set loading state
+     if (!selectedImage.file) {
+         setProcessedImage({ url: null, isLoading: false, error: "Please upload an image first." });
+         return;
+     }
+     if (!filterSelectedStyle && !filterCustomStyleImage && !filterTextPrompt) {
+         setProcessedImage({ url: null, isLoading: false, error: "Please select a preset style, upload a custom style, or enter a text prompt." });
+         return;
+     }
+
+     setProcessedImage({ url: null, isLoading: true, error: null });
+
+     try {
+         // 2. Upload the main image
+         const mainImageUrl = await uploadImageAndGetUrl(selectedImage.file);
+
+         // 3. Initialize final parameters
+         let finalStyleUrl: string | undefined = undefined;
+         let finalPrompt: string = "";
+
+         // 4. Correctly determine the style source
+         if (filterSelectedStyle) {
+             finalPrompt = filterSelectedStyle.name;
+             const styleImageBlob = await convertUrlToBlob(filterSelectedStyle.imageUrl);
+             finalStyleUrl = await uploadImageAndGetUrl(new File([styleImageBlob], "style.jpeg", { type: 'image/jpeg' }));
+         } else if (filterCustomStyleImage) {
+             finalPrompt = filterTextPrompt;
+             finalStyleUrl = await uploadImageAndGetUrl(filterCustomStyleImage);
+         } else {
+             finalPrompt = filterTextPrompt;
+         }
+
+         // 5. Call the API job function with all parameters
+         const orderId = await startAIFilterJob({
+             imageUrl: mainImageUrl,
+             styleImageUrl: finalStyleUrl,
+             textPrompt: finalPrompt,
+         });
+
+         // 6. Use our robust, unified poller
+         const resultUrl = await pollJobUntilComplete(orderId);
+
+         // 7. Display the result
+         setProcessedImage({ url: resultUrl, isLoading: false, error: null });
+
+     } catch (error) {
+         console.error("An error occurred during AI filter generation:", error);
+         setProcessedImage({ url: null, isLoading: false, error: (error as Error).message });
+     }
  };
 
   // Canvas initialization is now handled by onLoad events on the image elements
@@ -2980,6 +3044,168 @@ const handleAIImageToImageGenerate = async () => {
                   </div>
                 </div>
               )}
+              
+              {/* AI Filter specific controls */}
+              {tool.id === 'ai-filter' && (
+                <div className="space-y-4">
+                  {/* Category Selection */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                      Filter Category
+                    </label>
+                    <div className="flex flex-wrap gap-2">
+                      {filterCategories.map((category) => (
+                        <button
+                          key={category}
+                          type="button"
+                          onClick={() => {
+                            setFilterSelectedCategory(category);
+                            setFilterSelectedStyle(null); // Reset selected style when category changes
+                          }}
+                          className={`px-3 py-2 rounded-md border text-sm transition-colors ${
+                            filterSelectedCategory === category
+                              ? 'bg-blue-500 text-white border-blue-500'
+                              : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                          }`}
+                        >
+                          {category}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  {/* Style Selection */}
+                  <div>
+                    <div className="flex items-center justify-between mb-3">
+                      <label className="block text-sm font-medium text-gray-700">
+                        Choose Style
+                      </label>
+                      {filterSelectedStyle && (
+                        <button
+                          type="button"
+                          onClick={handleFilterClearSelection}
+                          className="flex items-center space-x-1 text-xs text-gray-500 hover:text-gray-700 transition-colors"
+                        >
+                          <X className="w-3 h-3" />
+                          <span>Clear Selection</span>
+                        </button>
+                      )}
+                    </div>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                      {aiFilterStyles
+                        .filter(style => style.category === filterSelectedCategory)
+                        .map((style) => (
+                          <div
+                            key={style.id}
+                            onClick={() => {
+                              setFilterSelectedStyle(style);
+                              setFilterUseCustom(false);
+                            }}
+                            className={`cursor-pointer border-2 rounded-lg overflow-hidden transition-all relative group ${
+                              filterSelectedStyle?.id === style.id
+                                ? 'border-blue-500 ring-2 ring-blue-200'
+                                : 'border-gray-200 hover:border-gray-300'
+                            }`}
+                          >
+                            <img
+                              src={style.imageUrl}
+                              alt={style.name}
+                              className="w-full h-24 object-cover"
+                              onError={(e) => {
+                                // Fallback for broken images
+                                const target = e.target as HTMLImageElement;
+                                target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2Y3ZjdmNyIvPjx0ZXh0IHg9IjUwIiB5PSI1NSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjOTk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5TdHlsZTwvdGV4dD48L3N2Zz4=';
+                              }}
+                            />
+                            {filterSelectedStyle?.id === style.id && (
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleFilterClearSelection();
+                                }}
+                                className="absolute top-1 right-1 p-1 bg-white rounded-full shadow-md hover:bg-gray-50 transition-colors"
+                                title="Clear Selection"
+                              >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-xcircle text-gray-600">
+                                  <circle cx="12" cy="12" r="10"></circle>
+                                  <path d="m15 9-6 6"></path>
+                                  <path d="m9 9 6 6"></path>
+                                </svg>
+                              </button>
+                            )}
+                            <div className="p-2">
+                              <p className="text-xs font-medium text-gray-800 truncate">{style.name}</p>
+                            </div>
+                          </div>
+                        ))
+                      }
+                    </div>
+                  </div>
+                  
+                  {/* Custom Style Option */}
+                  <div className="border-t pt-4">
+                    <div className="flex items-center space-x-2 mb-3">
+                      <input
+                        type="checkbox"
+                        id="use-custom-filter"
+                        checked={filterUseCustom}
+                        onChange={(e) => {
+                          setFilterUseCustom(e.target.checked);
+                          if (e.target.checked) {
+                            setFilterSelectedStyle(null);
+                          }
+                        }}
+                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                      />
+                      <label htmlFor="use-custom-filter" className="text-sm font-medium text-gray-700">
+                        Use Custom Style
+                      </label>
+                    </div>
+                    
+                    {filterUseCustom && (
+                      <div className="space-y-3">
+                        {/* Custom Style Image Upload */}
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Upload Style Image (Optional)
+                          </label>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              setFilterCustomStyleImage(file || null);
+                            }}
+                            className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                          />
+                        </div>
+                        
+                        {/* Text Prompt */}
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Text Prompt
+                          </label>
+                          <textarea
+                            value={filterTextPrompt}
+                            onChange={(e) => setFilterTextPrompt(e.target.value)}
+                            placeholder="Describe the style you want to apply..."
+                            rows={3}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                    <h4 className="text-sm font-medium text-blue-800 mb-2">💡 Tip:</h4>
+                    <p className="text-xs text-blue-700">
+                      Choose from preset styles for quick results, or use custom style with text prompts for unique artistic effects.
+                    </p>
+                  </div>
+                </div>
+              )}
 
               <Button
                 onClick={
@@ -2999,6 +3225,7 @@ const handleAIImageToImageGenerate = async () => {
                   tool.id === 'ai-sketch-to-image' ? handleAISketchToImageGenerate :
                   tool.id === 'ai-hairstyle' ? handleAIHairstyleGenerate :
                   tool.id === 'ai-image-upscaler' ? handleAIUpscalerGenerate :
+                  tool.id === 'ai-filter' ? handleAIFilterGenerate :
                   handleProcessImage
                 }
                 disabled={
@@ -3020,7 +3247,8 @@ const handleAIImageToImageGenerate = async () => {
                     !s2iTextPrompt.trim()
                   )) ||
                   (tool.id === 'ai-hairstyle' && (!selectedImage.file || !hairstyleTextPrompt.trim())) ||
-                  (tool.id === 'ai-image-upscaler' && (!selectedImage.file || availableUpscaleOptions.length === 0))
+                  (tool.id === 'ai-image-upscaler' && (!selectedImage.file || availableUpscaleOptions.length === 0)) ||
+                  (tool.id === 'ai-filter' && (!selectedImage.file || (!filterSelectedStyle && !filterCustomStyleImage && !filterTextPrompt.trim())))
                 }
                 className="w-full"
               >

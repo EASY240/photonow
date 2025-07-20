@@ -1158,3 +1158,54 @@ export async function startUpscaleJob({ imageUrl, quality }: { imageUrl: string;
     throw error;
   }
 }
+
+interface AIFilterParams {
+  imageUrl: string;
+  styleImageUrl?: string;
+  textPrompt: string;
+}
+
+export async function startAIFilterJob(params: AIFilterParams): Promise<string> {
+  try {
+    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+    const PROXY_BASE_URL = isProduction
+      ? window.location.origin
+      : 'http://localhost:3001';
+
+    // Clean URLs by removing any potential backticks, spaces, and other unwanted characters
+    const cleanImageUrl = params.imageUrl.trim().replace(/[\`\s'"]/g, '');
+    const cleanStyleImageUrl = params.styleImageUrl ? params.styleImageUrl.trim().replace(/[\`\s'"]/g, '') : undefined;
+    
+    // Build the payload dynamically, only including optional keys if they have a value
+    const jobBody: { [key: string]: any } = {
+      imageUrl: cleanImageUrl,
+      textPrompt: params.textPrompt
+    };
+    if (cleanStyleImageUrl) jobBody.styleImageUrl = cleanStyleImageUrl;
+    
+    const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        endpoint: 'v2/aifilter', // The correct endpoint for AI Filter
+        body: jobBody
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Failed to start AI filter job: ${response.status} - ${errorText}`);
+    }
+
+    const data = await response.json();
+    
+    if (!data.body || !data.body.orderId) {
+      throw new Error(`Invalid AI filter job response: ${JSON.stringify(data)}`);
+    }
+
+    return data.body.orderId;
+  } catch (error) {
+    console.error('Error starting AI filter job:', error);
+    throw error;
+  }
+}
