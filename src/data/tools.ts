@@ -145,20 +145,5 @@ export const tools: Tool[] = [
     path: '/tools/ai-filter',
     apiEndpoint: '/api/external/api/v2/ai-filter'
   },
-  {
-    id: 'ai-hair-color',
-    name: 'AI Hair Color',
-    description: 'Change hair color in photos with AI',
-    icon: 'palette',
-    path: '/tools/ai-hair-color',
-    apiEndpoint: '/api/external/api/v2/ai-hair-color'
-  },
-  {
-    id: 'ai-virtual-outfit',
-    name: 'AI Virtual Outfit Try On',
-    description: 'Virtually try on outfits with AI technology',
-    icon: 'tshirt',
-    path: '/tools/ai-virtual-outfit',
-    apiEndpoint: '/api/external/api/v2/ai-virtual-outfit-try-on'
-  }
+
 ];

@@ -1,0 +1,105 @@
+<svg width="800" height="400" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="cardGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.95" />
+      <stop offset="100%" style="stop-color:#f8fafc;stop-opacity:0.95" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/> 
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="400" fill="url(#bgGradient)"/>
+  
+  <!-- Floating particles -->
+  <circle cx="100" cy="80" r="3" fill="#ffffff" opacity="0.6">
+    <animate attributeName="cy" values="80;60;80" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="700" cy="120" r="2" fill="#ffffff" opacity="0.4">
+    <animate attributeName="cy" values="120;100;120" dur="4s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="650" cy="300" r="2.5" fill="#ffffff" opacity="0.5">
+    <animate attributeName="cy" values="300;280;300" dur="3.5s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- Main content card -->
+  <rect x="100" y="60" width="600" height="280" rx="20" fill="url(#cardGradient)" filter="url(#glow)"/>
+  
+  <!-- Before/After image representation -->
+  <g transform="translate(130, 90)">
+    <!-- Before image (left) -->
+    <rect x="0" y="0" width="120" height="80" rx="8" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="2"/>
+    <text x="60" y="45" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#64748b">Before</text>
+    
+    <!-- Pixelated/low quality effect -->
+    <rect x="10" y="10" width="8" height="8" fill="#94a3b8"/>
+    <rect x="20" y="10" width="8" height="8" fill="#cbd5e1"/>
+    <rect x="30" y="10" width="8" height="8" fill="#94a3b8"/>
+    <rect x="10" y="20" width="8" height="8" fill="#cbd5e1"/>
+    <rect x="20" y="20" width="8" height="8" fill="#94a3b8"/>
+    <rect x="30" y="20" width="8" height="8" fill="#cbd5e1"/>
+  </g>
+  
+  <!-- Arrow -->
+  <g transform="translate(280, 120)">
+    <path d="M0,10 L30,10 M25,5 L30,10 L25,15" stroke="#667eea" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <text x="15" y="35" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#667eea" font-weight="bold">AI</text>
+  </g>
+  
+  <!-- After image (right) -->
+  <g transform="translate(340, 90)">
+    <rect x="0" y="0" width="120" height="80" rx="8" fill="#f0f9ff" stroke="#0ea5e9" stroke-width="2"/>
+    <text x="60" y="45" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#0369a1">After</text>
+    
+    <!-- High quality/enhanced effect -->
+    <circle cx="30" cy="25" r="8" fill="#38bdf8" opacity="0.7"/>
+    <circle cx="50" cy="35" r="6" fill="#0ea5e9" opacity="0.8"/>
+    <circle cx="70" cy="25" r="7" fill="#38bdf8" opacity="0.6"/>
+    <path d="M20,50 Q40,40 60,50 Q80,60 100,50" stroke="#0ea5e9" stroke-width="2" fill="none"/>
+  </g>
+  
+  <!-- AI Enhancement Icons -->
+  <g transform="translate(500, 100)">
+    <!-- Brightness icon -->
+    <circle cx="20" cy="20" r="8" fill="#fbbf24" opacity="0.8"/>
+    <path d="M20,5 L20,10 M35,20 L30,20 M20,35 L20,30 M5,20 L10,20 M29.14,10.86 L25.86,14.14 M29.14,29.14 L25.86,25.86 M10.86,10.86 L14.14,14.14 M10.86,29.14 L14.14,25.86" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round"/>
+    
+    <!-- Contrast icon -->
+    <g transform="translate(0, 50)">
+      <circle cx="20" cy="20" r="12" fill="#6b7280"/>
+      <path d="M20,8 A12,12 0 0,1 20,32 Z" fill="#ffffff"/>
+    </g>
+    
+    <!-- Sharpness icon -->
+    <g transform="translate(50, 20)">
+      <polygon points="20,5 30,25 10,25" fill="#8b5cf6" opacity="0.8"/>
+      <polygon points="20,8 27,22 13,22" fill="#ffffff"/>
+    </g>
+  </g>
+  
+  <!-- Title -->
+  <text x="400" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#1e293b">AI Image Enhancement</text>
+  <text x="400" y="275" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#64748b">Transform Your Photos with Artificial Intelligence</text>
+  
+  <!-- Decorative elements -->
+  <g transform="translate(150, 300)">
+    <rect x="0" y="0" width="40" height="4" rx="2" fill="#667eea" opacity="0.6"/>
+    <rect x="50" y="0" width="60" height="4" rx="2" fill="#764ba2" opacity="0.4"/>
+    <rect x="120" y="0" width="30" height="4" rx="2" fill="#667eea" opacity="0.8"/>
+  </g>
+  
+  <g transform="translate(450, 300)">
+    <rect x="0" y="0" width="50" height="4" rx="2" fill="#764ba2" opacity="0.5"/>
+    <rect x="60" y="0" width="35" height="4" rx="2" fill="#667eea" opacity="0.7"/>
+    <rect x="105" y="0" width="45" height="4" rx="2" fill="#764ba2" opacity="0.6"/>
+  </g>
+</svg>

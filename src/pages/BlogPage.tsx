@@ -27,48 +27,54 @@ const BlogPage: React.FC = () => {
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {blogArticles.map((article) => (
-                <article key={article.id} className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
-                  {/* Featured Image */}
-                  <div className="h-48 bg-gradient-to-br from-blue-400 to-purple-500 relative overflow-hidden">
-                    <div className="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-10 transition-all duration-300"></div>
-                    <div className="absolute bottom-4 left-4 right-4">
-                      <span className="inline-block px-3 py-1 bg-white bg-opacity-90 text-blue-600 text-sm font-medium rounded-full">
-                        {article.category === 'general' ? 'General' : 'Tools'}
-                      </span>
+                <Link to={`/blog/${article.id}`} key={article.id} className="block group">
+                  <article className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden h-full">
+                    {/* Featured Image */}
+                    <div className="h-48 bg-gray-200 relative overflow-hidden">
+                      <img 
+                        src={article.featuredImage} 
+                        alt={article.title} 
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                      <div className="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-10 transition-all duration-300"></div>
+                      <div className="absolute bottom-4 left-4 right-4">
+                        <span className="inline-block px-3 py-1 bg-white bg-opacity-90 text-blue-600 text-sm font-medium rounded-full">
+                          {article.category === 'general' ? 'General' : 'Tools'}
+                        </span>
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Article Content */}
-                  <div className="p-6">
-                    <div className="flex items-center text-sm text-gray-500 mb-3">
-                      <span>{new Date(article.publishDate).toLocaleDateString('en-US', { 
-                        year: 'numeric', 
-                        month: 'long', 
-                        day: 'numeric' 
-                      })}</span>
-                      <span className="mx-2">•</span>
-                      <span>{article.readTime}</span>
+                    {/* Article Content */}
+                    <div className="p-6 flex flex-col">
+                      <div className="flex items-center text-sm text-gray-500 mb-3">
+                        <span>{new Date(article.publishDate).toLocaleDateString('en-US', { 
+                          year: 'numeric', 
+                          month: 'long', 
+                          day: 'numeric' 
+                        })}</span>
+                        <span className="mx-2">•</span>
+                        <span>{article.readTime}</span>
+                      </div>
+                      
+                      <h2 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors duration-300">
+                        {article.title}
+                      </h2>
+                      
+                      <p className="text-gray-600 mb-4 line-clamp-3">
+                        {article.excerpt}
+                      </p>
+                      
+                      <div className="mt-auto pt-4">
+                        <div className="inline-flex items-center text-blue-600 group-hover:text-blue-700 font-medium transition-colors duration-300">
+                          Read More
+                          <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </div>
+                      </div>
                     </div>
-                    
-                    <h2 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors duration-300">
-                      {article.title}
-                    </h2>
-                    
-                    <p className="text-gray-600 mb-4 line-clamp-3">
-                      {article.excerpt}
-                    </p>
-                    
-                    <Link 
-                      to={`/blog/${article.id}`}
-                      className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium transition-colors duration-300"
-                    >
-                      Read More
-                      <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </Link>
-                  </div>
-                </article>
+                  </article>
+                </Link>
               ))}
             </div>
           </div>

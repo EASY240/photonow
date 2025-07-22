@@ -1,10 +1,22 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import App from './App.tsx';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App';
 import './index.css';
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>
+const rootElement = document.getElementById('root');
+const app = (
+  <React.StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>
 );
+
+if (rootElement?.innerHTML) {
+  // If the root element has content (from SSG), hydrate it.
+  ReactDOM.hydrateRoot(rootElement, app);
+} else {
+  // Otherwise, render as a normal SPA.
+  ReactDOM.createRoot(rootElement!).render(app);
+}

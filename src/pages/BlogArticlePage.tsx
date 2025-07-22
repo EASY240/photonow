@@ -16,67 +16,100 @@ const BlogArticlePage: React.FC = () => {
     return <Navigate to="/blog" replace />;
   }
 
+  // New helper function to parse inline formatting (bold, links)
+  const parseLine = (line: string): (string | JSX.Element)[] => {
+    // Regex to match Markdown links [text](url) and bold text **text**
+    const regex = /(\[\s*(.*?)\s*\]\(\s*(.*?)\s*\))|(\*\*(.*?)\*\*)/g;
+    let lastIndex = 0;
+    const parts: (string | JSX.Element)[] = [];
+    let match;
+    let key = 0;
+
+    while ((match = regex.exec(line)) !== null) {
+      const [fullMatch, linkFull, linkText, linkUrl, boldFull, boldText] = match;
+      
+      // Add preceding text
+      if (match.index > lastIndex) {
+        parts.push(line.substring(lastIndex, match.index));
+      }
+
+      if (linkFull) { // It's a link
+        const isInternal = linkUrl.startsWith('/');
+        if (isInternal) {
+          parts.push(<Link key={key++} to={linkUrl} className="text-blue-600 hover:underline">{linkText}</Link>);
+        } else {
+          parts.push(<a key={key++} href={linkUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">{linkText}</a>);
+        }
+      } else if (boldFull) { // It's bold text
+        parts.push(<strong key={key++}>{boldText}</strong>);
+      }
+
+      lastIndex = regex.lastIndex;
+    }
+
+    // Add any remaining text
+    if (lastIndex < line.length) {
+      parts.push(line.substring(lastIndex));
+    }
+
+    return parts;
+  };
+
   // Convert markdown-like content to HTML-like JSX
   const renderContent = (content: string) => {
     const lines = content.split('\n');
-    const elements: JSX.Element[] = [];
-    let currentIndex = 0;
-
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i].trim();
+    const processedLines = new Set<number>();
+    
+    return lines.map((line, index) => {
+      if (processedLines.has(index)) return null;
       
-      if (line.startsWith('# ')) {
-        elements.push(
-          <h1 key={currentIndex++} className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-            {line.substring(2)}
-          </h1>
-        );
-      } else if (line.startsWith('## ')) {
-        elements.push(
-          <h2 key={currentIndex++} className="text-2xl font-bold text-gray-900 mb-4 mt-8">
-            {line.substring(3)}
-          </h2>
-        );
-      } else if (line.startsWith('### ')) {
-        elements.push(
-          <h3 key={currentIndex++} className="text-xl font-semibold text-gray-900 mb-3 mt-6">
-            {line.substring(4)}
-          </h3>
-        );
-      } else if (line.startsWith('- ')) {
-        // Handle bullet points
+      const trimmedLine = line.trim();
+
+      // Handle headings
+      if (trimmedLine.startsWith('# ')) return <h1 key={index} className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 mt-10">{trimmedLine.substring(2)}</h1>;
+      if (trimmedLine.startsWith('## ')) return <h2 key={index} className="text-2xl font-bold text-gray-900 mb-4 mt-8">{trimmedLine.substring(3)}</h2>;
+      if (trimmedLine.startsWith('### ')) return <h3 key={index} className="text-xl font-semibold text-gray-900 mb-3 mt-6">{trimmedLine.substring(4)}</h3>;
+      
+      // Handle unordered list items
+      if (trimmedLine.startsWith('- ')) {
         const listItems = [];
-        let j = i;
-        while (j < lines.length && lines[j].trim().startsWith('- ')) {
-          listItems.push(lines[j].trim().substring(2));
-          j++;
+        for (let j = index; j < lines.length && lines[j].trim().startsWith('- '); j++) {
+          listItems.push(<li key={j}>{parseLine(lines[j].trim().substring(2))}</li>);
+          processedLines.add(j);
         }
-        elements.push(
-          <ul key={currentIndex++} className="list-disc list-inside space-y-2 mb-4 text-gray-700">
-            {listItems.map((item, idx) => (
-              <li key={idx}>{item}</li>
-            ))}
-          </ul>
-        );
-        i = j - 1; // Skip processed lines
-      } else if (line.startsWith('**') && line.endsWith('**:')) {
-        // Handle bold labels
-        elements.push(
-          <p key={currentIndex++} className="font-semibold text-gray-900 mb-2 mt-4">
-            {line.substring(2, line.length - 3)}:
-          </p>
-        );
-      } else if (line.length > 0) {
-        // Regular paragraph
-        elements.push(
-          <p key={currentIndex++} className="text-gray-700 mb-4 leading-relaxed">
-            {line}
-          </p>
+        return <ul key={index} className="list-disc list-inside space-y-2 mb-4 text-gray-700">{listItems}</ul>;
+      }
+
+      // Handle ordered list items (e.g., "1. ...")
+      const numberedListMatch = trimmedLine.match(/^(\d+)\.\s(.+)/);
+      if (numberedListMatch) {
+        const itemNumber = parseInt(numberedListMatch[1]);
+        const itemText = numberedListMatch[2];
+        
+        // Create a single list item with proper numbering
+        return (
+          <div key={index} className="mb-6">
+            <div className="flex items-start">
+              <span className="inline-flex items-center justify-center w-8 h-8 bg-blue-600 text-white text-sm font-bold rounded-full mr-4 mt-1 flex-shrink-0">
+                {itemNumber}
+              </span>
+              <div className="flex-1">
+                <div className="text-gray-900 font-semibold text-lg mb-2">
+                  {parseLine(itemText)}
+                </div>
+              </div>
+            </div>
+          </div>
         );
       }
-    }
-    
-    return elements;
+
+      // Handle paragraphs
+      if (trimmedLine.length > 0) {
+        return <p key={index} className="text-gray-700 mb-4 leading-relaxed">{parseLine(trimmedLine)}</p>;
+      }
+
+      return null;
+    }).filter(Boolean); // Filter out null items
   };
 
   return (
@@ -101,7 +134,12 @@ const BlogArticlePage: React.FC = () => {
           {/* Article Header */}
           <article className="max-w-4xl mx-auto">
             {/* Featured Image */}
-            <div className="h-64 md:h-80 bg-gradient-to-br from-blue-400 to-purple-500 rounded-xl mb-8 relative overflow-hidden">
+            <div className="h-64 md:h-80 bg-gray-200 rounded-xl mb-8 relative overflow-hidden">
+              <img 
+                src={article.featuredImage} 
+                alt={article.title} 
+                className="w-full h-full object-cover"
+              />
               <div className="absolute inset-0 bg-black bg-opacity-20"></div>
               <div className="absolute bottom-6 left-6 right-6">
                 <span className="inline-block px-4 py-2 bg-white bg-opacity-90 text-blue-600 text-sm font-medium rounded-full mb-4">
