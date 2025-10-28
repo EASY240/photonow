@@ -1,13 +1,36 @@
 // src/utils/api.ts
 
 // Debug utility to control console output
-const DEBUG_MODE = import.meta.env.DEV || localStorage.getItem('debug') === 'true';
+const DEBUG_MODE = import.meta.env.DEV || (
+  typeof window !== "undefined" && 
+  typeof window.localStorage !== "undefined" && 
+  window.localStorage.getItem('debug') === 'true'
+);
 
 const debugLog = (...args: any[]) => {
   if (DEBUG_MODE) {
     console.log(...args);
   }
 };
+
+// Helper function to safely determine environment and base URL for SSR compatibility
+function getEnvironmentConfig() {
+  // Check if we're in a browser environment
+  if (typeof window !== "undefined") {
+    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+    return {
+      isProduction,
+      baseUrl: isProduction ? window.location.origin : 'http://localhost:3001'
+    };
+  }
+  
+  // SSR environment - check for production environment variables
+  const isProduction = import.meta.env.PROD || process.env.NODE_ENV === 'production';
+  return {
+    isProduction,
+    baseUrl: isProduction ? 'https://modernphototools.netlify.app' : 'http://localhost:3001'
+  };
+}
 
 // Add this helper function inside src/utils/api.ts
 export async function convertUrlToBlob(url: string): Promise<Blob> {
@@ -23,13 +46,10 @@ export async function convertUrlToBlob(url: string): Promise<Blob> {
 export async function uploadImageAndGetUrl(file: File): Promise<string> {
   try {
     // Use the Netlify function URL in production, fallback to local proxy for development
-    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-    const PROXY_BASE_URL = isProduction 
-      ? window.location.origin
-      : 'http://localhost:3001';
+    const { baseUrl } = getEnvironmentConfig();
 
     // Step 1: Get upload URL
-    const uploadUrlResponse = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+    const uploadUrlResponse = await fetch(`${baseUrl}/api/lightx-proxy`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -83,12 +103,9 @@ export async function uploadImageAndGetUrl(file: File): Promise<string> {
 
 export async function startCleanupJob({ originalImageUrl, maskedImageUrl }: { originalImageUrl: string; maskedImageUrl: string }): Promise<string> {
   try {
-    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-    const PROXY_BASE_URL = isProduction 
-      ? window.location.origin
-      : 'http://localhost:3001';
+    const { baseUrl } = getEnvironmentConfig();
 
-    const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+    const response = await fetch(`${baseUrl}/api/lightx-proxy`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -122,12 +139,9 @@ export async function startCleanupJob({ originalImageUrl, maskedImageUrl }: { or
 
 export async function checkOrderStatus(orderId: string): Promise<any> {
   try {
-    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-    const PROXY_BASE_URL = isProduction 
-      ? window.location.origin
-      : 'http://localhost:3001';
+    const { baseUrl } = getEnvironmentConfig();
 
-    const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+    const response = await fetch(`${baseUrl}/api/lightx-proxy`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -155,10 +169,7 @@ export async function checkOrderStatus(orderId: string): Promise<any> {
 
 export async function pollJobUntilComplete(orderId: string): Promise<string> {
   try {
-    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-    const PROXY_BASE_URL = isProduction 
-      ? window.location.origin
-      : 'http://localhost:3001';
+    const { baseUrl } = getEnvironmentConfig();
 
     let resultUrl = '';
     let retries = 0;
@@ -172,7 +183,7 @@ export async function pollJobUntilComplete(orderId: string): Promise<string> {
         await new Promise((resolve) => setTimeout(resolve, waitTime));
       }
 
-      const orderStatusResponse = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+      const orderStatusResponse = await fetch(`${baseUrl}/api/lightx-proxy`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -256,21 +267,16 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
     });
     
     // Use the Netlify function URL in production, fallback to local proxy for development
-    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-    const PROXY_BASE_URL = isProduction 
-      ? window.location.origin // Use the current origin (https://modernphototools.netlify.app)
-      : 'http://localhost:3001';
+    const { isProduction, baseUrl } = getEnvironmentConfig();
     
     debugLog('Environment detection:', {
-      hostname: window.location.hostname,
-      origin: window.location.origin,
       isProduction,
-      PROXY_BASE_URL
+      baseUrl
     });
     debugLog('Starting image processing...');
 
     // Step 1: Get upload URL from LightXEditor via proxy
-    const uploadUrlResponse = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+    const uploadUrlResponse = await fetch(`${baseUrl}/api/lightx-proxy`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -326,7 +332,7 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
 
     while (bgRetries < maxBgRetries) {
       try {
-        removeBackgroundResponse = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+        removeBackgroundResponse = await fetch(`${baseUrl}/api/lightx-proxy`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -377,7 +383,7 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
         await new Promise((resolve) => setTimeout(resolve, waitTime));
       }
 
-      const orderStatusResponse = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+      const orderStatusResponse = await fetch(`${baseUrl}/api/lightx-proxy`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -444,12 +450,9 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
 // AI Expand Photo function
 export async function startExpandJob({ imageUrl, padding }: { imageUrl: string; padding: { top: number; left: number; bottom: number; right: number; } }): Promise<string> {
   try {
-    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-    const PROXY_BASE_URL = isProduction 
-      ? window.location.origin
-      : 'http://localhost:3001';
+    const { baseUrl } = getEnvironmentConfig();
 
-    const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+    const response = await fetch(`${baseUrl}/api/lightx-proxy`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -487,10 +490,7 @@ export async function startExpandJob({ imageUrl, padding }: { imageUrl: string; 
 // AI Replace function
 export async function startReplaceJob({ originalImageUrl, maskedImageUrl, prompt }: { originalImageUrl: string; maskedImageUrl: string; prompt: string; }): Promise<string> {
   try {
-    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-    const PROXY_BASE_URL = isProduction 
-      ? window.location.origin
-      : 'http://localhost:3001';
+    const { baseUrl } = getEnvironmentConfig();
 
     // DEFINE THE REQUEST BODY SEPARATELY
     const requestPayload = {
@@ -502,7 +502,7 @@ export async function startReplaceJob({ originalImageUrl, maskedImageUrl, prompt
       }
     };
 
-    const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+    const response = await fetch(`${baseUrl}/api/lightx-proxy`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -531,27 +531,20 @@ export async function startReplaceJob({ originalImageUrl, maskedImageUrl, prompt
 
 export async function startProductPhotoshootJob({ imageUrl, styleImageUrl, textPrompt }: { imageUrl: string; styleImageUrl?: string; textPrompt?: string; }): Promise<string> {
   try {
-    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-    const PROXY_BASE_URL = isProduction 
-      ? window.location.origin
-      : 'http://localhost:3001';
+    const { baseUrl } = getEnvironmentConfig();
 
-    // Create the job body, ensuring all keys are present, defaulting to "" if undefined.
-    // This is our proven robust pattern.
-    const jobBody = {
-        imageUrl: imageUrl,
-        styleImageUrl: styleImageUrl || "",
-        textPrompt: textPrompt || ""
-    };
-
-    const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+    const response = await fetch(`${baseUrl}/api/lightx-proxy`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         endpoint: 'v1/product-photoshoot', // The correct endpoint for this tool
-        body: jobBody
+        body: {
+          imageUrl: imageUrl,
+          styleImageUrl: styleImageUrl || "",
+          textPrompt: textPrompt || ""
+        }
       }),
     });
 
@@ -575,35 +568,20 @@ export async function startProductPhotoshootJob({ imageUrl, styleImageUrl, textP
 
 export async function startCartoonJob({ imageUrl, styleImageUrl, textPrompt }: { imageUrl: string; styleImageUrl?: string; textPrompt?: string; }): Promise<string> {
   try {
-    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-    const PROXY_BASE_URL = isProduction 
-      ? window.location.origin
-      : 'http://localhost:3001';
+    const { baseUrl } = getEnvironmentConfig();
 
-    // Create the job body object with only imageUrl initially
-    const jobBody: any = {
-        imageUrl: imageUrl
-    };
-    
-    // CRITICAL: LightX API constraint - cannot send both styleImageUrl and textPrompt together
-    // Priority: styleImageUrl takes precedence over textPrompt
-    if (styleImageUrl && styleImageUrl.trim() !== '') {
-        jobBody.styleImageUrl = styleImageUrl;
-        // Do NOT include textPrompt when styleImageUrl is present
-    }
-
-    if (textPrompt && textPrompt.trim() !== '') {
-        jobBody.textPrompt = textPrompt;
-    }
-
-    const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+    const response = await fetch(`${baseUrl}/api/lightx-proxy`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         endpoint: 'v1/cartoon',
-        body: jobBody
+        body: {
+          imageUrl: imageUrl,
+          styleImageUrl: styleImageUrl || "",
+          textPrompt: textPrompt || ""
+        }
       }),
     });
 
@@ -627,32 +605,20 @@ export async function startCartoonJob({ imageUrl, styleImageUrl, textPrompt }: {
 
 export async function startCaricatureJob({ imageUrl, styleImageUrl, textPrompt }: { imageUrl: string; styleImageUrl?: string; textPrompt?: string; }): Promise<string> {
   try {
-    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-    const PROXY_BASE_URL = isProduction 
-      ? window.location.origin
-      : 'http://localhost:3001';
+    const { baseUrl } = getEnvironmentConfig();
 
-    // Create the job body with only imageUrl initially
-    const jobBody: any = {
-        imageUrl: imageUrl
-    };
-    
-    // Apply the same constraint for caricature API
-    if (styleImageUrl && styleImageUrl.trim() !== '') {
-        jobBody.styleImageUrl = styleImageUrl;
-    } 
-    if (textPrompt && textPrompt.trim() !== '') {
-        jobBody.textPrompt = textPrompt;
-    }
-
-    const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+    const response = await fetch(`${baseUrl}/api/lightx-proxy`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         endpoint: 'v1/caricature',
-        body: jobBody
+        body: {
+          imageUrl: imageUrl,
+          styleImageUrl: styleImageUrl || "",
+          textPrompt: textPrompt || ""
+        }
       }),
     });
 
@@ -676,32 +642,20 @@ export async function startCaricatureJob({ imageUrl, styleImageUrl, textPrompt }
 
 export async function startAvatarJob({ imageUrl, styleImageUrl, textPrompt }: { imageUrl: string; styleImageUrl?: string; textPrompt?: string; }): Promise<string> {
   try {
-    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-    const PROXY_BASE_URL = isProduction 
-      ? window.location.origin
-      : 'http://localhost:3001';
+    const { baseUrl } = getEnvironmentConfig();
 
-    // Create the job body with only imageUrl initially
-    const jobBody: any = {
-        imageUrl: imageUrl
-    };
-    
-    // Apply the same constraint for avatar API
-    if (styleImageUrl && styleImageUrl.trim() !== '') {
-        jobBody.styleImageUrl = styleImageUrl;
-    }
-    if (textPrompt && textPrompt.trim() !== '') {
-        jobBody.textPrompt = textPrompt;
-    }
-
-    const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+    const response = await fetch(`${baseUrl}/api/lightx-proxy`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         endpoint: 'v1/avatar',
-        body: jobBody
+        body: {
+          imageUrl: imageUrl,
+          styleImageUrl: styleImageUrl || "",
+          textPrompt: textPrompt || ""
+        }
       }),
     });
 
@@ -725,24 +679,19 @@ export async function startAvatarJob({ imageUrl, styleImageUrl, textPrompt }: { 
 
 export async function startBackgroundGeneratorJob({ imageUrl, textPrompt }: { imageUrl: string; textPrompt: string }): Promise<string> {
   try {
-    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-    const PROXY_BASE_URL = isProduction 
-      ? window.location.origin
-      : 'http://localhost:3001';
+    const { baseUrl } = getEnvironmentConfig();
 
-    const jobBody = {
-      imageUrl: imageUrl,
-      textPrompt: textPrompt
-    };
-
-    const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+    const response = await fetch(`${baseUrl}/api/lightx-proxy`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         endpoint: 'v1/background-generator',
-        body: jobBody
+        body: {
+          imageUrl: imageUrl,
+          textPrompt: textPrompt
+        }
       }),
     });
 
@@ -766,32 +715,20 @@ export async function startBackgroundGeneratorJob({ imageUrl, textPrompt }: { im
 
 export async function startImageGeneratorJob({ textPrompt, width, height }: { textPrompt: string; width?: number; height?: number; }): Promise<string> {
   try {
-    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-    const PROXY_BASE_URL = isProduction 
-      ? window.location.origin
-      : 'http://localhost:3001';
+    const { baseUrl } = getEnvironmentConfig();
 
-    const jobBody: any = {
-      textPrompt: textPrompt
-    };
-    
-    // Ensure resolution parameters are included
-    if (width && height) {
-      jobBody.width = width;
-      jobBody.height = height;
-      debugLog(`Setting image resolution: ${width}x${height}`);
-    }
-
-    debugLog('Image Generator Job Body:', jobBody);
-
-    const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+    const response = await fetch(`${baseUrl}/api/lightx-proxy`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         endpoint: 'v1/text2image',
-        body: jobBody
+        body: {
+          textPrompt: textPrompt,
+          width: width,
+          height: height
+        }
       }),
     });
 
@@ -815,26 +752,20 @@ export async function startImageGeneratorJob({ textPrompt, width, height }: { te
 
 export async function startPortraitJob({ imageUrl, styleImageUrl, textPrompt }: { imageUrl: string; styleImageUrl?: string; textPrompt?: string; }): Promise<string> {
   try {
-    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-    const PROXY_BASE_URL = isProduction 
-      ? window.location.origin
-      : 'http://localhost:3001';
+    const { baseUrl } = getEnvironmentConfig();
 
-    // Our proven robust pattern: always send all three keys.
-    const jobBody = {
-        imageUrl: imageUrl,
-        styleImageUrl: styleImageUrl || "",
-        textPrompt: textPrompt || ""
-    };
-
-    const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+    const response = await fetch(`${baseUrl}/api/lightx-proxy`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        endpoint: 'v1/portrait', // The correct endpoint for this tool
-        body: jobBody
+        endpoint: 'v1/portrait',
+        body: {
+          imageUrl: imageUrl,
+          styleImageUrl: styleImageUrl || "",
+          textPrompt: textPrompt || ""
+        }
       }),
     });
 
@@ -858,23 +789,19 @@ export async function startPortraitJob({ imageUrl, styleImageUrl, textPrompt }: 
 
 export async function startFaceSwapJob({ imageUrl, styleImageUrl }: { imageUrl: string; styleImageUrl: string; }): Promise<string> {
   try {
-    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-    const PROXY_BASE_URL = isProduction 
-      ? window.location.origin 
-      : 'http://localhost:3001';
+    const { baseUrl } = getEnvironmentConfig();
 
-    // This payload is simple and only contains the two required image URLs.
-    const jobBody = {
-        imageUrl: imageUrl, // Target image
-        styleImageUrl: styleImageUrl, // Source face image
-    };
-
-    const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+    const response = await fetch(`${baseUrl}/api/lightx-proxy`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
-        endpoint: 'v1/face-swap', // The correct endpoint for this tool
-        body: jobBody
+        endpoint: 'v1/face-swap',
+        body: {
+          imageUrl: imageUrl,
+          styleImageUrl: styleImageUrl,
+        }
       }),
     });
 
@@ -898,23 +825,19 @@ export async function startFaceSwapJob({ imageUrl, styleImageUrl }: { imageUrl: 
 
 export async function startOutfitJob({ imageUrl, textPrompt }: { imageUrl: string; textPrompt: string; }): Promise<string> {
   try {
-    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-    const PROXY_BASE_URL = isProduction 
-      ? window.location.origin
-      : 'http://localhost:3001';
+    const { baseUrl } = getEnvironmentConfig();
 
-    // This payload is simple and only contains the two required keys.
-    const jobBody = {
-        imageUrl: imageUrl,
-        textPrompt: textPrompt,
-    };
-
-    const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+    const response = await fetch(`${baseUrl}/api/lightx-proxy`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
-        endpoint: 'v1/outfit', // The correct endpoint for this tool
-        body: jobBody
+        endpoint: 'v1/outfit',
+        body: {
+          imageUrl: imageUrl,
+          textPrompt: textPrompt,
+        }
       }),
     });
 
@@ -946,25 +869,9 @@ interface ImageToImageParams {
 
 export async function startImageToImageJob(params: ImageToImageParams): Promise<string> {
   try {
-    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-    const PROXY_BASE_URL = isProduction 
-      ? window.location.origin
-      : 'http://localhost:3001';
+    const { baseUrl } = getEnvironmentConfig();
 
-    // Clean URLs by removing any potential backticks, spaces, and other unwanted characters
-    const cleanImageUrl = params.imageUrl.trim().replace(/[\`\s'"]/g, '');
-    const cleanStyleImageUrl = params.styleImageUrl ? params.styleImageUrl.trim().replace(/[\`\s'"]/g, '') : undefined;
-    
-    // Build the payload dynamically, only including optional keys if they have a value.
-    const jobBody: { [key: string]: any } = {
-        imageUrl: cleanImageUrl,
-        textPrompt: params.textPrompt
-    };
-    if (cleanStyleImageUrl) jobBody.styleImageUrl = cleanStyleImageUrl;
-    if (params.strength !== undefined) jobBody.strength = params.strength;
-    if (params.styleStrength !== undefined) jobBody.styleStrength = params.styleStrength;
-    
-    const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+    const response = await fetch(`${baseUrl}/api/lightx-proxy`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -1001,25 +908,9 @@ interface SketchToImageParams {
 
 export async function startSketchToImageJob(params: SketchToImageParams): Promise<string> {
   try {
-    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-    const PROXY_BASE_URL = isProduction 
-      ? window.location.origin
-      : 'http://localhost:3001';
+    const { baseUrl } = getEnvironmentConfig();
 
-    // Clean URLs by removing any potential backticks, spaces, and other unwanted characters
-    const cleanImageUrl = params.imageUrl.trim().replace(/[\`\s'"]/g, '');
-    const cleanStyleImageUrl = params.styleImageUrl ? params.styleImageUrl.trim().replace(/[\`\s'"]/g, '') : undefined;
-    
-    // Build the payload dynamically, only including optional keys if they have a value.
-    const jobBody: { [key: string]: any } = {
-        imageUrl: cleanImageUrl,
-        textPrompt: params.textPrompt,
-    };
-    if (params.strength !== undefined) jobBody.strength = params.strength;
-    if (cleanStyleImageUrl) jobBody.styleImageUrl = cleanStyleImageUrl;
-    if (params.styleStrength !== undefined) jobBody.styleStrength = params.styleStrength;
-    
-    const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+    const response = await fetch(`${baseUrl}/api/lightx-proxy`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -1048,18 +939,9 @@ export async function startSketchToImageJob(params: SketchToImageParams): Promis
 
 export async function startHairstyleJob({ imageUrl, textPrompt }: { imageUrl: string; textPrompt: string; }): Promise<string> {
   try {
-    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-    const PROXY_BASE_URL = isProduction
-      ? window.location.origin
-      : 'http://localhost:3001';
+    const { baseUrl } = getEnvironmentConfig();
 
-    // The payload is simple: just the two required keys.
-    const jobBody = {
-        imageUrl: imageUrl,
-        textPrompt: textPrompt,
-    };
-
-    const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+    const response = await fetch(`${baseUrl}/api/lightx-proxy`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -1088,18 +970,9 @@ export async function startHairstyleJob({ imageUrl, textPrompt }: { imageUrl: st
 
 export async function startUpscaleJob({ imageUrl, quality }: { imageUrl: string; quality: 2 | 4; }): Promise<string> {
   try {
-    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-    const PROXY_BASE_URL = isProduction
-      ? window.location.origin
-      : 'http://localhost:3001';
+    const { baseUrl } = getEnvironmentConfig();
 
-    // This payload contains the two required keys.
-    const jobBody = {
-      imageUrl: imageUrl,
-      quality: quality,
-    };
-
-    const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+    const response = await fetch(`${baseUrl}/api/lightx-proxy`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -1134,23 +1007,9 @@ interface AIFilterParams {
 
 export async function startAIFilterJob(params: AIFilterParams): Promise<string> {
   try {
-    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-    const PROXY_BASE_URL = isProduction
-      ? window.location.origin
-      : 'http://localhost:3001';
+    const { baseUrl } = getEnvironmentConfig();
 
-    // Clean URLs by removing any potential backticks, spaces, and other unwanted characters
-    const cleanImageUrl = params.imageUrl.trim().replace(/[\`\s'"]/g, '');
-    const cleanStyleImageUrl = params.styleImageUrl ? params.styleImageUrl.trim().replace(/[\`\s'"]/g, '') : undefined;
-    
-    // Build the payload dynamically, only including optional keys if they have a value
-    const jobBody: { [key: string]: any } = {
-      imageUrl: cleanImageUrl,
-      textPrompt: params.textPrompt
-    };
-    if (cleanStyleImageUrl) jobBody.styleImageUrl = cleanStyleImageUrl;
-    
-    const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
+    const response = await fetch(`${baseUrl}/api/lightx-proxy`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

@@ -10,6 +10,7 @@ const BlogArticlePage: React.FC = () => {
   const [article, setArticle] = useState<BlogArticleWithContent | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+  const [redirectTo, setRedirectTo] = useState<string | null>(null);
   
   useEffect(() => {
     const loadArticle = async () => {
@@ -21,7 +22,7 @@ const BlogArticlePage: React.FC = () => {
 
       // Handle redirect for removed article
       if (articleId === 'remove-background-free-guide') {
-        window.location.replace('/blog/best-photo-background-editors-2025');
+        setRedirectTo('/blog/best-photo-background-editors-2025');
         return;
       }
 
@@ -42,6 +43,10 @@ const BlogArticlePage: React.FC = () => {
 
     loadArticle();
   }, [articleId]);
+  
+  if (redirectTo) {
+    return <Navigate to={redirectTo} replace />;
+  }
   
   if (!articleId || notFound) {
     return <Navigate to="/blog" replace />;
