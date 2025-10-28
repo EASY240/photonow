@@ -6,28 +6,32 @@ import type { ImageFile } from '../../types';
 interface ImageDropzoneProps {
   onImageSelect: (imageFile: ImageFile) => void;
   selectedImage: ImageFile;
+  disabled?: boolean;
 }
 
-const ImageDropzone: React.FC<ImageDropzoneProps> = ({ onImageSelect, selectedImage }) => {
+const ImageDropzone: React.FC<ImageDropzoneProps> = ({ onImageSelect, selectedImage, disabled = false }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleDragEnter = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+    if (disabled) return;
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(true);
-  }, []);
+  }, [disabled]);
 
   const handleDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+    if (disabled) return;
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(false);
-  }, []);
+  }, [disabled]);
 
   const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+    if (disabled) return;
     e.preventDefault();
     e.stopPropagation();
-  }, []);
+  }, [disabled]);
 
   const validateFile = (file: File): string | null => {
     if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) {
@@ -42,12 +46,14 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({ onImageSelect, selectedIm
   };
 
   const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
+    if (disabled) return;
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(false);
     
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      const file = e.dataTransfer.files[0];
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+      const file = files[0];
       const validationError = validateFile(file);
       
       if (validationError) {
@@ -65,11 +71,13 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({ onImageSelect, selectedIm
       };
       reader.readAsDataURL(file);
     }
-  }, [onImageSelect]);
+  }, [onImageSelect, disabled]);
 
   const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
+    if (disabled) return;
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      const file = files[0];
       const validationError = validateFile(file);
       
       if (validationError) {
@@ -87,7 +95,7 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({ onImageSelect, selectedIm
       };
       reader.readAsDataURL(file);
     }
-  }, [onImageSelect]);
+  }, [onImageSelect, disabled]);
 
   const handleRemoveImage = useCallback(() => {
     onImageSelect({ file: null, preview: null });
@@ -98,14 +106,18 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({ onImageSelect, selectedIm
     <div className="w-full">
       {!selectedImage.preview ? (
         <div
-          className={`border-2 border-dashed rounded-lg p-8 flex flex-col items-center justify-center cursor-pointer transition-colors ${
-            isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400'
+          className={`border-2 border-dashed rounded-lg p-8 flex flex-col items-center justify-center transition-colors ${
+            disabled 
+              ? 'border-gray-200 bg-gray-50 cursor-not-allowed opacity-50' 
+              : isDragging 
+                ? 'border-blue-500 bg-blue-50 cursor-pointer' 
+                : 'border-gray-300 hover:border-gray-400 cursor-pointer'
           }`}
           onDragEnter={handleDragEnter}
           onDragLeave={handleDragLeave}
           onDragOver={handleDragOver}
           onDrop={handleDrop}
-          onClick={() => document.getElementById('file-input')?.click()}
+          onClick={disabled ? undefined : () => document.getElementById('file-input')?.click()}
         >
           <Upload className="w-10 h-10 text-gray-400 mb-4" />
           <p className="text-gray-700 font-medium mb-1">Drag and drop your image here</p>
@@ -119,6 +131,7 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({ onImageSelect, selectedIm
             className="hidden"
             accept="image/jpeg,image/png,image/webp"
             onChange={handleFileSelect}
+            disabled={disabled}
           />
         </div>
       ) : (

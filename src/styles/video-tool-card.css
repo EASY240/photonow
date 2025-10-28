@@ -1,0 +1,319 @@
+@import url('https://fonts.googleapis.com/css?family=Inter:100,200,300,400,500,600,700,800,900&display=swap'); 
+
+@font-face { 
+  font-family: Inter semibold;
+  src: url(https://static.lightxeditor.com/assets/font/Inter/static/Inter-SemiBold.ttf) format("truetype");
+  font-display: swap;
+} 
+
+/* CSS Variables */
+:root {
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 0;
+  --bs-link-hover-color-rgb: 41, 52, 203;
+  --bs-link-color-rgb: var(--bs-link-hover-color-rgb);
+  --bs-bg-opacity: 1;
+  --bs-text-opacity: 1;
+  --bs-white-rgb: 255, 255, 255;
+  --bs-black-rgb: 0, 0, 0;
+  --bs-body-font-family: Inter;
+  --bs-body-font-size: .8125rem;
+  --bs-body-font-weight: 400;
+  --bs-body-line-height: 1.5;
+  --bs-body-color: #272B34;
+  --bs-body-bg: #fff;
+  --bs-heading-color: inherit;
+  --bs-border-radius-xxl: 2rem;
+  --bs-border-radius-2xl: var(--bs-border-radius-xxl);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+*,:before,:after {
+  box-sizing: border-box;
+}
+
+/* Container and responsive breakpoints */
+@media all {
+  .container {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    width: 100%;
+    padding-right: calc(var(--bs-gutter-x) * .5);
+    padding-left: calc(var(--bs-gutter-x) * .5);
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+
+@media (min-width: 576px) {
+  .container {
+    max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+  }
+}
+
+/* Width and margin utilities */
+@media all {
+  .w-100 {
+    width: 100%!important;
+  }
+
+  .mx-auto {
+    margin-right: auto!important;
+    margin-left: auto!important;
+  }
+}
+
+@media (min-width: 576px) {
+  .col-sm-12 {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  .col-md-12 {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+}
+
+@media (min-width: 992px) {
+  .col-lg-12 {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .col-xl-12 {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+}
+
+/* Row and grid system */
+@media all {
+  .row {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(-1 * var(--bs-gutter-y));
+    margin-right: calc(-.5 * var(--bs-gutter-x));
+    margin-left: calc(-.5 * var(--bs-gutter-x));
+  }
+
+  .row > * {
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 100%;
+    padding-right: calc(var(--bs-gutter-x) * .5);
+    padding-left: calc(var(--bs-gutter-x) * .5);
+    margin-top: var(--bs-gutter-y);
+  }
+
+  .col {
+    flex: 1 0 0;
+  }
+
+  .row-cols-1 > * {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+}
+
+@media (min-width: 576px) {
+  .row-cols-sm-2 > * {
+    flex: 0 0 auto;
+    width: 50%;
+  }
+}
+
+@media (min-width: 768px) {
+  .row-cols-md-3 > * {
+    flex: 0 0 auto;
+    width: 33.33333333%;
+  }
+}
+
+/* Tailwind utility classes for new spacing */
+.mt-10 {
+  margin-top: 2.5rem; /* 40px */
+}
+
+.px-3 {
+  padding-left: 0.75rem; /* 12px */
+  padding-right: 0.75rem; /* 12px */
+}
+
+/* API Section Box with hover effect - optimized for compact layout */
+@media (min-width: 577px) {
+  .apiSectionBox:hover {
+    transform: translateY(-6px); /* Reduced from -8px for subtler effect */
+    transition: all .3s ease;
+  }
+}
+
+/* Links */
+a {
+  color: rgba(var(--bs-link-color-rgb),var(--bs-link-opacity, 1));
+  text-decoration: none;
+}
+
+a:hover {
+  --bs-link-color-rgb: var(--bs-link-hover-color-rgb);
+  text-decoration: none;
+}
+
+/* Background and border radius */
+.bg-white {
+  --bs-bg-opacity: 1;
+  background-color: rgba(var(--bs-white-rgb),var(--bs-bg-opacity))!important;
+}
+
+.rounded-20 {
+  border-radius: 20px!important;
+}
+
+/* Video styling - letterboxed display with 3.5x scale down */
+.responsive {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 9/16;
+  object-fit: contain; /* Changed from cover to contain for letterboxing */
+  max-height: 259.1px; /* Scaled down by 3.5x from 200px */
+  max-width: 137.1px; /* Scaled down proportionally for 9:16 aspect ratio */
+  margin: 0 auto; /* Center the video */
+  background-color: #000; /* Black background for letterboxing effect */
+}
+
+/* Card body - optimized padding */
+.card-body {
+  flex: 1 1 auto;
+  padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x);
+  color: var(--bs-card-color);
+}
+
+.p-3 {
+  padding: 0.75rem!important; /* Reduced from 1rem for more compact layout */
+}
+
+.card-body {
+  padding: 0;
+}
+
+/* Typography - optimized for compact layout */
+h3 {
+  margin-top: 0;
+  margin-bottom: .25rem; /* Reduced from .5rem */
+  font-weight: 500;
+  line-height: 1.1; /* Reduced from 1.2 for tighter spacing */
+  color: var(--bs-heading-color);
+  font-size: calc(1.1rem + .15vw); /* Slightly smaller than original */
+}
+
+@media (min-width: 1200px) {
+  h3 {
+    font-size: 1.25rem; /* Reduced from 1.421875rem */
+  }
+}
+
+h3 {
+  font-size: 20px; /* Reduced from 24px */
+  line-height: 24px; /* Reduced from 29.96px */
+}
+
+.mb-0 {
+  margin-bottom: 0!important;
+}
+
+.pb-2 {
+  padding-bottom: .25rem!important; /* Reduced from .5rem */
+}
+
+.text-black {
+  --bs-text-opacity: 1;
+  color: rgba(var(--bs-black-rgb),var(--bs-text-opacity))!important;
+}
+
+.text-xxl {
+  font-size: 1.1rem!important; /* Reduced from 1.25rem */
+}
+
+.text-semi {
+  font-family: Inter semibold!important;
+}
+
+.text-black {
+  color: #000!important;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 0.5rem; /* Reduced from 1rem */
+}
+
+p {
+  font-family: Inter;
+}
+
+p {
+  margin-bottom: 0;
+}
+
+p {
+  font-size: 14px; /* Reduced from 16px */
+  line-height: 20px; /* Reduced from 25.6px */
+  font-weight: 400;
+}
+
+.text-lg {
+  font-size: 0.875rem!important; /* Reduced from 1rem */
+}
+
+/* Flexbox utilities */
+.d-flex {
+  display: flex!important;
+}
+
+.justify-content-between {
+  justify-content: space-between!important;
+}
+
+.align-items-center {
+  align-items: center!important;
+}
+
+/* New item badge */
+.new_item {
+  position: relative;
+  padding-right: 13px;
+}
+
+.new_item:after,.new_badge:after {
+  content: url(https://static.lightxeditor.com/assets/icons/newbadge.svg);
+  position: relative;
+  top: 3px;
+  padding-left: 4px;
+}

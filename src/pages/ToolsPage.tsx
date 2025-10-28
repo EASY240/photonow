@@ -1,7 +1,9 @@
 import React from 'react';
 import SEO from '../components/ui/SEO';
-import ToolCard from '../components/ui/ToolCard';
+import VideoToolCard from '../components/ui/VideoToolCard';
 import { tools } from '../data/tools';
+import { getVideoUrl } from '../utils/videoMapping';
+import '../styles/video-tool-card.css';
 
 const ToolsPage: React.FC = () => {
   return (
@@ -11,20 +13,27 @@ const ToolsPage: React.FC = () => {
         description="Explore our complete collection of AI-powered photo editing tools. Transform, enhance, and perfect your images with professional results in seconds."
       />
       
-      <div className="container mx-auto px-4 py-12">
-        <div className="max-w-3xl mx-auto text-center mb-12">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            All Photo Editing Tools
-          </h1>
-          <p className="text-gray-600">
-            Discover our complete collection of AI-powered tools to transform your photos
-          </p>
-        </div>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {tools.map((tool) => (
-            <ToolCard key={tool.id} tool={tool} />
-          ))}
+      <div className="min-h-screen bg-gray-50 py-12 px-[10%]">
+        <div className="w-full mx-auto">
+          <div className="max-w-3xl mx-auto text-center mb-12">
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">
+              All Photo Editing Tools
+            </h1>
+            <p className="text-gray-600">
+              Discover our complete collection of AI-powered tools to transform your photos
+            </p>
+          </div>
+          
+          <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+            {tools.map((tool) => (
+              <div key={tool.id} className="col mt-10 px-3 apiSectionBox">
+                <VideoToolCard 
+                  tool={tool} 
+                  videoUrl={getVideoUrl(tool.name)}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </>

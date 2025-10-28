@@ -1,0 +1,19 @@
+{
+	"geolocation": {
+		"data": {
+			"city": "Dumyāţ al Jadīdah",
+			"country": {
+				"code": "EG",
+				"name": "Egypt"
+			},
+			"subdivision": {
+				"code": "DT",
+				"name": "Damietta Governorate"
+			},
+			"timezone": "Africa/Cairo",
+			"latitude": 31.4346,
+			"longitude": 31.6742
+		},
+		"timestamp": 1759541722309
+	}
+}

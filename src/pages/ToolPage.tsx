@@ -4,7 +4,11 @@ import { Download, Loader, Brush, XCircle, HelpCircle, X } from 'lucide-react';
 import SEO from '../components/ui/SEO';
 import Button from '../components/ui/Button';
 import ImageDropzone from '../components/ui/ImageDropzone';
+import PromptsGuide from '../components/ui/PromptsGuide';
+import ToolRecommendations from '../components/ui/ToolRecommendations';
+import ToolFeatureImage from '../components/ui/ToolFeatureImage';
 import { tools } from '../data/tools';
+import { findToolImage, generateAltText } from '../utils/imageMapper';
 import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, startProductPhotoshootJob, startBackgroundGeneratorJob, startImageGeneratorJob, startPortraitJob, startFaceSwapJob, startOutfitJob, startImageToImageJob, startSketchToImageJob, startHairstyleJob, startUpscaleJob, startAIFilterJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete } from '../utils/api';
 import type { ImageFile, ProcessedImage, Tool, FaceSwapStyle } from '../types';
 import { maleCartoonStyles, femaleCartoonStyles } from '../constants/cartoonStyles';
@@ -25,6 +29,17 @@ const ToolPage: React.FC = () => {
     url: null,
     isLoading: false,
     error: null
+  });
+  
+  // Tool feature image state
+  const [toolFeatureImage, setToolFeatureImage] = useState<{
+    imagePath: string | null;
+    altText: string;
+    isLoading: boolean;
+  }>({
+    imagePath: null,
+    altText: '',
+    isLoading: true
   });
   
   // AI Cleanup specific state
@@ -1244,7 +1259,9 @@ const handleAIImageToImageGenerate = async () => {
          canvas.toBlob((blob) => resolve(blob!), 'image/png');
        });
        
-       sketchImageUrl = await uploadImageAndGetUrl(blob);
+       // Convert Blob to File for uploadImageAndGetUrl
+       const file = new File([blob], 'sketch.png', { type: 'image/png' });
+       sketchImageUrl = await uploadImageAndGetUrl(file);
      }
      
      console.log('DEBUG: sketchImageUrl after upload:', sketchImageUrl);
@@ -1445,6 +1462,43 @@ const handleAIImageToImageGenerate = async () => {
     };
   }, [processedImage.url]);
 
+  // Load tool feature image when tool changes
+  useEffect(() => {
+    const loadToolImage = async () => {
+      if (!tool) return;
+      
+      setToolFeatureImage(prev => ({ ...prev, isLoading: true }));
+      
+      try {
+        const imageFilename = await findToolImage(tool.id, tool.name);
+        if (imageFilename) {
+          setToolFeatureImage({
+            imagePath: `/images/tools images/${imageFilename}`,
+            altText: generateAltText(tool.name),
+            isLoading: false
+          });
+          console.log(`✅ Loaded feature image for ${tool.name}: ${imageFilename}`);
+        } else {
+          setToolFeatureImage({
+            imagePath: null,
+            altText: '',
+            isLoading: false
+          });
+          console.log(`❌ No feature image found for ${tool.name}`);
+        }
+      } catch (error) {
+        console.error(`💥 Error loading feature image for ${tool.name}:`, error);
+        setToolFeatureImage({
+          imagePath: null,
+          altText: '',
+          isLoading: false
+        });
+      }
+    };
+
+    loadToolImage();
+  }, [tool]);
+
   // Initialize canvas with white background when drawing mode is selected
   useEffect(() => {
     if (tool.id === 'ai-sketch-to-image' && s2iInputMode === 'draw' && drawingCanvasRef.current) {
@@ -1463,6 +1517,65 @@ const handleAIImageToImageGenerate = async () => {
       }
     }
   }, [tool.id, s2iInputMode]);
+
+  // Add touch event listeners with passive: false to prevent console errors
+  useEffect(() => {
+    if (tool.id === 'ai-sketch-to-image' && s2iInputMode === 'draw' && drawingCanvasRef.current) {
+      const canvas = drawingCanvasRef.current;
+
+      const handleTouchStart = (e: TouchEvent) => {
+        e.preventDefault(); // Prevent page scrolling
+        setIsDrawingSketch(true);
+        if (canvas && e.touches[0]) {
+          const touch = e.touches[0];
+          const rect = canvas.getBoundingClientRect();
+          const x = (touch.clientX - rect.left) * (canvas.width / rect.width);
+          const y = (touch.clientY - rect.top) * (canvas.height / rect.height);
+          const ctx = canvas.getContext('2d');
+          if (ctx) {
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+          }
+        }
+      };
+
+      const handleTouchMove = (e: TouchEvent) => {
+        if (!isDrawingSketch) return;
+        e.preventDefault(); // Prevent page scrolling
+        if (canvas && e.touches[0]) {
+          const touch = e.touches[0];
+          const rect = canvas.getBoundingClientRect();
+          const x = (touch.clientX - rect.left) * (canvas.width / rect.width);
+          const y = (touch.clientY - rect.top) * (canvas.height / rect.height);
+          const ctx = canvas.getContext('2d');
+          if (ctx) {
+            ctx.lineTo(x, y);
+            ctx.strokeStyle = s2iBrushColor;
+            ctx.lineWidth = s2iBrushSize;
+            ctx.lineCap = 'round';
+            ctx.stroke();
+          }
+        }
+      };
+
+      const handleTouchEnd = (e: TouchEvent) => {
+        e.preventDefault(); // Prevent page scrolling
+        setIsDrawingSketch(false);
+      };
+
+      // Add event listeners with passive: false
+      canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
+      canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
+      canvas.addEventListener('touchend', handleTouchEnd, { passive: false });
+
+      // Cleanup function
+      return () => {
+        canvas.removeEventListener('touchstart', handleTouchStart);
+        canvas.removeEventListener('touchmove', handleTouchMove);
+        canvas.removeEventListener('touchend', handleTouchEnd);
+      };
+    }
+  }, [tool.id, s2iInputMode, isDrawingSketch, s2iBrushColor, s2iBrushSize]);
   
   return (
     <>
@@ -1477,6 +1590,14 @@ const handleAIImageToImageGenerate = async () => {
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               {tool.name}
             </h1>
+            
+            {/* Tool Feature Image */}
+            <ToolFeatureImage 
+              imagePath={toolFeatureImage.imagePath}
+              altText={toolFeatureImage.altText}
+              isLoading={toolFeatureImage.isLoading}
+            />
+            
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               {tool.description}
             </p>
@@ -1624,6 +1745,25 @@ const handleAIImageToImageGenerate = async () => {
               )}
             </ol>
           </div>
+          
+          {/* Add PromptsGuide for tools that use text prompts */}
+          {(tool.id === 'ai-replace' || 
+            tool.id === 'ai-cartoon' || 
+            tool.id === 'ai-caricature' || 
+            tool.id === 'ai-avatar' || 
+            tool.id === 'ai-product-photoshoot' || 
+            tool.id === 'ai-background-generator' || 
+            tool.id === 'ai-image-generator' || 
+            tool.id === 'ai-portrait' || 
+            tool.id === 'ai-outfit' || 
+            tool.id === 'ai-image-to-image' || 
+            tool.id === 'ai-sketch-to-image' || 
+            tool.id === 'ai-hairstyle' || 
+            tool.id === 'ai-filter') && (
+            <div className="mb-8">
+              <PromptsGuide />
+            </div>
+          )}
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-6">
@@ -2422,33 +2562,7 @@ const handleAIImageToImageGenerate = async () => {
                 </div>
               )}
               
-              {/* AI Background Generator specific controls */}
-              {tool.id === 'ai-background-generator' && selectedImage.preview && (
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Background Description
-                    </label>
-                    <textarea
-                      value={backgroundTextPrompt}
-                      onChange={(e) => setBackgroundTextPrompt(e.target.value)}
-                      placeholder="Describe the background you want to generate..."
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-                      rows={3}
-                    />
-                    
-                    <div className="mt-2">
-                      <span className="text-sm text-gray-600 mb-2 block">💡 Tips for better results:</span>
-                      <ul className="text-sm text-gray-600 ml-4 list-disc space-y-1">
-                        <li>Be specific about scenes, settings, colors, and textures</li>
-                        <li>Mention lighting conditions (bright, soft, dramatic, etc.)</li>
-                        <li>Include style preferences (realistic, artistic, vintage, etc.)</li>
-                        <li>Example: "Professional studio with soft lighting and neutral background"</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              )}
+
               
               {/* AI Image Generator specific controls */}
               {tool.id === 'ai-image-generator' && (
@@ -3299,6 +3413,12 @@ const handleAIImageToImageGenerate = async () => {
               )}
             </div>
           </div>
+          
+          {/* Tool Recommendations Section */}
+          <ToolRecommendations 
+            currentToolId={tool.id} 
+            hasResult={!!processedImage.url} 
+          />
           
           <div className="mt-12 bg-gray-50 rounded-lg p-6">
             <h2 className="text-xl font-semibold mb-4">About {tool.name}</h2>

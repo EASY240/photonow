@@ -16,7 +16,7 @@ export const presetOutfitStyles: OutfitStyle[] = [
   },
   {
     category: 'Wedding',
-    name: 'Jacket',
+    name: 'Wedding Jacket',
     prompt: 'A model in a sophisticated wedding jacket, suitable for a chic and formal ceremony.'
   },
   {
@@ -43,22 +43,22 @@ export const presetOutfitStyles: OutfitStyle[] = [
   // Category: Smart Casual
   {
     category: 'Smart Casual',
-    name: 'Jacket',
+    name: 'Blazer',
     prompt: 'A model wearing a stylish jacket, embodying a perfect smart casual look for an urban setting.'
   },
   {
     category: 'Smart Casual',
-    name: 'Jacket',
+    name: 'Casual Jacket',
     prompt: 'A model in a fashionable smart casual jacket, effortlessly chic for a day out.'
   },
   {
     category: 'Smart Casual',
-    name: 'Cardigan',
+    name: 'Knit Cardigan',
     prompt: 'A model looking cozy and stylish in a layered smart casual cardigan.'
   },
   {
     category: 'Smart Casual',
-    name: 'Cardigan',
+    name: 'Open Cardigan',
     prompt: 'A model in a comfortable knit cardigan, the essence of smart casual fashion.'
   },
   {
@@ -85,12 +85,12 @@ export const presetOutfitStyles: OutfitStyle[] = [
   },
   {
     category: 'Athleisure',
-    name: 'Hoodie',
+    name: 'Pullover Hoodie',
     prompt: 'A model in a comfortable athleisure hoodie, perfect for a casual, sporty look.'
   },
   {
     category: 'Athleisure',
-    name: 'Hoodie',
+    name: 'Zip-up Hoodie',
     prompt: 'A model showcasing a different style of athleisure hoodie, street style fashion.'
   },
   {
@@ -107,12 +107,12 @@ export const presetOutfitStyles: OutfitStyle[] = [
   // Category: Jackets (Inferred)
   {
     category: 'Jackets',
-    name: 'Denim Jacket',
+    name: 'Classic Denim Jacket',
     prompt: 'A model in a timeless denim jacket, casual street style photoshoot.'
   },
   {
     category: 'Jackets',
-    name: 'Denim Jacket',
+    name: 'Vintage Denim Jacket',
     prompt: 'A model showcasing a fashionable denim jacket against an urban background.'
   },
 

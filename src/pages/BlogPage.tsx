@@ -1,9 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/ui/SEO';
-import { blogArticles } from '../data/blogArticles';
+import { loadBlogArticles, BlogArticleWithContent } from '../utils/blogLoader';
 
 const BlogPage: React.FC = () => {
+  const [articles, setArticles] = useState<BlogArticleWithContent[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadArticles = async () => {
+      try {
+        const loadedArticles = await loadBlogArticles();
+        setArticles(loadedArticles);
+      } catch (error) {
+        console.error('Failed to load blog articles:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadArticles();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading articles...</p>
+        </div>
+      </div>
+    );
+  }
   return (
     <>
       <SEO 
@@ -26,14 +54,19 @@ const BlogPage: React.FC = () => {
           {/* Blog Articles Grid */}
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {blogArticles.map((article) => (
-                <Link to={`/blog/${article.id}`} key={article.id} className="block group">
+              {articles.map((article) => (
+                <Link 
+                  to={`/blog/${article.id}`} 
+                  key={article.id} 
+                  className="block group"
+                  aria-label={`Read article: ${article.title}`}
+                >
                   <article className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden h-full">
                     {/* Featured Image */}
                     <div className="h-48 bg-gray-200 relative overflow-hidden">
                       <img 
                         src={article.featuredImage} 
-                        alt={article.title} 
+                        alt={`Featured image for ${article.title}`} 
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                       <div className="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-10 transition-all duration-300"></div>
@@ -64,10 +97,32 @@ const BlogPage: React.FC = () => {
                         {article.excerpt}
                       </p>
                       
+                      {/* Article Tags */}
+                      {article.keywords && article.keywords.length > 0 && (
+                        <div className="mb-4">
+                          <div className="flex flex-wrap gap-2">
+                            {article.keywords.slice(0, 3).map((keyword, index) => (
+                              <span 
+                                key={index}
+                                className="px-2 py-1 bg-blue-50 text-blue-600 text-xs font-medium rounded-md"
+                              >
+                                {keyword}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      
                       <div className="mt-auto pt-4">
                         <div className="inline-flex items-center text-blue-600 group-hover:text-blue-700 font-medium transition-colors duration-300">
                           Read More
-                          <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg 
+                            className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform duration-300" 
+                            fill="none" 
+                            stroke="currentColor" 
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                          >
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                           </svg>
                         </div>

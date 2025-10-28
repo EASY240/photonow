@@ -1,5 +1,14 @@
 // src/utils/api.ts
 
+// Debug utility to control console output
+const DEBUG_MODE = import.meta.env.DEV || localStorage.getItem('debug') === 'true';
+
+const debugLog = (...args: any[]) => {
+  if (DEBUG_MODE) {
+    console.log(...args);
+  }
+};
+
 // Add this helper function inside src/utils/api.ts
 export async function convertUrlToBlob(url: string): Promise<Blob> {
   const response = await fetch(url);
@@ -65,14 +74,9 @@ export async function uploadImageAndGetUrl(file: File): Promise<string> {
     // Clean the returned URL by removing any potential backticks, spaces, and other unwanted characters
     const cleanImageUrl = imageUrl.trim().replace(/[\`\s'"]/g, '');
     
-    console.log('DEBUG: Original imageUrl from upload:', JSON.stringify(imageUrl));
-    console.log('DEBUG: Original imageUrl length:', imageUrl.length);
-    console.log('DEBUG: Cleaned imageUrl from upload:', JSON.stringify(cleanImageUrl));
-    console.log('DEBUG: Cleaned imageUrl length:', cleanImageUrl.length);
-
     return cleanImageUrl;
   } catch (error) {
-    console.error('Error uploading image:', error);
+    debugLog('Error uploading image:', error);
     throw error;
   }
 }
@@ -164,7 +168,7 @@ export async function pollJobUntilComplete(orderId: string): Promise<string> {
     while (!resultUrl && retries < maxRetries) {
       if (retries > 0) {
         const waitTime = Math.min(basePollInterval * Math.pow(1.5, retries - 1), 15000);
-        console.log(`Waiting ${waitTime}ms before retry ${retries}...`);
+        debugLog(`Waiting ${waitTime}ms before retry ${retries}...`);
         await new Promise((resolve) => setTimeout(resolve, waitTime));
       }
 
@@ -187,7 +191,6 @@ export async function pollJobUntilComplete(orderId: string): Promise<string> {
       }
 
       const orderStatus = await orderStatusResponse.json();
-      console.log('Order status response:', JSON.stringify(orderStatus));
       
       if (orderStatus.status === 'FAIL') {
         const errorMessage = orderStatus.message || 'Unknown error';
@@ -207,16 +210,7 @@ export async function pollJobUntilComplete(orderId: string): Promise<string> {
         throw new Error(`Invalid order status response: ${JSON.stringify(orderStatus)}`);
       }
 
-      console.log('Checking exit condition:', {
-        status: orderStatus.body.status,
-        output: orderStatus.body.output,
-        statusCheck: orderStatus.body.status === 'active',
-        outputCheck: !!orderStatus.body.output,
-        bothConditions: orderStatus.body.status === 'active' && orderStatus.body.output
-      });
-
       if (orderStatus.body.status === 'active' && orderStatus.body.output) {
-        console.log('Exit condition met! Setting resultUrl and breaking...');
         resultUrl = orderStatus.body.output;
         break;
       } else if (orderStatus.body.status === 'failed') {
@@ -232,7 +226,7 @@ export async function pollJobUntilComplete(orderId: string): Promise<string> {
       throw new Error('Processing timeout: The image is taking longer than expected to process. This may be due to high server load or image complexity. Please try again later.');
     }
     
-    console.log('Image processing completed successfully:', resultUrl);
+    debugLog('Image processing completed successfully:', resultUrl);
     return resultUrl;
   } catch (error) {
     console.error('Error polling job status:', error);
@@ -255,7 +249,7 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
       throw new Error('Unsupported image format. Please use JPG, PNG, or WebP.');
     }
     
-    console.log('Image validation passed:', {
+    debugLog('Image validation passed:', {
       size: `${(imageFile.size / 1024 / 1024).toFixed(2)}MB`,
       type: imageFile.type,
       name: imageFile.name
@@ -267,13 +261,13 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
       ? window.location.origin // Use the current origin (https://modernphototools.netlify.app)
       : 'http://localhost:3001';
     
-    console.log('Environment detection:', {
+    debugLog('Environment detection:', {
       hostname: window.location.hostname,
       origin: window.location.origin,
       isProduction,
       PROXY_BASE_URL
     });
-    console.log('Starting image processing...');
+    debugLog('Starting image processing...');
 
     // Step 1: Get upload URL from LightXEditor via proxy
     const uploadUrlResponse = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
@@ -303,7 +297,7 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
     }
 
     const { uploadImage, imageUrl } = uploadData.body;
-    console.log('Upload successful, imageUrl: ', imageUrl);
+    debugLog('Upload successful, imageUrl: ', imageUrl);
 
     // Step 2: Upload image directly to S3 using the pre-signed URL
     const uploadImageResponse = await fetch(uploadImage, {
@@ -320,7 +314,7 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
       throw new Error(`Failed to upload image: ${uploadImageResponse.status} - ${errorText}`);
     }
 
-    console.log('S3 upload successful, waiting for image to be available...');
+    debugLog('S3 upload successful, waiting for image to be available...');
     
     await new Promise(resolve => setTimeout(resolve, 2000)); // Wait 2 seconds
 
@@ -359,7 +353,7 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
           throw error;
         }
         
-        console.log(`Remove background attempt ${bgRetries} failed, retrying in 2 seconds...`);
+        debugLog(`Remove background attempt ${bgRetries} failed, retrying in 2 seconds...`);
         await new Promise(resolve => setTimeout(resolve, 2000));
       }
     }
@@ -379,7 +373,7 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
     while (!resultUrl && retries < maxRetries) {
       if (retries > 0) {
         const waitTime = Math.min(basePollInterval * Math.pow(1.5, retries - 1), 15000);
-        console.log(`Waiting ${waitTime}ms before retry ${retries}...`);
+        debugLog(`Waiting ${waitTime}ms before retry ${retries}...`);
         await new Promise((resolve) => setTimeout(resolve, waitTime));
       }
 
@@ -402,7 +396,6 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
       }
 
       const orderStatus = await orderStatusResponse.json();
-      console.log('Order status response:', JSON.stringify(orderStatus));
       
       if (orderStatus.status === 'FAIL') {
         const errorMessage = orderStatus.message || 'Unknown error';
@@ -439,7 +432,7 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
       throw new Error('Processing timeout: The image is taking longer than expected to process. This may be due to high server load or image complexity. Please try again later.');
     }
     
-    console.log('Image processing completed successfully:', resultUrl);
+    debugLog('Image processing completed successfully:', resultUrl);
 
     return resultUrl;
   } catch (error) {
@@ -508,9 +501,6 @@ export async function startReplaceJob({ originalImageUrl, maskedImageUrl, prompt
         textPrompt: prompt,
       }
     };
-    
-    // ADD THIS NEW DEBUGGING LINE
-    console.log('Final payload being sent to proxy:', JSON.stringify(requestPayload, null, 2));
 
     const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
       method: 'POST',
@@ -600,15 +590,11 @@ export async function startCartoonJob({ imageUrl, styleImageUrl, textPrompt }: {
     if (styleImageUrl && styleImageUrl.trim() !== '') {
         jobBody.styleImageUrl = styleImageUrl;
         // Do NOT include textPrompt when styleImageUrl is present
-        console.log('Using styleImageUrl, skipping textPrompt due to API constraint');
     }
 
     if (textPrompt && textPrompt.trim() !== '') {
         jobBody.textPrompt = textPrompt;
-        console.log('Using textPrompt (no styleImageUrl provided)');
     }
-
-    console.log('DEBUGGING (Final Attempt): Payload being sent:', JSON.stringify({ endpoint: 'v1/cartoon', body: jobBody }, null, 2));
 
     const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
       method: 'POST',
@@ -654,11 +640,9 @@ export async function startCaricatureJob({ imageUrl, styleImageUrl, textPrompt }
     // Apply the same constraint for caricature API
     if (styleImageUrl && styleImageUrl.trim() !== '') {
         jobBody.styleImageUrl = styleImageUrl;
-        console.log('Using styleImageUrl, skipping textPrompt due to API constraint');
     } 
     if (textPrompt && textPrompt.trim() !== '') {
         jobBody.textPrompt = textPrompt;
-        console.log('Using textPrompt (no styleImageUrl provided)');
     }
 
     const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
@@ -705,11 +689,9 @@ export async function startAvatarJob({ imageUrl, styleImageUrl, textPrompt }: { 
     // Apply the same constraint for avatar API
     if (styleImageUrl && styleImageUrl.trim() !== '') {
         jobBody.styleImageUrl = styleImageUrl;
-        console.log('Using styleImageUrl, skipping textPrompt due to API constraint');
     }
     if (textPrompt && textPrompt.trim() !== '') {
         jobBody.textPrompt = textPrompt;
-        console.log('Using textPrompt (no styleImageUrl provided)');
     }
 
     const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
@@ -797,10 +779,10 @@ export async function startImageGeneratorJob({ textPrompt, width, height }: { te
     if (width && height) {
       jobBody.width = width;
       jobBody.height = height;
-      console.log(`Setting image resolution: ${width}x${height}`);
+      debugLog(`Setting image resolution: ${width}x${height}`);
     }
 
-    console.log('Image Generator Job Body:', jobBody);
+    debugLog('Image Generator Job Body:', jobBody);
 
     const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
       method: 'POST',
@@ -973,18 +955,6 @@ export async function startImageToImageJob(params: ImageToImageParams): Promise<
     const cleanImageUrl = params.imageUrl.trim().replace(/[\`\s'"]/g, '');
     const cleanStyleImageUrl = params.styleImageUrl ? params.styleImageUrl.trim().replace(/[\`\s'"]/g, '') : undefined;
     
-    console.log('DEBUG: Original imageUrl:', JSON.stringify(params.imageUrl));
-    console.log('DEBUG: Original imageUrl length:', params.imageUrl.length);
-    console.log('DEBUG: Cleaned imageUrl:', JSON.stringify(cleanImageUrl));
-    console.log('DEBUG: Cleaned imageUrl length:', cleanImageUrl.length);
-    
-    if (params.styleImageUrl) {
-      console.log('DEBUG: Original styleImageUrl:', JSON.stringify(params.styleImageUrl));
-      console.log('DEBUG: Original styleImageUrl length:', params.styleImageUrl.length);
-      console.log('DEBUG: Cleaned styleImageUrl:', JSON.stringify(cleanStyleImageUrl));
-      console.log('DEBUG: Cleaned styleImageUrl length:', cleanStyleImageUrl?.length);
-    }
-
     // Build the payload dynamically, only including optional keys if they have a value.
     const jobBody: { [key: string]: any } = {
         imageUrl: cleanImageUrl,
@@ -993,9 +963,6 @@ export async function startImageToImageJob(params: ImageToImageParams): Promise<
     if (cleanStyleImageUrl) jobBody.styleImageUrl = cleanStyleImageUrl;
     if (params.strength !== undefined) jobBody.strength = params.strength;
     if (params.styleStrength !== undefined) jobBody.styleStrength = params.styleStrength;
-    
-    console.log('DEBUG: Final jobBody in startImageToImageJob:', jobBody);
-    console.log('DEBUG: JSON.stringify(jobBody):', JSON.stringify(jobBody));
     
     const response = await fetch(`${PROXY_BASE_URL}/api/lightx-proxy`, {
       method: 'POST',
@@ -1042,8 +1009,8 @@ export async function startSketchToImageJob(params: SketchToImageParams): Promis
     // Clean URLs by removing any potential backticks, spaces, and other unwanted characters
     const cleanImageUrl = params.imageUrl.trim().replace(/[\`\s'"]/g, '');
     const cleanStyleImageUrl = params.styleImageUrl ? params.styleImageUrl.trim().replace(/[\`\s'"]/g, '') : undefined;
-
-    // Dynamically build the payload. This is our proven robust pattern.
+    
+    // Build the payload dynamically, only including optional keys if they have a value.
     const jobBody: { [key: string]: any } = {
         imageUrl: cleanImageUrl,
         textPrompt: params.textPrompt,

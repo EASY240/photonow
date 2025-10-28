@@ -1,14 +1,29 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-import SEO from '../components/ui/SEO';
-import ToolCard from '../components/ui/ToolCard';
 import Button from '../components/ui/Button';
+import VideoToolCard from '../components/ui/VideoToolCard';
+import SEO from '../components/ui/SEO';
+import PromptsGuide from '../components/ui/PromptsGuide';
 import { tools } from '../data/tools';
+import { getVideoUrl } from '../utils/videoMapping';
+import '../styles/video-tool-card.css';
 
 const HomePage: React.FC = () => {
-  // Display only the first 6 tools on the homepage
-  const featuredTools = tools.slice(0, 6);
+  // Define the 6 specific popular tools as requested
+  const popularToolNames = [
+    'Remove Background',
+    'AI Cleanup',
+    'AI Expand',
+    'AI Replace',
+    'AI Portrait',
+    'AI Image Upscaler'
+  ];
+  
+  // Filter tools to get only the specified popular tools
+  const featuredTools = tools.filter(tool => 
+    popularToolNames.includes(tool.name)
+  ).slice(0, 6);
 
   return (
     <>
@@ -30,9 +45,9 @@ const HomePage: React.FC = () => {
                   Explore All Tools
                 </Button>
               </Link>
-              <Link to="/tools/remove-background">
+              <Link to="/tools/ai-image-generator">
                 <Button size="lg" variant="outline">
-                  Remove Background
+                  AI Image Generator
                 </Button>
               </Link>
             </div>
@@ -41,8 +56,8 @@ const HomePage: React.FC = () => {
       </section>
       
       {/* Featured Tools Section */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
+      <section className="py-16 bg-white px-[10%]">
+        <div className="w-full mx-auto">
           <div className="max-w-3xl mx-auto text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
               Our Popular Photo Editing Tools
@@ -52,9 +67,14 @@ const HomePage: React.FC = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3">
             {featuredTools.map((tool) => (
-              <ToolCard key={tool.id} tool={tool} />
+              <div key={tool.id} className="col mt-10 px-3 apiSectionBox">
+                <VideoToolCard 
+                  tool={tool} 
+                  videoUrl={getVideoUrl(tool.name)}
+                />
+              </div>
             ))}
           </div>
           
@@ -113,6 +133,9 @@ const HomePage: React.FC = () => {
           </div>
         </div>
       </section>
+      
+      {/* Prompts Guide Section */}
+      <PromptsGuide />
       
       {/* CTA Section */}
       <section className="py-16 bg-blue-600">

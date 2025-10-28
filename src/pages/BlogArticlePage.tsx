@@ -1,62 +1,84 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import SEO from '../components/ui/SEO';
-import { getArticleById } from '../data/blogArticles';
+import { getBlogArticleById, BlogArticleWithContent } from '../utils/blogLoader';
+import { getAdjacentArticles } from '../data/blogArticles';
+import ArticleNavigation from '../components/ArticleNavigation';
 
 const BlogArticlePage: React.FC = () => {
   const { articleId } = useParams<{ articleId: string }>();
+  const [article, setArticle] = useState<BlogArticleWithContent | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
   
-  if (!articleId) {
+  useEffect(() => {
+    const loadArticle = async () => {
+      if (!articleId) {
+        setNotFound(true);
+        setLoading(false);
+        return;
+      }
+
+      // Handle redirect for removed article
+      if (articleId === 'remove-background-free-guide') {
+        window.location.replace('/blog/best-photo-background-editors-2025');
+        return;
+      }
+
+      try {
+        const loadedArticle = await getBlogArticleById(articleId);
+        if (loadedArticle) {
+          setArticle(loadedArticle);
+        } else {
+          setNotFound(true);
+        }
+      } catch (error) {
+        console.error('Failed to load blog article:', error);
+        setNotFound(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadArticle();
+  }, [articleId]);
+  
+  if (!articleId || notFound) {
     return <Navigate to="/blog" replace />;
   }
-  
-  const article = getArticleById(articleId);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading article...</p>
+        </div>
+      </div>
+    );
+  }
   
   if (!article) {
     return <Navigate to="/blog" replace />;
   }
 
-  // New helper function to parse inline formatting (bold, links)
-  const parseLine = (line: string): (string | JSX.Element)[] => {
-    // Regex to match Markdown links [text](url) and bold text **text**
-    const regex = /(\[\s*(.*?)\s*\]\(\s*(.*?)\s*\))|(\*\*(.*?)\*\*)/g;
-    let lastIndex = 0;
-    const parts: (string | JSX.Element)[] = [];
-    let match;
-    let key = 0;
-
-    while ((match = regex.exec(line)) !== null) {
-      const [fullMatch, linkFull, linkText, linkUrl, boldFull, boldText] = match;
-      
-      // Add preceding text
-      if (match.index > lastIndex) {
-        parts.push(line.substring(lastIndex, match.index));
-      }
-
-      if (linkFull) { // It's a link
-        const isInternal = linkUrl.startsWith('/');
-        if (isInternal) {
-          parts.push(<Link key={key++} to={linkUrl} className="text-blue-600 hover:underline">{linkText}</Link>);
-        } else {
-          parts.push(<a key={key++} href={linkUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">{linkText}</a>);
-        }
-      } else if (boldFull) { // It's bold text
-        parts.push(<strong key={key++}>{boldText}</strong>);
-      }
-
-      lastIndex = regex.lastIndex;
-    }
-
-    // Add any remaining text
-    if (lastIndex < line.length) {
-      parts.push(line.substring(lastIndex));
-    }
-
-    return parts;
-  };
-
-  // Convert markdown-like content to HTML-like JSX
+  // Render HTML content with proper styling
   const renderContent = (content: string) => {
+    // Check if content contains HTML tags
+    const hasHtmlTags = /<[^>]+>/.test(content);
+    
+    if (hasHtmlTags) {
+      // Content contains HTML, render it directly with dangerouslySetInnerHTML
+      // but add custom CSS classes for styling
+      return (
+        <div 
+          className="article-content"
+          dangerouslySetInnerHTML={{ __html: content }}
+        />
+      );
+    }
+    
+    // Fallback to markdown-like parsing for plain text content
     const lines = content.split('\n');
     const processedLines = new Set<number>();
     
@@ -74,42 +96,19 @@ const BlogArticlePage: React.FC = () => {
       if (trimmedLine.startsWith('- ')) {
         const listItems = [];
         for (let j = index; j < lines.length && lines[j].trim().startsWith('- '); j++) {
-          listItems.push(<li key={j}>{parseLine(lines[j].trim().substring(2))}</li>);
+          listItems.push(<li key={j}>{trimmedLine.substring(2)}</li>);
           processedLines.add(j);
         }
         return <ul key={index} className="list-disc list-inside space-y-2 mb-4 text-gray-700">{listItems}</ul>;
       }
 
-      // Handle ordered list items (e.g., "1. ...")
-      const numberedListMatch = trimmedLine.match(/^(\d+)\.\s(.+)/);
-      if (numberedListMatch) {
-        const itemNumber = parseInt(numberedListMatch[1]);
-        const itemText = numberedListMatch[2];
-        
-        // Create a single list item with proper numbering
-        return (
-          <div key={index} className="mb-6">
-            <div className="flex items-start">
-              <span className="inline-flex items-center justify-center w-8 h-8 bg-blue-600 text-white text-sm font-bold rounded-full mr-4 mt-1 flex-shrink-0">
-                {itemNumber}
-              </span>
-              <div className="flex-1">
-                <div className="text-gray-900 font-semibold text-lg mb-2">
-                  {parseLine(itemText)}
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-      }
-
       // Handle paragraphs
       if (trimmedLine.length > 0) {
-        return <p key={index} className="text-gray-700 mb-4 leading-relaxed">{parseLine(trimmedLine)}</p>;
+        return <p key={index} className="text-gray-700 mb-4 leading-relaxed">{trimmedLine}</p>;
       }
 
       return null;
-    }).filter(Boolean); // Filter out null items
+    }).filter(Boolean);
   };
 
   return (
@@ -122,10 +121,11 @@ const BlogArticlePage: React.FC = () => {
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
         <div className="container mx-auto px-4 py-12">
           {/* Breadcrumb */}
-          <nav className="mb-8">
+          <nav className="mb-8" aria-label="Breadcrumb">
             <Link 
               to="/blog" 
               className="text-blue-600 hover:text-blue-700 font-medium transition-colors duration-300"
+              aria-label="Go back to blog page"
             >
               ← Back to Blog
             </Link>
@@ -137,7 +137,7 @@ const BlogArticlePage: React.FC = () => {
             <div className="h-64 md:h-80 bg-gray-200 rounded-xl mb-8 relative overflow-hidden">
               <img 
                 src={article.featuredImage} 
-                alt={article.title} 
+                alt={`Featured image for ${article.title}`} 
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-black bg-opacity-20"></div>
@@ -198,6 +198,9 @@ const BlogArticlePage: React.FC = () => {
                   </Link>
                 </div>
               </div>
+
+              {/* Article Navigation */}
+              <ArticleNavigation currentArticleId={articleId!} />
             </div>
           </article>
         </div>
