@@ -1582,6 +1582,8 @@ const handleAIImageToImageGenerate = async () => {
       <SEO 
         title={tool.name} 
         description={`${tool.description}. Free online tool with instant results.`}
+        ogImage={toolFeatureImage.imagePath ? `${window.location.origin}${toolFeatureImage.imagePath}` : undefined}
+        canonicalUrl={`${window.location.origin}/tools/${tool.id}`}
       />
       
       <div className="container mx-auto px-4 py-12">

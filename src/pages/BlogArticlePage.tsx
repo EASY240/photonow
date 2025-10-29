@@ -121,6 +121,8 @@ const BlogArticlePage: React.FC = () => {
       <SEO 
         title={article.title}
         description={article.excerpt}
+        canonicalUrl={`https://modernphototools.com/blog/${articleId}`}
+        ogImage={article.featuredImage}
       />
       
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
