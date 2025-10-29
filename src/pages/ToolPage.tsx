@@ -21,6 +21,7 @@ import { faceSwapStyles } from '../constants/faceSwapStyles';
 import { presetOutfitStyles, suggestedOutfitPrompts, type OutfitStyle } from '../constants/outfitStyles';
 import { suggestedHairstylePrompts } from '../constants/hairstylePrompts';
 import { aiFilterStyles, filterCategories, type AIFilterStyle } from '../constants/filterStyles';
+import { generateCanonicalUrl, generateOgImageUrl } from '../utils/siteConfig';
 
 const ToolPage: React.FC = () => {
   const { toolId } = useParams<{ toolId: string }>();
@@ -1582,8 +1583,8 @@ const handleAIImageToImageGenerate = async () => {
       <SEO 
         title={tool.name} 
         description={`${tool.description}. Free online tool with instant results.`}
-        ogImage={toolFeatureImage.imagePath ? `${window.location.origin}${toolFeatureImage.imagePath}` : undefined}
-        canonicalUrl={`${window.location.origin}/tools/${tool.id}`}
+        ogImage={toolFeatureImage.imagePath ? generateOgImageUrl(toolFeatureImage.imagePath) : undefined}
+        canonicalUrl={generateCanonicalUrl(`/tools/${tool.id}`)}
       />
       
       <div className="container mx-auto px-4 py-12">

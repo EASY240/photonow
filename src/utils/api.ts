@@ -1,5 +1,7 @@
 // src/utils/api.ts
 
+import { getSiteOrigin } from './siteConfig';
+
 // Debug utility to control console output
 const DEBUG_MODE = import.meta.env.DEV || (
   typeof window !== "undefined" && 
@@ -15,20 +17,14 @@ const debugLog = (...args: any[]) => {
 
 // Helper function to safely determine environment and base URL for SSR compatibility
 function getEnvironmentConfig() {
-  // Check if we're in a browser environment
-  if (typeof window !== "undefined") {
-    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-    return {
-      isProduction,
-      baseUrl: isProduction ? window.location.origin : 'http://localhost:3001'
-    };
-  }
-  
-  // SSR environment - check for production environment variables
-  const isProduction = import.meta.env.PROD || process.env.NODE_ENV === 'production';
+  const baseUrl = getSiteOrigin();
+  const isProduction = typeof window !== 'undefined' 
+    ? (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1')
+    : (import.meta.env.PROD || process.env.NODE_ENV === 'production');
+    
   return {
     isProduction,
-    baseUrl: isProduction ? 'https://modernphototools.netlify.app' : 'http://localhost:3001'
+    baseUrl
   };
 }
 
