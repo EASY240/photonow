@@ -16,32 +16,6 @@
   status = 200
   force = true
 
-# Sitemap redirects
-[[redirects]]
-  from = "/sitemap.xml"
-  to = "/.netlify/functions/sitemap"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/sitemap-index.xml"
-  to = "/.netlify/functions/sitemap"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/sitemap-*.xml"
-  to = "/.netlify/functions/sitemap"
-  status = 200
-  force = true
-
-# Sitemap admin endpoints
-[[redirects]]
-  from = "/api/sitemap/*"
-  to = "/.netlify/functions/sitemap-admin"
-  status = 200
-  force = true
-
 # For SPA routing
 [[redirects]]
   from = "/*"
