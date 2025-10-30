@@ -509,6 +509,9 @@
   font-size: 14px;
   color: #555;
   width: 100%;
+  max-width: 1200px;
+  padding-left: 2rem;
+  padding-right: 1rem;
 }
 
 p#breadcrumbs {
