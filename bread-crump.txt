@@ -1,0 +1,252 @@
+Implement Dynamic Breadcrumbs
+We need to create a site-wide Breadcrumbs component to improve navigation and SEO. The component must be dynamic, generating the correct path based on the user's current URL in our React application.
+
+The component's HTML output must match the structure of this example:
+
+HTML
+
+<div class="custom-left-col yoast-breadcrumb">
+  <p id="breadcrumbs">
+    <span><a href="/">Home</a></span>
+    <b></b>
+    <span><span><a href="/blog">Blog</a></span>
+    <b></b>
+    <span><a href="/blog/category/ai">AI</a></span>
+    <b></b>
+    <span class="breadcrumb_last" aria-current="page">AI Image Enhancement Guide</span></span>
+  </p>
+</div>
+The Implementation Plan: Step-by-Step
+Step 1: Create the Breadcrumbs Component File
+This component will house all the logic for generating and displaying the breadcrumbs.
+
+Your Task: Create a new file at src/components/Breadcrumbs.tsx.
+
+Step 2: Add Code to Breadcrumbs.tsx
+This code will use React Router's useLocation hook to get the current path, then build the breadcrumb links by looking up data in our tools.ts and blogArticles.ts files. It also includes the critical BreadcrumbList JSON-LD schema for SEO.
+
+Your Task: Paste the following code into src/components/Breadcrumbs.tsx:
+
+TypeScript
+
+import { Link, useLocation } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+
+// Import our data to find names from IDs
+import { tools, toolCategories } from '../data/tools';
+import { blogArticles, blogCategories } from '../data/blogArticles';
+
+// Helper function to capitalize
+const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
+// Helper to find article/tool names
+const getNameFromId = (id: string, type: 'blog' | 'tool' | 'blogCat' | 'toolCat') => {
+  if (type === 'blog') {
+    return blogArticles.find(a => a.id === id)?.title || capitalize(id);
+  }
+  if (type === 'tool') {
+    return tools.find(t => t.id === id)?.name || capitalize(id);
+  }
+  if (type === 'blogCat') {
+    return blogCategories.find(c => c.id === id)?.name || capitalize(id);
+  }
+  if (type === 'toolCat') {
+    return toolCategories.find(c => c.id === id)?.name || capitalize(id);
+  }
+  return capitalize(id);
+};
+
+export function Breadcrumbs() {
+  const location = useLocation();
+  const pathnames = location.pathname.split('/').filter(x => x);
+  const breadcrumbBaseUrl = 'https://modernphototools.com';
+
+  const breadcrumbs = [
+    { name: 'Home', path: '/', isLast: false }
+  ];
+
+  let currentPath = '';
+
+  pathnames.forEach((part, index) => {
+    currentPath += `/${part}`;
+    const isLast = index === pathnames.length - 1;
+
+    let name = capitalize(part);
+
+    // This logic translates path IDs into human-readable names
+    try {
+      if (part === 'blog') name = 'Blog';
+      if (part === 'tools') name = 'Tools';
+      
+      const prevPart = pathnames[index - 1];
+      
+      if (prevPart === 'blog' && part !== 'category' && part !== 'tag') {
+        name = getNameFromId(part, 'blog');
+      }
+      if (prevPart === 'tools' && part !== 'category') {
+        name = getNameFromId(part, 'tool');
+      }
+      if (prevPart === 'category') {
+        // Check if we are in /blog/category/ or /tools/category/
+        const grandPrevPart = pathnames[index - 2];
+        if (grandPrevPart === 'blog') {
+          name = getNameFromId(part, 'blogCat');
+        } else if (grandPrevPart === 'tools') {
+          name = getNameFromId(part, 'toolCat');
+        }
+      }
+      if (prevPart === 'tag') {
+         // name is already 'Tag: Something'
+         name = `Tag: ${capitalize(part.replace(/-/g, ' '))}`;
+      }
+
+    } catch (e) {
+      console.error("Error building breadcrumb:", e);
+      name = capitalize(part); // Fallback
+    }
+
+    breadcrumbs.push({ name, path: currentPath, isLast });
+  });
+
+  // Don't show breadcrumbs for the home page
+  if (location.pathname === '/') {
+    return null;
+  }
+
+  // Generate JSON-LD Schema for SEO
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    'itemListElement': breadcrumbs.map((crumb, index) => ({
+      '@type': 'ListItem',
+      'position': index + 1,
+      'name': crumb.name,
+      'item': `${breadcrumbBaseUrl}${crumb.path}`
+    }))
+  };
+
+  return (
+    <>
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(schema)}
+        </script>
+      </Helmet>
+      
+      <div className="custom-left-col yoast-breadcrumb">
+        <p id="breadcrumbs">
+          {breadcrumbs.map((crumb, index) => {
+            const isLast = index === breadcrumbs.length - 1;
+
+            return (
+              <span key={crumb.path}>
+                {isLast ? (
+                  <span className="breadcrumb_last" aria-current="page">
+                    {crumb.name}
+                  </span>
+                ) : (
+                  <span><Link to={crumb.path}>{crumb.name}</Link></span>
+                )}
+                {!isLast && <b></b>} {/* Separator element */}
+              </span>
+            );
+          })}
+        </p>
+      </div>
+    </>
+  );
+}
+Step 3: Add CSS for the Breadcrumbs
+This CSS will style the <b> tag to be the > separator, just like in your example.
+
+Your Task: Open src/index.css (or your main global CSS file) and add the following CSS:
+
+CSS
+
+/*
+ * BREADCRUMBS
+ * Styles the breadcrumbs to match the example
+ */
+.yoast-breadcrumb {
+  padding: 10px 0;
+  font-size: 14px;
+  color: #555;
+  width: 100%;
+}
+
+p#breadcrumbs {
+  margin: 0;
+  padding: 0;
+}
+
+p#breadcrumbs span {
+  display: inline-block;
+}
+
+p#breadcrumbs a {
+  color: #007bff; /* Or your site's link color */
+  text-decoration: none;
+}
+
+p#breadcrumbs a:hover {
+  text-decoration: underline;
+}
+
+/* This is the key: style the <b> tag as a separator */
+p#breadcrumbs b {
+  margin: 0 8px;
+  color: #777;
+  font-weight: normal;
+}
+
+p#breadcrumbs b::after {
+  content: '>'; /* You can change this to '/' or '»' */
+}
+
+.breadcrumb_last {
+  color: #333;
+  font-weight: 600;
+}
+Step 4: Integrate the Component into Your Layout
+We need to add the new Breadcrumbs component to your main layout so it appears on every page.
+
+Your Task:
+
+Open src/App.tsx and find your <Layout> component. It looks like it's imported from ./pages/Layout.tsx.
+
+Open src/pages/Layout.tsx.
+
+Import your new component: import { Breadcrumbs } from '../components/Breadcrumbs';
+
+Place the <Breadcrumbs /> component inside the main container, right after the <Header /> and before the <Outlet />.
+
+The Layout.tsx file should look something like this:
+
+TypeScript
+
+// src/pages/Layout.tsx
+import { Outlet } from 'react-router-dom';
+import { Header } from '../components/Header';
+import { Footer } from '../components/Footer';
+import { Breadcrumbs } from '../components/Breadcrumbs'; // <-- 1. Import
+
+export function Layout() {
+  return (
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <main className="flex-grow">
+        {/* * 2. Place Breadcrumbs here. 
+          * We wrap it in a container to match the site's max-width.
+        */}
+        <div className="container mx-auto max-w-5xl px-4">
+          <Breadcrumbs />
+        </div>
+
+        {/* The rest of your page content loads here */}
+        <Outlet />
+      </main>
+      <Footer />
+    </div>
+  );
+}
+This plan provides a complete, dynamic, and SEO-friendly breadcrumb solution that perfectly matches your requirements.

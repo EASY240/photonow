@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import ShareButtons from './components/ui/ShareButtons';
+import { Breadcrumbs } from './components/Breadcrumbs';
 import HomePage from './pages/HomePage';
 import ToolsPage from './pages/ToolsPage';
 import ToolPage from './pages/ToolPage';
@@ -20,6 +21,7 @@ function App() {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
+      <Breadcrumbs />
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<HomePage />} />

@@ -499,3 +499,48 @@
 .article-content table tbody tr:hover {
   background-color: #e3f2fd;
 }
+
+/*
+ * BREADCRUMBS
+ * Styles the breadcrumbs to match the example
+ */
+.yoast-breadcrumb {
+  padding: 10px 0;
+  font-size: 14px;
+  color: #555;
+  width: 100%;
+}
+
+p#breadcrumbs {
+  margin: 0;
+  padding: 0;
+}
+
+p#breadcrumbs span {
+  display: inline-block;
+}
+
+p#breadcrumbs a {
+  color: #007bff; /* Or your site's link color */
+  text-decoration: none;
+}
+
+p#breadcrumbs a:hover {
+  text-decoration: underline;
+}
+
+/* This is the key: style the <b> tag as a separator */
+p#breadcrumbs b {
+  margin: 0 8px;
+  color: #777;
+  font-weight: normal;
+}
+
+p#breadcrumbs b::after {
+  content: '>'; /* You can change this to '/' or '»' */
+}
+
+.breadcrumb_last {
+  color: #333;
+  font-weight: 600;
+}
