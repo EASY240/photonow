@@ -71,6 +71,16 @@ export const blogArticleIndex = [
     readTime: '14 min read',
     category: 'general' as const,
     featuredImage: 'https://storage.googleapis.com/48877118-7272-4a4d-b302-0465d8aa4548/c8ed49ab-fa6e-4f28-9ab8-ea4721bdeeef/fc521256-ebea-4c1d-8deb-13bbc5800a8d.jpg'
+  },
+  {
+    id: 'master-ai-photo-editing-prompts',
+    title: 'Master AI Photo Editing Prompts: Create Stunning Images',
+    excerpt: 'Learn how to craft perfect AI prompts for photo editing. Discover advanced techniques, tool-specific prompts, and practical examples to transform your images with AI.',
+    publishDate: '2025-10-04',
+    readTime: '15 min read',
+    category: 'general' as const,
+    featuredImage: 'https://storage.googleapis.com/48877118-7272-4a4d-b302-0465d8aa4548/c8ed49ab-fa6e-4f28-9ab8-ea4721bdeeef/eb9f05ad-ab2d-4927-b3f9-b3bc116a084d.jpg',
+    relatedTool: 'ai-image-generator'
   }
 ];
 

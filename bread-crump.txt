@@ -1,252 +1,160 @@
-Implement Dynamic Breadcrumbs
-We need to create a site-wide Breadcrumbs component to improve navigation and SEO. The component must be dynamic, generating the correct path based on the user's current URL in our React application.
+Implement New Blog Article
+We need to integrate a new article into our blog. I have the article's complete HTML content (Master AI Photo Editing Prompts...html).
 
-The component's HTML output must match the structure of this example:
+The goal is to create a new, route-able blog page component that follows the exact same structure as our other articles (like BestPhotoBackgroundEditors.tsx). This involves updating our central data file, creating the new component, porting the HTML to JSX, externalizing its CSS, and adding dynamic features like the Helmet and Table of Contents.
 
-HTML
-
-<div class="custom-left-col yoast-breadcrumb">
-  <p id="breadcrumbs">
-    <span><a href="/">Home</a></span>
-    <b></b>
-    <span><span><a href="/blog">Blog</a></span>
-    <b></b>
-    <span><a href="/blog/category/ai">AI</a></span>
-    <b></b>
-    <span class="breadcrumb_last" aria-current="page">AI Image Enhancement Guide</span></span>
-  </p>
-</div>
 The Implementation Plan: Step-by-Step
-Step 1: Create the Breadcrumbs Component File
-This component will house all the logic for generating and displaying the breadcrumbs.
+Step 1: Update src/data/blogArticles.ts (Critical)
+This is the most important step. Open src/data/blogArticles.ts and add the following new BlogArticle object to the blogArticles array. This will make the site aware of the new article.
 
-Your Task: Create a new file at src/components/Breadcrumbs.tsx.
-
-Step 2: Add Code to Breadcrumbs.tsx
-This code will use React Router's useLocation hook to get the current path, then build the breadcrumb links by looking up data in our tools.ts and blogArticles.ts files. It also includes the critical BreadcrumbList JSON-LD schema for SEO.
-
-Your Task: Paste the following code into src/components/Breadcrumbs.tsx:
+Your Task: Add this object to src/data/blogArticles.ts:
 
 TypeScript
 
-import { Link, useLocation } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
-
-// Import our data to find names from IDs
-import { tools, toolCategories } from '../data/tools';
-import { blogArticles, blogCategories } from '../data/blogArticles';
-
-// Helper function to capitalize
-const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
-
-// Helper to find article/tool names
-const getNameFromId = (id: string, type: 'blog' | 'tool' | 'blogCat' | 'toolCat') => {
-  if (type === 'blog') {
-    return blogArticles.find(a => a.id === id)?.title || capitalize(id);
-  }
-  if (type === 'tool') {
-    return tools.find(t => t.id === id)?.name || capitalize(id);
-  }
-  if (type === 'blogCat') {
-    return blogCategories.find(c => c.id === id)?.name || capitalize(id);
-  }
-  if (type === 'toolCat') {
-    return toolCategories.find(c => c.id === id)?.name || capitalize(id);
-  }
-  return capitalize(id);
-};
-
-export function Breadcrumbs() {
-  const location = useLocation();
-  const pathnames = location.pathname.split('/').filter(x => x);
-  const breadcrumbBaseUrl = 'https://modernphototools.com';
-
-  const breadcrumbs = [
-    { name: 'Home', path: '/', isLast: false }
-  ];
-
-  let currentPath = '';
-
-  pathnames.forEach((part, index) => {
-    currentPath += `/${part}`;
-    const isLast = index === pathnames.length - 1;
-
-    let name = capitalize(part);
-
-    // This logic translates path IDs into human-readable names
-    try {
-      if (part === 'blog') name = 'Blog';
-      if (part === 'tools') name = 'Tools';
-      
-      const prevPart = pathnames[index - 1];
-      
-      if (prevPart === 'blog' && part !== 'category' && part !== 'tag') {
-        name = getNameFromId(part, 'blog');
-      }
-      if (prevPart === 'tools' && part !== 'category') {
-        name = getNameFromId(part, 'tool');
-      }
-      if (prevPart === 'category') {
-        // Check if we are in /blog/category/ or /tools/category/
-        const grandPrevPart = pathnames[index - 2];
-        if (grandPrevPart === 'blog') {
-          name = getNameFromId(part, 'blogCat');
-        } else if (grandPrevPart === 'tools') {
-          name = getNameFromId(part, 'toolCat');
-        }
-      }
-      if (prevPart === 'tag') {
-         // name is already 'Tag: Something'
-         name = `Tag: ${capitalize(part.replace(/-/g, ' '))}`;
-      }
-
-    } catch (e) {
-      console.error("Error building breadcrumb:", e);
-      name = capitalize(part); // Fallback
-    }
-
-    breadcrumbs.push({ name, path: currentPath, isLast });
-  });
-
-  // Don't show breadcrumbs for the home page
-  if (location.pathname === '/') {
-    return null;
-  }
-
-  // Generate JSON-LD Schema for SEO
-  const schema = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    'itemListElement': breadcrumbs.map((crumb, index) => ({
-      '@type': 'ListItem',
-      'position': index + 1,
-      'name': crumb.name,
-      'item': `${breadcrumbBaseUrl}${crumb.path}`
-    }))
-  };
-
-  return (
-    <>
-      <Helmet>
-        <script type="application/ld+json">
-          {JSON.stringify(schema)}
-        </script>
-      </Helmet>
-      
-      <div className="custom-left-col yoast-breadcrumb">
-        <p id="breadcrumbs">
-          {breadcrumbs.map((crumb, index) => {
-            const isLast = index === breadcrumbs.length - 1;
-
-            return (
-              <span key={crumb.path}>
-                {isLast ? (
-                  <span className="breadcrumb_last" aria-current="page">
-                    {crumb.name}
-                  </span>
-                ) : (
-                  <span><Link to={crumb.path}>{crumb.name}</Link></span>
-                )}
-                {!isLast && <b></b>} {/* Separator element */}
-              </span>
-            );
-          })}
-        </p>
-      </div>
-    </>
-  );
-}
-Step 3: Add CSS for the Breadcrumbs
-This CSS will style the <b> tag to be the > separator, just like in your example.
-
-Your Task: Open src/index.css (or your main global CSS file) and add the following CSS:
-
-CSS
-
-/*
- * BREADCRUMBS
- * Styles the breadcrumbs to match the example
- */
-.yoast-breadcrumb {
-  padding: 10px 0;
-  font-size: 14px;
-  color: #555;
-  width: 100%;
-}
-
-p#breadcrumbs {
-  margin: 0;
-  padding: 0;
-}
-
-p#breadcrumbs span {
-  display: inline-block;
-}
-
-p#breadcrumbs a {
-  color: #007bff; /* Or your site's link color */
-  text-decoration: none;
-}
-
-p#breadcrumbs a:hover {
-  text-decoration: underline;
-}
-
-/* This is the key: style the <b> tag as a separator */
-p#breadcrumbs b {
-  margin: 0 8px;
-  color: #777;
-  font-weight: normal;
-}
-
-p#breadcrumbs b::after {
-  content: '>'; /* You can change this to '/' or '»' */
-}
-
-.breadcrumb_last {
-  color: #333;
-  font-weight: 600;
-}
-Step 4: Integrate the Component into Your Layout
-We need to add the new Breadcrumbs component to your main layout so it appears on every page.
+{
+  id: 'master-ai-photo-editing-prompts',
+  title: 'Master AI Photo Editing Prompts: Create Stunning Images',
+  description: 'Learn how to craft effective AI photo editing prompts that transform your images. Discover expert techniques for background removal, image expansion, and more with ModernPhotoTools.',
+  image: 'https://storage.googleapis.com/48877118-7272-4a4d-b302-0465d8aa4548/c8ed49ab-fa6e-4f28-9ab8-ea4721bdeeef/f1611193-e19b-443a-93bc-dc7c7a4537b0.jpg',
+  date: '2025-10-04',
+  category: 'General', 
+  tags: ['AI Prompts', 'Photo Editing', 'Prompt Engineering', 'AI Tools'],
+  author:  Assuming the same author as other articles
+  featured: true,
+},
+Step 2: Create New Article Component File
+Now we'll create the React component for this article.
 
 Your Task:
 
-Open src/App.tsx and find your <Layout> component. It looks like it's imported from ./pages/Layout.tsx.
+Create a new file at src/pages/blog/MasterAiPhotoEditingPrompts.tsx.
 
-Open src/pages/Layout.tsx.
+Use src/pages/blog/BestPhotoBackgroundEditors.tsx as a template. Copy its entire structure (imports, ArticleLayout, TableOfContents, Helmet, etc.) into the new file.
 
-Import your new component: import { Breadcrumbs } from '../components/Breadcrumbs';
+Step 3: Modify the New Component (MasterAiPhotoEditingPrompts.tsx)
+This is where we'll add the new content and dynamic features.
 
-Place the <Breadcrumbs /> component inside the main container, right after the <Header /> and before the <Outlet />.
+Your Task:
 
-The Layout.tsx file should look something like this:
+Extract CSS:
+
+Take the entire <style>...</style> block from the provided Master AI Photo Editing Prompts...html file.
+
+Create a new CSS file at src/pages/blog/MasterAiPhotoEditingPrompts.css.
+
+Paste all the CSS rules into this new file.
+
+In MasterAiPhotoEditingPrompts.tsx, import this new stylesheet:
 
 TypeScript
 
-// src/pages/Layout.tsx
-import { Outlet } from 'react-router-dom';
-import { Header } from '../components/Header';
-import { Footer } from '../components/Footer';
-import { Breadcrumbs } from '../components/Breadcrumbs'; // <-- 1. Import
+import './MasterAiPhotoEditingPrompts.css'; 
+Update Helmet for SEO (Requests 2, 3, 4):
 
-export function Layout() {
-  return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
-      <main className="flex-grow">
-        {/* * 2. Place Breadcrumbs here. 
-          * We wrap it in a container to match the site's max-width.
-        */}
-        <div className="container mx-auto max-w-5xl px-4">
-          <Breadcrumbs />
-        </div>
+Find the <Helmet> section in your new file and replace it with this. It includes the correct title, meta description, and the FAQ schema.
 
-        {/* The rest of your page content loads here */}
-        <Outlet />
-      </main>
-      <Footer />
-    </div>
-  );
-}
-This plan provides a complete, dynamic, and SEO-friendly breadcrumb solution that perfectly matches your requirements.
+TypeScript
+
+<Helmet>
+  <title>Master AI Photo Editing Prompts: Create Stunning Images | ModernPhotoTools</title>
+  <meta
+    name="description"
+    content="Learn how to craft effective AI photo editing prompts that transform your images. Discover expert techniques for background removal, image expansion, and more with ModernPhotoTools."
+  />
+  <link rel="canonical" href="https://modernphototools.com/blog/master-ai-photo-editing-prompts" />
+
+  {/* 4. Implement FAQ Schema */}
+  <script type="application/ld+json">
+    {`
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Portrait Enhancement Prompts",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Enhance this portrait with professional retouching. Improve skin texture while maintaining natural appearance, brighten eyes subtly, enhance hair definition, and add slight background blur for depth. Preserve original lighting mood and authentic expression."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Product Photography Prompts",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Create professional product photo of this [product type] with clean white background, soft shadow beneath for grounding, and subtle reflection. Use professional product lighting setup with main light from upper right and fill light from left to highlight product features and texture."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Landscape Enhancement Prompts",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Enhance this landscape photo with dramatic sky. Replace current sky with vibrant sunset featuring rich oranges and purples. Add subtle sun rays filtering through clouds. Maintain natural appearance of landscape elements while adjusting lighting to match new sky."
+          }
+        }
+      ]
+    }
+    `}
+  </script>
+</Helmet>
+Add Article Content (HTML to JSX):
+
+Take the HTML content from the <body> of the Master AI Photo Editing Prompts...html file (the part inside <div class="styled-container">...</div>).
+
+Paste this HTML inside the <ArticleLayout> component.
+
+Convert it to JSX: You must run a "HTML to JSX" conversion on this content. This will fix all class to className, style attributes, etc.
+
+Remove Static Elements: Delete the static <h1> from the pasted HTML. The ArticleLayout component will handle the title, date, and featured image dynamically using the data from blogArticles.ts.
+
+Implement Table of Contents (Request 1):
+
+The provided HTML is well-structured with <section id="..."> tags.
+
+Inside your ArticleLayout component (where BestPhotoBackgroundEditors.tsx has its TOC), add the TableOfContents component.
+
+You must create the headings prop for it by scraping the <h2> tags from your new content.
+
+TypeScript
+
+// Inside your MasterAiPhotoEditingPrompts component
+const headings = [
+  { id: 'introduction', title: 'Mastering AI Photo Editing Prompts', level: 1 }, // H1
+  { id: 'understanding-ai-prompts', title: 'Understanding AI Photo Editing Prompts', level: 2 },
+  { id: 'prompt-structure', title: 'The Anatomy of a Perfect AI Photo Editing Prompt', level: 2 },
+  { id: 'tool-specific-prompts', title: 'Tool-Specific AI Photo Editing Prompts', level: 2 },
+  { id: 'advanced-techniques', title: 'Advanced AI Prompt Techniques', level: 2 },
+  { id: 'use-cases', title: 'Practical Use Cases for AI Photo Editing Prompts', level: 2 },
+  { id: 'common-mistakes', title: 'Common AI Photo Editing Prompt Mistakes to Avoid', level: 2 },
+  { id: 'tool-recommendations', title: 'Recommended Tools for Different Prompt Types', level: 2 },
+  { id: 'prompt-library', title: 'AI Photo Editing Prompt Library', level: 2 },
+  { id: 'conclusion', title: 'Mastering the Art of AI Photo Editing Prompts', level: 2 },
+];
+
+// ... inside the return()
+<ArticleLayout article={article} headings={headings}>
+  {/* ... your JSX-converted HTML content goes here ... */}
+</ArticleLayout>
+Step 4: Update Routing
+Finally, add the route for the new page.
+
+Your Task:
+
+Open src/App.tsx.
+
+Import your new component:
+
+TypeScript
+
+import { MasterAiPhotoEditingPrompts } from './pages/blog/MasterAiPhotoEditingPrompts';
+Add the new route inside your <Routes>:
+
+TypeScript
+
+<Route 
+  path="/blog/master-ai-photo-editing-prompts" 
+  element={<MasterAiPhotoEditingPrompts />} 
+/>
+This plan fully integrates the new article, updates all necessary metadata, and respects the existing dynamic structure of your React application.
