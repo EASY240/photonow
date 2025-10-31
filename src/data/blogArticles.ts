@@ -81,6 +81,16 @@ export const blogArticleIndex = [
     category: 'general' as const,
     featuredImage: 'https://storage.googleapis.com/48877118-7272-4a4d-b302-0465d8aa4548/c8ed49ab-fa6e-4f28-9ab8-ea4721bdeeef/eb9f05ad-ab2d-4927-b3f9-b3bc116a084d.jpg',
     relatedTool: 'ai-image-generator'
+  },
+  {
+    id: 'nano-banana-ai-image-generator-with-modern-phototools',
+    title: 'Nano Banana - AI Image Generator with Modern Phototools',
+    excerpt: 'Unleash your creativity with Nano Banana - my AI image generator tool on ModernPhotoTools.com. Easily create stunning visuals with just a few clicks.',
+    publishDate: '2025-10-09',
+    readTime: '8 min read',
+    category: 'tools' as const,
+    featuredImage: 'https://storage.googleapis.com/48877118-7272-4a4d-b302-0465d8aa4548/c8ed49ab-fa6e-4f28-9ab8-ea4721bdeeef/0afb09e1-7aeb-4877-8bc0-c9af8da8bfc8.jpg',
+    relatedTool: 'ai-image-generator'
   }
 ];
 
