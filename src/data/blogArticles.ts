@@ -14,6 +14,16 @@ export interface BlogArticle {
 // Blog article metadata index - content is now loaded from individual Markdown files
 export const blogArticleIndex = [
   {
+    id: 'remove-people-from-photos-without-photoshop',
+    title: 'How to Remove People from Photos Without Photoshop | Modern Tools',
+    excerpt: 'Learn how to remove people from photos without Photoshop using AI-powered tools. Our step-by-step guide shows you how to clean up images and replace unwanted elements easily.',
+    publishDate: '2025-10-14',
+    readTime: '12 min read',
+    category: 'tools' as const,
+    featuredImage: 'https://storage.googleapis.com/48877118-7272-4a4d-b302-0465d8aa4548/0b16f7b9-eb19-45a7-b6af-e1473db97d56/cc414ba0-93ff-4984-8f71-08d0ce36a003.jpg',
+    relatedTool: 'ai-cleanup'
+  },
+  {
     id: 'best-photo-background-editors-2025',
     title: '10 Best Photo Background Editors for Perfect Images in 2025',
     excerpt: 'Discover the top 10 best photo background editors in 2025. Compare features, pricing, and capabilities of leading tools for perfect image editing results.',
