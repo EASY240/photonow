@@ -942,7 +942,10 @@ export async function startHairstyleJob({ imageUrl, textPrompt }: { imageUrl: st
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         endpoint: 'v1/hairstyle', // The correct endpoint for this tool
-        body: jobBody
+        body: {
+          imageUrl: imageUrl,
+          textPrompt: textPrompt,
+        }
       }),
     });
 
@@ -973,7 +976,10 @@ export async function startUpscaleJob({ imageUrl, quality }: { imageUrl: string;
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         endpoint: 'v2/upscale', // IMPORTANT: This is a v2 endpoint
-        body: jobBody
+        body: {
+          imageUrl: imageUrl,
+          quality: quality,
+        }
       }),
     });
 

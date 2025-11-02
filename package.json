@@ -10,6 +10,12 @@
     "build:prerender": "node prerender.js",
     "build:sitemap": "node generate-sitemap.cjs",
     "build": "npm run build:sitemap && npm run build:client && npm run build:server && npm run build:prerender",
+    "sitemap:watch": "node scripts/sitemap-watcher.cjs",
+    "sitemap:schedule": "node scripts/sitemap-scheduler.cjs",
+    "sitemap:schedule:hourly": "node scripts/sitemap-scheduler.cjs --interval=60",
+    "sitemap:schedule:daily": "node scripts/sitemap-scheduler.cjs --interval=1440",
+    "sitemap:validate": "node scripts/sitemap-validator.cjs",
+    "sitemap:validate:regenerate": "node scripts/sitemap-validator.cjs --regenerate",
     "lint": "eslint .",
     "preview": "vite preview"
   },

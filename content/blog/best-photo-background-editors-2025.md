@@ -1,4 +1,5 @@
 ---
+id: "best-photo-background-editors-2025"
 title: "10 Best Photo Background Editors for Perfect Images in 2025"
 excerpt: "Discover the best photo background editors of 2025! Compare top tools for removing, replacing, and enhancing backgrounds. Try our free online editor to transform your images instantly."
 publishDate: "2025-10-01"

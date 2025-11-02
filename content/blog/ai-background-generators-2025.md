@@ -1,6 +1,6 @@
 ---
 id: ai-background-generators-2025
-title: Best AI Background Generators in 2025: Top Tools Compared
+title: "Best AI Background Generators in 2025: Top Tools Compared"
 excerpt: Discover the best AI background generators in 2025 for stunning visuals. Compare features, pricing, and capabilities of top tools to elevate your creative projects instantly.
 publishDate: 2025-02-19
 readTime: 12 min read

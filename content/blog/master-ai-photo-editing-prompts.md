@@ -1,6 +1,6 @@
 ---
 id: master-ai-photo-editing-prompts
-title: Master AI Photo Editing Prompts: Create Stunning Images
+title: "Master AI Photo Editing Prompts: Create Stunning Images"
 excerpt: Learn how to craft perfect AI prompts for photo editing. Discover advanced techniques, tool-specific prompts, and practical examples to transform your images with AI.
 publishDate: 2025-10-04
 readTime: 15 min read
@@ -13,7 +13,7 @@ keywords:
   - photo editing ai
   - ai photography prompts
   - image enhancement ai
-seoTitle: Master AI Photo Editing Prompts: Create Stunning Images | ModernPhotoTools
+seoTitle: "Master AI Photo Editing Prompts: Create Stunning Images | ModernPhotoTools"
 seoDescription: Learn to craft perfect AI photo editing prompts. Get advanced techniques, tool-specific examples, and practical tips to create stunning images with AI.
 
 faqSchema: {

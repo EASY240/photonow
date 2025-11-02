@@ -21,6 +21,10 @@ export default defineConfig({
         target: 'https://api.lightxeditor.com',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/external/, '/external')
+      },
+      '/api/lightx-proxy': {
+        target: 'http://localhost:3002',
+        changeOrigin: true
       }
     },
     open: true,
