@@ -1,0 +1,581 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+  <url>
+    <loc>https://modernphototools.com/tools/ai-avatar</loc>
+    <lastmod>2025-11-04T20:30:18.073Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <video:video>
+      <video:thumbnail_loc>https://modernphototools.com/images/tools%20images/AI%20Avatar%20Tool.jpg</video:thumbnail_loc>
+      <video:title>AI Avatar Generator Tool</video:title>
+      <video:description>Create stunning AI avatars from your photos with advanced artificial intelligence technology</video:description>
+      <video:content_loc>https://modernphototools.com/tools%20videos/AI%20Avatar.mp4</video:content_loc>
+      <video:duration>45</video:duration>
+      <video:publication_date>2025-11-04T20:30:18.073Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:tag>AI tools</video:tag>
+      <video:tag>photo editing</video:tag>
+      <video:tag>artificial intelligence</video:tag>
+      <video:tag>image processing</video:tag>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-background-generator</loc>
+    <lastmod>2025-11-04T20:30:18.195Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <video:video>
+      <video:thumbnail_loc>https://modernphototools.com/images/tools%20images/AI%20Background%20Generator%20Tool.jpg</video:thumbnail_loc>
+      <video:title>AI Background Generator Tool</video:title>
+      <video:description>Generate professional backgrounds for your photos using AI technology</video:description>
+      <video:content_loc>https://modernphototools.com/tools%20videos/AI%20Background%20Generator.mp4</video:content_loc>
+      <video:duration>60</video:duration>
+      <video:publication_date>2025-11-04T20:30:18.195Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:tag>AI tools</video:tag>
+      <video:tag>photo editing</video:tag>
+      <video:tag>artificial intelligence</video:tag>
+      <video:tag>image processing</video:tag>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-caricature</loc>
+    <lastmod>2025-11-04T20:30:18.195Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <video:video>
+      <video:thumbnail_loc>https://modernphototools.com/images/tools%20images/AI%20Caricature%20Tool.jpg</video:thumbnail_loc>
+      <video:title>AI Caricature Generator Tool</video:title>
+      <video:description>Transform your photos into fun caricatures with AI-powered technology</video:description>
+      <video:content_loc>https://modernphototools.com/tools%20videos/AI%20Caricature.mp4</video:content_loc>
+      <video:duration>50</video:duration>
+      <video:publication_date>2025-11-04T20:30:18.195Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:tag>AI tools</video:tag>
+      <video:tag>photo editing</video:tag>
+      <video:tag>artificial intelligence</video:tag>
+      <video:tag>image processing</video:tag>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-cartoon</loc>
+    <lastmod>2025-11-04T20:30:18.195Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <video:video>
+      <video:thumbnail_loc>https://modernphototools.com/images/tools%20images/AI%20Cartoon%20Tool.jpg</video:thumbnail_loc>
+      <video:title>AI Cartoon Generator Tool</video:title>
+      <video:description>Convert your photos into cartoon style images using advanced AI</video:description>
+      <video:content_loc>https://modernphototools.com/tools%20videos/AI%20Cartoon.mp4</video:content_loc>
+      <video:duration>55</video:duration>
+      <video:publication_date>2025-11-04T20:30:18.195Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:tag>AI tools</video:tag>
+      <video:tag>photo editing</video:tag>
+      <video:tag>artificial intelligence</video:tag>
+      <video:tag>image processing</video:tag>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-cleanup</loc>
+    <lastmod>2025-11-04T20:30:18.195Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <video:video>
+      <video:thumbnail_loc>https://modernphototools.com/images/tools%20images/AI%20Cleanup%20Tool.jpg</video:thumbnail_loc>
+      <video:title>AI Cleanup Tool</video:title>
+      <video:description>Remove unwanted objects and clean up your photos with AI technology</video:description>
+      <video:content_loc>https://modernphototools.com/tools%20videos/AI%20Cleanup.mp4</video:content_loc>
+      <video:duration>40</video:duration>
+      <video:publication_date>2025-11-04T20:30:18.195Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:tag>AI tools</video:tag>
+      <video:tag>photo editing</video:tag>
+      <video:tag>artificial intelligence</video:tag>
+      <video:tag>image processing</video:tag>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-expand</loc>
+    <lastmod>2025-11-04T20:30:18.195Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <video:video>
+      <video:thumbnail_loc>https://modernphototools.com/images/tools%20images/AI%20Expand%20Tool.jpg</video:thumbnail_loc>
+      <video:title>AI Expand Tool</video:title>
+      <video:description>Expand your images beyond their original boundaries using AI</video:description>
+      <video:content_loc>https://modernphototools.com/tools%20videos/AI%20Expand.mp4</video:content_loc>
+      <video:duration>65</video:duration>
+      <video:publication_date>2025-11-04T20:30:18.195Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:tag>AI tools</video:tag>
+      <video:tag>photo editing</video:tag>
+      <video:tag>artificial intelligence</video:tag>
+      <video:tag>image processing</video:tag>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-face-swap</loc>
+    <lastmod>2025-11-04T20:30:18.195Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <video:video>
+      <video:thumbnail_loc>https://modernphototools.com/images/tools%20images/AI%20Face%20Swap%20Tool.jpg</video:thumbnail_loc>
+      <video:title>AI Face Swap Tool</video:title>
+      <video:description>Swap faces in photos seamlessly with advanced AI face recognition</video:description>
+      <video:content_loc>https://modernphototools.com/tools%20videos/AI%20Face%20Swap.mp4</video:content_loc>
+      <video:duration>45</video:duration>
+      <video:publication_date>2025-11-04T20:30:18.195Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:tag>AI tools</video:tag>
+      <video:tag>photo editing</video:tag>
+      <video:tag>artificial intelligence</video:tag>
+      <video:tag>image processing</video:tag>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-filter</loc>
+    <lastmod>2025-11-04T20:30:18.195Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <video:video>
+      <video:thumbnail_loc>https://modernphototools.com/images/tools%20images/AI%20Filter%20Tool.jpg</video:thumbnail_loc>
+      <video:title>AI Filter Tool</video:title>
+      <video:description>Apply artistic filters to your photos using AI-powered technology</video:description>
+      <video:content_loc>https://modernphototools.com/tools%20videos/AI%20Filter.mp4</video:content_loc>
+      <video:duration>35</video:duration>
+      <video:publication_date>2025-11-04T20:30:18.195Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:tag>AI tools</video:tag>
+      <video:tag>photo editing</video:tag>
+      <video:tag>artificial intelligence</video:tag>
+      <video:tag>image processing</video:tag>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-hairstyle</loc>
+    <lastmod>2025-11-04T20:30:18.195Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <video:video>
+      <video:thumbnail_loc>https://modernphototools.com/images/tools%20images/AI%20Hairstyle%20Tool.jpg</video:thumbnail_loc>
+      <video:title>AI Hairstyle Tool</video:title>
+      <video:description>Try different hairstyles on your photos with AI technology</video:description>
+      <video:content_loc>https://modernphototools.com/tools%20videos/AI%20Hairstyle.mp4</video:content_loc>
+      <video:duration>50</video:duration>
+      <video:publication_date>2025-11-04T20:30:18.195Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:tag>AI tools</video:tag>
+      <video:tag>photo editing</video:tag>
+      <video:tag>artificial intelligence</video:tag>
+      <video:tag>image processing</video:tag>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-image-generator-text-to-image</loc>
+    <lastmod>2025-11-04T20:30:18.195Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <video:video>
+      <video:thumbnail_loc>https://modernphototools.com/images/tools%20images/AI%20Image%20Generator_text-to-image%20Tool.jpg</video:thumbnail_loc>
+      <video:title>AI Image Generator Tool</video:title>
+      <video:description>Generate images from text descriptions using advanced AI technology</video:description>
+      <video:content_loc>https://modernphototools.com/tools%20videos/AI%20Image%20Generator_text-to-image.mp4</video:content_loc>
+      <video:duration>70</video:duration>
+      <video:publication_date>2025-11-04T20:30:18.195Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:tag>AI tools</video:tag>
+      <video:tag>photo editing</video:tag>
+      <video:tag>artificial intelligence</video:tag>
+      <video:tag>image processing</video:tag>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-image-upscaler</loc>
+    <lastmod>2025-11-04T20:30:18.195Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <video:video>
+      <video:thumbnail_loc>https://modernphototools.com/images/tools%20images/AI%20Image%20Upscaler%20Tool.jpg</video:thumbnail_loc>
+      <video:title>AI Image Upscaler Tool</video:title>
+      <video:description>Enhance and upscale your images with AI-powered technology</video:description>
+      <video:content_loc>https://modernphototools.com/tools%20videos/AI%20Image%20Upscaler.mp4</video:content_loc>
+      <video:duration>55</video:duration>
+      <video:publication_date>2025-11-04T20:30:18.195Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:tag>AI tools</video:tag>
+      <video:tag>photo editing</video:tag>
+      <video:tag>artificial intelligence</video:tag>
+      <video:tag>image processing</video:tag>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-image-to-image</loc>
+    <lastmod>2025-11-04T20:30:18.195Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <video:video>
+      <video:thumbnail_loc>https://modernphototools.com/images/tools%20images/AI%20Image%20to%20Image%20Tool.jpg</video:thumbnail_loc>
+      <video:title>AI Image to Image Tool</video:title>
+      <video:description>Transform images from one style to another using AI technology</video:description>
+      <video:content_loc>https://modernphototools.com/tools%20videos/AI%20Image%20to%20Image.mp4</video:content_loc>
+      <video:duration>60</video:duration>
+      <video:publication_date>2025-11-04T20:30:18.195Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:tag>AI tools</video:tag>
+      <video:tag>photo editing</video:tag>
+      <video:tag>artificial intelligence</video:tag>
+      <video:tag>image processing</video:tag>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-outfit</loc>
+    <lastmod>2025-11-04T20:30:18.195Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <video:video>
+      <video:thumbnail_loc>https://modernphototools.com/images/tools%20images/AI%20Outfit%20Tool.jpg</video:thumbnail_loc>
+      <video:title>AI Outfit Tool</video:title>
+      <video:description>Try different outfits on your photos with AI-powered fashion technology</video:description>
+      <video:content_loc>https://modernphototools.com/tools%20videos/AI%20Outfit.mp4</video:content_loc>
+      <video:duration>55</video:duration>
+      <video:publication_date>2025-11-04T20:30:18.195Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:tag>AI tools</video:tag>
+      <video:tag>photo editing</video:tag>
+      <video:tag>artificial intelligence</video:tag>
+      <video:tag>image processing</video:tag>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-portrait</loc>
+    <lastmod>2025-11-04T20:30:18.195Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <video:video>
+      <video:thumbnail_loc>https://modernphototools.com/images/tools%20images/AI%20Portrait%20Tool.jpg</video:thumbnail_loc>
+      <video:title>AI Portrait Tool</video:title>
+      <video:description>Create professional portraits from your photos using AI technology</video:description>
+      <video:content_loc>https://modernphototools.com/tools%20videos/AI%20Portrait.mp4</video:content_loc>
+      <video:duration>60</video:duration>
+      <video:publication_date>2025-11-04T20:30:18.195Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:tag>AI tools</video:tag>
+      <video:tag>photo editing</video:tag>
+      <video:tag>artificial intelligence</video:tag>
+      <video:tag>image processing</video:tag>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-product-photoshoot</loc>
+    <lastmod>2025-11-04T20:30:18.195Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <video:video>
+      <video:thumbnail_loc>https://modernphototools.com/images/tools%20images/AI%20Product%20Photoshoot%20Tool.jpg</video:thumbnail_loc>
+      <video:title>AI Product Photoshoot Tool</video:title>
+      <video:description>Create professional product photos with AI-powered background technology</video:description>
+      <video:content_loc>https://modernphototools.com/tools%20videos/AI%20Product%20Photoshoot.mp4</video:content_loc>
+      <video:duration>65</video:duration>
+      <video:publication_date>2025-11-04T20:30:18.195Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:tag>AI tools</video:tag>
+      <video:tag>photo editing</video:tag>
+      <video:tag>artificial intelligence</video:tag>
+      <video:tag>image processing</video:tag>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-replace</loc>
+    <lastmod>2025-11-04T20:30:18.195Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <video:video>
+      <video:thumbnail_loc>https://modernphototools.com/images/tools%20images/AI%20Replace%20Tool.jpg</video:thumbnail_loc>
+      <video:title>AI Replace Tool</video:title>
+      <video:description>Replace objects in photos seamlessly with AI technology</video:description>
+      <video:content_loc>https://modernphototools.com/tools%20videos/AI%20Replace.mp4</video:content_loc>
+      <video:duration>50</video:duration>
+      <video:publication_date>2025-11-04T20:30:18.195Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:tag>AI tools</video:tag>
+      <video:tag>photo editing</video:tag>
+      <video:tag>artificial intelligence</video:tag>
+      <video:tag>image processing</video:tag>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-sketch-to-image</loc>
+    <lastmod>2025-11-04T20:30:18.195Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <video:video>
+      <video:thumbnail_loc>https://modernphototools.com/images/tools%20images/AI%20Sketch%20to%20Image%20Tool.jpg</video:thumbnail_loc>
+      <video:title>AI Sketch to Image Tool</video:title>
+      <video:description>Convert sketches into realistic images using AI technology</video:description>
+      <video:content_loc>https://modernphototools.com/tools%20videos/AI%20Sketch%20to%20Image.mp4</video:content_loc>
+      <video:duration>75</video:duration>
+      <video:publication_date>2025-11-04T20:30:18.195Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:tag>AI tools</video:tag>
+      <video:tag>photo editing</video:tag>
+      <video:tag>artificial intelligence</video:tag>
+      <video:tag>image processing</video:tag>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/remove-background</loc>
+    <lastmod>2025-11-04T20:30:18.195Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <video:video>
+      <video:thumbnail_loc>https://modernphototools.com/images/tools%20images/Remove%20Background%20Tool.jpg</video:thumbnail_loc>
+      <video:title>Remove Background Tool</video:title>
+      <video:description>Remove backgrounds from photos instantly with AI technology</video:description>
+      <video:content_loc>https://modernphototools.com/tools%20videos/Remove%20Background.mp4</video:content_loc>
+      <video:duration>30</video:duration>
+      <video:publication_date>2025-11-04T20:30:18.195Z</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+      <video:tag>AI tools</video:tag>
+      <video:tag>photo editing</video:tag>
+      <video:tag>artificial intelligence</video:tag>
+      <video:tag>image processing</video:tag>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-avatar</loc>
+    <lastmod>2025-11-04T20:30:18.197Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://modernphototools.com/images/tools%20images/AI%20Avatar%20Tool.jpg</image:loc>
+      <image:title>AI Avatar Generator Tool</image:title>
+      <image:caption>Create stunning AI avatars from your photos with advanced artificial intelligence technology</image:caption>
+      <image:license>https://modernphototools.com/terms-of-use</image:license>
+      <image:geo_location>Global</image:geo_location>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-background-generator</loc>
+    <lastmod>2025-11-04T20:30:18.197Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://modernphototools.com/images/tools%20images/AI%20Background%20Generator%20Tool.jpg</image:loc>
+      <image:title>AI Background Generator Tool</image:title>
+      <image:caption>Generate professional backgrounds for your photos using AI technology</image:caption>
+      <image:license>https://modernphototools.com/terms-of-use</image:license>
+      <image:geo_location>Global</image:geo_location>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-caricature-generator</loc>
+    <lastmod>2025-11-04T20:30:18.197Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://modernphototools.com/images/tools%20images/AI%20Caricature%20Generator%20Tool.jpg</image:loc>
+      <image:title>AI Caricature Generator Tool</image:title>
+      <image:caption>AI-powered photo editing tool demonstration image</image:caption>
+      <image:license>https://modernphototools.com/terms-of-use</image:license>
+      <image:geo_location>Global</image:geo_location>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-cartoon</loc>
+    <lastmod>2025-11-04T20:30:18.197Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://modernphototools.com/images/tools%20images/AI%20Cartoon%20Tool.jpg</image:loc>
+      <image:title>AI Cartoon Generator Tool</image:title>
+      <image:caption>Convert your photos into cartoon style images using advanced AI</image:caption>
+      <image:license>https://modernphototools.com/terms-of-use</image:license>
+      <image:geo_location>Global</image:geo_location>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-cleanup</loc>
+    <lastmod>2025-11-04T20:30:18.197Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://modernphototools.com/images/tools%20images/AI%20Cleanup%20Tool.jpg</image:loc>
+      <image:title>AI Cleanup Tool</image:title>
+      <image:caption>Remove unwanted objects and clean up your photos with AI technology</image:caption>
+      <image:license>https://modernphototools.com/terms-of-use</image:license>
+      <image:geo_location>Global</image:geo_location>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-expand-tool</loc>
+    <lastmod>2025-11-04T20:30:18.197Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://modernphototools.com/images/tools%20images/Ai%20Expand%20tool.jpg</image:loc>
+      <image:title>Ai Expand tool</image:title>
+      <image:caption>AI-powered photo editing tool demonstration image</image:caption>
+      <image:license>https://modernphototools.com/terms-of-use</image:license>
+      <image:geo_location>Global</image:geo_location>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-face-swap</loc>
+    <lastmod>2025-11-04T20:30:18.197Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://modernphototools.com/images/tools%20images/AI%20Face%20Swap%20Tool.jpg</image:loc>
+      <image:title>AI Face Swap Tool</image:title>
+      <image:caption>Swap faces in photos seamlessly with advanced AI face recognition</image:caption>
+      <image:license>https://modernphototools.com/terms-of-use</image:license>
+      <image:geo_location>Global</image:geo_location>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-filter</loc>
+    <lastmod>2025-11-04T20:30:18.197Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://modernphototools.com/images/tools%20images/AI%20Filter%20Tool.jpg</image:loc>
+      <image:title>AI Filter Tool</image:title>
+      <image:caption>Apply artistic filters to your photos using AI-powered technology</image:caption>
+      <image:license>https://modernphototools.com/terms-of-use</image:license>
+      <image:geo_location>Global</image:geo_location>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-hairstyle</loc>
+    <lastmod>2025-11-04T20:30:18.197Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://modernphototools.com/images/tools%20images/AI%20Hairstyle%20Tool.jpg</image:loc>
+      <image:title>AI Hairstyle Tool</image:title>
+      <image:caption>Try different hairstyles on your photos with AI technology</image:caption>
+      <image:license>https://modernphototools.com/terms-of-use</image:license>
+      <image:geo_location>Global</image:geo_location>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-image-generator</loc>
+    <lastmod>2025-11-04T20:30:18.197Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://modernphototools.com/images/tools%20images/AI%20Image%20Generator%20Tool.jpg</image:loc>
+      <image:title>AI Image Generator Tool</image:title>
+      <image:caption>AI-powered photo editing tool demonstration image</image:caption>
+      <image:license>https://modernphototools.com/terms-of-use</image:license>
+      <image:geo_location>Global</image:geo_location>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-image-upscaler</loc>
+    <lastmod>2025-11-04T20:30:18.197Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://modernphototools.com/images/tools%20images/AI%20Image%20Upscaler%20Tool.jpg</image:loc>
+      <image:title>AI Image Upscaler Tool</image:title>
+      <image:caption>Enhance and upscale your images with AI-powered technology</image:caption>
+      <image:license>https://modernphototools.com/terms-of-use</image:license>
+      <image:geo_location>Global</image:geo_location>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-image-to-image</loc>
+    <lastmod>2025-11-04T20:30:18.197Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://modernphototools.com/images/tools%20images/AI%20Image%20to%20Image%20Tool.jpg</image:loc>
+      <image:title>AI Image to Image Tool</image:title>
+      <image:caption>Transform images from one style to another using AI technology</image:caption>
+      <image:license>https://modernphototools.com/terms-of-use</image:license>
+      <image:geo_location>Global</image:geo_location>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-outfit</loc>
+    <lastmod>2025-11-04T20:30:18.197Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://modernphototools.com/images/tools%20images/AI%20Outfit%20Tool.jpg</image:loc>
+      <image:title>AI Outfit Tool</image:title>
+      <image:caption>Try different outfits on your photos with AI-powered fashion technology</image:caption>
+      <image:license>https://modernphototools.com/terms-of-use</image:license>
+      <image:geo_location>Global</image:geo_location>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-portrait</loc>
+    <lastmod>2025-11-04T20:30:18.197Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://modernphototools.com/images/tools%20images/AI%20Portrait%20Tool.jpg</image:loc>
+      <image:title>AI Portrait Tool</image:title>
+      <image:caption>Create professional portraits from your photos using AI technology</image:caption>
+      <image:license>https://modernphototools.com/terms-of-use</image:license>
+      <image:geo_location>Global</image:geo_location>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-product-photoshoot</loc>
+    <lastmod>2025-11-04T20:30:18.197Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://modernphototools.com/images/tools%20images/AI%20Product%20Photoshoot%20Tool.jpg</image:loc>
+      <image:title>AI Product Photoshoot Tool</image:title>
+      <image:caption>Create professional product photos with AI-powered background technology</image:caption>
+      <image:license>https://modernphototools.com/terms-of-use</image:license>
+      <image:geo_location>Global</image:geo_location>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-replace-tool</loc>
+    <lastmod>2025-11-04T20:30:18.197Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://modernphototools.com/images/tools%20images/AI%20Replace%20tool.jpg</image:loc>
+      <image:title>AI Replace tool</image:title>
+      <image:caption>AI-powered photo editing tool demonstration image</image:caption>
+      <image:license>https://modernphototools.com/terms-of-use</image:license>
+      <image:geo_location>Global</image:geo_location>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/ai-sketch-to-image</loc>
+    <lastmod>2025-11-04T20:30:18.197Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://modernphototools.com/images/tools%20images/AI%20Sketch%20to%20Image%20Tool.jpg</image:loc>
+      <image:title>AI Sketch to Image Tool</image:title>
+      <image:caption>Convert sketches into realistic images using AI technology</image:caption>
+      <image:license>https://modernphototools.com/terms-of-use</image:license>
+      <image:geo_location>Global</image:geo_location>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://modernphototools.com/tools/remove-background-tool</loc>
+    <lastmod>2025-11-04T20:30:18.197Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://modernphototools.com/images/tools%20images/Remove%20Background%20tool.jpg</image:loc>
+      <image:title>Remove Background tool</image:title>
+      <image:caption>AI-powered photo editing tool demonstration image</image:caption>
+      <image:license>https://modernphototools.com/terms-of-use</image:license>
+      <image:geo_location>Global</image:geo_location>
+    </image:image>
+  </url>
+</urlset>

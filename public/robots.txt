@@ -1,0 +1,25 @@
+# Modern Photo Tools Robots.txt
+# This file provides instructions to web crawlers about which pages to index
+
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Disallow admin and private areas
+Disallow: /admin/
+Disallow: /private/
+Disallow: /api/
+Disallow: /_next/
+Disallow: /static/
+
+# Allow specific media directories for indexing
+Allow: /tools%20videos/
+Allow: /images/tools%20images/
+
+# Sitemap references
+Sitemap: https://modernphototools.com/sitemap-index.xml
+Sitemap: https://modernphototools.com/sitemap.xml
+Sitemap: https://modernphototools.com/sitemap-multimedia.xml
+
+# Crawl delay for better server performance
+Crawl-delay: 1
