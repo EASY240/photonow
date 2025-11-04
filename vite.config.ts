@@ -23,7 +23,7 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api\/external/, '/external')
       },
       '/api/lightx-proxy': {
-        target: 'http://localhost:3002',
+        target: 'http://localhost:3001',
         changeOrigin: true
       }
     },

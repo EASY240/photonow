@@ -22,6 +22,7 @@ import { presetOutfitStyles, suggestedOutfitPrompts, type OutfitStyle } from '..
 import { suggestedHairstylePrompts } from '../constants/hairstylePrompts';
 import { aiFilterStyles, filterCategories, type AIFilterStyle } from '../constants/filterStyles';
 import { generateCanonicalUrl, generateOgImageUrl } from '../utils/siteConfig';
+import { scrollToResultContainer, scrollToGenerateButton, debounce } from '../utils/scrollUtils';
 
 const ToolPage: React.FC = () => {
   const { toolId } = useParams<{ toolId: string }>();
@@ -154,6 +155,11 @@ const ToolPage: React.FC = () => {
   if (!tool) {
     return <Navigate to="/tools" replace />;
   }
+
+  // Debounced scroll function for outfit style selection
+  const debouncedScrollToGenerate = debounce(() => {
+    scrollToGenerateButton();
+  }, 300);
   
   const handleImageSelect = (imageFile: ImageFile) => {
     setSelectedImage(imageFile);
@@ -745,6 +751,16 @@ const handleAICartoonGenerate = async () => {
       error: null 
     });
 
+    // Scroll to result container with device-adaptive behavior
+    setTimeout(() => {
+      scrollToResultContainer().catch(console.error);
+    }, 100);
+
+    // Scroll to result container with device-adaptive behavior
+    setTimeout(() => {
+      scrollToResultContainer().catch(console.error);
+    }, 100);
+
   } catch (error) {
     setProcessedImage({ 
       url: null, 
@@ -1107,6 +1123,11 @@ const handleAIImageGeneratorGenerate = async () => {
       error: null 
     });
 
+    // Scroll to result container with device-adaptive behavior
+    setTimeout(() => {
+      scrollToResultContainer().catch(console.error);
+    }, 100);
+
   } catch (error) {
     console.error('An error occurred during image generation:', error);
     setProcessedImage({ 
@@ -1145,6 +1166,11 @@ const handleAIOutfitGenerate = async () => {
 
     // 4. Display the result
     setProcessedImage({ url: resultUrl, isLoading: false, error: null });
+
+    // 5. Scroll to result container with device-adaptive behavior
+    setTimeout(() => {
+      scrollToResultContainer().catch(console.error);
+    }, 100);
 
   } catch (error) {
     console.error("An error occurred during outfit generation:", error);
@@ -1355,6 +1381,11 @@ const handleAIImageToImageGenerate = async () => {
 
        // 4. Display the upscaled image.
        setProcessedImage({ url: resultUrl, isLoading: false, error: null });
+
+       // Scroll to result container with device-adaptive behavior
+       setTimeout(() => {
+         scrollToResultContainer().catch(console.error);
+       }, 100);
 
    } catch (error) {
        console.error("An error occurred during image upscaling:", error);
@@ -2665,7 +2696,10 @@ const handleAIImageToImageGenerate = async () => {
                           {styles.map((style) => (
                             <button
                               key={style.name}
-                              onClick={() => setOutfitTextPrompt(style.prompt)}
+                              onClick={() => {
+                                setOutfitTextPrompt(style.prompt);
+                                debouncedScrollToGenerate();
+                              }}
                               className="p-3 text-left bg-gray-50 hover:bg-gray-100 rounded-lg border transition-colors"
                             >
                               <div className="text-sm font-medium">{style.name}</div>
@@ -3325,6 +3359,7 @@ const handleAIImageToImageGenerate = async () => {
               )}
 
               <Button
+                data-scroll-target="generate-button"
                 onClick={
                   tool.id === 'ai-cleanup' ? handleAICleanupGenerate :
                   tool.id === 'ai-expand' ? handleAIExpandGenerate :
@@ -3380,7 +3415,7 @@ const handleAIImageToImageGenerate = async () => {
               </Button>
             </div>
             
-            <div className="space-y-4">
+            <div className="space-y-4" data-scroll-target="result-container">
               <h2 className="text-xl font-semibold">Result</h2>
               {processedImage.isLoading ? (
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 flex flex-col items-center justify-center">

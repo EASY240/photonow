@@ -17,26 +17,34 @@
       y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
     })(window, document, "clarity", "script", "tt1ibc0orv");
   </script>
-  <script type="text/javascript">
+
+  <!-- Pinterest Tag -->
+  <script>
     !function (e) {
       if (!window.pintrk) {
-        window.pintrk = function () { window.pintrk.queue.push(Array.prototype.slice.call(arguments)) }; var
+        window.pintrk = function () {
+          window.pintrk.queue.push(Array.prototype.slice.call(arguments))
+        }; var
           n = window.pintrk; n.queue = [], n.version = "3.0"; var
             t = document.createElement("script"); t.async = !0, t.src = e; var
-              r = document.getElementsByTagName("script")[0]; r.parentNode.insertBefore(t, r)
+              r = document.getElementsByTagName("script")[0];
+        r.parentNode.insertBefore(t, r)
       }
     }("https://s.pinimg.com/ct/core.js");
-    pintrk('load', '2613220059684');
+    pintrk('load', '2613220059684', { em: '<user_email_address>' });
     pintrk('page');
   </script>
+  <!-- end Pinterest Tag -->
+
 </head>
 
 <body>
+  <!-- Pinterest Tag -->
   <noscript>
-  <img height="1" width="1" style="display:none;" alt=""
-    src="https://ct.pinterest.com/v3/?event=init&tid=2613220059684&noscript=1" />
+    <img height="1" width="1" style="display:none;" alt=""
+      src="https://ct.pinterest.com/v3/?event=init&tid=2613220059684&pd[em]=<hashed_email_address>&noscript=1" />
   </noscript>
-  
+  <!-- end Pinterest Tag -->
   <div id="root"><!--app-html--></div>
   <script type="module" src="/src/main.tsx"></script>
 </body>
