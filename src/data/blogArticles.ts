@@ -101,6 +101,17 @@ export const blogArticleIndex = [
     category: 'tools' as const,
     featuredImage: 'https://storage.googleapis.com/48877118-7272-4a4d-b302-0465d8aa4548/c8ed49ab-fa6e-4f28-9ab8-ea4721bdeeef/0afb09e1-7aeb-4877-8bc0-c9af8da8bfc8.jpg',
     relatedTool: 'ai-image-generator'
+  },
+  {
+    id: 'how-to-restore-old-family-photos',
+    title: 'How to Restore Old Family Photos: A Step-by-Step AI Guide',
+    excerpt: 'Learn how to restore old family photos using AI technology. Step-by-step guide to bring damaged photos back to life with Modern Photo Tools.',
+    publishDate: '2025-10-18',
+    readTime: '12 min read',
+    category: 'tools' as const,
+    featuredImage: 'https://storage.googleapis.com/48877118-7272-4a4d-b302-0465d8aa4548/0b16f7b9-eb19-45a7-b6af-e1473db97d56/6ff08068-9649-4f10-9595-ddd7a339576e.jpg',
+    relatedTool: 'ai-image-upscaler',
+    keywords: ['AI photo restoration', 'family photos', 'photo repair', 'digital preservation', 'old photos']
   }
 ];
 
