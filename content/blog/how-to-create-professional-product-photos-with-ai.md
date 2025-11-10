@@ -281,18 +281,18 @@ metaDescription: "Learn how to create professional product photos with AI using 
   </section>
 
   <!-- FAQ -->
-  <section id="faq" itemscope itemprop="mainEntity" itemtype="https://schema.org/FAQPage">
+  <section id="faq">
     <h2>Frequently Asked Questions</h2>
-    <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-      <h3 class="faq-question" itemprop="name">Will AI-generated product photos look realistic?</h3>
-      <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-        <p itemprop="text">Yes. Modern AI tools create highly realistic product photos that often look indistinguishable from traditional studio photography. Quality depends on your input image and the tool used; our approach ensures natural lighting, shadows, and reflections.</p>
+    <div class="faq-item">
+      <h3 class="faq-question">Will AI-generated product photos look realistic?</h3>
+      <div class="faq-answer">
+        <p>Yes. Modern AI tools create highly realistic product photos that often look indistinguishable from traditional studio photography. Quality depends on your input image and the tool used; our approach ensures natural lighting, shadows, and reflections.</p>
       </div>
     </div>
-    <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-      <h3 class="faq-question" itemprop="name">Do I need any special equipment to get started?</h3>
-      <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-        <p itemprop="text">No special equipment is required. A smartphone in natural light is enough to capture a solid input image. AI handles backgrounds, lighting, and scene creation to produce professional results.</p>
+    <div class="faq-item">
+      <h3 class="faq-question">Do I need any special equipment to get started?</h3>
+      <div class="faq-answer">
+        <p>No special equipment is required. A smartphone in natural light is enough to capture a solid input image. AI handles backgrounds, lighting, and scene creation to produce professional results.</p>
       </div>
     </div>
     <script type="application/ld+json">
