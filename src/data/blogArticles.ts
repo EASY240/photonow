@@ -14,6 +14,16 @@ export interface BlogArticle {
 // Blog article metadata index - content is now loaded from individual Markdown files
 export const blogArticleIndex = [
   {
+    id: 'how-to-create-professional-product-photos-with-ai',
+    title: 'How to Create Professional Product Photos with AI | Modern Photo Tools',
+    excerpt: 'Learn how to create professional product photos with AI using simple techniques. Transform ordinary product shots into stunning visuals without expensive equipment or photography skills.',
+    publishDate: '2025-10-27',
+    readTime: '14 min read',
+    category: 'tools' as const,
+    featuredImage: 'https://storage.googleapis.com/48877118-7272-4a4d-b302-0465d8aa4548/0b16f7b9-eb19-45a7-b6af-e1473db97d56/c8438f59-0398-4234-b96f-76e122f42266.jpg',
+    keywords: ['AI product photography', 'product photos', 'e-commerce images']
+  },
+  {
     id: 'remove-people-from-photos-without-photoshop',
     title: 'How to Remove People from Photos Without Photoshop | Modern Tools',
     excerpt: 'Learn how to remove people from photos without Photoshop using AI-powered tools. Our step-by-step guide shows you how to clean up images and replace unwanted elements easily.',

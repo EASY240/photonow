@@ -9,7 +9,7 @@
     "build:server": "vite build --ssr src/entry-server.tsx --outDir dist/server",
     "build:prerender": "node prerender.js",
     "build:sitemap": "node generate-sitemap.cjs",
-    "build": "npm run build:sitemap && npm run build:client && npm run build:server && npm run build:prerender",
+    "build": "npm run build:client && npm run build:server && npm run build:prerender",
     "sitemap:watch": "node scripts/sitemap-watcher.cjs",
     "sitemap:schedule": "node scripts/sitemap-scheduler.cjs",
     "sitemap:schedule:hourly": "node scripts/sitemap-scheduler.cjs --interval=60",

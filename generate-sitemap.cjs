@@ -163,37 +163,7 @@ class SitemapGenerator {
 
     urls.push(...blogPages);
 
-    // Blog category pages
-    const uniqueCategories = [...new Set(articles.map(article => article.category))];
-    const categoryPages = uniqueCategories.map(category => ({
-      url: `/blog/category/${category}`,
-      changefreq: 'weekly',
-      priority: 0.7,
-      lastmod: new Date().toISOString()
-    }));
-
-    urls.push(...categoryPages);
-
-    // Blog tag pages from keywords
-    const allKeywords = new Set();
-    articles.forEach(article => {
-      if (Array.isArray(article.keywords)) {
-        article.keywords.forEach(keyword => {
-          if (keyword && keyword.trim()) {
-            allKeywords.add(keyword.trim());
-          }
-        });
-      }
-    });
-
-    const tagPages = Array.from(allKeywords).map(tag => ({
-      url: `/blog/tag/${tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}`,
-      changefreq: 'weekly',
-      priority: 0.6,
-      lastmod: new Date().toISOString()
-    }));
-
-    urls.push(...tagPages);
+    // Intentionally excluding blog category and tag pages from sitemap
 
     return {
       urls,
@@ -201,8 +171,6 @@ class SitemapGenerator {
         static: staticPages.length,
         tools: toolPages.length,
         articles: blogPages.length,
-        categories: categoryPages.length,
-        tags: tagPages.length,
         total: urls.length
       }
     };
@@ -349,8 +317,6 @@ class SitemapGenerator {
       console.log(`   - Static pages: ${counts.static}`);
       console.log(`   - Tool pages: ${counts.tools}`);
       console.log(`   - Blog articles: ${counts.articles}`);
-      console.log(`   - Blog categories: ${counts.categories}`);
-      console.log(`   - Blog tags: ${counts.tags}`);
       console.log(`   - Total URLs: ${counts.total}`);
 
       return { 
