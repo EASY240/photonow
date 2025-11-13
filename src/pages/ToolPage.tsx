@@ -19,7 +19,7 @@ import { imageResolutions, suggestedPrompts as imageGeneratorPrompts, type Image
 import { portraitStyles, suggestedPortraitPrompts, type PortraitStyle } from '../constants/portraitStyles';
 import { faceSwapStyles } from '../constants/faceSwapStyles';
 import { presetOutfitStyles, suggestedOutfitPrompts, type OutfitStyle } from '../constants/outfitStyles';
-import { suggestedHairstylePrompts } from '../constants/hairstylePrompts';
+import { hairstylePresets } from '../constants/hairstylePrompts';
 import { aiFilterStyles, filterCategories, type AIFilterStyle } from '../constants/filterStyles';
 import { generateCanonicalUrl, generateOgImageUrl } from '../utils/siteConfig';
 import { scrollToResultContainer, scrollToGenerateButton, debounce } from '../utils/scrollUtils';
@@ -113,11 +113,14 @@ const ToolPage: React.FC = () => {
   
   // AI Outfit specific state
   const [outfitTextPrompt, setOutfitTextPrompt] = useState('');
-  
+
   // AI Image to Image specific state
   const [i2iMainImage, setI2iMainImage] = useState<ImageFile>({ file: null, preview: null });
   const [i2iStyleImage, setI2iStyleImage] = useState<ImageFile>({ file: null, preview: null });
   const [i2iTextPrompt, setI2iTextPrompt] = useState('');
+
+  // AI Hairstyle preset selection state
+  const [selectedHairstylePrompt, setSelectedHairstylePrompt] = useState<string>('');
   const [i2iStrength, setI2iStrength] = useState(0.5); // Default value from 0.0 to 1.0
   const [i2iStyleStrength, setI2iStyleStrength] = useState(0.9); // Default value from 0.0 to 1.0
   
@@ -3105,18 +3108,32 @@ const handleAIImageToImageGenerate = async () => {
                   </div>
                   
                   <div>
-                    <h3 className="text-sm font-medium text-gray-700 mb-3">Or choose from suggested prompts:</h3>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                      {suggestedHairstylePrompts.map((prompt, index) => (
-                        <button
-                          key={index}
-                          type="button"
-                          onClick={() => setHairstyleTextPrompt(prompt)}
-                          className="px-3 py-2 text-xs bg-gray-100 hover:bg-blue-100 border border-gray-300 rounded-md transition-colors duration-200 text-left"
-                        >
-                          {prompt}
-                        </button>
-                      ))}
+                    <h3 className="text-sm font-medium text-gray-700 mb-3">Or choose a preset style:</h3>
+                    {/* This is the new JSX for the Hairstyle preset gallery */}
+                    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4 mt-4">
+                      {hairstylePresets.map((style) => {
+                        const isSelected = selectedHairstylePrompt === style.prompt;
+                        return (
+                          <div
+                            key={style.name}
+                            className={`cursor-pointer rounded-lg overflow-hidden border-2 transition-all group ${
+                              isSelected ? 'border-blue-500 shadow-md' : 'border-transparent hover:border-gray-300'
+                            }`}
+                            // This is the core logic: click sets the prompt in both state variables
+                            onClick={() => {
+                              setHairstyleTextPrompt(style.prompt);
+                              setSelectedHairstylePrompt(style.prompt);
+                            }}
+                          >
+                            <img
+                              src={style.imageUrl}
+                              alt={style.name}
+                              className="w-full h-20 object-cover group-hover:opacity-90"
+                            />
+                            <p className="text-center text-xs p-1 bg-gray-100 truncate">{style.name}</p>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                   

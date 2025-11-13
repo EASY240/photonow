@@ -123,6 +123,18 @@ export const blogArticleIndex = [
     relatedTool: 'ai-image-upscaler',
     keywords: ['AI photo restoration', 'family photos', 'photo repair', 'digital preservation', 'old photos']
   }
+  ,
+  {
+    id: 'how-to-test-a-new-hairstyle-with-an-ai-hairstyle-generator',
+    title: 'How to Test a New Hairstyle with an AI Hairstyle Generator',
+    excerpt: 'Discover how to visualize your perfect look before committing with our AI Hairstyle Generator. Upload a photo and instantly see yourself with different hairstyles risk-free!',
+    publishDate: 'nov 5, 2025',
+    readTime: '12 min read',
+    category: 'tools' as const,
+    featuredImage: 'https://storage.googleapis.com/48877118-7272-4a4d-b302-0465d8aa4548/6f8e9098-7fc6-4082-b198-c95a4b6ca49a/0f201e61-34a9-42e2-868f-5e1fa65fdac4.webp',
+    relatedTool: 'ai-hairstyle',
+    keywords: ['ai hairstyle generator', 'virtual hairstyle try-on', 'test a new hairstyle', 'try hairstyles online', 'hair color preview']
+  }
 ];
 
 // For backward compatibility, export as blogArticles
