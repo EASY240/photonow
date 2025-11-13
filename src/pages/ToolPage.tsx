@@ -2184,7 +2184,7 @@ const handleAIImageToImageGenerate = async () => {
                       <label className="block text-sm font-medium text-gray-700 mb-2">Upload a Style Image</label>
                       <input
                         type="file"
-                        accept="image/*"
+                        accept="image/jpeg,image/png"
                         onChange={(e) => setCartoonStyleImage(e.target.files?.[0] || null)}
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         disabled={!!selectedPresetUrl}
@@ -2252,7 +2252,7 @@ const handleAIImageToImageGenerate = async () => {
                       <label className="block text-sm font-medium text-gray-700 mb-2">Upload a Style Image</label>
                       <input
                         type="file"
-                        accept="image/*"
+                        accept="image/jpeg,image/png"
                         onChange={(e) => setCaricatureCustomStyleImage(e.target.files?.[0] || null)}
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         disabled={!!caricatureSelectedStyle}
@@ -2354,13 +2354,13 @@ const handleAIImageToImageGenerate = async () => {
                     <p className="text-sm font-medium text-gray-700 text-center">Or Use a Custom Style</p>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Upload a Style Image</label>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => setAvatarCustomStyleImage(e.target.files?.[0] || null)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        disabled={!!avatarSelectedStyle}
-                      />
+                    <input
+                      type="file"
+                      accept="image/jpeg,image/png"
+                      onChange={(e) => setAvatarCustomStyleImage(e.target.files?.[0] || null)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      disabled={!!avatarSelectedStyle}
+                    />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Text Prompt (Optional)</label>
@@ -2473,13 +2473,13 @@ const handleAIImageToImageGenerate = async () => {
                     <p className="text-sm font-medium text-gray-700 text-center">Or Use a Custom Style</p>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Upload a Style Image</label>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => setPortraitCustomStyleImage(e.target.files?.[0] || null)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        disabled={!!portraitSelectedStyle}
-                      />
+                    <input
+                      type="file"
+                      accept="image/jpeg,image/png"
+                      onChange={(e) => setPortraitCustomStyleImage(e.target.files?.[0] || null)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      disabled={!!portraitSelectedStyle}
+                    />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Text Prompt</label>
@@ -2552,7 +2552,7 @@ const handleAIImageToImageGenerate = async () => {
                     <h3 className="text-lg font-semibold mb-4">Or Upload a Custom Style Image</h3>
                     <input
                       type="file"
-                      accept="image/*"
+                      accept="image/jpeg,image/png"
                       onChange={(e) => {
                         const file = e.target.files?.[0] || null;
                         setProductCustomStyleImage(file);
@@ -3340,7 +3340,7 @@ const handleAIImageToImageGenerate = async () => {
                           </label>
                           <input
                             type="file"
-                            accept="image/*"
+                            accept="image/jpeg,image/png"
                             onChange={(e) => {
                               const file = e.target.files?.[0];
                               setFilterCustomStyleImage(file || null);

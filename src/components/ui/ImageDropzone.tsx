@@ -35,7 +35,7 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({ onImageSelect, selectedIm
 
   const validateFile = (file: File): string | null => {
     if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) {
-      return 'File type not supported. Please upload a JPEG, PNG, or WebP image.';
+      return 'File type not supported. Please upload a JPEG or PNG image.';
     }
     
     if (file.size > MAX_FILE_SIZE) {
@@ -123,13 +123,13 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({ onImageSelect, selectedIm
           <p className="text-gray-700 font-medium mb-1">Drag and drop your image here</p>
           <p className="text-gray-500 text-sm mb-4">or click to browse</p>
           <p className="text-gray-400 text-xs">
-            Supported formats: JPEG, PNG, WebP (max 5MB)
+            Supported formats: JPEG, PNG (max 5MB)
           </p>
           <input
             id="file-input"
             type="file"
             className="hidden"
-            accept="image/jpeg,image/png,image/webp"
+            accept="image/jpeg,image/png"
             onChange={handleFileSelect}
             disabled={disabled}
           />
