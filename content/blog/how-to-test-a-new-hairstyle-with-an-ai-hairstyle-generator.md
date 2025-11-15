@@ -93,7 +93,7 @@ metaDescription: "Discover how to visualize your perfect look before committing 
       @media (max-width: 640px) { .styled-container .video-embed video { max-width: 360px; } }
     </style>
     <div class="video-embed">
-      <video controls playsinline preload="none" aria-label="AI Hairstyle vertical demo video">
+      <video controls playsinline autoplay muted preload="auto" aria-label="AI Hairstyle vertical demo video">
         <source src="/tools%20videos/AI%20Hairstyle.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>

@@ -14,6 +14,17 @@ export interface BlogArticle {
 // Blog article metadata index - content is now loaded from individual Markdown files
 export const blogArticleIndex = [
   {
+    id: 'free-watermark-remover-easy-ai-tool-for-perfect-results',
+    title: 'Free Watermark Remover: Easy AI Tool for Perfect Results',
+    excerpt: 'Remove watermarks from photos and TikTok videos with our free watermark remover. Our AI-powered tool preserves image quality while eliminating logos, text, and watermarks in seconds.',
+    publishDate: '2025-11-15',
+    readTime: '12 min read',
+    category: 'tools' as const,
+    featuredImage: '/images/tools images/AI Watermark Remover Tool.jpg',
+    relatedTool: 'watermark-remover',
+    keywords: ['watermark remover', 'remove watermark', 'TikTok watermark']
+  },
+  {
     id: 'how-to-create-professional-product-photos-with-ai',
     title: 'How to Create Professional Product Photos with AI | Modern Photo Tools',
     excerpt: 'Learn how to create professional product photos with AI using simple techniques. Transform ordinary product shots into stunning visuals without expensive equipment or photography skills.',
