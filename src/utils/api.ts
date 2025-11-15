@@ -133,6 +133,116 @@ export async function startCleanupJob({ originalImageUrl, maskedImageUrl }: { or
   }
 }
 
+// Watermark Remover job – implemented via the same cleanup endpoint
+// This keeps the API surface explicit while leveraging existing backend behavior.
+export async function startWatermarkRemoverJob({ imageUrl }: { imageUrl: string }): Promise<string> {
+  try {
+    const { baseUrl } = getEnvironmentConfig();
+
+    const response = await fetch(`${baseUrl}/api/lightx-proxy`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        endpoint: 'v2/watermark-remover',
+        body: {
+          imageUrl: imageUrl,
+        }
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Failed to start watermark remover job: ${response.status} - ${errorText}`);
+    }
+
+    const data = await response.json();
+    
+    if (!data.body || !data.body.orderId) {
+      throw new Error(`Invalid watermark remover job response: ${JSON.stringify(data)}`);
+    }
+
+    return data.body.orderId;
+  } catch (error) {
+    console.error('Error starting watermark remover job:', error);
+    throw error;
+  }
+}
+
+// Dedicated status poller for Watermark Remover (API v2) per tool documentation
+export async function pollWatermarkJobUntilComplete(orderId: string): Promise<string> {
+  try {
+    const { baseUrl } = getEnvironmentConfig();
+
+    let resultUrl = '';
+    let retries = 0;
+    const maxRetries = 5; // per DOC: maxRetriesAllowed = 5
+    const pollIntervalMs = 3000; // per DOC: poll every 3 seconds
+
+    while (!resultUrl && retries < maxRetries) {
+      if (retries > 0) {
+        await new Promise((resolve) => setTimeout(resolve, pollIntervalMs));
+      }
+
+      const orderStatusResponse = await fetch(`${baseUrl}/api/lightx-proxy`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          endpoint: 'v2/order-status',
+          body: {
+            orderId: orderId,
+          }
+        }),
+      });
+
+      if (!orderStatusResponse.ok) {
+        const errorText = await orderStatusResponse.text();
+        throw new Error(`Failed to get order status: ${orderStatusResponse.status} - ${errorText}`);
+      }
+
+      const orderStatus = await orderStatusResponse.json();
+
+      if (orderStatus.status === 'FAIL') {
+        const errorMessage = orderStatus.message || 'Unknown error';
+        const errorDescription = orderStatus.description || '';
+        const statusCode = orderStatus.statusCode;
+        console.error('LightX API Error:', { statusCode, errorMessage, errorDescription });
+        throw new Error(`Image processing failed: ${errorMessage}${errorDescription ? ` - ${errorDescription}` : ''}`);
+      }
+
+      if (!orderStatus.body) {
+        throw new Error(`Invalid order status response: ${JSON.stringify(orderStatus)}`);
+      }
+
+      if (orderStatus.body.status === 'active' && orderStatus.body.output) {
+        resultUrl = orderStatus.body.output;
+        break;
+      } else if (orderStatus.body.status === 'failed') {
+        const errorMessage = orderStatus.body.message || 'Unknown error';
+        const errorDescription = orderStatus.body.description || '';
+        throw new Error(`Image processing failed: ${errorMessage}${errorDescription ? ` - ${errorDescription}` : ''}`);
+      } else {
+        // status could be 'init' per DOC; continue polling
+      }
+
+      retries++;
+    }
+
+    if (!resultUrl) {
+      throw new Error('Processing timeout: The image is taking longer than expected to process. Please try again later.');
+    }
+
+    debugLog('Watermark removal completed successfully:', resultUrl);
+    return resultUrl;
+  } catch (error) {
+    console.error('Error polling watermark job status:', error);
+    throw error;
+  }
+}
+
 export async function checkOrderStatus(orderId: string): Promise<any> {
   try {
     const { baseUrl } = getEnvironmentConfig();

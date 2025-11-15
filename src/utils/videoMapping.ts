@@ -17,7 +17,8 @@ export const videoUrlMapping: Record<string, string> = {
   'AI Sketch to Image': '/tools videos/AI Sketch to Image.mp4',
   'AI Hairstyle': '/tools videos/AI Hairstyle.mp4',
   'AI Image Upscaler': '/tools videos/AI Image Upscaler.mp4',
-  'AI Filter': '/tools videos/AI Filter.mp4'
+  'AI Filter': '/tools videos/AI Filter.mp4',
+  'Watermark Remover': '/tools videos/Watermark Remover.mp4'
 };
 
 // Function to get video URL for a tool

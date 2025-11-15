@@ -43,20 +43,22 @@ const ToolFeatureImage: React.FC<ToolFeatureImageProps> = ({
         )}
         
         {/* Actual image */}
-        <img 
-          src={imagePath}
-          alt={altText}
-          className={`w-full max-w-2xl mx-auto rounded-lg shadow-lg object-contain transition-opacity duration-300 ${
-            imageLoaded ? 'opacity-100' : 'opacity-0 absolute top-0 left-0'
-          }`}
-          style={{
-            maxHeight: '400px',
-            objectFit: 'contain'
-          }}
-          loading="lazy"
-          onError={handleImageError}
-          onLoad={handleImageLoad}
-        />
+        {imagePath && (
+          <img 
+            src={imagePath}
+            alt={altText}
+            className={`w-full max-w-2xl mx-auto rounded-lg shadow-lg object-contain transition-opacity duration-300 ${
+              imageLoaded ? 'opacity-100' : 'opacity-0 absolute top-0 left-0'
+            }`}
+            style={{
+              maxHeight: '400px',
+              objectFit: 'contain'
+            }}
+            loading="lazy"
+            onError={handleImageError}
+            onLoad={handleImageLoad}
+          />
+        )}
       </div>
       
       {/* Optional caption */}

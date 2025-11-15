@@ -9,7 +9,7 @@ import ToolRecommendations from '../components/ui/ToolRecommendations';
 import ToolFeatureImage from '../components/ui/ToolFeatureImage';
 import { tools } from '../data/tools';
 import { findToolImage, generateAltText } from '../utils/imageMapper';
-import { processImage, uploadImageAndGetUrl, startCleanupJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, startProductPhotoshootJob, startBackgroundGeneratorJob, startImageGeneratorJob, startPortraitJob, startFaceSwapJob, startOutfitJob, startImageToImageJob, startSketchToImageJob, startHairstyleJob, startUpscaleJob, startAIFilterJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete } from '../utils/api';
+import { processImage, uploadImageAndGetUrl, startCleanupJob, startWatermarkRemoverJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, startProductPhotoshootJob, startBackgroundGeneratorJob, startImageGeneratorJob, startPortraitJob, startFaceSwapJob, startOutfitJob, startImageToImageJob, startSketchToImageJob, startHairstyleJob, startUpscaleJob, startAIFilterJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete, pollWatermarkJobUntilComplete } from '../utils/api';
 import type { ImageFile, ProcessedImage, Tool, FaceSwapStyle } from '../types';
 import { maleCartoonStyles, femaleCartoonStyles } from '../constants/cartoonStyles';
 import { caricatureStyles, Style } from '../constants/caricatureStyles';
@@ -595,6 +595,44 @@ const handleAIFaceSwapGenerate = async () => {
       });
     } catch (error) {
       console.error('AI Cleanup error:', error);
+      setProcessedImage({
+        url: null,
+        isLoading: false,
+        error: error instanceof Error ? error.message : 'An unexpected error occurred'
+      });
+    }
+  };
+
+  // Watermark Remover specific generate function
+  const handleAIWatermarkRemoverGenerate = async () => {
+    if (!selectedImage.file) return;
+
+    // v2 Watermark Remover DOC compliance: image file must be <= 5MB
+    const maxSizeBytes = 5 * 1024 * 1024;
+    if (selectedImage.file.size > maxSizeBytes) {
+      setProcessedImage({
+        url: null,
+        isLoading: false,
+        error: 'Image exceeds 5MB limit. Please upload a smaller image.'
+      });
+      return;
+    }
+
+    setProcessedImage({ url: null, isLoading: true, error: null });
+
+    try {
+      const originalFinalUrl = await uploadImageAndGetUrl(selectedImage.file);
+
+      const orderId = await startWatermarkRemoverJob({ imageUrl: originalFinalUrl });
+
+      if (!orderId) {
+        throw new Error('Failed to start watermark remover job');
+      }
+
+      const resultUrl = await pollWatermarkJobUntilComplete(orderId);
+      setProcessedImage({ url: resultUrl, isLoading: false, error: null });
+    } catch (error) {
+      console.error('Watermark Remover error:', error);
       setProcessedImage({
         url: null,
         isLoading: false,
@@ -1630,9 +1668,10 @@ const handleAIImageToImageGenerate = async () => {
             
             {/* Tool Feature Image */}
             <ToolFeatureImage 
-              imagePath={toolFeatureImage.imagePath}
+              toolId={tool.id}
+              toolName={tool.name}
+              imagePath={toolFeatureImage.imagePath ?? ''}
               altText={toolFeatureImage.altText}
-              isLoading={toolFeatureImage.isLoading}
             />
             
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
@@ -1650,6 +1689,14 @@ const handleAIImageToImageGenerate = async () => {
                   <li>Adjust brush size as needed for precision</li>
                   <li>Click "Generate" to let AI intelligently fill the painted areas</li>
                   <li>Download your enhanced image when processing is complete</li>
+                </>
+              ) : tool.id === 'watermark-remover' ? (
+                <>
+                  <li>Upload your image using the tool below (max 5MB)</li>
+                  <li>Click "Generate" — the tool automatically detects and removes watermarks</li>
+                  <li>No mask painting is required; results depend on watermark visibility and contrast</li>
+                  <li>Review the result and re-try with a clearer image if needed</li>
+                  <li>Download your clean image when processing is complete</li>
                 </>
               ) : tool.id === 'ai-expand' ? (
                 <>
@@ -1924,6 +1971,21 @@ const handleAIImageToImageGenerate = async () => {
                   >
                     Clear Mask
                   </Button>
+                </div>
+              )}
+
+              {/* Watermark Remover specific note (no painting required) */}
+              {tool.id === 'watermark-remover' && selectedImage.preview && (
+                <div className="space-y-4">
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                    <h4 className="text-sm font-medium text-blue-800 mb-2">💡 Tip:</h4>
+                    <p className="text-xs text-blue-700">
+                      Upload a watermarked image. The tool automatically detects and removes watermarks — no painting needed.
+                    </p>
+                    <p className="text-xs text-blue-700 mt-1">
+                      Maximum file size: 5MB.
+                    </p>
+                  </div>
                 </div>
               )}
               
@@ -3379,6 +3441,7 @@ const handleAIImageToImageGenerate = async () => {
                 data-scroll-target="generate-button"
                 onClick={
                   tool.id === 'ai-cleanup' ? handleAICleanupGenerate :
+                  tool.id === 'watermark-remover' ? handleAIWatermarkRemoverGenerate :
                   tool.id === 'ai-expand' ? handleAIExpandGenerate :
                   tool.id === 'ai-replace' ? handleAIReplaceGenerate :
                   tool.id === 'ai-cartoon' ? handleAICartoonGenerate :
@@ -3499,6 +3562,8 @@ function getToolDescription(tool: Tool): string {
       return 'automatically detect and remove backgrounds from any image, leaving you with a clean subject that can be placed on any new background';
     case 'ai-cleanup':
       return 'automatically detect and fix imperfections, remove unwanted objects, and enhance the overall quality of your photos. Simply paint over the areas you want to remove and let AI intelligently fill in the space';
+    case 'watermark-remover':
+      return 'automatically detect and remove watermarks, logos, and text overlays from uploaded images — no manual selection needed';
     case 'ai-expand':
       return 'intelligently expand your images beyond their original boundaries, adding realistic content that matches the original image';
     case 'ai-replace':

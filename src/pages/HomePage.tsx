@@ -14,7 +14,7 @@ const HomePage: React.FC = () => {
   const popularToolNames = [
     'Remove Background',
     'AI Cleanup',
-    'AI Expand',
+    'Watermark Remover',
     'AI Replace',
     'AI Portrait',
     'AI Image Upscaler'
