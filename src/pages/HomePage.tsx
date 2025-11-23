@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Edit3, Brain, ClipboardCopy } from 'lucide-react';
 import Button from '../components/ui/Button';
 import VideoToolCard from '../components/ui/VideoToolCard';
 import SEO from '../components/ui/SEO';
@@ -136,6 +136,48 @@ const HomePage: React.FC = () => {
       
       {/* Prompts Guide Section */}
       <PromptsGuide />
+
+      {/* Create Perfect AI Prompts Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Create Perfect AI Prompts in Seconds</h2>
+            <p className="text-gray-600">Follow these simple steps to create optimized Prompts for AI models in seconds.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-white p-6 rounded-lg shadow-md text-center">
+              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Edit3 className="w-6 h-6 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Enter Your Idea</h3>
+              <p className="text-gray-600">Simply input your task, goal, or a simple prompt. Our tool works with any type of input to create custom AI instructions.</p>
+            </div>
+
+            <div className="bg-white p-6 rounded-lg shadow-md text-center">
+              <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Brain className="w-6 h-6 text-purple-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">AI-Powered Enhancements</h3>
+              <p className="text-gray-600">Our AI analyzes your input and generates a comprehensive, optimized prompt tailored for various AI models.</p>
+            </div>
+
+            <div className="bg-white p-6 rounded-lg shadow-md text-center">
+              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <ClipboardCopy className="w-6 h-6 text-green-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Usage and Refinement</h3>
+              <p className="text-gray-600">You can instantly view the generated prompt. Copy and paste it directly into ChatGPT, Claude, Gemini, or any other AI model.</p>
+            </div>
+          </div>
+
+          <div className="text-center mt-12">
+            <Link to="/tools/prompt-generator">
+              <Button size="lg" rightIcon={<ArrowRight size={18} />}>Try Prompt Generator</Button>
+            </Link>
+          </div>
+        </div>
+      </section>
       
       {/* CTA Section */}
       <section className="py-16 bg-blue-600">

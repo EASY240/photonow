@@ -12,6 +12,7 @@ import ContactPage from './pages/ContactPage';
 import NotFoundPage from './pages/NotFoundPage';
 import BlogPage from './pages/BlogPage';
 import BlogArticlePage from './pages/BlogArticlePage';
+import PromptGeneratorPage from './pages/PromptGeneratorPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import TermsOfUsePage from './pages/TermsOfUsePage';
 import DMCAPage from './pages/DMCAPage';
@@ -31,6 +32,7 @@ function App() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:articleId" element={<BlogArticlePage />} />
+          <Route path="/tools/prompt-generator" element={<PromptGeneratorPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           <Route path="/terms-of-use" element={<TermsOfUsePage />} />
           <Route path="/dmca" element={<DMCAPage />} />

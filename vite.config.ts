@@ -25,6 +25,10 @@ export default defineConfig({
       '/api/lightx-proxy': {
         target: 'http://localhost:3001',
         changeOrigin: true
+      },
+      '/api/optimize-prompt': {
+        target: 'http://localhost:3001',
+        changeOrigin: true
       }
     },
     open: true,

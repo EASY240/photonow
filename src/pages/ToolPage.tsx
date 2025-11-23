@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { Download, Loader, Brush, XCircle, HelpCircle, X } from 'lucide-react';
 import SEO from '../components/ui/SEO';
+import { Helmet } from 'react-helmet-async';
 import Button from '../components/ui/Button';
 import ImageDropzone from '../components/ui/ImageDropzone';
 import PromptsGuide from '../components/ui/PromptsGuide';
@@ -9,7 +10,7 @@ import ToolRecommendations from '../components/ui/ToolRecommendations';
 import ToolFeatureImage from '../components/ui/ToolFeatureImage';
 import { tools } from '../data/tools';
 import { findToolImage, generateAltText } from '../utils/imageMapper';
-import { processImage, uploadImageAndGetUrl, startCleanupJob, startWatermarkRemoverJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, startProductPhotoshootJob, startBackgroundGeneratorJob, startImageGeneratorJob, startPortraitJob, startFaceSwapJob, startOutfitJob, startImageToImageJob, startSketchToImageJob, startHairstyleJob, startUpscaleJob, startAIFilterJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete, pollWatermarkJobUntilComplete } from '../utils/api';
+import { processImage, uploadImageAndGetUrl, startCleanupJob, startWatermarkRemoverJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, startProductPhotoshootJob, startBackgroundGeneratorJob, startImageGeneratorJob, startPortraitJob, startFaceSwapJob, startOutfitJob, startImageToImageJob, startSketchToImageJob, startHairstyleJob, startUpscaleJob, startAIFilterJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete, pollWatermarkJobUntilComplete, pollV1JobUntilComplete } from '../utils/api';
 import type { ImageFile, ProcessedImage, Tool, FaceSwapStyle } from '../types';
 import { maleCartoonStyles, femaleCartoonStyles } from '../constants/cartoonStyles';
 import { caricatureStyles, Style } from '../constants/caricatureStyles';
@@ -121,7 +122,7 @@ const ToolPage: React.FC = () => {
 
   // AI Hairstyle preset selection state
   const [selectedHairstylePrompt, setSelectedHairstylePrompt] = useState<string>('');
-  const [i2iStrength, setI2iStrength] = useState(0.5); // Default value from 0.0 to 1.0
+  const [i2iStrength, setI2iStrength] = useState(0.3); // Default value from 0.0 to 1.0
   const [i2iStyleStrength, setI2iStyleStrength] = useState(0.9); // Default value from 0.0 to 1.0
   
   // AI Sketch to Image specific state
@@ -240,7 +241,7 @@ const handleAIFaceSwapGenerate = async () => {
     });
 
     // 4. Poll until complete
-    const resultUrl = await pollJobUntilComplete(orderId);
+    const resultUrl = await pollV1JobUntilComplete(orderId);
 
     // 5. Display the result
     setProcessedImage({ url: resultUrl, isLoading: false, error: null });
@@ -1456,16 +1457,16 @@ const handleAIImageToImageGenerate = async () => {
          let finalPrompt: string = "";
 
          // 4. Correctly determine the style source
-         if (filterSelectedStyle) {
-             finalPrompt = filterSelectedStyle.name;
-             const styleImageBlob = await convertUrlToBlob(filterSelectedStyle.imageUrl);
-             finalStyleUrl = await uploadImageAndGetUrl(new File([styleImageBlob], "style.jpeg", { type: 'image/jpeg' }));
-         } else if (filterCustomStyleImage) {
-             finalPrompt = filterTextPrompt;
-             finalStyleUrl = await uploadImageAndGetUrl(filterCustomStyleImage);
-         } else {
-             finalPrompt = filterTextPrompt;
-         }
+        if (filterSelectedStyle) {
+            finalPrompt = filterSelectedStyle.prompt;
+            const styleImageBlob = await convertUrlToBlob(filterSelectedStyle.imageUrl);
+            finalStyleUrl = await uploadImageAndGetUrl(new File([styleImageBlob], "style.jpeg", { type: 'image/jpeg' }));
+        } else if (filterCustomStyleImage) {
+            finalPrompt = filterTextPrompt;
+            finalStyleUrl = await uploadImageAndGetUrl(filterCustomStyleImage);
+        } else {
+            finalPrompt = filterTextPrompt;
+        }
 
          // 5. Call the API job function with all parameters
          const orderId = await startAIFilterJob({
@@ -1658,6 +1659,31 @@ const handleAIImageToImageGenerate = async () => {
         ogImage={toolFeatureImage.imagePath ? generateOgImageUrl(toolFeatureImage.imagePath) : undefined}
         canonicalUrl={generateCanonicalUrl(`/tools/${tool.id}`)}
       />
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            name: tool.name,
+            url: `https://modernphototools.com${tool.path}`,
+            description: `Free online ${tool.name.toLowerCase()} tool. ${tool.description || 'Transform your photos instantly with AI.'}`,
+            applicationCategory: "MultimediaApplication",
+            operatingSystem: "Web",
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "USD"
+            },
+            featureList: [
+              "AI-powered Processing",
+              "Instant Results",
+              "No Installation Required",
+              "No Registration",
+              "Completely Free"
+            ]
+          })}
+        </script>
+      </Helmet>
       
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">

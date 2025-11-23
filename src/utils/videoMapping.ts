@@ -1,5 +1,6 @@
 // Video URL mapping for tools
 export const videoUrlMapping: Record<string, string> = {
+  'AI Prompt Generator': '/tools videos/AI Prompt Generator.mp4',
   'Remove Background': '/tools videos/Remove Background.mp4',
   'AI Cleanup': '/tools videos/AI Cleanup.mp4',
   'AI Expand': '/tools videos/AI Expand.mp4',

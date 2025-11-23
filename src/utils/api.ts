@@ -38,6 +38,16 @@ export async function convertUrlToBlob(url: string): Promise<Blob> {
   return blob;
 }
 
+export async function fetchOptimizedPrompt(basePrompt: string, framework: string) {
+  const { baseUrl } = getEnvironmentConfig();
+  const res = await fetch(`${baseUrl}/api/optimize-prompt`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ basePrompt, framework })
+  });
+  return await res.json();
+}
+
 // AI Cleanup V2 API Functions
 export async function uploadImageAndGetUrl(file: File): Promise<string> {
   try {
@@ -107,7 +117,7 @@ export async function startCleanupJob({ originalImageUrl, maskedImageUrl }: { or
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        endpoint: 'v1/cleanup-picture', // NOTE: Endpoint is v1 for job submission as per some docs, changed from v2
+        endpoint: 'v2/cleanup-picture', // NOTE: Endpoint is v2 for job submission as per some docs, changed from v2
         body: {
           imageUrl: originalImageUrl,
           maskedImageUrl: maskedImageUrl,
@@ -253,7 +263,7 @@ export async function checkOrderStatus(orderId: string): Promise<any> {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        endpoint: 'v1/order-status', // NOTE: Using v1 for status check, consistent with remove-bg
+        endpoint: 'v2/order-status', // NOTE: Using v2 for status check, consistent with remove-bg
         body: {
           orderId: orderId,
         }
@@ -295,7 +305,7 @@ export async function pollJobUntilComplete(orderId: string): Promise<string> {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          endpoint: 'v1/order-status',
+          endpoint: 'v2/order-status',
           body: {
             orderId: orderId,
           }
@@ -347,6 +357,53 @@ export async function pollJobUntilComplete(orderId: string): Promise<string> {
     return resultUrl;
   } catch (error) {
     console.error('Error polling job status:', error);
+    throw error;
+  }
+}
+
+export async function pollV1JobUntilComplete(orderId: string): Promise<string> {
+  try {
+    const { baseUrl } = getEnvironmentConfig();
+    let resultUrl = '';
+    let retries = 0;
+    const maxRetries = 5;
+    const pollIntervalMs = 3000;
+    while (!resultUrl && retries < maxRetries) {
+      if (retries > 0) {
+        await new Promise((resolve) => setTimeout(resolve, pollIntervalMs));
+      }
+      const orderStatusResponse = await fetch(`${baseUrl}/api/lightx-proxy`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          endpoint: 'v1/order-status',
+          body: { orderId },
+        }),
+      });
+      if (!orderStatusResponse.ok) {
+        const errorText = await orderStatusResponse.text();
+        throw new Error(`Failed to get order status: ${orderStatusResponse.status} - ${errorText}`);
+      }
+      const orderStatus = await orderStatusResponse.json();
+      if (!orderStatus.body) {
+        throw new Error(`Invalid order status response: ${JSON.stringify(orderStatus)}`);
+      }
+      if (orderStatus.body.status === 'active' && orderStatus.body.output) {
+        resultUrl = orderStatus.body.output;
+        break;
+      } else if (orderStatus.body.status === 'failed') {
+        const errorMessage = orderStatus.body.message || 'Unknown error';
+        const errorDescription = orderStatus.body.description || '';
+        throw new Error(`Image processing failed: ${errorMessage}${errorDescription ? ` - ${errorDescription}` : ''}`);
+      }
+      retries++;
+    }
+    if (!resultUrl) {
+      throw new Error('Processing timeout: The image is taking longer than expected to process. Please try again later.');
+    }
+    return resultUrl;
+  } catch (error) {
+    console.error('Error polling v1 job status:', error);
     throw error;
   }
 }
@@ -444,7 +501,7 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            endpoint: 'v1/remove-background',
+            endpoint: 'v2/remove-background',
             body: {
               imageUrl: imageUrl,
             }
@@ -495,7 +552,7 @@ export async function processImage(toolApiEndpoint: string, imageFile: File): Pr
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          endpoint: 'v1/order-status',
+          endpoint: 'v2/order-status',
           body: {
             orderId: orderId,
           }
@@ -564,7 +621,7 @@ export async function startExpandJob({ imageUrl, padding }: { imageUrl: string; 
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        endpoint: 'v1/expand-photo', // The correct endpoint for this tool
+        endpoint: 'v2/expand-photo', // The correct endpoint for this tool
         body: {
           imageUrl: imageUrl,
           topPadding: padding.top,
@@ -600,7 +657,7 @@ export async function startReplaceJob({ originalImageUrl, maskedImageUrl, prompt
 
     // DEFINE THE REQUEST BODY SEPARATELY
     const requestPayload = {
-      endpoint: 'v1/replace',
+      endpoint: 'v2/replace',
       body: {
         imageUrl: originalImageUrl,
         maskedImageUrl: maskedImageUrl,
@@ -645,7 +702,7 @@ export async function startProductPhotoshootJob({ imageUrl, styleImageUrl, textP
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        endpoint: 'v1/product-photoshoot', // The correct endpoint for this tool
+        endpoint: 'v2/product-photoshoot', // The correct endpoint for this tool
         body: {
           imageUrl: imageUrl,
           styleImageUrl: styleImageUrl || "",
@@ -682,7 +739,7 @@ export async function startCartoonJob({ imageUrl, styleImageUrl, textPrompt }: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        endpoint: 'v1/cartoon',
+        endpoint: 'v2/cartoon',
         body: {
           imageUrl: imageUrl,
           styleImageUrl: styleImageUrl || "",
@@ -719,7 +776,7 @@ export async function startCaricatureJob({ imageUrl, styleImageUrl, textPrompt }
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        endpoint: 'v1/caricature',
+        endpoint: 'v2/caricature',
         body: {
           imageUrl: imageUrl,
           styleImageUrl: styleImageUrl || "",
@@ -756,7 +813,7 @@ export async function startAvatarJob({ imageUrl, styleImageUrl, textPrompt }: { 
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        endpoint: 'v1/avatar',
+        endpoint: 'v2/avatar',
         body: {
           imageUrl: imageUrl,
           styleImageUrl: styleImageUrl || "",
@@ -793,7 +850,7 @@ export async function startBackgroundGeneratorJob({ imageUrl, textPrompt }: { im
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        endpoint: 'v1/background-generator',
+        endpoint: 'v2/background-generator',
         body: {
           imageUrl: imageUrl,
           textPrompt: textPrompt
@@ -829,7 +886,7 @@ export async function startImageGeneratorJob({ textPrompt, width, height }: { te
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        endpoint: 'v1/text2image',
+        endpoint: 'v2/text2image',
         body: {
           textPrompt: textPrompt,
           width: width,
@@ -866,7 +923,7 @@ export async function startPortraitJob({ imageUrl, styleImageUrl, textPrompt }: 
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        endpoint: 'v1/portrait',
+        endpoint: 'v2/portrait',
         body: {
           imageUrl: imageUrl,
           styleImageUrl: styleImageUrl || "",
@@ -903,7 +960,7 @@ export async function startFaceSwapJob({ imageUrl, styleImageUrl }: { imageUrl: 
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        endpoint: 'v1/face-swap',
+        endpoint: 'v2/face-swap',
         body: {
           imageUrl: imageUrl,
           styleImageUrl: styleImageUrl,
@@ -939,7 +996,7 @@ export async function startOutfitJob({ imageUrl, textPrompt }: { imageUrl: strin
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        endpoint: 'v1/outfit',
+        endpoint: 'v2/outfit',
         body: {
           imageUrl: imageUrl,
           textPrompt: textPrompt,
@@ -981,8 +1038,14 @@ export async function startImageToImageJob(params: ImageToImageParams): Promise<
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        endpoint: 'v1/image2image', // The correct endpoint for this tool
-        body: jobBody
+        endpoint: 'v1/image2image',
+        body: {
+          imageUrl: params.imageUrl,
+          strength: params.strength ?? 0.5,
+          textPrompt: params.textPrompt,
+          ...(params.styleImageUrl && { styleImageUrl: params.styleImageUrl }),
+          ...(params.styleStrength !== undefined && { styleStrength: params.styleStrength }),
+        }
       }),
     });
 
@@ -1020,8 +1083,8 @@ export async function startSketchToImageJob(params: SketchToImageParams): Promis
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        endpoint: 'v1/sketch2image', // The correct endpoint for this tool
-        body: jobBody
+        endpoint: 'v2/sketch2image', // The correct endpoint for this tool
+        body: params
       }),
     });
 
@@ -1051,7 +1114,7 @@ export async function startHairstyleJob({ imageUrl, textPrompt }: { imageUrl: st
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        endpoint: 'v1/hairstyle', // The correct endpoint for this tool
+        endpoint: 'v2/hairstyle', // The correct endpoint for this tool
         body: {
           imageUrl: imageUrl,
           textPrompt: textPrompt,
@@ -1126,7 +1189,11 @@ export async function startAIFilterJob(params: AIFilterParams): Promise<string> 
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         endpoint: 'v2/aifilter', // The correct endpoint for AI Filter
-        body: jobBody
+        body: {
+          imageUrl: params.imageUrl,
+          filterReferenceUrl: params.styleImageUrl || "",
+          textPrompt: params.textPrompt,
+        }
       }),
     });
 

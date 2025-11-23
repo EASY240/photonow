@@ -2,6 +2,14 @@ import type { Tool } from '../types';
 
 export const tools: Tool[] = [
   {
+    id: 'prompt-generator',
+    name: 'AI Prompt Generator',
+    description: 'Turn a simple idea into a professional AI prompt',
+    icon: 'bot',
+    path: '/tools/prompt-generator',
+    apiEndpoint: '/api/optimize-prompt'
+  },
+  {
     id: 'remove-background',
     name: 'Remove Background',
     description: 'Remove the background from any image with AI precision',

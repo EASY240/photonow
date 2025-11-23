@@ -64,6 +64,11 @@ const Footer: React.FC = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/tools/prompt-generator" className="text-gray-600 hover:text-blue-600 transition-colors">
+                  AI Prompt Generator
+                </Link>
+              </li>
+              <li>
                 <Link to="/tools/ai-portrait" className="text-gray-600 hover:text-blue-600 transition-colors">
                   AI Portrait
                 </Link>
@@ -71,11 +76,6 @@ const Footer: React.FC = () => {
               <li>
                 <Link to="/tools/ai-image-upscaler" className="text-gray-600 hover:text-blue-600 transition-colors">
                   AI Image Upscaler
-                </Link>
-              </li>
-              <li>
-                <Link to="/tools/ai-face-swap" className="text-gray-600 hover:text-blue-600 transition-colors">
-                  AI Face Swap
                 </Link>
               </li>
             </ul>
