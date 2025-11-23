@@ -44,6 +44,8 @@ export default function PromptGeneratorPage() {
   const [suggestions, setSuggestions] = useState<Record<string, string>>({});
   const [formValues, setFormValues] = useState<Record<string, string>>({});
   const [copied, setCopied] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+  const [recentPrompts, setRecentPrompts] = useState<string[]>([]);
 
   const finalOutput = useMemo(() => {
     return fields.map((f) => `${f}: ${formValues[f] || suggestions[f] || ''}`.trim()).join('\n');
@@ -63,6 +65,16 @@ export default function PromptGeneratorPage() {
     setSuggestions(data as Record<string, string>);
     setFormValues(Object.fromEntries(ordered.map((k) => [k, (data as Record<string, string>)[k] || ''])));
     setIsLoading(false);
+    const trimmed = input.trim();
+    setRecentPrompts((prev) => {
+      const next = [trimmed, ...prev.filter((p) => p !== trimmed)].slice(0, 10);
+      try {
+        if (typeof window !== 'undefined') {
+          window.localStorage.setItem('recentPrompts', JSON.stringify(next));
+        }
+      } catch {}
+      return next;
+    });
   };
 
   const handleChange = (key: string, value: string) => {
@@ -174,6 +186,19 @@ export default function PromptGeneratorPage() {
     return () => { mounted = false; };
   }, []);
 
+  useEffect(() => {
+    setIsMounted(true);
+    try {
+      if (typeof window !== 'undefined') {
+        const saved = window.localStorage.getItem('recentPrompts');
+        if (saved) {
+          const arr = JSON.parse(saved);
+          if (Array.isArray(arr)) setRecentPrompts(arr);
+        }
+      }
+    } catch {}
+  }, []);
+
   return (
     <div className="container mx-auto px-4 py-12">
       <SEO 
@@ -241,6 +266,20 @@ export default function PromptGeneratorPage() {
             <div className="mt-4">
               <Button variant="secondary" onClick={handleCopy} leftIcon={<ClipboardCopy className="w-4 h-4" />}>{copied ? 'Copied' : 'Copy to Clipboard'}</Button>
             </div>
+          </div>
+        )}
+
+        {isMounted && recentPrompts.length > 0 && (
+          <div className="bg-white rounded-lg shadow p-6 mt-8">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-4">Recent Prompts</h2>
+            <ul className="space-y-3">
+              {recentPrompts.map((p, idx) => (
+                <li key={idx} className="flex items-center justify-between">
+                  <span className="text-sm text-gray-700 truncate max-w-[70%]">{p}</span>
+                  <Button variant="secondary" onClick={() => setInput(p)}>Use</Button>
+                </li>
+              ))}
+            </ul>
           </div>
         )}
       </div>
