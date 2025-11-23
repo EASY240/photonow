@@ -199,6 +199,17 @@ export default function PromptGeneratorPage() {
     } catch {}
   }, []);
 
+  if (!isMounted) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <div className="container mx-auto px-4 py-12 text-center">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-blue-500 border-t-transparent"></div>
+          <p className="mt-4 text-gray-500">Loading Prompt Tool...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto px-4 py-12">
       <SEO 
