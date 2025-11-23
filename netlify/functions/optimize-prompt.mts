@@ -1,5 +1,4 @@
 import type { Context } from "@netlify/functions";
-import Bytez from "bytez.js";
 
 export default async (req: Request, _context: Context) => {
   const corsHeaders = {
@@ -24,8 +23,18 @@ export default async (req: Request, _context: Context) => {
     if (!apiKey) {
       throw new Error("Server Error: API Key is missing in Netlify Dashboard.");
     }
+    let BytezClass: any;
+    try {
+      const mod = await import("bytez.js");
+      BytezClass = (mod as any).default || mod;
+    } catch (e: any) {
+      return new Response(
+        JSON.stringify({ success: false, error: "Dependency load error: bytez.js unavailable" }),
+        { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
 
-    const sdk = new Bytez(apiKey);
+    const sdk = new BytezClass(apiKey);
     const model = sdk.model("openai/gpt-4o");
 
     let structure = "Message, Intention, Context, Rhythm, Output";

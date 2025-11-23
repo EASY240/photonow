@@ -41,6 +41,7 @@ export default function PromptGeneratorPage() {
   const [formValues, setFormValues] = useState<Record<string, string>>({});
   const [copied, setCopied] = useState(false);
   const [recentPrompts, setRecentPrompts] = useState<string[]>([]);
+  const [isMounted, setIsMounted] = useState(false);
 
   const finalOutput = useMemo(() => {
     return fields.map((f) => `${f}: ${formValues[f] || suggestions[f] || ''}`.trim()).join('\n');
@@ -93,6 +94,10 @@ export default function PromptGeneratorPage() {
     } catch (e) {
       console.error(e);
     }
+  }, []);
+
+  useEffect(() => {
+    setIsMounted(true);
   }, []);
 
   useEffect(() => {
@@ -225,21 +230,23 @@ export default function PromptGeneratorPage() {
           imagePath={featureImagePath ?? ''}
           altText={featureAltText}
         />
-        <div className="bg-white rounded-lg shadow p-6 mb-8">
-          <label className="block text-sm font-medium text-gray-700 mb-2">Your idea</label>
-          <textarea
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            className="w-full border border-gray-300 rounded-md p-3 h-32 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Write a LinkedIn post about AI"
-          />
-          <div className="mt-4 flex items-center gap-3">
-            <Button size="lg" onClick={handleGenerate} isLoading={isLoading}>Generate</Button>
-            <span className="text-sm text-gray-600">Framework: {framework}</span>
+        {isMounted && (
+          <div className="bg-white rounded-lg shadow p-6 mb-8">
+            <label className="block text-sm font-medium text-gray-700 mb-2">Your idea</label>
+            <textarea
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              className="w-full border border-gray-300 rounded-md p-3 h-32 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Write a LinkedIn post about AI"
+            />
+            <div className="mt-4 flex items-center gap-3">
+              <Button size="lg" onClick={handleGenerate} isLoading={isLoading}>Generate</Button>
+              <span className="text-sm text-gray-600">Framework: {framework}</span>
+            </div>
           </div>
-        </div>
+        )}
 
-        {fields.length > 0 && suggestions && Object.keys(suggestions).length > 0 && (
+        {isMounted && fields.length > 0 && suggestions && Object.keys(suggestions).length > 0 && (
           <div className="bg-white rounded-lg shadow p-6 mb-8">
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">Edit Fields</h2>
             <div className="grid grid-cols-1 gap-6">
@@ -265,7 +272,7 @@ export default function PromptGeneratorPage() {
           </div>
         )}
 
-        {fields.length > 0 && (
+        {isMounted && fields.length > 0 && (
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">Final Output</h2>
             <pre className="bg-gray-50 border border-gray-200 rounded-md p-4 overflow-auto text-sm whitespace-pre-wrap">{finalOutput}</pre>

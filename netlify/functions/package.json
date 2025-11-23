@@ -5,7 +5,7 @@
   "main": "lightx-proxy.js",
   "dependencies": {
     "node-fetch": "^2.6.7",
-    "bytez.js": "^1.0.0",
+    "bytez.js": "^3.0.0",
     "@netlify/functions": "^2.0.3"
   }
 }
