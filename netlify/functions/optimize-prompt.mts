@@ -22,10 +22,7 @@ export default async (req: Request, _context: Context) => {
 
     const apiKey = (process.env.BYTEZ_API_KEY || "").trim();
     if (!apiKey) {
-      return new Response(JSON.stringify({ success: true, data: {}, warning: "API Key missing" }), {
-        status: 200,
-        headers: { "Content-Type": "application/json", ...corsHeaders },
-      });
+      throw new Error("Server Error: API Key is missing in Netlify Dashboard.");
     }
 
     const sdk = new Bytez(apiKey);
@@ -76,7 +73,8 @@ export default async (req: Request, _context: Context) => {
       headers: { "Content-Type": "application/json", ...corsHeaders },
     });
   } catch (error: any) {
-    return new Response(JSON.stringify({ success: true, data: {}, warning: error?.message || "Unknown error" }), {
+    console.error("Function Crash:", error);
+    return new Response(JSON.stringify({ success: false, error: error?.message || "Unknown server error" }), {
       status: 200,
       headers: { "Content-Type": "application/json", ...corsHeaders },
     });

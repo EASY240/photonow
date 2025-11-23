@@ -9,6 +9,10 @@
   # Default build command
   command = "npm run build"
 
+[functions]
+  node_bundler = "esbuild"
+  directory = "netlify/functions"
+
 # Redirects and rewrites
 [[redirects]]
   from = "/api/*"

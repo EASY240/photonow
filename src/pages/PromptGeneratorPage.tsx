@@ -4,7 +4,6 @@ import { HelpCircle, ClipboardCopy } from 'lucide-react';
 import Button from '../components/ui/Button';
 import { FRAMEWORKS, analyzePromptIntent } from '../utils/promptAnalysis';
 import { fetchOptimizedPrompt } from '../utils/api';
-import blogRaw from '../../blog.txt?raw';
 import PromptGuideSection from '../components/PromptGuideSection';
 import ToolFeatureImage from '../components/ui/ToolFeatureImage';
 import { findToolImage, generateAltText } from '../utils/imageMapper';
@@ -12,9 +11,6 @@ import SEO from '../components/ui/SEO';
 import { generateCanonicalUrl, generateOgImageUrl } from '../utils/siteConfig';
 
 function getDefinition(field: string): string {
-  const pattern = new RegExp(`${field}\\s*:\\s*([^\\n]+)`, 'i');
-  const match = blogRaw.match(pattern);
-  if (match && match[1]) return match[1].trim();
   const fallback: Record<string, string> = {
     Instruction: 'The specific task to perform.',
     Context: 'Background, purpose, or audience.',
@@ -71,7 +67,9 @@ export default function PromptGeneratorPage() {
       if (typeof window !== 'undefined') {
         window.localStorage.setItem('recentPrompts', JSON.stringify(next));
       }
-    } catch {}
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const handleChange = (key: string, value: string) => {
@@ -92,8 +90,21 @@ export default function PromptGeneratorPage() {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed)) setRecentPrompts(parsed);
       }
-    } catch {}
+    } catch (e) {
+      console.error(e);
+    }
   }, []);
+
+  useEffect(() => {
+    try {
+      if (typeof window === 'undefined') return;
+      if (Array.isArray(recentPrompts) && recentPrompts.length > 0) {
+        window.localStorage.setItem('recentPrompts', JSON.stringify(recentPrompts));
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }, [recentPrompts]);
 
   const webAppSchema = {
     "@context": "https://schema.org",
