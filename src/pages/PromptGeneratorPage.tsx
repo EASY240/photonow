@@ -44,6 +44,7 @@ export default function PromptGeneratorPage() {
   const [suggestions, setSuggestions] = useState<Record<string, string>>({});
   const [formValues, setFormValues] = useState<Record<string, string>>({});
   const [copied, setCopied] = useState(false);
+  const [recentPrompts, setRecentPrompts] = useState<string[]>([]);
 
   const finalOutput = useMemo(() => {
     return fields.map((f) => `${f}: ${formValues[f] || suggestions[f] || ''}`.trim()).join('\n');
@@ -63,6 +64,14 @@ export default function PromptGeneratorPage() {
     setSuggestions(data as Record<string, string>);
     setFormValues(Object.fromEntries(ordered.map((k) => [k, (data as Record<string, string>)[k] || ''])));
     setIsLoading(false);
+    try {
+      const current = Array.isArray(recentPrompts) ? recentPrompts : [];
+      const next = [input, ...current.filter((p) => p !== input)].slice(0, 10);
+      setRecentPrompts(next);
+      if (typeof window !== 'undefined') {
+        window.localStorage.setItem('recentPrompts', JSON.stringify(next));
+      }
+    } catch {}
   };
 
   const handleChange = (key: string, value: string) => {
@@ -74,6 +83,17 @@ export default function PromptGeneratorPage() {
     setCopied(true);
     setTimeout(() => setCopied(false), 1200);
   };
+
+  useEffect(() => {
+    try {
+      if (typeof window === 'undefined') return;
+      const saved = window.localStorage.getItem('recentPrompts');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) setRecentPrompts(parsed);
+      }
+    } catch {}
+  }, []);
 
   const webAppSchema = {
     "@context": "https://schema.org",

@@ -11,8 +11,8 @@
 
 # Redirects and rewrites
 [[redirects]]
-  from = "/api/lightx-proxy"
-  to = "/.netlify/functions/lightx-proxy"
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
   status = 200
   force = true
 

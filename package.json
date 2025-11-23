@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.8",
+    "bytez.js": "^3.0.0",
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.344.0",
     "node-fetch": "^3.3.2",
