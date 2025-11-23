@@ -4,6 +4,7 @@ import { HelpCircle, ClipboardCopy } from 'lucide-react';
 import Button from '../components/ui/Button';
 import { FRAMEWORKS, analyzePromptIntent } from '../utils/promptAnalysis';
 import { fetchOptimizedPrompt } from '../utils/api';
+import blogRaw from '../../blog.txt?raw';
 import PromptGuideSection from '../components/PromptGuideSection';
 import ToolFeatureImage from '../components/ui/ToolFeatureImage';
 import { findToolImage, generateAltText } from '../utils/imageMapper';
@@ -11,6 +12,9 @@ import SEO from '../components/ui/SEO';
 import { generateCanonicalUrl, generateOgImageUrl } from '../utils/siteConfig';
 
 function getDefinition(field: string): string {
+  const pattern = new RegExp(`${field}\\s*:\\s*([^\\n]+)`, 'i');
+  const match = blogRaw.match(pattern);
+  if (match && match[1]) return match[1].trim();
   const fallback: Record<string, string> = {
     Instruction: 'The specific task to perform.',
     Context: 'Background, purpose, or audience.',
@@ -40,8 +44,6 @@ export default function PromptGeneratorPage() {
   const [suggestions, setSuggestions] = useState<Record<string, string>>({});
   const [formValues, setFormValues] = useState<Record<string, string>>({});
   const [copied, setCopied] = useState(false);
-  const [recentPrompts, setRecentPrompts] = useState<string[]>([]);
-  const [isMounted, setIsMounted] = useState(false);
 
   const finalOutput = useMemo(() => {
     return fields.map((f) => `${f}: ${formValues[f] || suggestions[f] || ''}`.trim()).join('\n');
@@ -61,16 +63,6 @@ export default function PromptGeneratorPage() {
     setSuggestions(data as Record<string, string>);
     setFormValues(Object.fromEntries(ordered.map((k) => [k, (data as Record<string, string>)[k] || ''])));
     setIsLoading(false);
-    try {
-      const current = Array.isArray(recentPrompts) ? recentPrompts : [];
-      const next = [input, ...current.filter((p) => p !== input)].slice(0, 10);
-      setRecentPrompts(next);
-      if (typeof window !== 'undefined') {
-        window.localStorage.setItem('recentPrompts', JSON.stringify(next));
-      }
-    } catch (e) {
-      console.error(e);
-    }
   };
 
   const handleChange = (key: string, value: string) => {
@@ -82,34 +74,6 @@ export default function PromptGeneratorPage() {
     setCopied(true);
     setTimeout(() => setCopied(false), 1200);
   };
-
-  useEffect(() => {
-    try {
-      if (typeof window === 'undefined') return;
-      const saved = window.localStorage.getItem('recentPrompts');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed)) setRecentPrompts(parsed);
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  }, []);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  useEffect(() => {
-    try {
-      if (typeof window === 'undefined') return;
-      if (Array.isArray(recentPrompts) && recentPrompts.length > 0) {
-        window.localStorage.setItem('recentPrompts', JSON.stringify(recentPrompts));
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  }, [recentPrompts]);
 
   const webAppSchema = {
     "@context": "https://schema.org",
@@ -230,23 +194,21 @@ export default function PromptGeneratorPage() {
           imagePath={featureImagePath ?? ''}
           altText={featureAltText}
         />
-        {isMounted && (
-          <div className="bg-white rounded-lg shadow p-6 mb-8">
-            <label className="block text-sm font-medium text-gray-700 mb-2">Your idea</label>
-            <textarea
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              className="w-full border border-gray-300 rounded-md p-3 h-32 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Write a LinkedIn post about AI"
-            />
-            <div className="mt-4 flex items-center gap-3">
-              <Button size="lg" onClick={handleGenerate} isLoading={isLoading}>Generate</Button>
-              <span className="text-sm text-gray-600">Framework: {framework}</span>
-            </div>
+        <div className="bg-white rounded-lg shadow p-6 mb-8">
+          <label className="block text-sm font-medium text-gray-700 mb-2">Your idea</label>
+          <textarea
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            className="w-full border border-gray-300 rounded-md p-3 h-32 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Write a LinkedIn post about AI"
+          />
+          <div className="mt-4 flex items-center gap-3">
+            <Button size="lg" onClick={handleGenerate} isLoading={isLoading}>Generate</Button>
+            <span className="text-sm text-gray-600">Framework: {framework}</span>
           </div>
-        )}
+        </div>
 
-        {isMounted && fields.length > 0 && suggestions && Object.keys(suggestions).length > 0 && (
+        {fields.length > 0 && suggestions && Object.keys(suggestions).length > 0 && (
           <div className="bg-white rounded-lg shadow p-6 mb-8">
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">Edit Fields</h2>
             <div className="grid grid-cols-1 gap-6">
@@ -272,7 +234,7 @@ export default function PromptGeneratorPage() {
           </div>
         )}
 
-        {isMounted && fields.length > 0 && (
+        {fields.length > 0 && (
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">Final Output</h2>
             <pre className="bg-gray-50 border border-gray-200 rounded-md p-4 overflow-auto text-sm whitespace-pre-wrap">{finalOutput}</pre>
