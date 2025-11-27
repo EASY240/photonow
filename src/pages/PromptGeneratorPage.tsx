@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { HelpCircle, ClipboardCopy } from 'lucide-react';
 import Button from '../components/ui/Button';
@@ -46,6 +46,28 @@ export default function PromptGeneratorPage() {
   const [copied, setCopied] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [recentPrompts, setRecentPrompts] = useState<string[]>([]);
+  const ideaInputRef = useRef<HTMLTextAreaElement | null>(null);
+  const animateScrollToCenter = (el: HTMLElement, duration = 400) => {
+    const rect = el.getBoundingClientRect();
+    const startY = window.scrollY || window.pageYOffset;
+    const elementCenterY = rect.top + startY + rect.height / 2;
+    const viewportCenterY = startY + window.innerHeight / 2;
+    const targetY = startY + (elementCenterY - viewportCenterY);
+    const maxY = Math.max(0, (document.documentElement.scrollHeight || document.body.scrollHeight) - window.innerHeight);
+    const finalY = Math.max(0, Math.min(targetY, maxY));
+    const start = performance.now();
+    return new Promise<void>((resolve) => {
+      const step = (now: number) => {
+        const t = Math.min(1, (now - start) / duration);
+        const ease = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+        const y = startY + (finalY - startY) * ease;
+        window.scrollTo(0, y);
+        if (t < 1) requestAnimationFrame(step);
+        else resolve();
+      };
+      requestAnimationFrame(step);
+    });
+  };
 
   const finalOutput = useMemo(() => {
     return fields.map((f) => `${f}: ${formValues[f] || suggestions[f] || ''}`.trim()).join('\n');
@@ -235,6 +257,7 @@ export default function PromptGeneratorPage() {
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
+            ref={ideaInputRef}
             className="w-full border border-gray-300 rounded-md p-3 h-32 focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Write a LinkedIn post about AI"
           />
@@ -287,7 +310,18 @@ export default function PromptGeneratorPage() {
               {recentPrompts.map((p, idx) => (
                 <li key={idx} className="flex items-center justify-between">
                   <span className="text-sm text-gray-700 truncate max-w-[70%]">{p}</span>
-                  <Button variant="secondary" onClick={() => setInput(p)}>Use</Button>
+                  <Button
+                    variant="secondary"
+                    onClick={async () => {
+                      setInput(p);
+                      const el = ideaInputRef.current;
+                      if (el) {
+                        await animateScrollToCenter(el, 400);
+                        el.focus();
+                        try { el.setSelectionRange(0, el.value.length); } catch {}
+                      }
+                    }}
+                  >Use</Button>
                 </li>
               ))}
             </ul>

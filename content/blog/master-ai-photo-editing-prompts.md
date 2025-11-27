@@ -82,9 +82,9 @@ faqSchema: {
         <p class="article-intro">AI photo editing tools become more sophisticated, learning how to communicate effectively with these intelligent systems is becoming an essential skill for photographers, designers, and content creators. In this comprehensive guide, we'll explore <strong>how to craft powerful AI photo editing prompts</strong> that will help you achieve remarkable results with ModernPhotoTools' suite of AI-powered editing tools.</p>
         
         <div class="cta-block">
-            <h3 class="cta-block-title">Try Our Free AI Image Generator Tool</h3>
+            <h3 class="cta-block-title">Try Our Free AI Photo Editing Prompts Tool</h3>
             <p class="cta-block-text">The difference between an ordinary AI-generated image and a stunning masterpiece often comes down to one thing: the quality of your prompts.</p>
-            <a href="https://modernphototools.com/tools/ai-image-generator" target="_blank" class="cta-btn cta-btn-large" data-link="true" data-id="1" >AI Photo Editing Prompts</a>
+            <a href="/tools/prompt-generator" target="_blank" class="cta-btn cta-btn-large" data-link="true" data-id="1" >AI Editing Prompts</a>
         </div>
     </div>
 
@@ -595,9 +595,9 @@ faqSchema: {
   <p>With ModernPhotoTools' suite of AI-powered editing tools and the prompt techniques you've learned in this guide, you're well-equipped to transform ordinary photos into extraordinary images. Whether you're enhancing portraits, creating product photography, or generating entirely new visuals, the power of AI is at your fingertips.</p>
 
   <div class="cta-block">
-    <h3 class="cta-block-title">Start Creating Amazing Images Today</h3>
-    <p class="cta-block-text">Put your new prompt skills to work with ModernPhotoTools' powerful AI editing suite.</p>
-    <a href="https://modernphototools.com/tools/ai-image-generator" target="_blank" class="cta-btn cta-btn-large" data-link="true" data-id="36" rel="nofollow">Try AI Image Generator</a>
+    <h3 class="cta-block-title">Start Creating Amazing Prompts Today</h3>
+    <p class="cta-block-text">Put your new prompt skills to work with ModernPhotoTools' powerful AI editing Prompt Generator.</p>
+    <a href="/tools/prompt-generator" target="_blank" class="cta-btn cta-btn-large" data-link="true" data-id="36" rel="nofollow">Try Prompt Generator</a>
   </div>
 </section></div>
    
