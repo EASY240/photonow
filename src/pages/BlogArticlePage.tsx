@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import SEO from '../components/ui/SEO';
+import EzoicAd from '../components/ads/EzoicAd';
 import { getBlogArticleById, BlogArticleWithContent } from '../utils/blogLoader';
 import { getAdjacentArticles } from '../data/blogArticles';
 import ArticleNavigation from '../components/ArticleNavigation';
@@ -138,78 +139,90 @@ const BlogArticlePage: React.FC = () => {
             </Link>
           </nav>
 
-          {/* Article Header */}
-          <article className="max-w-4xl mx-auto">
-            {/* Featured Image */}
-            <div className="h-64 md:h-80 bg-gray-200 rounded-xl mb-8 relative overflow-hidden">
-              <img 
-                src={article.featuredImage} 
-                alt={`Featured image for ${article.title}`} 
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-black bg-opacity-20"></div>
-              <div className="absolute bottom-6 left-6 right-6">
-                <span className="inline-block px-4 py-2 bg-white bg-opacity-90 text-blue-600 text-sm font-medium rounded-full mb-4">
-                  {article.category === 'general' ? 'General' : 'Tools'}
-                </span>
-                <h1 className="text-2xl md:text-3xl font-bold text-white">
-                  {article.title}
-                </h1>
-              </div>
-            </div>
+          <div className="blog-container flex flex-col lg:flex-row gap-8">
+            <main className="flex-1">
+              <EzoicAd placeholderId={101} className="mb-6" />
 
-            {/* Article Meta */}
-            <div className="bg-white rounded-xl shadow-lg p-8">
-              <div className="flex items-center justify-between mb-8 pb-6 border-b border-gray-200">
-                <div className="flex items-center text-sm text-gray-500">
-                  <span>{new Date(article.publishDate).toLocaleDateString('en-US', { 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
-                  })}</span>
-                  <span className="mx-2">•</span>
-                  <span>{article.readTime}</span>
+              <article className="max-w-4xl mx-auto">
+                <div className="h-64 md:h-80 bg-gray-200 rounded-xl mb-8 relative overflow-hidden">
+                  <img 
+                    src={article.featuredImage} 
+                    alt={`Featured image for ${article.title}`} 
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+                  <div className="absolute bottom-6 left-6 right-6">
+                    <span className="inline-block px-4 py-2 bg-white bg-opacity-90 text-blue-600 text-sm font-medium rounded-full mb-4">
+                      {article.category === 'general' ? 'General' : 'Tools'}
+                    </span>
+                    <h1 className="text-2xl md:text-3xl font-bold text-white">
+                      {article.title}
+                    </h1>
+                  </div>
                 </div>
-                
-                <div className="flex items-center space-x-4">
-                  <button className="text-gray-400 hover:text-blue-600 transition-colors duration-300">
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
-                    </svg>
-                  </button>
+
+                <EzoicAd placeholderId={102} className="my-4" />
+
+                <div className="bg-white rounded-xl shadow-lg p-8">
+                  <div className="flex items-center justify-between mb-8 pb-6 border-b border-gray-200">
+                    <div className="flex items-center text-sm text-gray-500">
+                      <span>{new Date(article.publishDate).toLocaleDateString('en-US', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                      })}</span>
+                      <span className="mx-2">•</span>
+                      <span>{article.readTime}</span>
+                    </div>
+                    
+                    <div className="flex items-center space-x-4">
+                      <button className="text-gray-400 hover:text-blue-600 transition-colors duration-300">
+                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="prose prose-lg max-w-none">
+                    {renderContent(article.content)}
+                  </div>
+
+                  <EzoicAd placeholderId={111} className="my-8" />
+
+                  <div className="mt-12 pt-8 border-t border-gray-200">
+                    <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6">
+                      <h3 className="text-xl font-bold text-gray-900 mb-3">
+                        Ready to Try Our AI Tools?
+                      </h3>
+                      <p className="text-gray-600 mb-4">
+                        Transform your photos with our powerful AI-powered editing tools.
+                      </p>
+                      <Link 
+                        to="/tools"
+                        className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105"
+                      >
+                        Explore Tools
+                        <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                      </Link>
+                    </div>
+                  </div>
+
+                  <ArticleNavigation currentArticleId={articleId!} />
+
+                  <EzoicAd placeholderId={103} className="mt-12" />
                 </div>
-              </div>
+              </article>
+            </main>
 
-              {/* Article Content */}
-              <div className="prose prose-lg max-w-none">
-                {renderContent(article.content)}
+            <aside className="w-full lg:w-80">
+              <div className="sticky top-4">
+                <EzoicAd placeholderId={104} />
               </div>
-
-              {/* Call to Action */}
-              <div className="mt-12 pt-8 border-t border-gray-200">
-                <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">
-                    Ready to Try Our AI Tools?
-                  </h3>
-                  <p className="text-gray-600 mb-4">
-                    Transform your photos with our powerful AI-powered editing tools.
-                  </p>
-                  <Link 
-                    to="/tools"
-                    className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105"
-                  >
-                    Explore Tools
-                    <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
-                  </Link>
-                </div>
-              </div>
-
-              {/* Article Navigation */}
-              <ArticleNavigation currentArticleId={articleId!} />
-            </div>
-          </article>
+            </aside>
+          </div>
         </div>
       </div>
     </>
