@@ -100,20 +100,23 @@ app.post('/api/optimize-prompt', async (req, res) => {
     }
     const Bytez = (await import('bytez.js')).default;
     const sdk = new Bytez(process.env.BYTEZ_API_KEY);
-    const model = sdk.model('openai/gpt-4o');
+    const model = sdk.model('Qwen/Qwen3-4B-Instruct-2507');
 
-    let structure = '';
-    if (framework === 'COSTAR') {
-      structure = 'Context, Offer, Style, Target, Action, Result';
-    } else if (framework === 'ICDF') {
-      structure = 'Instruction, Context, Data, Format';
-    } else if (framework === 'RCREOC') {
-      structure = 'Role, Context, Request, Examples, Output, Constraints';
-    } else {
-      structure = 'Message, Intention, Context, Rhythm, Output';
-    }
+    let structure = 'Message, Intention, Context, Rhythm, Output';
+    if (framework === 'COSTAR') structure = 'Context, Offer, Style, Target, Action, Result';
+    if (framework === 'ICDF') structure = 'Instruction, Context, Data, Format';
+    if (framework === 'RCREOC') structure = 'Role, Context, Request, Examples, Output, Constraints';
 
-    const systemInstruction = `You are an expert Prompt Engineer. Your goal is to transform a basic user request into a detailed, professional prompt using the ${framework} framework.\n\nAnalyze the User's Request and generate specific content for these fields: ${structure}.\n\nReturn ONLY a valid JSON object. The keys must be the field names listed above (e.g., "Context", "Offer").\nDo not use markdown code blocks. Just the raw JSON string.`;
+    const systemInstruction = `
+      You are an expert AI Prompt Engineer.
+      Task: Analyze the user's request and generate content for the ${framework || 'MICRO'} framework.
+      
+      Required JSON Fields: ${structure}
+      
+      IMPORTANT: Return ONLY a raw JSON object. Do not use markdown formatting. Do not write explanations.
+      Example Output:
+      { "Message": "...", "Intention": "..." }
+    `;
 
     const { error, output } = await model.run([
       { role: 'system', content: systemInstruction },
