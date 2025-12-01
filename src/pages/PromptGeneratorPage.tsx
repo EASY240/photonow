@@ -224,8 +224,8 @@ export default function PromptGeneratorPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <SEO 
-        title={'AI Prompt Generator'} 
-        description={'Turn a simple idea into a professional AI prompt'}
+        title={'AI Prompt Generator | Modern Photo Tools'} 
+        description={'Create professional AI prompts using MICRO, COSTAR, and ICDF frameworks'}
         ogImage={featureImagePath ? generateOgImageUrl(featureImagePath) : undefined}
         canonicalUrl={generateCanonicalUrl('/tools/prompt-generator')}
       />
@@ -234,100 +234,106 @@ export default function PromptGeneratorPage() {
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
       </Helmet>
 
-      {!isMounted ? (
-        <div className="container mx-auto px-4 py-12 text-center">
-          <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-blue-500 border-t-transparent"></div>
-          <p className="mt-4 text-gray-500">Loading Prompt Tool...</p>
-        </div>
-      ) : (
-        <div className="container mx-auto px-4 py-12">
-          <div className="max-w-3xl mx-auto">
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 text-center">AI Prompt Generator</h1>
-            <ToolFeatureImage 
-              toolId={'prompt-generator'}
-              toolName={'AI Prompt Generator'}
-              imagePath={featureImagePath ?? ''}
-              altText={featureAltText}
-            />
-            <div className="bg-white rounded-lg shadow p-6 mb-8">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Your idea</label>
-              <textarea
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                ref={ideaInputRef}
-                className="w-full border border-gray-300 rounded-md p-3 h-32 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Write a LinkedIn post about AI"
-              />
-              <div className="mt-4 flex items-center gap-3">
-                <Button size="lg" onClick={handleGenerate} isLoading={isLoading}>Generate</Button>
-                <span className="text-sm text-gray-600">Framework: {framework}</span>
-              </div>
-            </div>
+      <div className="container mx-auto px-4 py-12">
+        <div className="max-w-3xl mx-auto">
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 text-center">AI Prompt Generator</h1>
+          <ToolFeatureImage 
+            toolId={'prompt-generator'}
+            toolName={'AI Prompt Generator'}
+            imagePath={featureImagePath ?? ''}
+            altText={featureAltText}
+          />
 
-            {fields.length > 0 && suggestions && Object.keys(suggestions).length > 0 && (
+          <ClientOnly>
+            <div>
               <div className="bg-white rounded-lg shadow p-6 mb-8">
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">Edit Fields</h2>
-                <div className="grid grid-cols-1 gap-6">
-                  {fields.map((key) => (
-                    <div key={key} className="relative">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-sm font-medium text-gray-700">{key}</span>
-                        <div className="group relative inline-block align-middle">
-                          <HelpCircle className="w-4 h-4 text-gray-500" />
-                          <div className="absolute left-6 top-0 z-10 hidden group-hover:block bg-gray-900 text-white text-xs rounded px-2 py-1 max-w-xs">
-                            {getDefinition(key)}
+                <label className="block text-sm font-medium text-gray-700 mb-2">Your idea</label>
+                <textarea
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  ref={ideaInputRef}
+                  className="w-full border border-gray-300 rounded-md p-3 h-32 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Write a LinkedIn post about AI"
+                />
+                <div className="mt-4 flex items-center gap-3">
+                  <Button size="lg" onClick={handleGenerate} isLoading={isLoading}>Generate</Button>
+                  <span className="text-sm text-gray-600">Framework: {framework}</span>
+                </div>
+              </div>
+
+              {fields.length > 0 && suggestions && Object.keys(suggestions).length > 0 && (
+                <div className="bg-white rounded-lg shadow p-6 mb-8">
+                  <h2 className="text-2xl font-semibold text-gray-900 mb-4">Edit Fields</h2>
+                  <div className="grid grid-cols-1 gap-6">
+                    {fields.map((key) => (
+                      <div key={key} className="relative">
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-sm font-medium text-gray-700">{key}</span>
+                          <div className="group relative inline-block align-middle">
+                            <HelpCircle className="w-4 h-4 text-gray-500" />
+                            <div className="absolute left-6 top-0 z-10 hidden group-hover:block bg-gray-900 text-white text-xs rounded px-2 py-1 max-w-xs">
+                              {getDefinition(key)}
+                            </div>
                           </div>
                         </div>
+                        <textarea
+                          value={formValues[key] || ''}
+                          onChange={(e) => handleChange(key, e.target.value)}
+                          className="w-full border border-gray-300 rounded-md p-3 h-24 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
                       </div>
-                      <textarea
-                        value={formValues[key] || ''}
-                        onChange={(e) => handleChange(key, e.target.value)}
-                        className="w-full border border-gray-300 rounded-md p-3 h-24 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      />
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {fields.length > 0 && (
-              <div className="bg-white rounded-lg shadow p-6">
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">Final Output</h2>
-                <pre className="bg-gray-50 border border-gray-200 rounded-md p-4 overflow-auto text-sm whitespace-pre-wrap">{finalOutput}</pre>
-                <div className="mt-4">
-                  <Button variant="secondary" onClick={handleCopy} leftIcon={<ClipboardCopy className="w-4 h-4" />}>{copied ? 'Copied' : 'Copy to Clipboard'}</Button>
+              {fields.length > 0 && (
+                <div className="bg-white rounded-lg shadow p-6">
+                  <h2 className="text-2xl font-semibold text-gray-900 mb-4">Final Output</h2>
+                  <pre className="bg-gray-50 border border-gray-200 rounded-md p-4 overflow-auto text-sm whitespace-pre-wrap">{finalOutput}</pre>
+                  <div className="mt-4">
+                    <Button variant="secondary" onClick={handleCopy} leftIcon={<ClipboardCopy className="w-4 h-4" />}>{copied ? 'Copied' : 'Copy to Clipboard'}</Button>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {isMounted && recentPrompts.length > 0 && (
-              <div className="bg-white rounded-lg shadow p-6 mt-8">
-                <h2 className="text-2xl font-semibold text-gray-900 mb-4">Recent Prompts</h2>
-                <ul className="space-y-3">
-                  {recentPrompts.map((p, idx) => (
-                    <li key={idx} className="flex items-center justify-between">
-                      <span className="text-sm text-gray-700 truncate max-w-[70%]">{p}</span>
-                      <Button
-                        variant="secondary"
-                        onClick={async () => {
-                          setInput(p);
-                          const el = ideaInputRef.current;
-                          if (el) {
-                            await animateScrollToCenter(el, 400);
-                            el.focus();
-                            try { el.setSelectionRange(0, el.value.length); } catch {}
-                          }
-                        }}
-                      >Use</Button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-          <PromptGuideSection />
+              {recentPrompts.length > 0 && (
+                <div className="bg-white rounded-lg shadow p-6 mt-8">
+                  <h2 className="text-2xl font-semibold text-gray-900 mb-4">Recent Prompts</h2>
+                  <ul className="space-y-3">
+                    {recentPrompts.map((p, idx) => (
+                      <li key={idx} className="flex items-center justify-between">
+                        <span className="text-sm text-gray-700 truncate max-w-[70%]">{p}</span>
+                        <Button
+                          variant="secondary"
+                          onClick={async () => {
+                            setInput(p);
+                            const el = ideaInputRef.current;
+                            if (el) {
+                              await animateScrollToCenter(el, 400);
+                              el.focus();
+                              try { el.setSelectionRange(0, el.value.length); } catch {}
+                            }
+                          }}
+                        >Use</Button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </ClientOnly>
         </div>
-      )}
+
+        <PromptGuideSection />
+      </div>
     </div>
   );
+}
+
+function ClientOnly({ children }: { children: React.ReactNode }) {
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => { setIsMounted(true); }, []);
+  if (!isMounted) return null;
+  return <>{children}</>;
 }
