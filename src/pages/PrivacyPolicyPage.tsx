@@ -7,6 +7,7 @@ const PrivacyPolicyPage: React.FC = () => {
       <SEO 
         title="Privacy Policy" 
         description="Learn how ModernPhotoTools.com protects your privacy and handles your data when you use our AI photo editing tools."
+        canonicalUrl="https://modernphototools.com/privacy-policy"
       />
       
       {/* Hero Section */}

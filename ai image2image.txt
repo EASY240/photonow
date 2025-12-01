@@ -1,74 +1,183 @@
-AI Image to Image
-Overview
-Welcome to the LightX AI Image to Image API Documentation. The AI Image to Image API transforms your input images into completely new versions. You can adjust features like style, composition, or details while keeping the original image's key elements intact. It’s perfect for creative projects, marketing visuals, or reimagining photos with a fresh perspective. Discover the Full Guide to Begin!
+The Problem: Screaming Frog sees the exact same MD5 hash for https://modernphototools.com/ and .../tools/prompt-generator because your server is returning the generic index.html shell for all these URLs. Since the JavaScript hasn't run yet in the crawler's view (or the initial HTML is identical), they look like duplicate pages.
 
-note
-In strength, the Higher style strength makes the generated image look more like your imageUrl, reducing the strength makes it appear less similar. In styleStrength, the Higher style strength makes the generated image look more like your styleImageUrl, while lower strength makes it look less similar.
+The Solution: We need to:
 
-AI Image to Image API Rollout
-To access your AI Image to Image API, you need to generate an API key. Visit the LightX API to retrieve your key. Insert your image URL, strength and text prompt or add a style image to generate images. Each generation will cost you 1 credit with the output delivered in JPEG format.
+Fix the React Component: Your PromptGeneratorPage.tsx is missing the SEO meta tags (it likely has Next.js style metadata export which doesn't work in Vite).
 
-note
-Make sure to use the public image URL for the imageUrl and styleImageUrl to prevent any failure status.
+Implement Prerendering: Create a script that generates unique static HTML files for every route (Home, Tools, Prompt Generator) during the build process.
 
-Quick Steps to Generate with Your API
-Going Forward, use cURL along with x-api-key and your API key (as given below) to generate images with AI. Next, proceed to the "Body" tab to configure the request payload according to the required format and input data as required. Finally, click "Send" to submit the request.
+Here is the code to fix this.
 
-cURL
+Step 1: Fix SEO in PromptGeneratorPage.tsx
+Your page component imports SEO but doesn't use it, causing the page to default to the site-wide title (making it a duplicate).
 
-  Method- Post
-curl --location 'https://api.lightxeditor.com/external/api/v1/image2image' \
---header 'Content-Type: application/json' \
---header 'x-api-key: <Insert your API Key>' \
---data '{
-"imageUrl": "https://example.com/your-image.jpg",  // Replace with the URL of your input image
-"strength" : 0.5,  // Keep it between 0.0 to 1
-"textPrompt": "YourInputPrompt",  // Replace with your specific input prompt
-"styleImageUrl": "https://example.com/your-style-image.jpg",  // Replace with the URL of your input style image
-"styleStrength" : 0.9  // Keep it between 0.0 to 1
-}'
+File: src/pages/PromptGeneratorPage.tsx
 
+TypeScript
 
-Once your request is completed, visualize the "Response" to verify that the API call is executed successfully (as given below).
+import React, { useMemo, useState, useEffect, useRef } from 'react';
+import { Helmet } from 'react-helmet-async';
+import { HelpCircle, ClipboardCopy } from 'lucide-react';
+// ... existing imports
+import SEO from '../components/ui/SEO'; // Ensure this is imported
 
-Response
-{
-   "statusCode": 2000,
-   "message": "SUCCESS",
-   "body": {
-       "orderId": "7906da5353b504162db5199d6",
-       "maxRetriesAllowed": 5,
-       "avgResponseTimeInSec": 15,
-       "status": "init"
-   }
+// ... existing code ...
+
+export default function PromptGeneratorPage() {
+  // ... existing state logic ...
+
+  return (
+    <>
+      {/* ADD THIS SEO BLOCK */}
+      <SEO 
+        title="AI Prompt Generator | Create Professional AI Art Prompts"
+        description="Free AI Prompt Generator. Transform simple ideas into professional prompts for Midjourney, ChatGPT, and Stable Diffusion using proven frameworks (ICDF, RCREOC)."
+        keywords={['AI prompt generator', 'prompt engineering', 'Midjourney prompts', 'ChatGPT prompts', 'ICDF framework']}
+        canonicalUrl="https://modernphototools.com/tools/prompt-generator"
+      />
+
+      <div className="container mx-auto px-4 py-12 max-w-6xl">
+        {/* ... existing JSX content ... */}
+        <div className="text-center mb-8">
+           {/* ... */}
+        </div>
+      </div>
+    </>
+  );
+}
+Step 2: Create a Dynamic Prerender Script
+We need a script that finds all your tools and generates static HTML for them. This ensures Screaming Frog sees unique content (H1 tags, specific titles) for every URL.
+
+Create File: scripts/prerender.js
+
+JavaScript
+
+const fs = require('node:fs');
+const path = require('node:path');
+const { fileURLToPath } = require('node:url');
+
+const toAbsolute = (p) => path.resolve(__dirname, '..', p);
+
+// Reuse the logic from your sitemap generator to parse data files
+function parseDataFile(filePath) {
+  try {
+    const content = fs.readFileSync(filePath, 'utf-8');
+    const exportMatch = content.match(/export const (\w+):\s*\w+\[\]\s*=\s*(\[[\s\S]*?\]);/);
+    if (exportMatch) {
+      const [, , arrayContent] = exportMatch;
+      let jsonContent = arrayContent
+        .replace(/'/g, '"')
+        .replace(/(\w+):/g, '"$1":')
+        .replace(/,\s*}/g, '}')
+        .replace(/,\s*]/g, ']');
+      return JSON.parse(jsonContent);
+    }
+    return [];
+  } catch (e) {
+    console.warn(`Warning: Could not parse ${filePath}`);
+    return [];
+  }
 }
 
-orderId: This key is the unique identifier for the order. maxRetriesAllowed: The number of retries a user can attempt when the status is "init". avgResponseTimeInSec: This is the average time the machine can take to generate the output. status: There are three scenarios: "init" = proccessing, "failed" = error.
+async function prerender() {
+  console.log('🚀 Starting Prerendering...');
 
-Once your order Id is generated, input it into the status check system to retrieve and review the results of your API Tool (mentioned below).
+  const template = fs.readFileSync(toAbsolute('dist/index.html'), 'utf-8');
+  const { render } = require(toAbsolute('dist/server/entry-server.js'));
 
-Check Status
-cURL
+  // 1. Define Static Routes
+  const routesToPrerender = [
+    '/',
+    '/tools',
+    '/blog',
+    '/about',
+    '/contact',
+    '/privacy-policy',
+    '/terms-of-use',
+    '/dmca',
+    '/tools/prompt-generator', // Explicitly add your problem page
+    '/tools/watermark-remover' // Explicitly add the other problem page
+  ];
 
-curl --location --request POST 'https://api.lightxeditor.com/external/api/v1/order-status' \
---header 'Content-Type: application/json' \
---header 'x-api-key: <Insert your API Key>' \
---data '{
-"orderId": "insert your Order ID"
-}'
+  // 2. Add Dynamic Tool Routes
+  const tools = parseDataFile(toAbsolute('src/data/tools.ts'));
+  tools.forEach(tool => {
+    if (tool.id) routesToPrerender.push(`/tools/${tool.id}`);
+  });
 
-After hitting orderId as request payload in your check status make sure you make a subsequent API call which means, in every 3 seconds you can hit until you get "status": "active"
+  // 3. Add Dynamic Blog Routes
+  // (Optional: Add logic to read markdown files if you want blog posts pre-rendered too)
 
-note
-The maximum time for receiving output is 15 seconds. You are allowed up to 5 retries for checking the status, with each API call being made every 3 seconds. You need to repeatedly call this API up to 5 times until you receive a status of as active/failed. In case of failed status, no credit will be deducted. When the status is "active," the relevant output will be included in the output attribute of the response.
+  // Filter unique routes
+  const uniqueRoutes = [...new Set(routesToPrerender)];
 
-Output
-{
-   "statusCode": 2000,
-   "message": "SUCCESS",
-   "body": {
-       "orderId": "7906da5353b504162db5199d6",
-       "status": "active",
-       "output": "https://example.com/your-outputimage.jpg"
-   }
+  console.log(`📄 Pre-rendering ${uniqueRoutes.length} pages...`);
+
+  for (const url of uniqueRoutes) {
+    try {
+      const appHtml = await render(url);
+
+      // Replace the root placeholder
+      let html = template.replace(``, appHtml);
+      
+      // Inject unique title/meta (if your render function returns helmet context)
+      // Assuming your entry-server.js handles helmetContext
+      
+      // Determine output path
+      let filePath = `dist${url === '/' ? '/index.html' : url}`;
+      
+      // If path doesn't end in .html, make it a folder with index.html (better for SEO)
+      if (!filePath.endsWith('.html')) {
+          filePath = `${filePath}/index.html`;
+      }
+
+      const dir = path.dirname(toAbsolute(filePath));
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+
+      fs.writeFileSync(toAbsolute(filePath), html);
+      console.log(`✅ Generated: ${filePath}`);
+    } catch (e) {
+      console.error(`❌ Failed to render ${url}:`, e);
+    }
+  }
+}
+
+prerender();
+Step 3: Update Build Configuration
+Ensure your entry-server.tsx (or .js) correctly extracts the Helmet data so the <title> tag actually changes in the static HTML.
+
+File: src/entry-server.tsx (Verify this structure exists)
+
+TypeScript
+
+import React from 'react'
+import ReactDOMServer from 'react-dom/server'
+import { StaticRouter } from 'react-router-dom/server'
+import { HelmetProvider } from 'react-helmet-async'
+import App from './App'
+
+export function render(url: string) {
+  const helmetContext = {}
+  
+  const html = ReactDOMServer.renderToString(
+    <React.StrictMode>
+      <HelmetProvider context={helmetContext}>
+        <StaticRouter location={url}>
+          <App />
+        </StaticRouter>
+      </HelmetProvider>
+    </React.StrictMode>
+  )
+
+  // IMPORTANT: You must return the helmet data to inject into the HTML template
+  const { helmet } = helmetContext as any;
+  
+  // You might need to modify the prerender script to accept this object 
+  // and replace in index.html if you have it.
+  // For now, standard hydration usually grabs it, but for SEO, 
+  // ensure your index.html has placeholders or use a transform in vite.
+  
+  return html
 }
