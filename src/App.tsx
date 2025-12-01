@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/layout/Header';
 import EzoicAd from './components/ads/EzoicAd';
@@ -20,17 +20,11 @@ import DMCAPage from './pages/DMCAPage';
 import CookiesPolicyPage from './pages/CookiesPolicyPage';
 
 function App() {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
       <div className="container mx-auto px-4">
-        {isMounted && <EzoicAd placeholderId={101} className="my-4" />}
+        <EzoicAd placeholderId={101} className="my-4" />
       </div>
       <Breadcrumbs />
       <main className="flex-grow">
