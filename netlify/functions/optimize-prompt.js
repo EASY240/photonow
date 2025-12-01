@@ -56,6 +56,14 @@ export async function handler(event) {
 
     return { statusCode: 200, body: JSON.stringify({ success: true, data: parsed }) };
   } catch (e) {
-    return { statusCode: 500, body: JSON.stringify({ error: e.message }) };
+    console.error("CRITICAL FUNCTION ERROR:", e);
+    return {
+      statusCode: 200,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        success: false,
+        error: `Server Error: ${e && e.message ? e.message : 'Unknown error'}`
+      })
+    };
   }
 }

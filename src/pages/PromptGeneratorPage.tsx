@@ -234,17 +234,10 @@ export default function PromptGeneratorPage() {
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
       </Helmet>
 
-      {!isMounted ? (
-        <div className="min-h-screen bg-gray-50">
-          <div className="container mx-auto px-4 py-12 text-center">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-blue-500 border-t-transparent"></div>
-            <p className="mt-4 text-gray-500">Loading Prompt Tool...</p>
-          </div>
-        </div>
-      ) : (
-        <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-12">
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 text-center">AI Prompt Generator</h1>
+        <ClientOnly>
           <div className="max-w-3xl mx-auto">
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 text-center">AI Prompt Generator</h1>
             <ToolFeatureImage 
               toolId={'prompt-generator'}
               toolName={'AI Prompt Generator'}
@@ -302,7 +295,7 @@ export default function PromptGeneratorPage() {
               </div>
             )}
 
-            {isMounted && recentPrompts.length > 0 && (
+            {recentPrompts.length > 0 && (
               <div className="bg-white rounded-lg shadow p-6 mt-8">
                 <h2 className="text-2xl font-semibold text-gray-900 mb-4">Recent Prompts</h2>
                 <ul className="space-y-3">
@@ -327,9 +320,16 @@ export default function PromptGeneratorPage() {
               </div>
             )}
           </div>
-          <PromptGuideSection />
-        </div>
-      )}
+        </ClientOnly>
+        <PromptGuideSection />
+      </div>
     </>
   );
+}
+
+function ClientOnly({ children }: { children: React.ReactNode }) {
+  const [hasMounted, setHasMounted] = React.useState(false);
+  React.useEffect(() => { setHasMounted(true); }, []);
+  if (!hasMounted) return null;
+  return <>{children}</>;
 }
