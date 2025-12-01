@@ -27,7 +27,7 @@ const HomePage: React.FC = () => {
 
   return (
     <>
-      <SEO canonicalUrl="https://modernphototools.com/" />
+      <SEO />
       
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-50 to-indigo-50 py-16 md:py-24">

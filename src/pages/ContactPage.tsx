@@ -78,7 +78,6 @@ const ContactPage: React.FC = () => {
       <SEO 
         title="Contact Us" 
         description="Have questions or feedback? Contact the ModernPhotoTools.com team. We're here to help with any inquiries about our AI photo editing tools."
-        canonicalUrl="https://modernphototools.com/contact"
       />
       
       <div className="container mx-auto px-4 py-12">

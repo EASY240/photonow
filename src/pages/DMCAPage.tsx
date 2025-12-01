@@ -7,7 +7,6 @@ const DMCAPage: React.FC = () => {
       <SEO 
         title="DMCA Notice" 
         description="Digital Millennium Copyright Act (DMCA) notice and takedown policy for ModernPhotoTools.com."
-        canonicalUrl="https://modernphototools.com/dmca"
       />
 
       {/* Hero Section */}

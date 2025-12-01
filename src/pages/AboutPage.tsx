@@ -9,7 +9,6 @@ const AboutPage: React.FC = () => {
       <SEO 
         title="About Us" 
         description="Learn about ModernPhotoTools.com, our mission, and how we're making professional photo editing accessible to everyone with AI-powered tools."
-        canonicalUrl="https://modernphototools.com/about"
       />
       
       {/* Hero Section */}

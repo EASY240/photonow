@@ -11,7 +11,6 @@ const ToolsPage: React.FC = () => {
       <SEO 
         title="All Photo Editing Tools" 
         description="Explore our complete collection of AI-powered photo editing tools. Transform, enhance, and perfect your images with professional results in seconds."
-        canonicalUrl="https://modernphototools.com/tools"
       />
       
       <div className="min-h-screen bg-gray-50 py-12 px-[10%]">

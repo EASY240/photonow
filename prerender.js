@@ -25,8 +25,7 @@ const toolPages = [
   '/tools/ai-sketch-to-image',
   '/tools/ai-hairstyle',
   '/tools/ai-image-upscaler',
-  '/tools/ai-filter',
-  '/tools/prompt-generator'
+  '/tools/ai-filter'
 ];
 
 // Blog pages (based on blogArticles data)
@@ -52,23 +51,22 @@ console.log('Discovered routes to prerender:', allRoutes);
 
 (async () => {
   for (const routeUrl of allRoutes) {
-    const { appHtml, head } = render(routeUrl, {});
-    let html = template.replace(`<!--app-html-->`, appHtml);
-    if (head && head.trim()) {
-      html = html.replace('</head>', `${head}\n</head>`);
-    }
+    const appHtml = render(routeUrl, {});
+    const html = template.replace(`<!--app-html-->`, appHtml);
 
     let filePath = `dist${routeUrl}`;
     if (routeUrl.endsWith('/')) {
-      filePath += 'index.html';
+        filePath += 'index.html';
     } else {
-      filePath = `${filePath}/index.html`;
+        // Handle routes like /tools/ai-avatar
+        filePath += '.html';
     }
 
     const dir = path.dirname(filePath);
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
     }
+    
     fs.writeFileSync(toAbsolute(filePath), html);
     console.log(`Pre-rendered: ${filePath}`);
   }
