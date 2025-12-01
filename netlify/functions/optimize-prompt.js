@@ -19,10 +19,13 @@ export async function handler(event) {
     if (framework === 'RCREOC') structure = 'Role, Context, Request, Examples, Output, Constraints';
 
     const systemInstruction = `
-      Task: Expand the user request into a prompt using these fields: ${structure}.
+      You are an expert AI Prompt Engineer.
+      Task: Analyze the user's request and generate content for the ${framework || 'MICRO'} framework.
+      Required JSON Fields: ${structure}
       
-      IMPORTANT: Output ONLY valid JSON. No text. No markdown.
-      Example: {"Message": "content", "Intention": "goal"}
+      IMPORTANT: Return ONLY a raw JSON object. Do not use markdown formatting. Do not write explanations.
+      Example Output:
+      { "Message": "...", "Intention": "..." }
     `;
 
     const { error, output } = await model.run([
@@ -44,7 +47,11 @@ export async function handler(event) {
 
     const cleanJson = String(raw).replace(/```json/g, '').replace(/```/g, '').trim();
     const jsonMatch = cleanJson.match(/\{[\s\S]*\}/);
-    const finalJson = jsonMatch ? jsonMatch[0] : cleanJson;
+    if (!jsonMatch) {
+      console.error("Invalid AI Output:", raw);
+      throw new Error("AI did not return a valid JSON object");
+    }
+    const finalJson = jsonMatch[0];
     let parsed = JSON.parse(finalJson);
     if (parsed && typeof parsed === 'object' && typeof parsed.content === 'string') {
       try {
@@ -54,13 +61,12 @@ export async function handler(event) {
 
     return { statusCode: 200, body: JSON.stringify({ success: true, data: parsed }) };
   } catch (e) {
-    console.error("CRITICAL FUNCTION ERROR:", e);
+    console.error("Optimization Error:", e);
     return {
-      statusCode: 200,
+      statusCode: 500,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        success: false,
-        error: `Server Error: ${e && e.message ? e.message : 'Unknown error'}`
+        error: e && e.message ? e.message : 'Failed to generate prompt'
       })
     };
   }

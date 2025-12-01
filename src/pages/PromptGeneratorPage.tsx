@@ -76,27 +76,41 @@ export default function PromptGeneratorPage() {
   const handleGenerate = async () => {
     if (!input.trim()) return;
     setIsLoading(true);
-    const detected = analyzePromptIntent(input);
-    setFramework(detected);
-    const res = await fetchOptimizedPrompt(input, detected);
-    const data = res && res.data ? res.data : {};
-    const keys = Object.keys(data);
-    const frameworkObj = FRAMEWORKS[detected as keyof typeof FRAMEWORKS];
-    const ordered = frameworkObj ? frameworkObj.fields : keys;
-    setFields(ordered);
-    setSuggestions(data as Record<string, string>);
-    setFormValues(Object.fromEntries(ordered.map((k) => [k, (data as Record<string, string>)[k] || ''])));
-    setIsLoading(false);
-    const trimmed = input.trim();
-    setRecentPrompts((prev) => {
-      const next = [trimmed, ...prev.filter((p) => p !== trimmed)].slice(0, 10);
-      try {
-        if (typeof window !== 'undefined') {
-          window.localStorage.setItem('recentPrompts', JSON.stringify(next));
-        }
-      } catch {}
-      return next;
-    });
+    try {
+      const detected = analyzePromptIntent(input);
+      setFramework(detected);
+      const res = await fetchOptimizedPrompt(input, detected);
+      if ((res as any)?.error) {
+        alert(`Error: ${(res as any).error}`);
+        return;
+      }
+      const data = res && (res as any).data ? (res as any).data : {};
+      if (Object.keys(data).length === 0) {
+        alert('The AI returned an empty response. Please try again with a more specific prompt.');
+        return;
+      }
+      const keys = Object.keys(data);
+      const frameworkObj = FRAMEWORKS[detected as keyof typeof FRAMEWORKS];
+      const ordered = frameworkObj ? frameworkObj.fields : keys;
+      setFields(ordered);
+      setSuggestions(data as Record<string, string>);
+      setFormValues(Object.fromEntries(ordered.map((k) => [k, (data as Record<string, string>)[k] || ''])));
+      const trimmed = input.trim();
+      setRecentPrompts((prev) => {
+        const next = [trimmed, ...prev.filter((p) => p !== trimmed)].slice(0, 10);
+        try {
+          if (typeof window !== 'undefined') {
+            window.localStorage.setItem('recentPrompts', JSON.stringify(next));
+          }
+        } catch {}
+        return next;
+      });
+    } catch (err) {
+      console.error(err);
+      alert('An unexpected error occurred. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (key: string, value: string) => {
