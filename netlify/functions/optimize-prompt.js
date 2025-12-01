@@ -21,6 +21,7 @@ export async function handler(event) {
     const systemInstruction = `
       You are an expert AI Prompt Engineer.
       Task: Analyze the user's request and generate content for the ${framework || 'MICRO'} framework.
+      
       Required JSON Fields: ${structure}
       
       IMPORTANT: Return ONLY a raw JSON object. Do not use markdown formatting. Do not write explanations.
@@ -46,13 +47,7 @@ export async function handler(event) {
               : JSON.stringify(output)));
 
     const cleanJson = String(raw).replace(/```json/g, '').replace(/```/g, '').trim();
-    const jsonMatch = cleanJson.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      console.error("Invalid AI Output:", raw);
-      throw new Error("AI did not return a valid JSON object");
-    }
-    const finalJson = jsonMatch[0];
-    let parsed = JSON.parse(finalJson);
+    let parsed = JSON.parse(cleanJson);
     if (parsed && typeof parsed === 'object' && typeof parsed.content === 'string') {
       try {
         parsed = JSON.parse(parsed.content);
@@ -61,12 +56,13 @@ export async function handler(event) {
 
     return { statusCode: 200, body: JSON.stringify({ success: true, data: parsed }) };
   } catch (e) {
-    console.error("Optimization Error:", e);
+    console.error("CRITICAL FUNCTION ERROR:", e);
     return {
-      statusCode: 500,
+      statusCode: 200,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        error: e && e.message ? e.message : 'Failed to generate prompt'
+        success: false,
+        error: `Server Error: ${e && e.message ? e.message : 'Unknown error'}`
       })
     };
   }
