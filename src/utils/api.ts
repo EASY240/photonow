@@ -40,12 +40,16 @@ export async function convertUrlToBlob(url: string): Promise<Blob> {
 
 export async function fetchOptimizedPrompt(basePrompt: string, framework: string) {
   const { baseUrl } = getEnvironmentConfig();
+  const reqId = (typeof crypto !== 'undefined' && 'randomUUID' in crypto) ? crypto.randomUUID() : (Date.now().toString(36) + Math.random().toString(36).slice(2));
+  debugLog('optimize-prompt:client:request', { reqId, baseUrl, payloadLen: basePrompt.length, framework });
   const res = await fetch(`${baseUrl}/api/optimize-prompt`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', 'X-Request-Id': reqId, 'X-Debug': DEBUG_MODE ? '1' : '0' },
     body: JSON.stringify({ basePrompt, framework })
   });
-  return await res.json();
+  const json = await res.json();
+  debugLog('optimize-prompt:client:response', { reqId, ok: res.ok, status: res.status, hasData: !!(json && json.data), keys: json && json.data && typeof json.data === 'object' ? Object.keys(json.data).length : 0, meta: json && json.meta });
+  return json;
 }
 
 // AI Cleanup V2 API Functions
