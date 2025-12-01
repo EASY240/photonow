@@ -11,7 +11,7 @@ export async function handler(event) {
     }
 
     const sdk = new Bytez(process.env.BYTEZ_API_KEY);
-    const model = sdk.model('Qwen/Qwen3-4B-Instruct-2507');
+    const model = sdk.model('Qwen/Qwen3-0.6B');
 
     let structure = 'Message, Intention, Context, Rhythm, Output';
     if (framework === 'COSTAR') structure = 'Context, Offer, Style, Target, Action, Result';
@@ -19,14 +19,10 @@ export async function handler(event) {
     if (framework === 'RCREOC') structure = 'Role, Context, Request, Examples, Output, Constraints';
 
     const systemInstruction = `
-      You are an expert AI Prompt Engineer.
-      Task: Analyze the user's request and generate content for the ${framework || 'MICRO'} framework.
+      Task: Expand the user request into a prompt using these fields: ${structure}.
       
-      Required JSON Fields: ${structure}
-      
-      IMPORTANT: Return ONLY a raw JSON object. Do not use markdown formatting. Do not write explanations.
-      Example Output:
-      { "Message": "...", "Intention": "..." }
+      IMPORTANT: Output ONLY valid JSON. No text. No markdown.
+      Example: {"Message": "content", "Intention": "goal"}
     `;
 
     const { error, output } = await model.run([
@@ -47,7 +43,9 @@ export async function handler(event) {
               : JSON.stringify(output)));
 
     const cleanJson = String(raw).replace(/```json/g, '').replace(/```/g, '').trim();
-    let parsed = JSON.parse(cleanJson);
+    const jsonMatch = cleanJson.match(/\{[\s\S]*\}/);
+    const finalJson = jsonMatch ? jsonMatch[0] : cleanJson;
+    let parsed = JSON.parse(finalJson);
     if (parsed && typeof parsed === 'object' && typeof parsed.content === 'string') {
       try {
         parsed = JSON.parse(parsed.content);
