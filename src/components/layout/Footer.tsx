@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Image } from 'lucide-react';
-import EzoicAd from '../ads/EzoicAd';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -9,9 +8,6 @@ const Footer: React.FC = () => {
   return (
     <footer className="bg-gray-100 pt-12 pb-8">
       <div className="container mx-auto px-4">
-        <div className="w-full flex justify-center mb-8">
-          <EzoicAd placeholderId={103} />
-        </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1">
             <Link to="/" className="flex items-center space-x-2 mb-4">

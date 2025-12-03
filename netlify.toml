@@ -8,11 +8,6 @@
   directory = "netlify/functions"
   external_node_modules = ["bytez.js", "undici"]
 
-[[redirects]]
-  from = "/ads.txt"
-  to = "https://srv.adstxtmanager.com/19390/modernphototools.com"
-  status = 301
-  force = true
 
 [[redirects]]
   from = "/api/*"

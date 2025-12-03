@@ -8,7 +8,6 @@ import ImageDropzone from '../components/ui/ImageDropzone';
 import PromptsGuide from '../components/ui/PromptsGuide';
 import ToolRecommendations from '../components/ui/ToolRecommendations';
 import ToolFeatureImage from '../components/ui/ToolFeatureImage';
-import EzoicAd from '../components/ads/EzoicAd';
 import { tools } from '../data/tools';
 import { findToolImage, generateAltText } from '../utils/imageMapper';
 import { processImage, uploadImageAndGetUrl, startCleanupJob, startWatermarkRemoverJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, startProductPhotoshootJob, startBackgroundGeneratorJob, startImageGeneratorJob, startPortraitJob, startFaceSwapJob, startOutfitJob, startImageToImageJob, startSketchToImageJob, startHairstyleJob, startUpscaleJob, startAIFilterJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete, pollWatermarkJobUntilComplete, pollV1JobUntilComplete } from '../utils/api';
@@ -1692,9 +1691,6 @@ const handleAIImageToImageGenerate = async () => {
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               {tool.name}
             </h1>
-            <div className="my-4 text-center">
-              <EzoicAd placeholderId={102} />
-            </div>
             
             {/* Tool Feature Image */}
             <ToolFeatureImage 
@@ -1878,10 +1874,6 @@ const handleAIImageToImageGenerate = async () => {
               <PromptsGuide />
             </div>
           )}
-
-          <div className="my-8 text-center">
-            <EzoicAd placeholderId={111} />
-          </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-6">
@@ -3571,10 +3563,6 @@ const handleAIImageToImageGenerate = async () => {
             currentToolId={tool.id} 
             hasResult={!!processedImage.url} 
           />
-
-          <div className="mt-12 text-center">
-            <EzoicAd placeholderId={103} />
-          </div>
           
           <div className="mt-12 bg-gray-50 rounded-lg p-6">
             <h2 className="text-xl font-semibold mb-4">About {tool.name}</h2>

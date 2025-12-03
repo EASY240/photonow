@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import SEO from '../components/ui/SEO';
-import EzoicAd from '../components/ads/EzoicAd';
 import { getBlogArticleById, BlogArticleWithContent } from '../utils/blogLoader';
 import { getAdjacentArticles } from '../data/blogArticles';
 import ArticleNavigation from '../components/ArticleNavigation';
@@ -139,10 +138,6 @@ const BlogArticlePage: React.FC = () => {
             </Link>
           </nav>
 
-          <div className="blog-container flex flex-col lg:flex-row gap-8">
-            <main className="flex-1">
-              <EzoicAd placeholderId={101} className="mb-6" />
-
               <article className="max-w-4xl mx-auto">
                 <div className="h-64 md:h-80 bg-gray-200 rounded-xl mb-8 relative overflow-hidden">
                   <img 
@@ -160,8 +155,6 @@ const BlogArticlePage: React.FC = () => {
                     </h1>
                   </div>
                 </div>
-
-                <EzoicAd placeholderId={102} className="my-4" />
 
                 <div className="bg-white rounded-xl shadow-lg p-8">
                   <div className="flex items-center justify-between mb-8 pb-6 border-b border-gray-200">
@@ -188,8 +181,6 @@ const BlogArticlePage: React.FC = () => {
                     {renderContent(article.content)}
                   </div>
 
-                  <EzoicAd placeholderId={111} className="my-8" />
-
                   <div className="mt-12 pt-8 border-t border-gray-200">
                     <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6">
                       <h3 className="text-xl font-bold text-gray-900 mb-3">
@@ -212,17 +203,9 @@ const BlogArticlePage: React.FC = () => {
 
                   <ArticleNavigation currentArticleId={articleId!} />
 
-                  <EzoicAd placeholderId={103} className="mt-12" />
                 </div>
               </article>
-            </main>
-
-            <aside className="w-full lg:w-80">
-              <div className="sticky top-4">
-                <EzoicAd placeholderId={104} />
-              </div>
-            </aside>
-          </div>
+            
         </div>
       </div>
     </>

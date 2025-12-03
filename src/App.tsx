@@ -1,7 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/layout/Header';
-import EzoicAd from './components/ads/EzoicAd';
 import Footer from './components/layout/Footer';
 import ShareButtons from './components/ui/ShareButtons';
 import { Breadcrumbs } from './components/Breadcrumbs';
@@ -23,9 +22,6 @@ function App() {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      <div className="container mx-auto px-4">
-        <EzoicAd placeholderId={101} className="my-4" />
-      </div>
       <Breadcrumbs />
       <main className="flex-grow">
         <Routes>
