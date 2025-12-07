@@ -35,7 +35,8 @@ const blogPages = [
   '/blog/best-ai-headshot-generators',
   '/blog/ai-avatar-creation-guide',
   '/blog/professional-headshots-ai',
-  '/blog/ai-cartoon-photo-effects'
+  '/blog/ai-cartoon-photo-effects',
+  '/blog/best-ai-logo-prompts'
 ];
 // --- END: Static Route Generation ---
 

@@ -14,6 +14,17 @@ export interface BlogArticle {
 // Blog article metadata index - content is now loaded from individual Markdown files
 export const blogArticleIndex = [
   {
+    id: 'best-ai-logo-prompts',
+    title: 'Best AI Logo Prompts: 25+ Examples to Create Stunning Brands in Seconds',
+    excerpt: 'Stop wasting credits on bad images. Copy these 25+ professional AI logo prompts for Midjourney, DALL-E, and Flux. Covers Minimalist, 3D, Vintage, and more.',
+    publishDate: '2025-12-08',
+    readTime: '6 min read',
+    category: 'general' as const,
+    featuredImage: '/images/blog/best ai logo prompts 25 ex.webp',
+    relatedTool: 'prompt-generator',
+    keywords: ['ai logo prompts', 'midjourney logo design', 'best ai prompts', 'vector logo prompts', 'logo design ideas']
+  },
+  {
     id: 'free-watermark-remover-easy-ai-tool-for-perfect-results',
     title: 'Free Watermark Remover: Easy AI Tool for Perfect Results',
     excerpt: 'Remove watermarks from photos and TikTok videos with our free watermark remover. Our AI-powered tool preserves image quality while eliminating logos, text, and watermarks in seconds.',
