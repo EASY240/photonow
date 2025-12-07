@@ -1,5 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
+const matter = require('gray-matter');
 const { SitemapGenerator } = require('../generate-sitemap.cjs');
 
 class SitemapValidator {
@@ -142,15 +143,22 @@ class SitemapValidator {
       const blogDir = path.resolve('./content/blog');
       const files = fs.readdirSync(blogDir).filter(file => file.endsWith('.md'));
       const urls = this.extractURLs();
-      
+      const base = 'https://modernphototools.com/blog/';
+
       const missingArticles = [];
-      
+
       for (const file of files) {
-        const articleId = file.replace('.md', '');
-        const expectedUrl = `https://modernphototools.com/blog/${articleId}`;
-        
-        if (!urls.includes(expectedUrl)) {
-          missingArticles.push(articleId);
+        const filePath = path.join(blogDir, file);
+        const raw = fs.readFileSync(filePath, 'utf8');
+        const { data } = matter(raw);
+
+        const filenameId = file.replace('.md', '');
+        const frontmatterId = (data && data.id) ? String(data.id).trim() : filenameId;
+
+        const expectedUrlById = `${base}${frontmatterId}`;
+
+        if (!urls.includes(expectedUrlById)) {
+          missingArticles.push(filenameId);
         }
       }
 

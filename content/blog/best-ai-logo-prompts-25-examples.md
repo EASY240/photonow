@@ -120,7 +120,7 @@ relatedTool: prompt-generator
       <code>A modern lettermark logo for the letter 'M'. Bold sans‑serif typography, incorporating a lightning bolt into the negative space. Black and yellow color scheme. Vector style.</code>
     </div>
     <div class="img-container">
-      <img src="/public/images/blog/before&after logo prompt SaaS-Tech.jpg" alt="Before/After minimalist SaaS/Tech logo transformation">
+      <img src="/images/blog/before&after logo prompt SaaS-Tech.jpg" alt="Before/After minimalist SaaS/Tech logo transformation">
     </div>
   </section>
 
@@ -137,7 +137,7 @@ relatedTool: prompt-generator
       <code>A futuristic 3D logo of a shield. Glassmorphism style, translucent frosted glass texture, glowing neon edges. Cyberpunk aesthetic. Dark background to highlight the glow.</code>
     </div>
     <div class="img-container">
-      <img src="/public/images/blog/before&after logo prompt Shop.jpg" alt="Before/After 3D shop bag logo transformation">
+      <img src="/images/blog/before&after logo prompt Shop.jpg" alt="Before/After 3D shop bag logo transformation">
     </div>
   </section>
 
@@ -154,7 +154,7 @@ relatedTool: prompt-generator
       <code>A retro outdoor adventure logo patch. Illustration of a mountain peak at sunset. 1970s national park poster style. Distressed texture, bold vector lines.</code>
     </div>
     <div class="img-container">
-      <img src="/public/images/blog/before&after logo prompt local bussiness.jpg" alt="Before/After vintage local business badge transformation">
+      <img src="/images/blog/before&after logo prompt local bussiness.jpg" alt="Before/After vintage local business badge transformation">
     </div>
   </section>
 

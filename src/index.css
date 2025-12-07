@@ -94,6 +94,32 @@
   margin: 30px 0;
 }
 
+/* Mobile-first horizontal scroll for 3-card rows */
+.article-content .three-columns {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 85%;
+  gap: 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 8px;
+}
+
+.article-content .three-columns .column-card {
+  scroll-snap-align: start;
+}
+
+@media (min-width: 900px) {
+  .article-content .three-columns {
+    grid-auto-flow: initial;
+    grid-auto-columns: initial;
+    grid-template-columns: repeat(3, 1fr);
+    overflow: visible;
+    scroll-snap-type: none;
+  }
+}
+
 @media (max-width: 768px) {
   .article-content .two-columns {
     grid-template-columns: 1fr;
@@ -163,6 +189,7 @@
 
 .article-content .table-container {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   margin: 30px 0;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -418,24 +445,24 @@
   --rating: 4.6;
 }
 
-/* Responsive table mobile styles */
+/* Responsive table mobile styles (only for tables with labels) */
 @media (max-width: 768px) {
-  .article-content .responsive-table,
-  .article-content .responsive-table thead,
-  .article-content .responsive-table tbody,
-  .article-content .responsive-table th,
-  .article-content .responsive-table td,
-  .article-content .responsive-table tr {
+  .article-content .responsive-table.has-row-labels,
+  .article-content .responsive-table.has-row-labels thead,
+  .article-content .responsive-table.has-row-labels tbody,
+  .article-content .responsive-table.has-row-labels th,
+  .article-content .responsive-table.has-row-labels td,
+  .article-content .responsive-table.has-row-labels tr {
     display: block;
   }
 
-  .article-content .responsive-table thead tr {
+  .article-content .responsive-table.has-row-labels thead tr {
     position: absolute;
     top: -9999px;
     left: -9999px;
   }
 
-  .article-content .responsive-table tr {
+  .article-content .responsive-table.has-row-labels tr {
     border: 1px solid #ccc;
     margin-bottom: 10px;
     padding: 10px;
@@ -443,25 +470,36 @@
     background: white;
   }
 
-  .article-content .responsive-table td {
+  .article-content .responsive-table.has-row-labels td {
     border: none;
     border-bottom: 1px solid #eee;
     position: relative;
-    padding-left: 50% !important;
+    padding-left: max(120px, 50%) !important;
     padding-top: 10px;
     padding-bottom: 10px;
   }
 
-  .article-content .responsive-table td:before {
+  .article-content .responsive-table.has-row-labels td[data-label]:before {
     content: attr(data-label) ": ";
     position: absolute;
     left: 6px;
-    width: 45%;
+    min-width: 120px;
+    width: max(110px, 45%);
     padding-right: 10px;
-    white-space: nowrap;
+    white-space: normal;
     font-weight: bold;
     color: #3498db;
   }
+}
+
+/* For tables without row labels, keep horizontal scroll */
+.article-content .responsive-table:not(.has-row-labels) {
+  min-width: 600px;
+}
+
+.article-content .responsive-table:not(.has-row-labels) th,
+.article-content .responsive-table:not(.has-row-labels) td {
+  min-width: 120px;
 }
 
 .article-content .rating-stars[data-rating="4.5"] {

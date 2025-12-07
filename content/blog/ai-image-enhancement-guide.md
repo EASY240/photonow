@@ -219,7 +219,7 @@ faqSchema: {
         <p>Not all AI image enhancers are created equal. Different tools use various approaches and algorithms, each with their own strengths. Let's compare some of the leading approaches to AI image enhancement:</p>
 
         <div class="table-container">
-            <table class="responsive-table">
+            <table class="responsive-table has-row-labels">
                 <thead>
                     <tr>
                         <th>Enhancement Approach</th>

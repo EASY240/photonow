@@ -15,14 +15,25 @@ export interface BlogArticle {
 export const blogArticleIndex = [
   {
     id: 'best-ai-logo-prompts',
-    title: 'Best AI Logo Prompts: 25+ Examples to Create Stunning Brands in Seconds',
-    excerpt: 'Stop wasting credits on bad images. Copy these 25+ professional AI logo prompts for Midjourney, DALL-E, and Flux. Covers Minimalist, 3D, Vintage, and more.',
+    title: 'Best AI Logo Prompts: 10+ Examples to Create Stunning Brands in Seconds',
+    excerpt: 'Stop wasting credits on bad images. Copy these 10+ professional AI logo prompts for Midjourney, DALL-E, and Flux. Covers Minimalist, 3D, Vintage, and more.',
     publishDate: '2025-12-08',
     readTime: '6 min read',
     category: 'general' as const,
     featuredImage: '/images/blog/best ai logo prompts 25 ex.webp',
     relatedTool: 'prompt-generator',
     keywords: ['ai logo prompts', 'midjourney logo design', 'best ai prompts', 'vector logo prompts', 'logo design ideas']
+  },
+  {
+    id: 'nano-banana-3d-caricature-easy',
+    title: 'How to Create Nano Banana 3D Caricatures Instantly | Modern Photo Tools',
+    excerpt: 'Skip complex prompts. Use our AI tools to get the viral Nano Banana 3D look in seconds, plus the full Gemini method for advanced users.',
+    publishDate: '2025-12-07',
+    readTime: '5 min read',
+    category: 'tools' as const,
+    featuredImage: '/images/blog/nano-banana-3d-caricature-easy.jpeg',
+    relatedTool: 'ai-caricature',
+    keywords: ['Nano Banana 3D', 'AI Caricature', 'AI Cartoon', '3D Avatar', 'AI Image Upscaler']
   },
   {
     id: 'free-watermark-remover-easy-ai-tool-for-perfect-results',

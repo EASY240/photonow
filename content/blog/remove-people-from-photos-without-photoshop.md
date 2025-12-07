@@ -185,7 +185,7 @@ table-of-contents: [
   <p>While there are several options for removing people from photos without Photoshop, not all solutions are created equal. We've analyzed the top alternatives to show you why Modern Photo Tools offers superior results.</p>
 
   <div class="table-container">
-    <table class="responsive-table responsive-table-striped">
+    <table class="responsive-table responsive-table-striped has-row-labels">
       <thead>
         <tr>
           <th>Feature</th>

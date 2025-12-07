@@ -236,7 +236,7 @@ metaDescription: "Learn how to create professional product photos with AI using 
   <section id="comparison">
     <h2>AI vs. Traditional Product Photography</h2>
     <div class="table-container">
-      <table class="responsive-table responsive-table-striped">
+      <table class="responsive-table responsive-table-striped has-row-labels">
         <thead>
           <tr>
             <td data-row="head">Feature</td>

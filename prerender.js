@@ -36,7 +36,8 @@ const blogPages = [
   '/blog/ai-avatar-creation-guide',
   '/blog/professional-headshots-ai',
   '/blog/ai-cartoon-photo-effects',
-  '/blog/best-ai-logo-prompts'
+  '/blog/best-ai-logo-prompts', 
+  '/blog/nano-banana-3d-caricature-easy'
 ];
 // --- END: Static Route Generation ---
 
