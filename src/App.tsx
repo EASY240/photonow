@@ -12,7 +12,7 @@ import ContactPage from './pages/ContactPage';
 import NotFoundPage from './pages/NotFoundPage';
 import BlogPage from './pages/BlogPage';
 import BlogArticlePage from './pages/BlogArticlePage';
-import PromptGeneratorPage from './pages/PromptGeneratorPage';
+const PromptGeneratorPage = React.lazy(() => import('./pages/PromptGeneratorPage'));
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import TermsOfUsePage from './pages/TermsOfUsePage';
 import DMCAPage from './pages/DMCAPage';
@@ -32,7 +32,20 @@ function App() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:articleId" element={<BlogArticlePage />} />
-          <Route path="/tools/prompt-generator" element={<PromptGeneratorPage />} />
+          <Route
+            path="/tools/prompt-generator"
+            element={
+              <React.Suspense
+                fallback={
+                  <div className="min-h-[200px] flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                  </div>
+                }
+              >
+                <PromptGeneratorPage />
+              </React.Suspense>
+            }
+          />
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           <Route path="/terms-of-use" element={<TermsOfUsePage />} />
           <Route path="/dmca" element={<DMCAPage />} />

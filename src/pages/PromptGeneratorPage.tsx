@@ -1,40 +1,34 @@
 import React, { useMemo, useState, useEffect, useRef } from 'react';
-import { Helmet } from 'react-helmet-async';
 import { HelpCircle, ClipboardCopy } from 'lucide-react';
 import Button from '../components/ui/Button';
 import { FRAMEWORKS, analyzePromptIntent } from '../utils/promptAnalysis';
 import { fetchOptimizedPrompt } from '../utils/api';
-import blogRaw from '../../blog.txt?raw';
+import { SchemaJSONLD } from '../components/ui/SchemaJSONLD';
 import PromptGuideSection from '../components/PromptGuideSection';
 import ToolFeatureImage from '../components/ui/ToolFeatureImage';
 import { findToolImage, generateAltText } from '../utils/imageMapper';
 import SEO from '../components/ui/SEO';
 import { generateCanonicalUrl, generateOgImageUrl } from '../utils/siteConfig';
 
-function getDefinition(field: string): string {
-  const pattern = new RegExp(`${field}\\s*:\\s*([^\\n]+)`, 'i');
-  const match = blogRaw.match(pattern);
-  if (match && match[1]) return match[1].trim();
-  const fallback: Record<string, string> = {
-    Instruction: 'The specific task to perform.',
-    Context: 'Background, purpose, or audience.',
-    Data: 'Information or inputs to use.',
-    Format: 'Desired structure of the output.',
-    Role: 'Assigned job or expert persona.',
-    Request: 'The exact task to complete.',
-    Examples: 'Samples that illustrate quality.',
-    Output: 'Final deliverable shape.',
-    Constraints: 'Rules and limits to follow.',
-    Message: 'Core takeaway or thesis.',
-    Intention: 'Goal such as inform or persuade.',
-    Rhythm: 'Tone and style.',
-    Offer: 'Promotion or product being presented.',
-    Target: 'Intended audience.',
-    Action: 'What the reader should do.',
-    Result: 'Business objective.'
-  };
-  return fallback[field] || '';
-}
+const DEFINITIONS: Record<string, string> = {
+  Instruction: 'The specific task to perform.',
+  Context: 'Background, purpose, or audience.',
+  Data: 'Information or inputs to use.',
+  Format: 'Desired structure of the output.',
+  Role: 'Assigned job or expert persona.',
+  Request: 'The exact task to complete.',
+  Examples: 'Samples that illustrate quality.',
+  Output: 'Final deliverable shape.',
+  Constraints: 'Rules and limits to follow.',
+  Message: 'Core takeaway or thesis.',
+  Intention: 'Goal such as inform or persuade.',
+  Rhythm: 'Tone and style.',
+  Offer: 'Promotion or product being presented.',
+  Target: 'Intended audience.',
+  Action: 'What the reader should do.',
+  Result: 'Business objective.'
+};
+
 
 export default function PromptGeneratorPage() {
   const [input, setInput] = useState('');
@@ -229,10 +223,7 @@ export default function PromptGeneratorPage() {
         ogImage={featureImagePath ? generateOgImageUrl(featureImagePath) : undefined}
         canonicalUrl={generateCanonicalUrl('/tools/prompt-generator')}
       />
-      <Helmet>
-        <script type="application/ld+json">{JSON.stringify(webAppSchema)}</script>
-        <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
-      </Helmet>
+      <SchemaJSONLD data={[webAppSchema, faqSchema]} />
 
       <div className="container mx-auto px-4 py-12">
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 text-center">AI Prompt Generator</h1>
@@ -270,7 +261,7 @@ export default function PromptGeneratorPage() {
                         <div className="group relative inline-block align-middle">
                           <HelpCircle className="w-4 h-4 text-gray-500" />
                           <div className="absolute left-6 top-0 z-10 hidden group-hover:block bg-gray-900 text-white text-xs rounded px-2 py-1 max-w-xs">
-                            {getDefinition(key)}
+                            {DEFINITIONS[key] || ''}
                           </div>
                         </div>
                       </div>
