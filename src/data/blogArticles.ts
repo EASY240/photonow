@@ -14,6 +14,17 @@ export interface BlogArticle {
 // Blog article metadata index - content is now loaded from individual Markdown files
 export const blogArticleIndex = [
   {
+    id: 'real-estate-photo-editing-guide',
+    title: 'Real Estate Photo Editing: Complete Guide for Stunning Listings',
+    excerpt: 'A practical guide to real estate photo editing covering essential corrections, sky replacement, and advanced cleanup—with quick links to AI tools for common fixes.',
+    publishDate: '2025-12-10',
+    readTime: '12 min read',
+    category: 'general' as const,
+    featuredImage: '/images/blog/Real Estate Photo Editing.jpeg',
+    keywords: ['real estate photo editing', 'MLS photos', 'sky replacement', 'object removal', 'image upscaler'],
+    relatedTool: 'ai-cleanup'
+  },
+  {
     id: 'best-ai-logo-prompts',
     title: 'Best AI Logo Prompts: 10+ Examples to Create Stunning Brands in Seconds',
     excerpt: 'Stop wasting credits on bad images. Copy these 10+ professional AI logo prompts for Midjourney, DALL-E, and Flux. Covers Minimalist, 3D, Vintage, and more.',
