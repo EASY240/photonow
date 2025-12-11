@@ -39,17 +39,33 @@ export async function convertUrlToBlob(url: string): Promise<Blob> {
 }
 
 export async function fetchOptimizedPrompt(basePrompt: string, framework: string) {
-  const { baseUrl } = getEnvironmentConfig();
-  const reqId = (typeof crypto !== 'undefined' && 'randomUUID' in crypto) ? crypto.randomUUID() : (Date.now().toString(36) + Math.random().toString(36).slice(2));
-  debugLog('optimize-prompt:client:request', { reqId, baseUrl, payloadLen: basePrompt.length, framework });
-  const res = await fetch(`${baseUrl}/api/optimize-prompt`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'X-Request-Id': reqId, 'X-Debug': DEBUG_MODE ? '1' : '0' },
-    body: JSON.stringify({ basePrompt, framework })
-  });
-  const json = await res.json();
-  debugLog('optimize-prompt:client:response', { reqId, ok: res.ok, status: res.status, hasData: !!(json && json.data), keys: json && json.data && typeof json.data === 'object' ? Object.keys(json.data).length : 0, meta: json && json.meta });
-  return json;
+  try {
+    const { baseUrl } = getEnvironmentConfig();
+    const reqId = (typeof crypto !== 'undefined' && 'randomUUID' in crypto) ? crypto.randomUUID() : (Date.now().toString(36) + Math.random().toString(36).slice(2));
+    debugLog('optimize-prompt:client:request', { reqId, baseUrl, payloadLen: basePrompt.length, framework });
+    const res = await fetch(`${baseUrl}/api/optimize-prompt`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Request-Id': reqId, 'X-Debug': DEBUG_MODE ? '1' : '0' },
+      body: JSON.stringify({ basePrompt, framework })
+    });
+    const contentType = res.headers.get('content-type') || '';
+    let payload: any = {};
+    if (contentType.includes('application/json')) {
+      payload = await res.json();
+    } else {
+      const text = await res.text();
+      payload = { success: false, error: text };
+    }
+    debugLog('optimize-prompt:client:response', { reqId, ok: res.ok, status: res.status, hasData: !!(payload && payload.data), keys: payload && payload.data && typeof payload.data === 'object' ? Object.keys(payload.data).length : 0, meta: payload && payload.meta });
+    if (!res.ok) {
+      const message = (payload && payload.error) ? payload.error : `HTTP ${res.status}`;
+      return { success: false, error: message, data: {} };
+    }
+    return payload;
+  } catch (err: any) {
+    debugLog('optimize-prompt:client:error', { message: err?.message });
+    return { success: false, error: err?.message || 'Request failed', data: {} };
+  }
 }
 
 // AI Cleanup V2 API Functions

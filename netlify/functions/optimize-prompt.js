@@ -1,5 +1,3 @@
-import { OpenRouter } from "@openrouter/sdk";
-
 export async function handler(event) {
   try {
     // 1. Setup Request ID and Logging (Preserved from your original code)
@@ -26,7 +24,8 @@ export async function handler(event) {
     }
 
     // 4. Initialize OpenRouter SDK
-    const openrouter = new OpenRouter({ apiKey: apiKey });
+    const { OpenRouter } = await import('@openrouter/sdk');
+    const openrouter = new OpenRouter({ apiKey });
     
     // 5. Define Framework Structure
     let structure = 'Message, Intention, Context, Rhythm, Output';
