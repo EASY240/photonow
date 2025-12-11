@@ -223,7 +223,7 @@ const PromptGuideSection: React.FC = () => {
                 <HelpCircle className="w-5 h-5 text-blue-600 mt-0.5" />
                 <h3 className="text-base font-semibold">How does the AI Prompt Generator work?</h3>
               </div>
-              <p className="text-gray-700">You enter a short idea; the analyzer detects the best framework; the backend uses Bytez with GPT‑4o to generate structured suggestions; the UI lets you refine each field and outputs a final prompt you can copy.</p>
+              <p className="text-gray-700">You enter a short idea; the analyzer detects the best framework; the backend uses OpenRouter with GPT‑OSS‑120B to generate structured suggestions; the UI lets you refine each field and outputs a final prompt you can copy.</p>
               <div className="flex items-start gap-3 mb-3">
                 <HelpCircle className="w-5 h-5 text-blue-600 mt-0.5" />
                 <h3 className="text-base font-semibold">Can I use the tool for free?</h3>

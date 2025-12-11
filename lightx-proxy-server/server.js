@@ -95,12 +95,14 @@ app.post('/api/lightx-proxy', async (req, res) => {
 app.post('/api/optimize-prompt', async (req, res) => {
   try {
     const { basePrompt, framework } = req.body;
-    if (!process.env.BYTEZ_API_KEY) {
+
+    const apiKey = process.env.OPENROUTER_API_KEY || process.env.VITE_OPENROUTER_API_KEY;
+    if (!apiKey) {
       return res.status(500).json({ error: 'Server config error: API Key missing' });
     }
-    const Bytez = (await import('bytez.js')).default;
-    const sdk = new Bytez(process.env.BYTEZ_API_KEY);
-    const model = sdk.model('Qwen/Qwen3-4B-Instruct-2507');
+
+    const { OpenRouter } = await import('@openrouter/sdk');
+    const openrouter = new OpenRouter({ apiKey });
 
     let structure = 'Message, Intention, Context, Rhythm, Output';
     if (framework === 'COSTAR') structure = 'Context, Offer, Style, Target, Action, Result';
@@ -118,33 +120,45 @@ app.post('/api/optimize-prompt', async (req, res) => {
       { "Message": "...", "Intention": "..." }
     `;
 
-    const { error, output } = await model.run([
-      { role: 'system', content: systemInstruction },
-      { role: 'user', content: basePrompt }
-    ]);
+    const stream = await openrouter.chat.send({
+      model: 'openai/gpt-oss-120b:free',
+      messages: [
+        { role: 'system', content: systemInstruction },
+        { role: 'user', content: basePrompt }
+      ],
+      stream: true,
+      streamOptions: { includeUsage: true }
+    });
 
-    if (error) {
-      throw new Error(error);
+    let rawOutput = '';
+    for await (const chunk of stream) {
+      const content = chunk.choices?.[0]?.delta?.content;
+      if (content) rawOutput += content;
+      if (chunk.usage && chunk.usage.reasoningTokens) {
+        console.log('optimize-prompt:reasoning', { tokens: chunk.usage.reasoningTokens });
+      }
     }
 
-    const raw = Array.isArray(output)
-      ? (output[0]?.text ?? output[0])
-      : (typeof output === 'string'
-          ? output
-          : (output && typeof output === 'object' && 'text' in output
-              ? output.text
-              : JSON.stringify(output)));
+    const cleanJson = String(rawOutput).replace(/```json/g, '').replace(/```/g, '').trim();
+    let parsed;
+    try {
+      parsed = JSON.parse(cleanJson);
+    } catch (_err) {
+      const start = cleanJson.indexOf('{');
+      const end = cleanJson.lastIndexOf('}');
+      if (start !== -1 && end !== -1 && end > start) {
+        const candidate = cleanJson.slice(start, end + 1);
+        try { parsed = JSON.parse(candidate); } catch (_ignore) {}
+      }
+    }
 
-    const cleanJson = String(raw).replace(/```json/g, '').replace(/```/g, '').trim();
-    let parsed = JSON.parse(cleanJson);
     if (parsed && typeof parsed === 'object' && typeof parsed.content === 'string') {
-      try {
-        parsed = JSON.parse(parsed.content);
-      } catch (_ignore) {}
+      try { parsed = JSON.parse(parsed.content); } catch (_ignore) {}
     }
-    return res.json({ success: true, data: parsed });
+
+    return res.json({ success: true, data: parsed || {} });
   } catch (e) {
-    console.error('Bytez Error:', e);
+    console.error('optimize-prompt Error:', e);
     return res.status(500).json({ error: e.message });
   }
 });

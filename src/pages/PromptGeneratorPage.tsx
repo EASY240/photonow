@@ -145,7 +145,7 @@ export default function PromptGeneratorPage() {
         acceptedAnswer: {
           "@type": "Answer",
           text:
-            "You enter a short idea; the analyzer detects the best framework; the backend uses Bytez with GPT-4o to generate structured suggestions; the UI lets you refine each field and outputs a final prompt you can copy.",
+            "You enter a short idea; the analyzer detects the best framework; the backend uses OpenRouter with GPT-OSS-120B to generate structured suggestions; the UI lets you refine each field and outputs a final prompt you can copy.",
         },
       },
       {
