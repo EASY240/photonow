@@ -11,6 +11,7 @@ const BlogArticlePage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const [redirectTo, setRedirectTo] = useState<string | null>(null);
+  const canonicalUrl = `https://modernphototools.com/blog/${articleId}`;
   
   useEffect(() => {
     const loadArticle = async () => {
@@ -45,21 +46,49 @@ const BlogArticlePage: React.FC = () => {
   }, [articleId]);
   
   if (redirectTo) {
-    return <Navigate to={redirectTo} replace />;
+    return (
+      <>
+        <SEO 
+          title={"Redirecting... | ModernPhotoTools"}
+          description={"Redirecting to updated article."}
+          canonicalUrl={canonicalUrl}
+        />
+        <Navigate to={redirectTo} replace />
+      </>
+    );
   }
   
-  if (!articleId || notFound) {
+  if (!articleId) {
     return <Navigate to="/blog" replace />;
+  }
+  if (notFound) {
+    return (
+      <>
+        <SEO 
+          title={"Article Not Found | ModernPhotoTools"}
+          description={"The requested article could not be found."}
+          canonicalUrl={canonicalUrl}
+        />
+        <Navigate to="/blog" replace />
+      </>
+    );
   }
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading article...</p>
+      <>
+        <SEO 
+          title={"Loading Article... | ModernPhotoTools"}
+          description={"Please wait while the article loads."}
+          canonicalUrl={canonicalUrl}
+        />
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading article...</p>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
   

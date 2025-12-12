@@ -4,13 +4,7 @@
 
 // Get the site origin in an SSR-safe way
 export const getSiteOrigin = (): string => {
-  // During SSR or build time, use the production URL
-  if (typeof window === 'undefined') {
-    return process.env.SITE_URL || 'https://modernphototools.com';
-  }
-  
-  // In the browser, use the current origin
-  return window.location.origin;
+  return 'https://modernphototools.com';
 };
 
 // Generate canonical URLs for different page types
