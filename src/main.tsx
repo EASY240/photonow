@@ -27,6 +27,7 @@ if (!rootElement) {
 
   const raw = rootElement.innerHTML || ''
   const hasSSGContent = raw.trim().length > 0 && !hasPlaceholderComment()
+  const shouldSkipHydration = typeof window !== 'undefined' && window.location && window.location.pathname === '/tools/prompt-generator'
 
   const app = (
     <React.StrictMode>
@@ -44,7 +45,7 @@ if (!rootElement) {
     </React.StrictMode>
   )
 
-  if (hasSSGContent) {
+  if (hasSSGContent && !shouldSkipHydration) {
     try {
       ReactDOM.hydrateRoot(rootElement, app)
     } catch (err) {
