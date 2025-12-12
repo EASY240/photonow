@@ -17,15 +17,9 @@ const debugLog = (...args: any[]) => {
 
 // Helper function to safely determine environment and base URL for SSR compatibility
 function getEnvironmentConfig() {
-  const baseUrl = getSiteOrigin();
-  const isProduction = typeof window !== 'undefined' 
-    ? (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1')
-    : (import.meta.env.PROD || process.env.NODE_ENV === 'production');
-    
-  return {
-    isProduction,
-    baseUrl
-  };
+  const isProduction = import.meta.env.PROD || (typeof process !== 'undefined' && process.env.NODE_ENV === 'production');
+  const baseUrl = isProduction ? getSiteOrigin() : '';
+  return { isProduction, baseUrl };
 }
 
 // Add this helper function inside src/utils/api.ts

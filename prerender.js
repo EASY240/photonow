@@ -53,8 +53,25 @@ console.log('Discovered routes to prerender:', allRoutes);
 
 (async () => {
   for (const routeUrl of allRoutes) {
-    const appHtml = render(routeUrl, {});
-    const html = template.replace(`<!--app-html-->`, appHtml);
+    const result = render(routeUrl, {});
+    const appHtml = typeof result === 'string' ? result : result.appHtml;
+    let html = template.replace(`<!--app-html-->`, appHtml);
+
+    const helmet = typeof result === 'string' ? null : result.helmet;
+    if (helmet) {
+      const title = helmet.title && typeof helmet.title.toString === 'function' ? helmet.title.toString() : '';
+      const meta = helmet.meta && typeof helmet.meta.toString === 'function' ? helmet.meta.toString() : '';
+      const link = helmet.link && typeof helmet.link.toString === 'function' ? helmet.link.toString() : '';
+      const script = helmet.script && typeof helmet.script.toString === 'function' ? helmet.script.toString() : '';
+      const headRest = `${meta}${link}${script}`;
+
+      if (title) {
+        html = html.replace(/<title>[\s\S]*?<\/title>/, title);
+      }
+      if (headRest.trim().length > 0) {
+        html = html.replace('</head>', headRest + '</head>');
+      }
+    }
 
     let filePath = `dist${routeUrl}`;
     if (routeUrl.endsWith('/')) {

@@ -6,34 +6,29 @@ import App from './App.tsx'
 import ScrollToTop from './components/layout/ScrollToTop.tsx'
 import './index.css'
 
-const rootElement = document.getElementById('root')!
+const rootElement = document.getElementById('root')
 
-// Check if the root element has actual SSG content (not just the placeholder comment)
-const hasSSGContent = rootElement.innerHTML.trim() && 
-                     !rootElement.innerHTML.includes('<!--app-html-->') &&
-                     rootElement.innerHTML !== '<!--app-html-->'
-
-if (hasSSGContent) {
-  // Hydrate the pre-rendered content
-  ReactDOM.hydrateRoot(
-    rootElement,
-    <React.StrictMode>
-      <HelmetProvider>
-        <BrowserRouter
-          future={{
-            v7_startTransition: true,
-            v7_relativeSplatPath: true
-          }}
-        >
-          <ScrollToTop />
-          <App />
-        </BrowserRouter>
-      </HelmetProvider>
-    </React.StrictMode>
-  )
+if (!rootElement) {
+  console.error('[main] No root element found to mount React app')
 } else {
-  // Render normally for SPA mode (development or no SSG content)
-  ReactDOM.createRoot(rootElement).render(
+  const hasPlaceholderComment = () => {
+    try {
+      for (let i = 0; i < rootElement.childNodes.length; i++) {
+        const n = rootElement.childNodes[i]
+        if (n && n.nodeType === Node.COMMENT_NODE && String((n as Comment).nodeValue).includes('app-html')) {
+          return true
+        }
+      }
+    } catch {
+      return false
+    }
+    return false
+  }
+
+  const raw = rootElement.innerHTML || ''
+  const hasSSGContent = raw.trim().length > 0 && !hasPlaceholderComment()
+
+  const app = (
     <React.StrictMode>
       <HelmetProvider>
         <BrowserRouter
@@ -48,4 +43,15 @@ if (hasSSGContent) {
       </HelmetProvider>
     </React.StrictMode>
   )
+
+  if (hasSSGContent) {
+    try {
+      ReactDOM.hydrateRoot(rootElement, app)
+    } catch (err) {
+      console.error('[main] hydrateRoot failed — falling back to createRoot', err)
+      ReactDOM.createRoot(rootElement).render(app)
+    }
+  } else {
+    ReactDOM.createRoot(rootElement).render(app)
+  }
 }

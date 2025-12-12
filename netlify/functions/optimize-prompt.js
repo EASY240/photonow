@@ -1,5 +1,14 @@
 export async function handler(event) {
   try {
+    const corsHeaders = {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Content-Type, X-Request-Id, X-Debug',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS'
+    };
+
+    if (event && event.httpMethod === 'OPTIONS') {
+      return { statusCode: 204, headers: corsHeaders, body: '' };
+    }
     // 1. Setup Request ID and Logging (Preserved from your original code)
     const reqId = (event && event.headers && (event.headers['x-request-id'] || event.headers['X-Request-Id'])) || (Date.now().toString(36) + Math.random().toString(36).slice(2));
     
@@ -106,15 +115,15 @@ export async function handler(event) {
 
     return {
       statusCode: 200,
-      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
+      headers: { ...corsHeaders, 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
       body: JSON.stringify({ success: true, data: parsed || {}, meta: { reqId } })
     };
 
   } catch (e) {
     console.error("CRITICAL FUNCTION ERROR:", e);
     return {
-      statusCode: 200, // Return 200 so frontend doesn't break, but indicate error in body
-      headers: { "Content-Type": "application/json" },
+      statusCode: 200,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       body: JSON.stringify({
         success: false,
         error: `Server Error: ${e && e.message ? e.message : 'Unknown error'}`,
