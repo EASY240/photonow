@@ -235,7 +235,7 @@ metaDescription: "Remove watermarks from photos and TikTok videos with our free 
     <div class="cta-block">
       <h3 class="cta-block-title">Ready to Remove Watermarks?</h3>
       <p class="cta-block-text">Try our free AI watermark remover tool now – no signup required!</p>
-      <a href="https://modernphototools.com/tools/watermark-remove" target="_blank" class="cta-btn" rel="nofollow">Remove Watermarks Now</a>
+      <a href="https://modernphototools.com/tools/watermark-remover" target="_blank" class="cta-btn">Remove Watermarks Now</a>
     </div>
   </section>
 
@@ -287,7 +287,7 @@ metaDescription: "Remove watermarks from photos and TikTok videos with our free 
     <div class="list-numbers">
       <ol>
         <li>Save the TikTok video to your device</li>
-        <li>Upload the video to our <a href="https://modernphototools.com/tools/watermark-remove" target="_blank" rel="nofollow">tiktok watermark remover</a></li>
+        <li>Upload the video to our <a href="https://modernphototools.com/tools/watermark-remover" target="_blank">tiktok watermark remover</a></li>
         <li>Wait a few seconds for the AI to process the video</li>
         <li>Download your watermark-free TikTok video</li>
       </ol>
@@ -301,7 +301,7 @@ metaDescription: "Remove watermarks from photos and TikTok videos with our free 
     <div class="cta-block">
       <h3 class="cta-block-title">Remove TikTok Watermarks Now</h3>
       <p class="cta-block-text">Get clean, professional videos for cross-platform sharing</p>
-      <a href="https://modernphototools.com/tools/watermark-remove" target="_blank" class="cta-btn" rel="nofollow">Remove TikTok Watermark</a>
+      <a href="https://modernphototools.com/tools/watermark-remover" target="_blank" class="cta-btn">Remove TikTok Watermark</a>
     </div>
   </section>
 
@@ -394,7 +394,7 @@ metaDescription: "Remove watermarks from photos and TikTok videos with our free 
     <div class="cta-block">
       <h3 class="cta-block-title">Why Struggle with Complicated Methods?</h3>
       <p class="cta-block-text">Our free watermark remover gives you professional results without the hassle.</p>
-      <a href="https://modernphototools.com/tools/watermark-remove" target="_blank" class="cta-btn" rel="nofollow">Try Our Free Tool Now</a>
+      <a href="https://modernphototools.com/tools/watermark-remover" target="_blank" class="cta-btn">Try Our Free Tool Now</a>
     </div>
   </section>
 
@@ -460,38 +460,38 @@ metaDescription: "Remove watermarks from photos and TikTok videos with our free 
     <div class="cta-block">
       <h3 class="cta-block-title">Ready to Transform Your Images?</h3>
       <p class="cta-block-text">Join thousands of users who trust our free watermark remover for professional results.</p>
-      <a href="https://modernphototools.com/tools/watermark-remove" target="_blank" class="cta-btn cta-btn-large" rel="nofollow">Remove Watermarks Now</a>
+      <a href="https://modernphototools.com/tools/watermark-remover" target="_blank" class="cta-btn cta-btn-large">Remove Watermarks Now</a>
     </div>
   </section>
 
-  <section id="faq" itemscope itemprop="mainEntity" itemtype="https://schema.org/FAQPage">
+  <section id="faq">
     <h2>Frequently Asked Questions</h2>
 
-    <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-      <h3 class="faq-question" itemprop="name">Is this watermark remover really free?</h3>
-      <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-        <p itemprop="text">Yes, our watermark remover is completely free to use. There are no hidden fees, subscriptions, or premium features that limit core functionality. We believe in providing accessible tools for everyone.</p>
+    <div class="faq-item">
+      <h3 class="faq-question">Is this watermark remover really free?</h3>
+      <div class="faq-answer">
+        <p>Yes, our watermark remover is completely free to use. There are no hidden fees, subscriptions, or premium features that limit core functionality. We believe in providing accessible tools for everyone.</p>
       </div>
     </div>
 
-    <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-      <h3 class="faq-question" itemprop="name">How do I remove a watermark from a photo?</h3>
-      <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-        <p itemprop="text">Simply visit our <a href="https://modernphototools.com/tools/watermark-remove" target="_blank" rel="nofollow">free watermark remover</a> tool, upload your image, wait a few seconds for the AI to process it, and download your watermark-free result. The entire process takes less than a minute.</p>
+    <div class="faq-item">
+      <h3 class="faq-question">How do I remove a watermark from a photo?</h3>
+      <div class="faq-answer">
+        <p>Simply visit our <a href="https://modernphototools.com/tools/watermark-remove" target="_blank" rel="nofollow">free watermark remover</a> tool, upload your image, wait a few seconds for the AI to process it, and download your watermark-free result. The entire process takes less than a minute.</p>
       </div>
     </div>
 
-    <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-      <h3 class="faq-question" itemprop="name">Can I remove TikTok watermarks from videos?</h3>
-      <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-        <p itemprop="text">Yes, our tool specifically supports TikTok watermark removal. Upload your saved TikTok video to our tool, and our AI will remove the watermark while preserving video quality.</p>
+    <div class="faq-item">
+      <h3 class="faq-question">Can I remove TikTok watermarks from videos?</h3>
+      <div class="faq-answer">
+        <p>Yes, our tool specifically supports TikTok watermark removal. Upload your saved TikTok video to our tool, and our AI will remove the watermark while preserving video quality.</p>
       </div>
     </div>
 
-    <div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-      <h3 class="faq-question" itemprop="name">Will removing watermarks affect image quality?</h3>
-      <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-        <p itemprop="text">No, our AI-powered watermark remover is designed to preserve image quality during the removal process. Unlike manual editing which can leave obvious marks, our tool intelligently reconstructs the area under the watermark for natural-looking results.</p>
+    <div class="faq-item">
+      <h3 class="faq-question">Will removing watermarks affect image quality?</h3>
+      <div class="faq-answer">
+        <p>No, our AI-powered watermark remover is designed to preserve image quality during the removal process. Unlike manual editing which can leave obvious marks, our tool intelligently reconstructs the area under the watermark for natural-looking results.</p>
       </div>
     </div>
   </section>
@@ -570,7 +570,7 @@ metaDescription: "Remove watermarks from photos and TikTok videos with our free 
     <div class="cta-block">
       <h3 class="cta-block-title">Transform Your Images Now</h3>
       <p class="cta-block-text">Join thousands of satisfied users who trust our free watermark remover</p>
-      <a href="https://modernphototools.com/tools/watermark-remove" target="_blank" class="cta-btn cta-btn-large" rel="nofollow">Try Our Free Watermark Remover</a>
+      <a href="https://modernphototools.com/tools/watermark-remover" target="_blank" class="cta-btn cta-btn-large">Try Our Free Watermark Remover</a>
     </div>
 
     <div class="info-box">
