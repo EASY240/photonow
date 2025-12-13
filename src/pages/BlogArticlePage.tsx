@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import SEO from '../components/ui/SEO';
 import { getBlogArticleById, BlogArticleWithContent } from '../utils/blogLoader';
-import { getAdjacentArticles } from '../data/blogArticles';
 import ArticleNavigation from '../components/ArticleNavigation';
 
 const BlogArticlePage: React.FC = () => {
@@ -21,7 +20,6 @@ const BlogArticlePage: React.FC = () => {
         return;
       }
 
-      // Handle redirect for removed article
       if (articleId === 'remove-background-free-guide') {
         setRedirectTo('/blog/best-photo-background-editors-2025');
         return;
@@ -44,6 +42,137 @@ const BlogArticlePage: React.FC = () => {
 
     loadArticle();
   }, [articleId]);
+  
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (!article) return;
+    try {
+      const container = document.querySelector('.article-content');
+      if (!container) return;
+
+      const faqItems = Array.from(container.querySelectorAll('.faq-item')) as HTMLElement[];
+      if (faqItems.length === 0) return;
+
+      const buttons: HTMLButtonElement[] = [];
+
+      faqItems.forEach((item, index) => {
+        try {
+          if (item.dataset.faqEnhanced === 'true') return;
+          const questionEl = (item.querySelector('.faq-question') || item.querySelector('h3')) as HTMLElement | null;
+          let answerEl = item.querySelector('.faq-answer') as HTMLElement | null;
+          if (!answerEl) {
+            const paragraphAnswer = item.querySelector('p') as HTMLElement | null;
+            if (paragraphAnswer) {
+              paragraphAnswer.classList.add('faq-answer');
+              answerEl = paragraphAnswer;
+            }
+          }
+          if (!questionEl || !answerEl) {
+            console.warn('FAQ item missing expected structure', { hasQuestion: !!questionEl, hasAnswer: !!answerEl });
+            return;
+          }
+
+          const existingButton = questionEl.querySelector('button');
+          let button = existingButton as HTMLButtonElement | null;
+
+          const answerId = answerEl.id || `faq-answer-${article.id}-${index}`;
+          answerEl.id = answerId;
+          answerEl.setAttribute('role', 'region');
+          answerEl.setAttribute('aria-labelledby', `${answerId}-label`);
+          answerEl.style.maxHeight = '0px';
+          answerEl.style.overflow = 'hidden';
+          answerEl.style.transition = 'max-height 0.25s ease';
+          answerEl.setAttribute('hidden', 'true');
+
+          if (!button) {
+            button = document.createElement('button');
+            button.type = 'button';
+            button.id = `${answerId}-label`;
+            button.className =
+              'w-full flex items-center justify-between text-left px-4 py-3 md:px-5 md:py-4 rounded-md border border-gray-200 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors';
+            button.setAttribute('aria-expanded', 'false');
+            button.setAttribute('aria-controls', answerId);
+
+            const labelSpan = document.createElement('span');
+            labelSpan.textContent = questionEl.textContent || '';
+            labelSpan.className = 'font-semibold text-gray-900';
+            button.appendChild(labelSpan);
+
+            button.insertAdjacentHTML(
+              'beforeend',
+              '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down w-5 h-5 text-gray-500 transition-transform duration-200"><path d="m6 9 6 6 6-6"></path></svg>'
+            );
+
+            questionEl.textContent = '';
+            questionEl.appendChild(button);
+          } else {
+            button.setAttribute('aria-controls', answerId);
+            button.id = `${answerId}-label`;
+          }
+
+          const toggle = () => {
+            const isExpanded = button!.getAttribute('aria-expanded') === 'true';
+            const newExpanded = !isExpanded;
+            button!.setAttribute('aria-expanded', String(newExpanded));
+
+            const icon = button!.querySelector('svg');
+            if (icon) {
+              if (newExpanded) {
+                icon.classList.add('transform', 'rotate-180');
+              } else {
+                icon.classList.remove('transform', 'rotate-180');
+              }
+            }
+
+            if (newExpanded) {
+              answerEl.removeAttribute('hidden');
+              const scrollHeight = answerEl.scrollHeight;
+              answerEl.style.maxHeight = `${scrollHeight}px`;
+            } else {
+              answerEl.style.maxHeight = '0px';
+              answerEl.setAttribute('hidden', 'true');
+            }
+          };
+
+          button.addEventListener('click', toggle);
+          button.addEventListener('keydown', (event: KeyboardEvent) => {
+            const key = event.key;
+            if (key === 'Enter' || key === ' ') {
+              event.preventDefault();
+              toggle();
+            } else if (key === 'ArrowDown' || key === 'ArrowUp') {
+              event.preventDefault();
+              const currentItem = button!.closest('.faq-item') as HTMLElement | null;
+              if (!currentItem) return;
+              const allItems = Array.from(container.querySelectorAll('.faq-item')) as HTMLElement[];
+              const currentIndex = allItems.indexOf(currentItem);
+              if (currentIndex === -1) return;
+              const offset = key === 'ArrowDown' ? 1 : -1;
+              const nextIndex = currentIndex + offset;
+              if (nextIndex < 0 || nextIndex >= allItems.length) return;
+              const nextQuestion = allItems[nextIndex].querySelector('.faq-question button') as HTMLButtonElement | null;
+              if (nextQuestion) {
+                nextQuestion.focus();
+              }
+            }
+          });
+
+          buttons.push(button);
+          item.dataset.faqEnhanced = 'true';
+        } catch (err) {
+          console.error('Failed to enhance FAQ item', err);
+        }
+      });
+
+      return () => {
+        buttons.forEach((button) => {
+          button.replaceWith(button.cloneNode(true));
+        });
+      };
+    } catch (err) {
+      console.error('Failed to initialize FAQ accordions', err);
+    }
+  }, [article]);
   
   if (redirectTo) {
     return (

@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect, useRef } from 'react';
-import { HelpCircle, ClipboardCopy } from 'lucide-react';
+import { HelpCircle, ClipboardCopy, ChevronDown } from 'lucide-react';
 import Button from '../components/ui/Button';
 import { FRAMEWORKS, analyzePromptIntent } from '../utils/promptAnalysis';
 import { fetchOptimizedPrompt } from '../utils/api';
@@ -132,55 +132,56 @@ export default function PromptGeneratorPage() {
     mainEntity: [
       {
         "@type": "Question",
-        name: "What is the AI Prompt Generator?",
+        name: "What are the best AI image generation prompts?",
         acceptedAnswer: {
           "@type": "Answer",
           text:
-            "A free web tool that turns a simple idea into a professional prompt using frameworks like COSTAR, MICRO, ICDF, and RCREOC. It analyzes intent, suggests structured fields, and assembles a polished prompt ready for ChatGPT, Claude, or Gemini.",
+            "The best AI image generation prompts clearly describe the subject, the desired change, and the final look of the image. In the context of photo editing, strong prompts combine an action (enhance, clean up, extend), a subject (portrait, product, landscape), style or mood, and important technical details like lighting and sharpness. The AI Prompt Generator helps you go beyond vague ideas by turning a simple description into a structured prompt that surfaces all of these elements automatically.",
         },
       },
       {
         "@type": "Question",
-        name: "How does the AI Prompt Generator work?",
+        name: "How to write better prompts for AI image generation?",
         acceptedAnswer: {
           "@type": "Answer",
           text:
-            "You enter a short idea; the analyzer detects the best framework; the backend uses OpenRouter with GPT-OSS-120B to generate structured suggestions; the UI lets you refine each field and outputs a final prompt you can copy.",
+            "To write better prompts for AI image generation, you need to be specific about the task, context, and desired style. This tool guides you through frameworks like MICRO and ICDF so you do not forget key details such as audience, intention, format, and constraints. You start with a short idea, and the tool expands it into a complete, multi-line prompt that you can further refine field by field before copying it to your favorite AI model.",
         },
       },
       {
         "@type": "Question",
-        name: "Can I use the tool for free?",
+        name: "Where can I get free AI prompts?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Yes. It is completely free and requires no registration.",
+          text:
+            "You can generate unlimited free AI prompts directly with this AI Prompt Generator. There is no login or subscription barrier: you type an idea, get suggested structures, and copy a polished prompt at no cost. Combined with ModernPhotoTools blog guides and the built-in prompt examples on many tools, you have a continuously growing library of free, high-quality prompts to adapt to your own projects.",
         },
       },
       {
         "@type": "Question",
-        name: "What use cases does the tool support?",
+        name: "How to improve AI-generated content using prompts?",
         acceptedAnswer: {
           "@type": "Answer",
           text:
-            "Marketing emails and ads (COSTAR), content scripts and posts (MICRO), data analysis and reporting (ICDF), expert reviews and critiques (RCREOC), plus general prompt polishing for chat models.",
+            "You improve AI-generated content by iterating on your prompts instead of accepting the first draft. This tool makes that loop easier: you can adjust individual fields such as context, constraints, or output format and instantly regenerate a stronger prompt. For example, if an AI image looks too generic, you can tighten the style and constraints fields here, then reuse the improved prompt to get cleaner, more on-brand results.",
         },
       },
       {
         "@type": "Question",
-        name: "How can I ensure high-quality Prompts?",
+        name: "What are some ways to improve your prompts for AI art?",
         acceptedAnswer: {
           "@type": "Answer",
           text:
-            "Provide clear context and goals, include relevant data or constraints, select the right framework, and refine the suggested fields for accuracy before copying the final prompt.",
+            "To improve prompts for AI art, combine clear structure with rich stylistic direction. Inside this tool, you can treat the generated fields as levers: use the context and intention to describe the story behind the image, use style-related fields to define mood, color palette, and artistic influences, and use constraints to protect important details from being changed. Editing these pieces separately often leads to far more creative yet controlled AI artwork.",
         },
       },
       {
         "@type": "Question",
-        name: "Do the generated Prompts support all AI models?",
+        name: "How to write clear and effective AI prompts?",
         acceptedAnswer: {
           "@type": "Answer",
           text:
-            "The tool supports popular AI models like ChatGPT, Claude, and Gemini, and is adaptable to most other models. You may need slight adjustments to fit specific model requirements.",
+            "Clear and effective AI prompts are specific, well-structured, and tailored to the model you use. This AI Prompt Generator ensures you cover instruction, context, data, format, and other key fields so your request is unambiguous. The final prompt it produces is easy to read both for you and for the AI model, which reduces confusion and makes it simpler to reuse and iterate across tools like ChatGPT, Claude, Gemini, or image-focused models.",
         },
       },
     ],
@@ -312,9 +313,161 @@ export default function PromptGeneratorPage() {
             )}
           </div>
         </ClientOnly>
+        <PromptToolFAQ />
         <PromptGuideSection />
       </div>
     </>
+  );
+}
+
+const promptFaqItems = [
+  {
+    id: 'best-prompts',
+    question: 'What are the best AI image generation prompts?',
+    answer: (
+      <>
+        <p className="text-gray-700">
+          The best AI image generation prompts describe what is in the image, what you want to change, and how the final result should look. Short prompts like "edit this product photo" give the AI almost no direction, while structured prompts built with this tool spell out subject, style, lighting, and constraints.
+        </p>
+        <p className="text-gray-700">
+          A typical before/after looks like this. Before: "Fix my portrait." After using the generator: "Retouch this indoor portrait photo, soften skin while keeping natural pores, brighten the eyes slightly, reduce dark circles, keep the original background, and avoid changing the face shape or expression." The second version is far easier for any AI model to follow.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: 'write-better',
+    question: 'How to write better prompts for AI image generation?',
+    answer: (
+      <>
+        <p className="text-gray-700">
+          To write better prompts, start with a simple idea in the input box and let the tool detect the right framework for you. It will break your request into fields like Instruction, Context, Data, and Format so you can fill in missing information instead of guessing what the AI needs.
+        </p>
+        <p className="text-gray-700">
+          For example, you might type "improve my product photo for Amazon." The tool transforms this into editable pieces and suggests details such as background color, lighting style, and output format. By tweaking those fields, you move from a vague sentence to a precise, conversion-focused prompt tailored for AI editing or generation tools.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: 'free-prompts',
+    question: 'Where can I get free AI prompts?',
+    answer: (
+      <>
+        <p className="text-gray-700">
+          This AI Prompt Generator itself is a free way to create unlimited high-quality prompts. Every time you enter an idea and generate suggestions, you are effectively building your own custom prompt library that you can save, reuse, or adapt for future projects.
+        </p>
+        <p className="text-gray-700">
+          You can also combine this tool with ModernPhotoTools editing pages, many of which include example prompts for portraits, products, landscapes, and creative edits. Start with one of those examples, drop it into the generator, and enhance it further using the structured fields.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: 'improve-content',
+    question: 'How to improve AI-generated content using prompts?',
+    answer: (
+      <>
+        <p className="text-gray-700">
+          Improving AI-generated images is an iterative process. After you see a result, identify what is wrong or missing and update only the relevant parts of your prompt: maybe the lighting is too flat, the background is distracting, or the style is not strong enough.
+        </p>
+        <p className="text-gray-700">
+          Within this tool, you can adjust individual fields like Context or Constraints without rewriting everything. For example, you might tighten the constraints to say "keep the original composition and colors, but remove clutter on the desk and sharpen the main subject only." Copy the refined prompt back into your image model, and you will generally see a clear quality jump.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: 'improve-art',
+    question: 'What are some ways to improve your prompts for AI art?',
+    answer: (
+      <>
+        <p className="text-gray-700">
+          For AI art, combine the structured approach of this generator with bold stylistic direction. Use fields related to mood, audience, and output to describe the story you want the image to tell, then push further with details about color palette, camera angle, and artistic influences.
+        </p>
+        <p className="text-gray-700">
+          A practical pattern is to start with a descriptive base prompt in the tool, then enrich the style-related fields with phrases like "cinematic lighting," "soft pastel color scheme," or "inspired by studio fashion editorials." This produces prompts that are both creatively rich and technically clear.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: 'clear-prompts',
+    question: 'How to write clear and effective AI prompts?',
+    answer: (
+      <>
+        <p className="text-gray-700">
+          Clear prompts avoid ambiguity and unnecessary complexity. Use the generator to separate your idea into smaller pieces so that each field has a single purpose: one field for the main instruction, one for context, one for style, and so on. This makes the final prompt easier for an AI model to interpret reliably.
+        </p>
+        <p className="text-gray-700">
+          A helpful habit is to read the Final Output section as if you were the AI: would you know exactly what to do, what to keep, and what to avoid? If not, edit the relevant fields and generate a cleaner version until the instructions feel obvious. The built-in structure of this tool is designed to nudge you toward that level of clarity.
+        </p>
+      </>
+    ),
+  },
+] as const;
+
+function PromptToolFAQ() {
+  const [openId, setOpenId] = useState<string | null>(promptFaqItems[0]?.id ?? null);
+
+  const handleToggle = (id: string) => {
+    setOpenId((current) => (current === id ? null : id));
+  };
+
+  const handleBackToTop = () => {
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <section className="mt-16">
+      <div className="max-w-3xl mx-auto">
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 text-center mb-4">Frequently Asked Questions</h2>
+        <p className="text-center text-gray-600 mb-8">
+          Learn how to use the AI Prompt Generator to turn rough ideas into polished, high-performing prompts for image generation and photo editing.
+        </p>
+        <div className="space-y-4">
+          {promptFaqItems.map((item) => {
+            const isOpen = openId === item.id;
+            return (
+              <div key={item.id} className="bg-white rounded-lg shadow">
+                <button
+                  type="button"
+                  onClick={() => handleToggle(item.id)}
+                  className="w-full flex items-center justify-between px-4 md:px-6 py-4 text-left"
+                  aria-expanded={isOpen}
+                >
+                  <div className="flex items-start gap-3">
+                    <HelpCircle className="w-5 h-5 text-blue-600 mt-1" />
+                    <span className="font-semibold text-gray-900">
+                      {item.question}
+                    </span>
+                  </div>
+                  <ChevronDown
+                    className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${isOpen ? 'transform rotate-180' : ''}`}
+                  />
+                </button>
+                {isOpen && (
+                  <div className="px-4 md:px-6 pb-4 space-y-3">
+                    {item.answer}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+        <div className="mt-8 text-center">
+          <button
+            type="button"
+            onClick={handleBackToTop}
+            className="inline-flex items-center px-4 py-2 border border-blue-600 text-blue-600 text-sm font-medium rounded-md hover:bg-blue-50"
+          >
+            Back to Top
+          </button>
+        </div>
+      </div>
+    </section>
   );
 }
 
