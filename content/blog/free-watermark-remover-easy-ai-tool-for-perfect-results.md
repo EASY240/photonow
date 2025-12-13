@@ -477,7 +477,7 @@ metaDescription: "Remove watermarks from photos and TikTok videos with our free 
     <div class="faq-item">
       <h3 class="faq-question">How do I remove a watermark from a photo?</h3>
       <div class="faq-answer">
-        <p>Simply visit our <a href="https://modernphototools.com/tools/watermark-remove" target="_blank" rel="nofollow">free watermark remover</a> tool, upload your image, wait a few seconds for the AI to process it, and download your watermark-free result. The entire process takes less than a minute.</p>
+        <p>Simply visit our <a href="https://modernphototools.com/tools/watermark-remove" target="_blank">free watermark remover</a> tool, upload your image, wait a few seconds for the AI to process it, and download your watermark-free result. The entire process takes less than a minute.</p>
       </div>
     </div>
 

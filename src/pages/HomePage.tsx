@@ -1,13 +1,114 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Edit3, Brain, ClipboardCopy } from 'lucide-react';
+import { ArrowRight, Edit3, Brain, ClipboardCopy, HelpCircle, ChevronDown } from 'lucide-react';
 import Button from '../components/ui/Button';
 import VideoToolCard from '../components/ui/VideoToolCard';
 import SEO from '../components/ui/SEO';
 import PromptsGuide from '../components/ui/PromptsGuide';
+import { SchemaJSONLD } from '../components/ui/SchemaJSONLD';
 import { tools } from '../data/tools';
 import { getVideoUrl } from '../utils/videoMapping';
 import '../styles/video-tool-card.css';
+
+const homeFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'What is ModernPhotoTools?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text:
+          'ModernPhotoTools is a collection of browser-based AI tools for editing, enhancing, and generating images without installing heavy desktop software. You can remove backgrounds, clean up photos, upscale, retouch portraits, generate new images, and more directly from your browser on desktop or mobile.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Are the tools free to use?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text:
+          'Yes. The core tools on ModernPhotoTools are free to use with no registration required. Some features may have usage limits based on fair use and infrastructure costs, but there is no subscription you must buy to try the tools.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Do you store or share my uploaded photos?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text:
+          'Uploaded images are processed securely and are not kept longer than necessary to generate your result. The Privacy Policy describes how temporary files are handled and clarifies that images are not used to train models or shared with third parties for advertising.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Do I need an account to use the tools?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text:
+          'No account is required. You can open any tool, upload an image, and download the result without signing up. If new features that benefit from accounts are added in the future, core tools will still remain accessible without registration.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Can I use the edited images for commercial projects?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text:
+          'In general, you retain ownership of the images you upload and the results generated from them. For most typical use cases, such as social media content, product photos, or marketing visuals, commercial use is allowed, but you remain responsible for respecting any third-party rights in your original images.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Which image formats and sizes are supported?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text:
+          'The tools work best with common web image formats such as JPEG and PNG. Some tools may also support WebP and other formats depending on the browser. Extremely large images may be resized or rejected for performance reasons, so for best results start with files that are optimized for web use.',
+      },
+    },
+  ],
+} as const;
+
+const homeFaqItems = [
+  {
+    id: 'what-is-mpt',
+    question: 'What is ModernPhotoTools?',
+    answer:
+      'ModernPhotoTools is a collection of browser-based AI tools for editing, enhancing, and generating images without installing heavy desktop software. You can remove backgrounds, clean up photos, upscale, retouch portraits, generate new images, and more directly from your browser on desktop or mobile.',
+  },
+  {
+    id: 'are-tools-free',
+    question: 'Are the tools free to use?',
+    answer:
+      'Yes. The core tools on ModernPhotoTools are free to use with no registration required. Some features may have usage limits based on fair use and infrastructure costs, but there is no subscription you must buy to try the tools.',
+  },
+  {
+    id: 'store-photos',
+    question: 'Do you store or share my uploaded photos?',
+    answer:
+      'Uploaded images are processed securely and are not kept longer than necessary to generate your result. The Privacy Policy describes how temporary files are handled and clarifies that images are not used to train models or shared with third parties for advertising.',
+  },
+  {
+    id: 'need-account',
+    question: 'Do I need an account to use the tools?',
+    answer:
+      'No account is required. You can open any tool, upload an image, and download the result without signing up. If new features that benefit from accounts are added in the future, core tools will still remain accessible without registration.',
+  },
+  {
+    id: 'commercial-use',
+    question: 'Can I use the edited images for commercial projects?',
+    answer:
+      'In general, you retain ownership of the images you upload and the results generated from them. For most typical use cases, such as social media content, product photos, or marketing visuals, commercial use is allowed, but you remain responsible for respecting any third-party rights in your original images.',
+  },
+  {
+    id: 'formats-sizes',
+    question: 'Which image formats and sizes are supported?',
+    answer:
+      'The tools work best with common web image formats such as JPEG and PNG. Some tools may also support WebP and other formats depending on the browser. Extremely large images may be resized or rejected for performance reasons, so for best results start with files that are optimized for web use.',
+  },
+] as const;
 
 const HomePage: React.FC = () => {
   // Define the 6 specific popular tools as requested
@@ -28,6 +129,7 @@ const HomePage: React.FC = () => {
   return (
     <>
       <SEO />
+      <SchemaJSONLD data={homeFaqSchema} />
       
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-50 to-indigo-50 py-16 md:py-24">
@@ -197,7 +299,67 @@ const HomePage: React.FC = () => {
           </div>
         </div>
       </section>
+      
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto text-center mb-8">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
+            <p className="text-gray-600">
+              Answers to common questions about ModernPhotoTools and how the browser-based tools work.
+            </p>
+          </div>
+          <HomePageFAQ />
+        </div>
+      </section>
     </>
+  );
+};
+
+const HomePageFAQ: React.FC = () => {
+  const [openId, setOpenId] = useState<string | null>(homeFaqItems[0]?.id ?? null);
+
+  const handleToggle = (id: string) => {
+    setOpenId((current) => (current === id ? null : id));
+  };
+
+  return (
+    <div className="max-w-3xl mx-auto">
+      <div className="space-y-4">
+        {homeFaqItems.map((item) => {
+          const isOpen = openId === item.id;
+          const answerId = `home-faq-answer-${item.id}`;
+          return (
+            <div key={item.id} className="bg-white rounded-lg shadow border border-gray-200">
+              <button
+                type="button"
+                onClick={() => handleToggle(item.id)}
+                className="w-full flex items-center justify-between px-4 md:px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                aria-expanded={isOpen}
+                aria-controls={answerId}
+              >
+                <div className="flex items-start gap-3">
+                  <HelpCircle className="w-5 h-5 text-blue-600 mt-1" />
+                  <span className="font-semibold text-gray-900">{item.question}</span>
+                </div>
+                <ChevronDown
+                  className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
+                    isOpen ? 'transform rotate-180' : ''
+                  }`}
+                />
+              </button>
+              <div
+                id={answerId}
+                className={`px-4 md:px-6 pb-4 text-gray-700 text-sm leading-relaxed ${
+                  isOpen ? 'block' : 'hidden'
+                }`}
+              >
+                {item.answer}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 };
 

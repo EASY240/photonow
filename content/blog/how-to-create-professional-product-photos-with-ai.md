@@ -228,7 +228,7 @@ metaDescription: "Learn how to create professional product photos with AI using 
     <div class="cta-block">
       <h3 class="cta-block-title">Ready to Transform Your Product Photos?</h3>
       <p class="cta-block-text">Join thousands using our AI Product Photoshoot Tool to create professional images fast.</p>
-      <a href="https://modernphototools.com/tools/ai-product-photoshoot" target="_blank" class="cta-btn cta-btn-large" rel="nofollow">Create professional product photos with AI</a>
+      <a href="https://modernphototools.com/tools/ai-product-photoshoot" target="_blank" class="cta-btn cta-btn-large">Create professional product photos with AI</a>
     </div>
   </section>
 
@@ -329,7 +329,7 @@ metaDescription: "Learn how to create professional product photos with AI using 
     <div class="cta-block">
       <h3 class="cta-block-title">Start Creating Professional Product Photos Now</h3>
       <p class="cta-block-text">No photography skills needed. No expensive equipment required. Just upload your product and let AI do the magic.</p>
-      <a href="https://modernphototools.com/tools/ai-product-photoshoot" target="_blank" class="cta-btn cta-btn-large" rel="nofollow">Create professional product photos with AI</a>
+      <a href="https://modernphototools.com/tools/ai-product-photoshoot" target="_blank" class="cta-btn cta-btn-large">Create professional product photos with AI</a>
     </div>
   </section>
 </div>

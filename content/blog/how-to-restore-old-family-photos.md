@@ -109,7 +109,7 @@ faqSchema: {
     <div class="cta-block">
         <h3 class="cta-block-title">Ready to Bring Your Old Photos Back to Life?</h3>
         <p class="cta-block-text">Our AI Image Upscaler tool can help restore your precious memories in just a few clicks.</p>
-        <a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank" class="cta-btn" data-link="true" data-id="1" rel="nofollow">Restore Your Photos Now</a>
+        <a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank" class="cta-btn" data-link="true" data-id="1">Restore Your Photos Now</a>
     </div>
 </section>
 
@@ -184,7 +184,7 @@ faqSchema: {
     <ol class="list-numbers">
         <li>
             <h3>Upload Your Photo</h3>
-            <p>Visit our <a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank" data-link="true" data-id="2" rel="nofollow">AI Image Upscaler tool</a> and click the "Upload Image" button. You can drag and drop your photo or browse to select it from your computer.</p>
+            <p>Visit our <a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank" data-link="true" data-id="2">AI Image Upscaler tool</a> and click the "Upload Image" button. You can drag and drop your photo or browse to select it from your computer.</p>
         </li>
         <li>
             <h3>Select Restoration Options</h3>
@@ -228,7 +228,7 @@ faqSchema: {
     <div class="cta-block">
         <h3 class="cta-block-title">Ready to Try It Yourself?</h3>
         <p class="cta-block-text">Restore your precious family photos in just a few clicks with our powerful AI technology.</p>
-        <a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank" class="cta-btn" data-link="true" data-id="3" rel="nofollow">Start Restoring Your Photos</a>
+        <a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank" class="cta-btn" data-link="true" data-id="3">Start Restoring Your Photos</a>
     </div>
 </section>
 
@@ -267,7 +267,7 @@ faqSchema: {
     <div class="cta-block">
         <h3 class="cta-block-title">Tackle Even the Most Challenging Photos</h3>
         <p class="cta-block-text">Our advanced AI can handle severely damaged photos, enhance facial details, and add natural color to black and white images.</p>
-        <a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank" class="cta-btn" data-link="true" data-id="4" rel="nofollow">Restore Challenging Photos</a>
+        <a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank" class="cta-btn" data-link="true" data-id="4">Restore Challenging Photos</a>
     </div>
 </section>
 
@@ -355,6 +355,6 @@ faqSchema: {
     <div class="cta-block">
         <h3 class="cta-block-title">Ready to Bring Your Family Memories Back to Life?</h3>
         <p class="cta-block-text">Our AI Image Upscaler tool makes photo restoration simple, fast, and accessible to everyone.</p>
-        <a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank" class="cta-btn cta-btn-large" data-link="true" data-id="5" rel="nofollow">Start Restoring Your Family Photos Now</a>
+        <a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank" class="cta-btn cta-btn-large" data-link="true" data-id="5">Start Restoring Your Family Photos Now</a>
     </div>
 </section></div>

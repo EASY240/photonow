@@ -48,7 +48,7 @@ metaDescription: "Discover how to visualize your perfect look before committing 
     <div class="cta-block">
       <h3 class="cta-block-title">Ready to See Your New Look?</h3>
       <p class="cta-block-text">Stop wondering and start seeing! Try our AI Hairstyle Generator and visualize your new look in seconds.</p>
-      <a href="https://modernphototools.com/tools/ai-hairstyle" class="cta-btn cta-btn-large" data-link="true" data-id="1" rel="nofollow">Try Different Hairstyles Now</a>
+      <a href="https://modernphototools.com/tools/ai-hairstyle" class="cta-btn cta-btn-large" data-link="true" data-id="1">Try Different Hairstyles Now</a>
     </div>
   </section>
 
@@ -102,7 +102,7 @@ metaDescription: "Discover how to visualize your perfect look before committing 
     <div class="list-comparison">
       <ul class="list-comparison-column list-comparison-primary">
         <h3 class="list-comparison-title">Step 1: Upload Your Photo</h3>
-        <li>Visit the <a href="https://modernphototools.com/tools/ai-hairstyle" data-link="true" data-id="2" rel="nofollow">AI Hairstyle Tool</a></li>
+        <li>Visit the <a href="https://modernphototools.com/tools/ai-hairstyle" data-link="true" data-id="2">AI Hairstyle Tool</a></li>
         <li>Click the "Upload" button or drag and drop your photo</li>
         <li>Choose a clear, front-facing photo with good lighting</li>
         <li>Make sure your current hairstyle is visible</li>
@@ -188,7 +188,7 @@ metaDescription: "Discover how to visualize your perfect look before committing 
     <div class="cta-block">
       <h3 class="cta-block-title">Ready to Transform Your Look?</h3>
       <p class="cta-block-text">Join thousands of users who have found their perfect hairstyle with our AI tool.</p>
-      <a href="https://modernphototools.com/tools/ai-hairstyle" class="cta-btn" data-link="true" data-id="3" rel="nofollow">Try the AI Hairstyle Generator</a>
+      <a href="https://modernphototools.com/tools/ai-hairstyle" class="cta-btn" data-link="true" data-id="3">Try the AI Hairstyle Generator</a>
     </div>
   </section>
 
@@ -353,7 +353,7 @@ metaDescription: "Discover how to visualize your perfect look before committing 
     <div class="cta-block">
       <h3 class="cta-block-title">Ready to See Your New Look?</h3>
       <p class="cta-block-text">Join thousands of satisfied users who have found their perfect hairstyle with our AI tool.</p>
-      <a href="https://modernphototools.com/tools/ai-hairstyle" class="cta-btn cta-btn-large cta-btn-full" data-link="true" data-id="4" rel="nofollow">Try Different Hairstyles with AI Now</a>
+      <a href="https://modernphototools.com/tools/ai-hairstyle" class="cta-btn cta-btn-large cta-btn-full" data-link="true" data-id="4">Try Different Hairstyles with AI Now</a>
     </div>
   </section>
 

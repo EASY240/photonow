@@ -183,7 +183,7 @@ faqSchema: {
     <p class="img-caption">Before and after: AI background removal with a well-crafted prompt</p>
   </div>
 
-  <p>The <a href="https://modernphototools.com/tools/remove-background" target="_blank" data-link="true" data-id="1" rel="nofollow">Remove Background</a> tool uses AI to precisely separate subjects from their backgrounds. While the tool is powerful on its own, the right prompts can help you achieve perfect results, especially with complex subjects.</p>
+  <p>The <a href="https://modernphototools.com/tools/remove-background" target="_blank" data-link="true" data-id="1">Remove Background</a> tool uses AI to precisely separate subjects from their backgrounds. While the tool is powerful on its own, the right prompts can help you achieve perfect results, especially with complex subjects.</p>
 
   <div class="card">
     <div class="card-content">
@@ -200,7 +200,7 @@ faqSchema: {
       </ul>
     </div>
     <div class="card-footer">
-      <a href="https://modernphototools.com/tools/remove-background" target="_blank" class="cta-btn" data-link="true" data-id="2" rel="nofollow">Try AI Background Removal</a>
+      <a href="https://modernphototools.com/tools/remove-background" target="_blank" class="cta-btn" data-link="true" data-id="2">Try AI Background Removal</a>
     </div>
   </div>
 
@@ -211,7 +211,7 @@ faqSchema: {
     <p class="img-caption">AI Cleanup transforms photos by removing imperfections while maintaining natural appearance</p>
   </div>
 
-  <p>The <a href="https://modernphototools.com/tools/ai-cleanup" target="_blank" data-link="true" data-id="3" rel="nofollow">AI Cleanup</a> tool excels at removing unwanted elements and enhancing image quality. Effective prompts help the AI understand exactly what to fix while preserving the natural look of your photos.</p>
+  <p>The <a href="https://modernphototools.com/tools/ai-cleanup" target="_blank" data-link="true" data-id="3">AI Cleanup</a> tool excels at removing unwanted elements and enhancing image quality. Effective prompts help the AI understand exactly what to fix while preserving the natural look of your photos.</p>
 
   <div class="card">
     <div class="card-content">
@@ -228,7 +228,7 @@ faqSchema: {
       </ul>
     </div>
     <div class="card-footer">
-      <a href="https://modernphototools.com/tools/ai-cleanup" target="_blank" class="cta-btn" data-link="true" data-id="4" rel="nofollow">Try AI Cleanup</a>
+      <a href="https://modernphototools.com/tools/ai-cleanup" target="_blank" class="cta-btn" data-link="true" data-id="4">Try AI Cleanup</a>
     </div>
   </div>
 
@@ -239,7 +239,7 @@ faqSchema: {
     <p class="img-caption">AI Expand seamlessly extends images beyond their original boundaries</p>
   </div>
 
-  <p>The <a href="https://modernphototools.com/tools/ai-expand" target="_blank" data-link="true" data-id="5" rel="nofollow">AI Expand</a> tool allows you to extend your images beyond their original boundaries. Detailed prompts help ensure the expanded areas match the style and content of your original image.</p>
+  <p>The <a href="https://modernphototools.com/tools/ai-expand" target="_blank" data-link="true" data-id="5">AI Expand</a> tool allows you to extend your images beyond their original boundaries. Detailed prompts help ensure the expanded areas match the style and content of your original image.</p>
 
   <div class="card">
     <div class="card-content">
@@ -256,7 +256,7 @@ faqSchema: {
       </ul>
     </div>
     <div class="card-footer">
-      <a href="https://modernphototools.com/tools/ai-expand" target="_blank" class="cta-btn" data-link="true" data-id="6" rel="nofollow">Try AI Expand</a>
+      <a href="https://modernphototools.com/tools/ai-expand" target="_blank" class="cta-btn" data-link="true" data-id="6">Try AI Expand</a>
     </div>
   </div>
 
@@ -267,7 +267,7 @@ faqSchema: {
     <p class="img-caption">AI Replace allows you to swap objects while maintaining lighting and perspective</p>
   </div>
 
-  <p>The <a href="https://modernphototools.com/tools/ai-replace" target="_blank" data-link="true" data-id="7" rel="nofollow">AI Replace</a> tool lets you swap objects or areas in your images. Detailed prompts ensure replacements blend naturally with the surrounding image.</p>
+  <p>The <a href="https://modernphototools.com/tools/ai-replace" target="_blank" data-link="true" data-id="7">AI Replace</a> tool lets you swap objects or areas in your images. Detailed prompts ensure replacements blend naturally with the surrounding image.</p>
 
   <div class="card">
     <div class="card-content">
@@ -284,7 +284,7 @@ faqSchema: {
       </ul>
     </div>
     <div class="card-footer">
-      <a href="https://modernphototools.com/tools/ai-replace" target="_blank" class="cta-btn" data-link="true" data-id="8" rel="nofollow">Try AI Replace</a>
+      <a href="https://modernphototools.com/tools/ai-replace" target="_blank" class="cta-btn" data-link="true" data-id="8">Try AI Replace</a>
     </div>
   </div>
 
@@ -295,7 +295,7 @@ faqSchema: {
     <p class="img-caption">Diverse images created with the AI Image Generator using varied prompt styles</p>
   </div>
 
-  <p>The <a href="https://modernphototools.com/tools/ai-image-generator" target="_blank" data-link="true" data-id="9" rel="nofollow">AI Image Generator</a> creates unique images from text descriptions. Mastering prompts for this tool opens unlimited creative possibilities.</p>
+  <p>The <a href="https://modernphototools.com/tools/ai-image-generator" target="_blank" data-link="true" data-id="9">AI Image Generator</a> creates unique images from text descriptions. Mastering prompts for this tool opens unlimited creative possibilities.</p>
 
   <div class="card">
     <div class="card-content">
@@ -312,7 +312,7 @@ faqSchema: {
       </ul>
     </div>
     <div class="card-footer">
-      <a href="https://modernphototools.com/tools/ai-image-generator" target="_blank" class="cta-btn" data-link="true" data-id="10" rel="nofollow">Try AI Image Generator</a>
+      <a href="https://modernphototools.com/tools/ai-image-generator" target="_blank" class="cta-btn" data-link="true" data-id="10">Try AI Image Generator</a>
     </div>
   </div>
 </section>
@@ -327,7 +327,7 @@ faqSchema: {
 
   <h3>Style Mixing</h3>
 
-  <p>Combine multiple artistic styles or aesthetics to create unique results. This technique works particularly well with the <a href="https://modernphototools.com/tools/ai-image-to-image" target="_blank" data-link="true" data-id="11" rel="nofollow">AI Image to Image</a> and <a href="https://modernphototools.com/tools/ai-filter" target="_blank" data-link="true" data-id="12" rel="nofollow">AI Filter</a> tools.</p>
+  <p>Combine multiple artistic styles or aesthetics to create unique results. This technique works particularly well with the <a href="https://modernphototools.com/tools/ai-image-to-image" target="_blank" data-link="true" data-id="11">AI Image to Image</a> and <a href="https://modernphototools.com/tools/ai-filter" target="_blank" data-link="true" data-id="12">AI Filter</a> tools.</p>
 
   <div class="blockquote">
     <p>"Transform portrait using mix of [style 1] and [style 2], with [percentage/ratio] balance. Maintain [specific elements] from original while applying stylistic elements including [specific style characteristics]."</p>
@@ -343,7 +343,7 @@ faqSchema: {
 
   <h3>Weighted Keywords</h3>
 
-  <p>Emphasize certain aspects of your prompt by indicating their importance. This works especially well with the <a href="https://modernphototools.com/tools/ai-image-generator" target="_blank" data-link="true" data-id="13" rel="nofollow">AI Image Generator</a>.</p>
+  <p>Emphasize certain aspects of your prompt by indicating their importance. This works especially well with the <a href="https://modernphototools.com/tools/ai-image-generator" target="_blank" data-link="true" data-id="13">AI Image Generator</a>.</p>
 
   <div class="blockquote">
     <p>"Create [image type] with (important element:1.5) as focal point. Include (secondary element:1.2) and (background element:0.8)."</p>
@@ -351,7 +351,7 @@ faqSchema: {
 
   <h3>Reference Images</h3>
 
-  <p>Use existing images as style references to guide the AI. This is particularly effective with the <a href="https://modernphototools.com/tools/ai-image-to-image" target="_blank" data-link="true" data-id="14" rel="nofollow">AI Image to Image</a> tool.</p>
+  <p>Use existing images as style references to guide the AI. This is particularly effective with the <a href="https://modernphototools.com/tools/ai-image-to-image" target="_blank" data-link="true" data-id="14">AI Image to Image</a> tool.</p>
 
   <div class="blockquote">
     <p>"Transform image using the style reference provided. Maintain [specific elements] from original while adopting [specific aspects] from reference image."</p>
@@ -403,7 +403,7 @@ faqSchema: {
 
   <div class="card">
     <div class="card-content">
-      <p>A small business owner needed professional-looking product images but lacked professional photography equipment. Using ModernPhotoTools' <a href="https://modernphototools.com/tools/ai-product-photoshoot" target="_blank" data-link="true" data-id="15" rel="nofollow">AI Product Photoshoot</a> and <a href="https://modernphototools.com/tools/remove-background" target="_blank" data-link="true" data-id="16" rel="nofollow">Remove Background</a> tools with carefully crafted prompts, they transformed basic smartphone photos into studio-quality product images.</p>
+      <p>A small business owner needed professional-looking product images but lacked professional photography equipment. Using ModernPhotoTools' <a href="https://modernphototools.com/tools/ai-product-photoshoot" target="_blank" data-link="true" data-id="15">AI Product Photoshoot</a> and <a href="https://modernphototools.com/tools/remove-background" target="_blank" data-link="true" data-id="16">Remove Background</a> tools with carefully crafted prompts, they transformed basic smartphone photos into studio-quality product images.</p>
 
       <h4>The Process:</h4>
       <ol class="list-numbers">
@@ -493,28 +493,28 @@ faqSchema: {
     <div class="column-card">
       <h3>Object &amp; Background Manipulation</h3>
       <ul class="custom-list">
-        <li><a href="https://modernphototools.com/tools/remove-background" target="_blank" data-link="true" data-id="17" rel="nofollow">Remove Background</a> - For isolating subjects</li>
-        <li><a href="https://modernphototools.com/tools/ai-replace" target="_blank" data-link="true" data-id="18" rel="nofollow">AI Replace</a> - For swapping objects</li>
-        <li><a href="https://modernphototools.com/tools/ai-expand" target="_blank" data-link="true" data-id="19" rel="nofollow">AI Expand</a> - For extending canvas</li>
-        <li><a href="https://modernphototools.com/tools/ai-background-generator" target="_blank" data-link="true" data-id="20" rel="nofollow">AI Background Generator</a> - For creating new backgrounds</li>
+        <li><a href="https://modernphototools.com/tools/remove-background" target="_blank" data-link="true" data-id="17">Remove Background</a> - For isolating subjects</li>
+        <li><a href="https://modernphototools.com/tools/ai-replace" target="_blank" data-link="true" data-id="18">AI Replace</a> - For swapping objects</li>
+        <li><a href="https://modernphototools.com/tools/ai-expand" target="_blank" data-link="true" data-id="19">AI Expand</a> - For extending canvas</li>
+        <li><a href="https://modernphototools.com/tools/ai-background-generator" target="_blank" data-link="true" data-id="20">AI Background Generator</a> - For creating new backgrounds</li>
       </ul>
     </div>
     <div class="column-card">
       <h3>Creative Transformations</h3>
       <ul class="custom-list">
-        <li><a href="https://modernphototools.com/tools/ai-cartoon" target="_blank" data-link="true" data-id="21" rel="nofollow">AI Cartoon</a> - For stylized illustrations</li>
-        <li><a href="https://modernphototools.com/tools/ai-caricature" target="_blank" data-link="true" data-id="22" rel="nofollow">AI Caricature</a> - For exaggerated portraits</li>
-        <li><a href="https://modernphototools.com/tools/ai-avatar" target="_blank" data-link="true" data-id="23" rel="nofollow">AI Avatar</a> - For personalized avatars</li>
-        <li><a href="https://modernphototools.com/tools/ai-image-to-image" target="_blank" data-link="true" data-id="24" rel="nofollow">AI Image to Image</a> - For style transfers</li>
+        <li><a href="https://modernphototools.com/tools/ai-cartoon" target="_blank" data-link="true" data-id="21">AI Cartoon</a> - For stylized illustrations</li>
+        <li><a href="https://modernphototools.com/tools/ai-caricature" target="_blank" data-link="true" data-id="22">AI Caricature</a> - For exaggerated portraits</li>
+        <li><a href="https://modernphototools.com/tools/ai-avatar" target="_blank" data-link="true" data-id="23">AI Avatar</a> - For personalized avatars</li>
+        <li><a href="https://modernphototools.com/tools/ai-image-to-image" target="_blank" data-link="true" data-id="24">AI Image to Image</a> - For style transfers</li>
       </ul>
     </div>
     <div class="column-card">
       <h3>Enhancement &amp; Refinement</h3>
       <ul class="custom-list">
-        <li><a href="https://modernphototools.com/tools/ai-cleanup" target="_blank" data-link="true" data-id="25" rel="nofollow">AI Cleanup</a> - For removing imperfections</li>
-        <li><a href="https://modernphototools.com/tools/ai-portrait" target="_blank" data-link="true" data-id="26" rel="nofollow">AI Portrait</a> - For portrait enhancement</li>
-        <li><a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank" data-link="true" data-id="27" rel="nofollow">AI Image Upscaler</a> - For increasing resolution</li>
-        <li><a href="https://modernphototools.com/tools/ai-filter" target="_blank" data-link="true" data-id="28" rel="nofollow">AI Filter</a> - For applying artistic effects</li>
+        <li><a href="https://modernphototools.com/tools/ai-cleanup" target="_blank" data-link="true" data-id="25">AI Cleanup</a> - For removing imperfections</li>
+        <li><a href="https://modernphototools.com/tools/ai-portrait" target="_blank" data-link="true" data-id="26">AI Portrait</a> - For portrait enhancement</li>
+        <li><a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank" data-link="true" data-id="27">AI Image Upscaler</a> - For increasing resolution</li>
+        <li><a href="https://modernphototools.com/tools/ai-filter" target="_blank" data-link="true" data-id="28">AI Filter</a> - For applying artistic effects</li>
       </ul>
     </div>
   </div>
@@ -538,7 +538,7 @@ faqSchema: {
           <li>"Enhance this portrait with professional retouching. Improve skin texture while maintaining natural appearance, brighten eyes subtly, enhance hair definition, and add slight background blur for depth. Preserve original lighting mood and authentic expression."</li>
           <li>"Transform this casual selfie into professional headshot. Create neutral studio background, improve lighting with soft key light from 45-degree angle, enhance facial features subtly, and adjust framing to proper headshot composition while maintaining natural skin texture and authentic appearance."</li>
         </ul>
-        <p><em>Best with: <a href="https://modernphototools.com/tools/ai-portrait" target="_blank" data-link="true" data-id="29" rel="nofollow">AI Portrait</a>, <a href="https://modernphototools.com/tools/ai-cleanup" target="_blank" data-link="true" data-id="30" rel="nofollow">AI Cleanup</a></em></p>
+        <p><em>Best with: <a href="https://modernphototools.com/tools/ai-portrait" target="_blank" data-link="true" data-id="29">AI Portrait</a>, <a href="https://modernphototools.com/tools/ai-cleanup" target="_blank" data-link="true" data-id="30">AI Cleanup</a></em></p>
       </div>
     </div>
 
@@ -549,7 +549,7 @@ faqSchema: {
           <li>"Create professional product photo of this [product type] with clean white background, soft shadow beneath for grounding, and subtle reflection. Use professional product lighting setup with main light from upper right and fill light from left to highlight product features and texture. Ensure accurate color representation and sharp detail throughout."</li>
           <li>"Transform this casual product photo into lifestyle product image showing [product] in natural home setting. Create warm, inviting atmosphere with soft natural lighting from nearby window. Add contextual elements like [relevant props] that complement product without distracting. Maintain focus on product while creating aspirational scene."</li>
         </ul>
-        <p><em>Best with: <a href="https://modernphototools.com/tools/ai-product-photoshoot" target="_blank" data-link="true" data-id="31" rel="nofollow">AI Product Photoshoot</a>, <a href="https://modernphototools.com/tools/remove-background" target="_blank" data-link="true" data-id="32" rel="nofollow">Remove Background</a></em></p>
+        <p><em>Best with: <a href="https://modernphototools.com/tools/ai-product-photoshoot" target="_blank" data-link="true" data-id="31">AI Product Photoshoot</a>, <a href="https://modernphototools.com/tools/remove-background" target="_blank" data-link="true" data-id="32">Remove Background</a></em></p>
       </div>
     </div>
 
@@ -560,7 +560,7 @@ faqSchema: {
           <li>"Enhance this landscape photo with dramatic sky. Replace current sky with vibrant sunset featuring rich oranges and purples. Add subtle sun rays filtering through clouds. Maintain natural appearance of landscape elements while adjusting lighting to match new sky. Enhance color vibrance and contrast slightly for more impactful image."</li>
           <li>"Transform this daytime landscape into magical blue hour scene. Adjust lighting to deep blue twilight with remaining warm glow on horizon. Enhance water reflections, add subtle mist in valley, and bring out detail in shadow areas. Maintain natural landscape appearance while creating serene evening atmosphere."</li>
         </ul>
-        <p><em>Best with: <a href="https://modernphototools.com/tools/ai-replace" target="_blank" data-link="true" data-id="33" rel="nofollow">AI Replace</a>, <a href="https://modernphototools.com/tools/ai-expand" target="_blank" data-link="true" data-id="34" rel="nofollow">AI Expand</a></em></p>
+        <p><em>Best with: <a href="https://modernphototools.com/tools/ai-replace" target="_blank" data-link="true" data-id="33">AI Replace</a>, <a href="https://modernphototools.com/tools/ai-expand" target="_blank" data-link="true" data-id="34">AI Expand</a></em></p>
       </div>
     </div>
   </div>
@@ -568,7 +568,7 @@ faqSchema: {
   <div class="cta-block">
     <h3 class="cta-block-title">Ready to Transform Your Photos?</h3>
     <p class="cta-block-text">Access our complete library of AI photo editing prompts and start creating stunning images today.</p>
-    <a href="https://modernphototools.com/tools" target="_blank" class="cta-btn cta-btn-large" data-link="true" data-id="35" rel="nofollow">Explore All Tools</a>
+    <a href="https://modernphototools.com/tools" target="_blank" class="cta-btn cta-btn-large" data-link="true" data-id="35">Explore All Tools</a>
   </div>
 </section>
 
@@ -598,7 +598,7 @@ faqSchema: {
   <div class="cta-block">
     <h3 class="cta-block-title">Start Creating Amazing Prompts Today</h3>
     <p class="cta-block-text">Put your new prompt skills to work with ModernPhotoTools' powerful AI editing Prompt Generator.</p>
-    <a href="/tools/prompt-generator" target="_blank" class="cta-btn cta-btn-large" data-link="true" data-id="36" rel="nofollow">Try Prompt Generator</a>
+    <a href="/tools/prompt-generator" target="_blank" class="cta-btn cta-btn-large" data-link="true" data-id="36">Try Prompt Generator</a>
   </div>
 </section>
 

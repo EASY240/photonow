@@ -42,7 +42,7 @@ faqSchema: {
         <div class="cta-block">
             <h3 class="cta-block-title">Try Our Free AI Image Upscaler</h3>
             <p class="cta-block-text">Transform your photos with professional-quality AI enhancement in seconds. No signup required!</p>
-            <a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank" class="cta-btn cta-btn-large" data-link="true" data-id="1" rel="nofollow">Enhance Images Now</a>
+            <a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank" class="cta-btn cta-btn-large" data-link="true" data-id="1">Enhance Images Now</a>
         </div>
     </div>
 
@@ -100,7 +100,7 @@ faqSchema: {
         <div class="cta-block">
             <h3 class="cta-block-title">Experience AI Enhancement</h3>
             <p class="cta-block-text">See how our AI technology can transform your images with intelligent, automatic improvements.</p>
-            <a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank" class="cta-btn" data-link="true" data-id="2" rel="nofollow">Try AI Enhancement</a>
+            <a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank" class="cta-btn" data-link="true" data-id="2">Try AI Enhancement</a>
         </div>
     </section>
 
@@ -210,7 +210,7 @@ faqSchema: {
         <div class="cta-block">
             <h3 class="cta-block-title">Have photos that need enhancement?</h3>
             <p class="cta-block-text">Whether you're restoring old memories or preparing images for professional use, our AI Image Upscaler can help.</p>
-            <a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank" class="cta-btn" data-link="true" data-id="3" rel="nofollow">Try AI Image Upscaler</a>
+            <a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank" class="cta-btn" data-link="true" data-id="3">Try AI Image Upscaler</a>
         </div>
     </section>
 
@@ -285,7 +285,7 @@ faqSchema: {
 
         <div class="steps-container">
             <ol class="step-list">
-                <li><strong>Visit Our AI Image Upscaler tool</strong> at <a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank" rel="nofollow">Image Upscaler</a></li>
+                <li><strong>Visit Our AI Image Upscaler tool</strong> at <a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank">Image Upscaler</a></li>
                 <li><strong>Upload your image</strong> by dragging and dropping it onto the page or clicking the upload button</li>
                 <li><strong>Select your enhancement options</strong> based on your needs 2X Or 4X (resolution increase, noise reduction, etc.)</li>
                 <li><strong>Click "Enhance"</strong> and wait a few seconds for the AI to process your image</li>
@@ -405,7 +405,7 @@ faqSchema: {
     <div class="cta-block">
         <h2>Transform Your Photos Today</h2>
         <p>Ready to experience the power of AI image enhancement? Try our advanced AI Image Upscaler and see the difference intelligent enhancement can make to your photos.</p>
-        <a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank" class="cta-btn" data-link="true" data-id="4" rel="nofollow">Enhance Your Images Now</a>
+        <a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank" class="cta-btn" data-link="true" data-id="4">Enhance Your Images Now</a>
     </div>
 
 </div>
