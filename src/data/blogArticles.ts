@@ -14,6 +14,16 @@ export interface BlogArticle {
 // Blog article metadata index - content is now loaded from individual Markdown files
 export const blogArticleIndex = [
   {
+    id: 'christmas-art-prompts-create-your-own-festive-magic',
+    title: 'Christmas Art Prompts: Create Your Own Festive Magic',
+    excerpt: 'Ignite your festive creativity! Use these fun Christmas art prompts to bring your holiday ideas to life, whether you’re a traditional artist, a digital illustrator, or an AI creator.',
+    publishDate: '2025-12-19',
+    readTime: '12 min read',
+    category: 'general' as const,
+    featuredImage: '/images/blog/Christmas Art Prompts.jpeg',
+    keywords: ['Christmas art prompts', 'Midjourney Christmas prompts', 'Stable Diffusion Christmas prompts', 'holiday art ideas']
+  },
+  {
     id: 'real-estate-photo-editing-guide',
     title: 'Real Estate Photo Editing: Complete Guide for Stunning Listings',
     excerpt: 'A practical guide to real estate photo editing covering essential corrections, sky replacement, and advanced cleanup—with quick links to AI tools for common fixes.',
