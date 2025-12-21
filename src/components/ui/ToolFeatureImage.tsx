@@ -35,18 +35,17 @@ const ToolFeatureImage: React.FC<ToolFeatureImageProps> = ({
   return (
     <div className={`tool-feature-image mb-8 mt-6 ${className}`}>
       <div className="relative">
-        {/* Loading placeholder */}
         {!imageLoaded && (
           <div className="w-full max-w-2xl mx-auto h-64 bg-gray-100 rounded-lg animate-pulse flex items-center justify-center">
             <div className="text-gray-400 text-sm">Loading image...</div>
           </div>
         )}
         
-        {/* Actual image */}
         {imagePath && (
           <img 
             src={imagePath}
             alt={altText}
+            data-tool-id={toolId}
             className={`w-full max-w-2xl mx-auto rounded-lg shadow-lg object-contain transition-opacity duration-300 ${
               imageLoaded ? 'opacity-100' : 'opacity-0 absolute top-0 left-0'
             }`}
@@ -54,7 +53,8 @@ const ToolFeatureImage: React.FC<ToolFeatureImageProps> = ({
               maxHeight: '400px',
               objectFit: 'contain'
             }}
-            loading="lazy"
+            loading={toolId === 'ai-replace' ? 'eager' : 'lazy'}
+            fetchPriority={toolId === 'ai-replace' ? 'high' : 'auto'}
             onError={handleImageError}
             onLoad={handleImageLoad}
           />
