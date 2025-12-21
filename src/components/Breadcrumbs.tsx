@@ -101,15 +101,29 @@ export function Breadcrumbs() {
   }
 
   // Generate JSON-LD Schema for SEO
+  const itemListElement = breadcrumbs.map((crumb, index) => {
+    const listItem: {
+      '@type': string;
+      position: number;
+      name: string;
+      item?: string;
+    } = {
+      '@type': 'ListItem',
+      position: index + 1,
+      name: crumb.name
+    };
+
+    if (!crumb.isLast) {
+      listItem.item = `${breadcrumbBaseUrl}${crumb.path}`;
+    }
+
+    return listItem;
+  });
+
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
-    'itemListElement': breadcrumbs.map((crumb, index) => ({
-      '@type': 'ListItem',
-      'position': index + 1,
-      'name': crumb.name,
-      'item': `${breadcrumbBaseUrl}${crumb.path}`
-    }))
+    itemListElement
   };
 
   return (
