@@ -8,6 +8,7 @@ import ImageDropzone from '../components/ui/ImageDropzone';
 import PromptsGuide from '../components/ui/PromptsGuide';
 import ToolRecommendations from '../components/ui/ToolRecommendations';
 import ToolFeatureImage from '../components/ui/ToolFeatureImage';
+import ImageComparisonSlider from '../components/ui/ImageComparisonSlider';
 import { tools } from '../data/tools';
 import { findToolImage, generateAltText } from '../utils/imageMapper';
 import { processImage, uploadImageAndGetUrl, startCleanupJob, startWatermarkRemoverJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, startProductPhotoshootJob, startBackgroundGeneratorJob, startImageGeneratorJob, startPortraitJob, startFaceSwapJob, startOutfitJob, startImageToImageJob, startSketchToImageJob, startHairstyleJob, startUpscaleJob, startAIFilterJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete, pollWatermarkJobUntilComplete, pollV1JobUntilComplete } from '../utils/api';
@@ -159,6 +160,27 @@ const ToolPage: React.FC = () => {
   if (!tool) {
     return <Navigate to="/tools" replace />;
   }
+
+  const beforeImagePreview = (() => {
+    if (tool.id === 'ai-face-swap') {
+      return faceSwapTargetImage.preview;
+    }
+    if (tool.id === 'ai-image-to-image') {
+      return i2iMainImage.preview;
+    }
+    if (tool.id === 'ai-sketch-to-image') {
+      if (s2iInputMode === 'upload') {
+        return s2iSketchImage.preview;
+      }
+      return null;
+    }
+    if (tool.id === 'ai-image-generator') {
+      return null;
+    }
+    return selectedImage.preview;
+  })();
+
+  const canShowComparisonSlider = !!beforeImagePreview && !!processedImage.url;
 
   // Debounced scroll function for outfit style selection
   const debouncedScrollToGenerate = debounce(() => {
@@ -3530,13 +3552,23 @@ const handleAIImageToImageGenerate = async () => {
                 </div>
               ) : processedImage.url ? (
                 <div className="space-y-4">
-                  <div className="border rounded-lg overflow-hidden">
-                    <img 
-                      src={processedImage.url} 
-                      alt="Processed result" 
-                      className="w-full h-auto"
+                  {canShowComparisonSlider ? (
+                    <ImageComparisonSlider
+                      beforeSrc={beforeImagePreview as string}
+                      afterSrc={processedImage.url}
+                      beforeLabel="Original"
+                      afterLabel="Processed"
+                      ariaLabel="Compare original and processed images"
                     />
-                  </div>
+                  ) : (
+                    <div className="border rounded-lg overflow-hidden">
+                      <img 
+                        src={processedImage.url} 
+                        alt="Processed result" 
+                        className="w-full h-auto"
+                      />
+                    </div>
+                  )}
                   <Button 
                     fullWidth 
                     onClick={handleDownload}

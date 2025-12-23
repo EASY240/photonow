@@ -23,6 +23,7 @@
     "@openrouter/sdk": "^0.2.9",
     "@supabase/supabase-js": "^2.49.8",
     "gray-matter": "^4.0.3",
+    "img-comparison-slider": "^8.0.6",
     "lucide-react": "^0.344.0",
     "node-fetch": "^3.3.2",
     "react": "^18.3.1",
