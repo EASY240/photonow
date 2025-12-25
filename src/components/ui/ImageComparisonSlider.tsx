@@ -37,12 +37,14 @@ const ImageComparisonSlider: React.FC<ImageComparisonSliderProps> = ({
             slot="first"
             src={beforeSrc}
             alt={beforeLabel}
+            loading="lazy"
             style={{ width: '100%', height: '100%', objectFit: 'contain' }}
           />
           <img
             slot="second"
             src={afterSrc}
             alt={afterLabel}
+            loading="lazy"
             style={{ width: '100%', height: '100%', objectFit: 'contain' }}
           />
         </>

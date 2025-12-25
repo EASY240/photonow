@@ -585,3 +585,25 @@ p#breadcrumbs b::after {
   color: #333;
   font-weight: 600;
 }
+
+.tabs-scroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.tabs-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in-300 {
+  animation: fadeIn 0.3s ease-out;
+}

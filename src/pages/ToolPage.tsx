@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
-import { Download, Loader, Brush, XCircle, HelpCircle, X } from 'lucide-react';
+import { Download, Loader, Brush, XCircle, HelpCircle, X, ChevronDown, Sparkles, ShoppingBag, Car, Home, KeyIcon } from 'lucide-react';
 import SEO from '../components/ui/SEO';
 import { Helmet } from 'react-helmet-async';
 import Button from '../components/ui/Button';
@@ -25,6 +25,271 @@ import { hairstylePresets } from '../constants/hairstylePrompts';
 import { aiFilterStyles, filterCategories, type AIFilterStyle } from '../constants/filterStyles';
 import { generateCanonicalUrl, generateOgImageUrl } from '../utils/siteConfig';
 import { scrollToResultContainer, scrollToGenerateButton, debounce } from '../utils/scrollUtils';
+import { SchemaJSONLD } from '../components/ui/SchemaJSONLD';
+
+interface ErrorBoundaryProps {
+  children: React.ReactNode;
+  fallback?: React.ReactNode;
+}
+
+interface ErrorBoundaryState {
+  hasError: boolean;
+}
+
+class SectionErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: unknown, info: unknown) {
+    console.error('Error in ToolPage section', error, info);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      if (this.props.fallback) {
+        return this.props.fallback;
+      }
+      return (
+        <div className="rounded-lg border border-red-100 bg-red-50 p-4 text-sm text-red-700">
+          Something went wrong while loading this section.
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
+interface RemoveBgZigZagSection {
+  id: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  imageSrc: string;
+  imageAlt: string;
+  icon: React.ReactNode;
+}
+
+const removeBgZigZagSections: RemoveBgZigZagSection[] = [
+  {
+    id: 'portraits',
+    eyebrow: 'Portraits',
+    title: 'Take the background out of the picture automatically',
+    description:
+      'Turn busy or cluttered portraits into clean, professional cutouts in seconds. The AI finds the subject, handles hair and edges, and delivers ready-to-use PNGs for social profiles, avatars, and headshots.',
+    imageSrc: '/images/blog/background out of the picture automatically.jpg',
+    imageAlt: 'Portrait photo with the background removed to a clean backdrop',
+    icon: <Sparkles className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'products',
+    eyebrow: 'Ecommerce products',
+    title: 'Create studio-style product photos without a studio',
+    description:
+      'Remove distracting backgrounds from product shots and place them on clean, on-brand canvases that are ready for marketplaces, ads, and catalogs.',
+    imageSrc: '/images/blog/product photos without a studio.jpg',
+    imageAlt: 'Product image prepared with a clean background for online listings',
+    icon: <ShoppingBag className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'logo',
+    eyebrow: 'Logos',
+    title: 'Make Logo Transparent With Modern Transparent Image Maker',
+    description:
+      'Logos and text with transparent background offer a versatile and professional aesthetic, allowing seamless integration into various marketing materials, websites, and promotional content. With this tools precision you can ensures that intricate details of the logo are preserved.',
+    imageSrc: '/images/blog/Make Logo Transparent.jpg',
+    imageAlt: 'Make Logo Transparent With Modern Transparent Image Maker',
+    icon: <KeyIcon className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'real-estate',
+    eyebrow: 'Real estate and interiors',
+    title: 'Highlight the property, not the distractions',
+    description:
+      'Remove signs, mismatched decor, and visual noise from room photos so the space feels brighter, clearer, and easier to browse on listing pages.',
+    imageSrc: '/images/blog/Real estate and interiors.jpg',
+    imageAlt: 'Interior photo cleaned up with a simplified background',
+    icon: <Home className="w-6 h-6 text-blue-600" />
+  }
+];
+
+interface RemoveBgFaqItem {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+const removeBgFaqItems: RemoveBgFaqItem[] = [
+  {
+    id: 'what-it-does',
+    question: 'What does the Remove Background tool do?',
+    answer:
+      'It automatically detects the main subject in your photo and separates it from the background, so you can download a clean cutout or pair it with a new background without manual masking.'
+  },
+  {
+    id: 'who-it-is-for',
+    question: 'Who is the background remover designed for?',
+    answer:
+      'It is built for creators, sellers, and teams that work with visuals every day: ecommerce sellers, marketers, photographers, real estate agents, and anyone who needs clean, consistent images fast.'
+  },
+  {
+    id: 'image-requirements',
+    question: 'What image formats and sizes work best?',
+    answer:
+      'Standard formats like JPG and PNG work best. For the most accurate cutouts, upload clear photos where the subject is well lit and separated from the background. Very small or heavily compressed images may produce lower quality results.'
+  },
+  {
+    id: 'pricing',
+    question: 'Is the Remove Background tool free to use?',
+    answer:
+      'You can use the online background remover directly in your browser without installing software. Pricing and limits may depend on the current plan, but you can start testing it for free on typical photos.'
+  },
+  {
+    id: 'where-it-works',
+    question: 'Can I use the tool for product, portrait, and real estate photos?',
+    answer:
+      'Yes. The same background remover works across people, products, cars, and property photos. You can combine it with other ModernPhotoTools features to generate new backgrounds or polish your final image.'
+  }
+];
+
+const removeBgFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: removeBgFaqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer
+    }
+  }))
+} as const;
+
+function RemoveBgZigZagLayout() {
+  return (
+    <section className="mb-10">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-8 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            Designed for real-world photo workflows
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Use the background remover anywhere you work with visuals: portraits, products, cars, interiors, marketing assets, and more.
+          </p>
+        </div>
+        <div className="space-y-10">
+          {removeBgZigZagSections.map((section, index) => {
+            const textFirst = index % 2 === 0;
+            return (
+              <div
+                key={section.id}
+                className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12"
+              >
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-2 lg:order-1' : 'order-2 lg:order-2'
+                  }`}
+                >
+                  <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 mb-3">
+                    {section.icon}
+                    <span>{section.eyebrow}</span>
+                  </div>
+                  <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3">
+                    {section.title}
+                  </h3>
+                  <p className="text-gray-700 text-sm md:text-base leading-relaxed">
+                    {section.description}
+                  </p>
+                </div>
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-1 lg:order-2' : 'order-1 lg:order-1'
+                  }`}
+                >
+                  <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-gray-50">
+                    <img
+                      src={section.imageSrc}
+                      alt={section.imageAlt}
+                      loading="lazy"
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function RemoveBgFAQ() {
+  const [openId, setOpenId] = useState<string | null>(removeBgFaqItems[0]?.id ?? null);
+
+  const handleToggle = (id: string) => {
+    setOpenId((current) => (current === id ? null : id));
+  };
+
+  return (
+    <section className="mb-12">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            Remove Background: frequently asked questions
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Answers to common questions about how the background remover works and where you can use it.
+          </p>
+        </div>
+        <SchemaJSONLD data={removeBgFaqSchema} />
+        <div className="max-w-3xl mx-auto">
+          <div className="space-y-4">
+            {removeBgFaqItems.map((item) => {
+              const isOpen = openId === item.id;
+              const answerId = `remove-bg-faq-answer-${item.id}`;
+              return (
+                <div key={item.id} className="bg-white rounded-lg shadow border border-gray-200">
+                  <button
+                    type="button"
+                    onClick={() => handleToggle(item.id)}
+                    className="w-full flex items-center justify-between px-4 md:px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    aria-expanded={isOpen}
+                    aria-controls={answerId}
+                  >
+                    <div className="flex items-start gap-3">
+                      <HelpCircle className="w-5 h-5 text-blue-600 mt-1" />
+                      <span className="font-semibold text-gray-900">{item.question}</span>
+                    </div>
+                    <ChevronDown
+                      className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
+                        isOpen ? 'transform rotate-180' : ''
+                      }`}
+                    />
+                  </button>
+                  <div
+                    id={answerId}
+                    className={`px-4 md:px-6 pb-4 text-gray-700 text-sm leading-relaxed ${
+                      isOpen ? 'block' : 'hidden'
+                    }`}
+                  >
+                    {item.answer}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 const ToolPage: React.FC = () => {
   const { toolId } = useParams<{ toolId: string }>();
@@ -146,12 +411,65 @@ const ToolPage: React.FC = () => {
   const [imageDimensions, setImageDimensions] = useState<{ width: number; height: number } | null>(null);
   const [availableUpscaleOptions, setAvailableUpscaleOptions] = useState<(2 | 4)[]>([2, 4]);
   
+  const ImageComparison = ImageComparisonSlider;
+
   // AI Filter state
   const [filterSelectedCategory, setFilterSelectedCategory] = useState<string>('Ghibli');
   const [filterSelectedStyle, setFilterSelectedStyle] = useState<AIFilterStyle | null>(null);
   const [filterCustomStyleImage, setFilterCustomStyleImage] = useState<File | null>(null);
   const [filterTextPrompt, setFilterTextPrompt] = useState('');
   const [filterUseCustom, setFilterUseCustom] = useState(false);
+
+  const removeBgUseCaseTabs: { id: 'people' | 'products' | 'cars' | 'animals' | 'real-estate'; label: string }[] = [
+    { id: 'people', label: 'People' },
+    { id: 'products', label: 'Products' },
+    { id: 'cars', label: 'Cars' },
+    { id: 'animals', label: 'Animals' },
+    { id: 'real-estate', label: 'Real Estate' }
+  ];
+
+  const removeBgUseCases: Record<
+    (typeof removeBgUseCaseTabs)[number]['id'],
+    { title: string; description: string; beforeSrc: string; afterSrc: string }
+  > = {
+    people: {
+      title: 'Portraits without Distracting Backgrounds',
+      description:
+        'Remove busy or cluttered backgrounds from profile photos, social media content, and marketing creatives so the focus stays on the person.',
+      beforeSrc: '/images/blog/remove-bg-1.jpg',
+      afterSrc: '/images/blog/remove-bg.png'
+    },
+    products: {
+      title: 'Clean Product Photos for Stores and Marketplaces',
+      description:
+        'Cut out products from messy scenes and place them on clean, consistent backgrounds ready for ecommerce, catalogs, and ads.',
+      beforeSrc: '/images/blog/Clean Product Photos.jpg',
+      afterSrc: '/images/blog/Clean Product Photos-BG removed.jpg'
+    },
+    cars: {
+      title: 'Polished Car Listings and Automotive Ads',
+      description:
+        'Isolate cars from distracting surroundings to create professional listings, social media posts, and promotional banners.',
+      beforeSrc: '/images/blog/Isolate cars from distracting surroundings.jpg',
+      afterSrc: '/images/blog/Isolate cars from distracting surroundings-BG removed.jpg'
+    },
+    animals: {
+      title: 'Cute Pets on Clean, Shareable Backgrounds',
+      description:
+        'Remove backgrounds behind pets for postcards, social posts, adoption listings, and fun custom designs.',
+      beforeSrc: '/images/blog/Cute Pets on Clean, Shareable Backgrounds.jpg',
+      afterSrc: '/images/blog/Cute Pets on Clean, Shareable Backgrounds-BG removed.jpg'
+    },
+    'real-estate': {
+      title: 'Striking Real Estate and Interior Shots',
+      description:
+        'Highlight rooms, furniture, and properties by stripping away visual noise so layouts and details stand out.',
+      beforeSrc: '/images/blog/Striking Real Estate and Interior Shots.jpg',
+      afterSrc: '/images/blog/Striking Real Estate and Interior Shots-BG removed.jpg'
+    }
+  };
+
+  const [activeRemoveBgUseCase, setActiveRemoveBgUseCase] = useState<(typeof removeBgUseCaseTabs)[number]['id']>('people');
   
   // Find the tool based on the toolId param
   const tool = tools.find(t => t.id === toolId);
@@ -1877,6 +2195,64 @@ const handleAIImageToImageGenerate = async () => {
               )}
             </ol>
           </div>
+
+          {tool.id === 'remove-background' && (
+            <section className="mb-10">
+              <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+                <div className="mb-6 text-center">
+                  <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+                    One Tool, Endless Possibilities
+                  </h2>
+                  <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+                    Explore how the background remover fits into different workflows, from portraits and products to cars, pets, and property photos.
+                  </p>
+                </div>
+
+                <div className="mb-6 -mx-4">
+                  <div className="tabs-scroll px-4 flex gap-2 overflow-x-auto">
+                    {removeBgUseCaseTabs.map(tab => {
+                      const isActive = tab.id === activeRemoveBgUseCase;
+                      return (
+                        <button
+                          key={tab.id}
+                          type="button"
+                          className={[
+                            'whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium border transition-colors',
+                            isActive
+                              ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
+                              : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'
+                          ].join(' ')}
+                          onClick={() => setActiveRemoveBgUseCase(tab.id)}
+                        >
+                          {tab.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                  <div>
+                    <ImageComparison
+                      beforeSrc={removeBgUseCases[activeRemoveBgUseCase].beforeSrc}
+                      afterSrc={removeBgUseCases[activeRemoveBgUseCase].afterSrc}
+                      beforeLabel="Before"
+                      afterLabel="After"
+                      ariaLabel={`Before and after remove background example for ${removeBgUseCases[activeRemoveBgUseCase].title}`}
+                    />
+                  </div>
+                  <div>
+                    <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3">
+                      {removeBgUseCases[activeRemoveBgUseCase].title}
+                    </h3>
+                    <p className="text-gray-700 text-sm md:text-base leading-relaxed">
+                      {removeBgUseCases[activeRemoveBgUseCase].description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
           
           {/* Add PromptsGuide for tools that use text prompts */}
           {(tool.id === 'ai-replace' || 
@@ -1897,7 +2273,7 @@ const handleAIImageToImageGenerate = async () => {
             </div>
           )}
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6 md:mb-8">
             <div className="space-y-6">
               {/* Show ImageDropzone for all tools except AI Image Generator, AI Face Swap, AI Image to Image, and AI Sketch to Image */}
               {tool.id !== 'ai-image-generator' && tool.id !== 'ai-face-swap' && tool.id !== 'ai-image-to-image' && tool.id !== 'ai-sketch-to-image' && (
@@ -3589,12 +3965,21 @@ const handleAIImageToImageGenerate = async () => {
               )}
             </div>
           </div>
-          
+
           {/* Tool Recommendations Section */}
           <ToolRecommendations 
             currentToolId={tool.id} 
             hasResult={!!processedImage.url} 
           />
+
+          {tool.id === 'remove-background' && (
+            <SectionErrorBoundary>
+              <>
+                <RemoveBgZigZagLayout />
+                <RemoveBgFAQ />
+              </>
+            </SectionErrorBoundary>
+          )}
           
           <div className="mt-12 bg-gray-50 rounded-lg p-6">
             <h2 className="text-xl font-semibold mb-4">About {tool.name}</h2>

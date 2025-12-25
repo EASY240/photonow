@@ -107,11 +107,13 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({ onImageSelect, selectedIm
       {!selectedImage.preview ? (
         <div
           className={`border-2 border-dashed rounded-lg p-8 flex flex-col items-center justify-center transition-colors ${
-            disabled 
-              ? 'border-gray-200 bg-gray-50 cursor-not-allowed opacity-50' 
-              : isDragging 
-                ? 'border-blue-500 bg-blue-50 cursor-pointer' 
-                : 'border-gray-300 hover:border-gray-400 cursor-pointer'
+            disabled
+              ? 'border-gray-200 bg-gray-50 cursor-not-allowed opacity-50'
+              : error
+                ? 'border-red-500 bg-red-50 cursor-pointer'
+                : isDragging
+                  ? 'border-blue-500 bg-blue-50 cursor-pointer'
+                  : 'border-gray-300 bg-white hover:border-blue-400 hover:bg-gray-50 cursor-pointer'
           }`}
           onDragEnter={handleDragEnter}
           onDragLeave={handleDragLeave}
@@ -135,7 +137,7 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({ onImageSelect, selectedIm
           />
         </div>
       ) : (
-        <div className="relative border rounded-lg overflow-hidden">
+        <div className="relative border-2 border-green-500 rounded-lg overflow-hidden bg-green-50/40">
           <img
             src={selectedImage.preview}
             alt="Selected"
@@ -152,7 +154,9 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({ onImageSelect, selectedIm
       )}
       
       {error && (
-        <div className="mt-2 text-red-500 text-sm">{error}</div>
+        <div className="mt-2 text-red-500 text-sm">
+          {error}
+        </div>
       )}
     </div>
   );

@@ -48,7 +48,7 @@ const ToolRecommendations: React.FC<ToolRecommendationsProps> = ({
   if (recommendations.length === 0) return null;
 
   return (
-    <div className="mt-8 bg-white border border-gray-200 rounded-lg p-6">
+    <div className="mt-5 max-w-5xl mx-auto bg-white border border-gray-200 rounded-lg p-6 fade-in-300">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-xl font-semibold text-gray-900">You Might Also Like</h3>
         <Link 
