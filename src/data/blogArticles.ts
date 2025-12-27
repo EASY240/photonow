@@ -14,6 +14,18 @@ export interface BlogArticle {
 // Blog article metadata index - content is now loaded from individual Markdown files
 export const blogArticleIndex = [
   {
+    id: 'top-ai-photo-editing-tools-to-increase-online-store-sales-2026',
+    title: 'Visuals That Sell: Top AI Photo Editing Tools to Increase Online Store Sales in 2026',
+    excerpt:
+      'Discover how to use AI photo editing tools to create high-converting product images and combine them with referral and affiliate programs to boost your online store sales in 2026.',
+    publishDate: '2025-12-27',
+    readTime: '8 min read',
+    category: 'tools' as const,
+    featuredImage: '/images/blog/Top AI Photo Editing Tools to Increase Online Store Sales in 2026.jpeg',
+    relatedTool: 'ai-cleanup',
+    keywords: ['AI photo editing tools', 'e-commerce product images', 'increase online sales']
+  },
+  {
     id: 'christmas-art-prompts-create-your-own-festive-magic',
     title: 'Christmas Art Prompts: Create Your Own Festive Magic',
     excerpt: 'Ignite your festive creativity! Use these fun Christmas art prompts to bring your holiday ideas to life, whether you’re a traditional artist, a digital illustrator, or an AI creator.',

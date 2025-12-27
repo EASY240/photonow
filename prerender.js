@@ -8,6 +8,7 @@ const basePages = ['/', '/tools', '/blog', '/about', '/contact', '/privacy-polic
 
 // Tool pages (based on tools data)
 const toolPages = [
+  '/tools/prompt-generator',
   '/tools/remove-background',
   '/tools/ai-cleanup',
   '/tools/ai-expand',
