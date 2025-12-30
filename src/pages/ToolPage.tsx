@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
-import { Download, Loader, Brush, XCircle, HelpCircle, X, ChevronDown, Sparkles, ShoppingBag, Car, Home, KeyIcon } from 'lucide-react';
+import { Download, Loader, Brush, XCircle, HelpCircle, X, ChevronDown, Sparkles, ShoppingBag, Car, Home, KeyIcon, CameraIcon, Gem } from 'lucide-react';
 import SEO from '../components/ui/SEO';
 import { Helmet } from 'react-helmet-async';
 import Button from '../components/ui/Button';
@@ -66,6 +66,70 @@ class SectionErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
   }
 }
 
+function ReplaceHeroSection() {
+  return (
+    <section className="mb-10">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            AI Replace: effortlessly substitute items in images using prompts
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Highlight the area you want to change, describe what should appear instead, and let AI Replace generate a realistic swap that blends naturally with the rest of the photo.
+          </p>
+        </div>
+        <div className="max-w-3xl mx-auto">
+          <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-black">
+            <video
+              src="/videos/AI-Replace_Tool page-Video.mp4"
+              autoPlay
+              loop
+              playsInline
+              muted
+              preload="none"
+              className="w-full h-full"
+            >
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ExpandHeroSection() {
+  return (
+    <section className="mb-10">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            Uncrop and enlarge your images using AI Photo Expander
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Select your favorite picture and see it transform—adding more sky, more land, and everything else that makes it unique. Use AI technology to extend images beyond your original capture.
+          </p>
+        </div>
+        <div className="max-w-3xl mx-auto">
+          <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-black">
+            <video
+              src="/videos/AI_Expand_video_tool-page.mp4"
+              autoPlay
+              loop
+              playsInline
+              muted
+              preload="none"
+              className="w-full h-full"
+            >
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 interface RemoveBgZigZagSection {
   id: string;
   eyebrow: string;
@@ -119,6 +183,312 @@ const removeBgZigZagSections: RemoveBgZigZagSection[] = [
   }
 ];
 
+interface CleanupZigZagSection {
+  id: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  imageSrc: string;
+  imageAlt: string;
+  icon: React.ReactNode;
+  bullets?: string[];
+}
+
+const cleanupZigZagSections: CleanupZigZagSection[] = [
+  {
+    id: 'people',
+    eyebrow: 'People & portraits',
+    title: 'Remove people and distractions in a few strokes',
+    description:
+      'Use the AI cleanup brush to erase photobombers, strangers, or small distractions from portraits, travel shots, event photos, and family pictures. The tool intelligently fills the cleaned area so the composition looks natural, like the unwanted element was never there.',
+    imageSrc: '/images/blog/Remove people and distractions.jpg',
+    imageAlt: "Tattoo removed from girl's arm using AI cleanup tool for a smoother skin appearance.",
+    icon: <Sparkles className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'products',
+    eyebrow: 'Product photos',
+    title: 'Clean up product photos professionally',
+    description:
+      "Clean up product photos of clothing, jewelry, electronics, cosmetics, food, home decor, and more. Remove clutter, distractions, scratches, dust, or harsh shadows so your images look polished and ready for marketplaces like Amazon, Shopify, Etsy, or eBay.",
+    imageSrc: '/images/blog/Clean up product photos professionally.jpg',
+    imageAlt: 'Product photo cleanup done using AI to enhance image quality and remove unwanted elements.',
+    icon: <ShoppingBag className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'backgrounds',
+    eyebrow: 'Backgrounds & scenes',
+    title: 'Flawless cleanup with natural background generation',
+    description:
+      'ModernPhotoTools analyzes the masked subject and surrounding scene to rebuild what should be behind it. Its content-aware fill creates a contextual, natural-looking background so there are no obvious smudges or artifacts after cleanup.',
+    imageSrc: '/images/blog/Flawless cleanup with natural background generation.jpg',
+    imageAlt: 'Girl removed from a beach photo using AI cleanup to preserve the scenery.',
+    icon: <Car className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'why-modern',
+    eyebrow: 'Why ModernPhotoTools',
+    title: 'Why choose ModernPhotoTools’ AI photo cleaner?',
+    description:
+      'ModernPhotoTools gives you a fast, browser-based way to erase anything you do not want in a photo while keeping everything else sharp and natural.',
+    imageSrc: '/images/tools images/AI Cleanup Tool.jpg',
+    imageAlt: 'Example of a clean, polished image edited with ModernPhotoTools.',
+    icon: <KeyIcon className="w-6 h-6 text-blue-600" />,
+    bullets: [
+      'Free, easy, and quick photo cleanup workflow in the browser.',
+      'Precise control with brush-based masking you can refine at any time.',
+      'Real-time preview so you can undo or redo edits instantly.',
+      'High-quality, realistic outputs suitable for print and online use.',
+      'Secure processing that respects user privacy.',
+      'Works great alongside AI portrait retouching and other ModernPhotoTools features.'
+    ]
+  }
+];
+
+interface CleanupFaqItem {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+const cleanupFaqItems: CleanupFaqItem[] = [
+  {
+    id: 'keep-areas',
+    question: 'What happens if the AI cleans up something that I want to keep?',
+    answer:
+      'The AI only cleans up the masked area in the picture. If part of the subject you want to keep gets removed, you can undo the step and refine your mask. Paint more precisely around the object you want to erase, then run cleanup again until the important details stay and only the distractions disappear.'
+  },
+  {
+    id: 'id-passport',
+    question: 'Can I use this tool for ID or passport photo cleanup?',
+    answer:
+      'You can use AI cleanup to fix small issues such as dust spots, minor background marks, or subtle distractions. For official ID or passport photos, always follow your local authority’s rules. Avoid changing facial features, lighting, or background in ways that could make the photo non-compliant.'
+  },
+  {
+    id: 'labels-logos',
+    question: 'Is the tool able to clean product labels and logos in photos?',
+    answer:
+      'Yes. The AI cleanup brush can remove labels, logos, or text from packaging and products so you can create neutral, generic visuals. This is helpful for mockups, templates, and marketing layouts. Always make sure you respect brand and licensing guidelines when editing branded content.'
+  },
+  {
+    id: 'reflections',
+    question: 'Can AI cleanup handle reflective surfaces like glass or water?',
+    answer:
+      'AI cleanup can work on reflective surfaces, but they are more complex because reflections contain fine details and gradients. For best results, use smaller brush strokes and zoom in while masking. The tool will attempt to rebuild believable reflections, but extremely complex reflections may need a couple of passes or minor manual adjustments.'
+  }
+];
+
+const cleanupFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: cleanupFaqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer
+    }
+  }))
+} as const;
+
+interface ReplaceZigZagSection {
+  id: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  imageSrc: string;
+  imageAlt: string;
+  icon: React.ReactNode;
+}
+
+const replaceZigZagSections: ReplaceZigZagSection[] = [
+  {
+    id: 'mask-and-prompt',
+    eyebrow: 'Mask and prompt',
+    title: 'Replace image content with easy masking and simple prompts',
+    description:
+      'Use ModernPhotoTools AI Replace to swap anything in a photo without starting from scratch. Brush over the area you want to change, describe the new object or scene in a short text prompt, and let the model generate a realistic replacement that matches lighting, perspective, and texture.',
+    imageSrc: '/images/blog/Replace image content with easy masking and simple prompts.jpg',
+    imageAlt: 'Example of AI Replace swapping objects in a photo.',
+    icon: <Sparkles className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'social-media',
+    eyebrow: 'Social media',
+    title: 'AI image replacer for social media content creators',
+    description:
+      'Polish travel shots, lifestyle posts, and promotional images by removing unwanted details and inserting better-fitting elements. Guide the tool with simple prompts so your content looks curated and on-brand without hours of manual editing.',
+    imageSrc: '/images/blog/AI image replacer for social media content creators.jpg',
+    imageAlt: 'Social media image refined using AI Replace.',
+    icon: <CameraIcon className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'product-photos',
+    eyebrow: 'Product photos',
+    title: 'Replace clutter with matching aesthetics in product photos',
+    description:
+      'Clean up product photos taken in busy environments by replacing distracting objects with props that fit the style of your brand. Add or swap items in the frame so the final image feels cohesive, similar to generative fill in pro editing software—all from your browser.',
+    imageSrc: '/images/blog/Replace clutter with matching aesthetics in product photos.jpg',
+    imageAlt: 'Product scene improved by replacing clutter with cohesive elements.',
+    icon: <ShoppingBag className="w-6 h-6 text-blue-600" />
+  }
+];
+
+interface ReplaceFaqItem {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+const replaceFaqItems: ReplaceFaqItem[] = [
+  {
+    id: 'add-objects',
+    question: 'Is there an AI that can add objects in photos?',
+    answer:
+      'Yes. AI Replace lets you add new objects to your photos by masking an area and describing what should appear there. The tool generates content that fits the existing scene so additions feel like part of the original shot.'
+  },
+  {
+    id: 'how-to-replace',
+    question: 'How do I replace objects in images with AI?',
+    answer:
+      'Upload your image, select the AI Replace tool, and brush over the object or region you want to change. Then type a short description of the new object or look you want. The AI will remove the original content and render a replacement that matches the scene.'
+  },
+  {
+    id: 'pets-and-objects',
+    question: 'Can I replace my pet with an object in the picture?',
+    answer:
+      'Technically you can mask your pet and prompt for another object, and the AI will attempt to generate a believable result. Always keep ethics and personal preferences in mind when editing people or animals in photos, especially if they belong to someone else.'
+  },
+  {
+    id: 'customize-results',
+    question: 'Can I customize the AI-generated replacements?',
+    answer:
+      'You can refine results by adjusting your mask and updating the prompt. If the first version is not quite right, undo, tweak the selection or description, and run AI Replace again until the output matches your creative direction.'
+  },
+  {
+    id: 'partial-replace',
+    question: 'Can AI replace part of an image?',
+    answer:
+      'Yes. AI Replace is designed to edit only the region you select. It preserves the rest of the photo while regenerating new content inside the masked area so the final image looks cohesive.'
+  }
+];
+
+const replaceFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: replaceFaqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer
+    }
+  }))
+} as const;
+
+interface ExpandZigZagSection {
+  id: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  imageSrc: string;
+  imageAlt: string;
+  icon: React.ReactNode;
+  bullets?: string[];
+}
+
+const expandZigZagSections: ExpandZigZagSection[] = [
+  {
+    id: 'realistic-expansion',
+    eyebrow: 'Quality & detail',
+    title: 'Realistic image expansion without quality loss',
+    description:
+      'The AI Expand tool is developed to uncrop pictures, enlarge backgrounds, and outpaint images without causing stretching or blurring. It assesses the layout, lighting, and context of your picture, then fabricates new pixels that match the original in texture, color, and style for integrated results.',
+    imageSrc: '/images/blog/Realistic image expansion without quality loss.jpg',
+    imageAlt: 'Wide photo extended with AI while keeping sharp detail.',
+    icon: <Sparkles className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'social-sizes',
+    eyebrow: 'Social formats',
+    title: 'AI images of the perfect size for social media',
+    description:
+      'This tool not only utilizes AI to enlarge images but also enhances their usability. It features preset sizes designed for various social media platforms. You can conveniently select your preferred size for image enlargement. It ensures that your images are perfectly sized for platforms like Instagram, Facebook, Twitter, etc., without requiring any manual adjustments. This tool is perfect for filling in missing areas or cropped images, and enlarging your picture to provide a complete look.',
+    imageSrc: '/images/blog/AI images of the perfect size for social media.jpg',
+    imageAlt: 'Photo expanded to fit a social media-friendly aspect ratio.',
+    icon: <CameraIcon className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'creative-uses',
+    eyebrow: 'Creative ideas',
+    title: 'Creative ways to use generative expand',
+    description:
+      'Use AI Expand to go beyond simple uncropping. Treat extra canvas as a place to add story, context, or playful details around your original subject.',
+    imageSrc: '/images/blog/Creative ways to use generative expand.jpg',
+    imageAlt: 'Creative AI expansion adding context around a central subject.',
+    icon: <Gem className="w-6 h-6 text-blue-600" />,
+    bullets: [
+      'Create extra space around product photos to add text overlays or promotional graphics without crowding the subject.',
+      'Imagine what lies beyond the borders of famous artworks by extending paintings or illustrations past their original frame.',
+      'Turn landscape photos into wider panoramas or dramatic cityscapes by expanding the sky, ground, and surroundings.',
+      'Resize and extend photos so posts, stories, and headers line up cleanly across different social platforms.',
+      'Expand classic meme images so AI can invent new surrounding content and fresh variations on familiar jokes.'
+    ]
+  }
+];
+
+interface ExpandFaqItem {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+const expandFaqItems: ExpandFaqItem[] = [
+  {
+    id: 'pricing',
+    question: 'Is the AI Expand tool free to use?',
+    answer:
+      'Yes, you can try the AI Expand tool directly in your browser without installing extra software. Availability, limits, and commercial usage terms may depend on your current plan, but it is designed so you can start testing image expansion for free on typical photos.'
+  },
+  {
+    id: 'privacy',
+    question: 'What about the privacy of uploaded images?',
+    answer:
+      'Uploaded images are processed securely and used only to generate your expanded results. Do not upload confidential documents or sensitive personal information, and always follow your own privacy and compliance requirements when working with client images.'
+  },
+  {
+    id: 'content-generation',
+    question: 'Can I generate content within images?',
+    answer:
+      'AI Expand focuses on extending your existing canvas with new, context-aware content around the original photo. It can suggest new scenery, background detail, and empty space for text, but it is not a full prompt-only image generator. For completely new scenes, combine it with dedicated generative tools.'
+  },
+  {
+    id: 'batch-processing',
+    question: 'Can I upload and expand images in a batch?',
+    answer:
+      'The current tool is optimized for expanding one image at a time so you can fine-tune prompts and framing. For high-volume or batch workflows, you can process images sequentially or explore automation options built on the same API.'
+  },
+  {
+    id: 'max-resolution',
+    question: 'What’s the maximum resolution for an expanded image?',
+    answer:
+      'To keep results fast and stable, expansion works best when the final image stays within typical web and print limits. Very large inputs may be resized before processing, and extremely high-resolution outputs might require multiple passes. For most workflows, starting with images up to around 3000–4000 pixels on the longest side produces reliable results.'
+  }
+];
+
+const expandFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: expandFaqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer
+    }
+  }))
+} as const;
+
 interface RemoveBgFaqItem {
   id: string;
   question: string;
@@ -170,6 +540,94 @@ const removeBgFaqSchema = {
     }
   }))
 } as const;
+
+function CleanupUseCasesSection() {
+  const useCases = [
+    {
+      id: 'photography',
+      eyebrow: 'Photography',
+      title: 'Polish everyday photos',
+      description:
+        'Edit your portraits, travel shots, event pictures, or family photos. Get rid of distractions and undesired objects to improve the overall image composition and keep attention on the story you want to tell.',
+      icon: <Sparkles className="w-5 h-5 text-blue-600" />
+    },
+    {
+      id: 'ecommerce',
+      eyebrow: 'eCommerce',
+      title: 'Optimize product listings',
+      description:
+        'Clean up product photos by removing price tags, dust, scratches, and background clutter. Present your items with crisp, distraction-free visuals that convert better on marketplaces and online stores.',
+      icon: <ShoppingBag className="w-5 h-5 text-blue-600" />
+    },
+    {
+      id: 'real-estate',
+      eyebrow: 'Real Estate',
+      title: 'Clarify interiors and exteriors',
+      description:
+        'Remove small objects, signage, or visual noise from property photos so rooms, facades, and landscapes look brighter, clearer, and easier to browse on listing pages.',
+      icon: <Home className="w-5 h-5 text-blue-600" />
+    },
+    {
+      id: 'social-media',
+      eyebrow: 'Social Media',
+      title: 'Curate a clean feed',
+      description:
+        'Erase photobombers, messy backgrounds, and random objects before posting. Create scroll-stopping images for Instagram, TikTok, and other platforms without heavy desktop software.',
+      icon: <Sparkles className="w-5 h-5 text-blue-600" />
+    },
+    {
+      id: 'graphic-design',
+      eyebrow: 'Graphic Designs',
+      title: 'Prepare assets for layouts',
+      description:
+        'Clean up photos before dropping them into posters, presentations, and UI designs. Remove elements that clash with your layout so designers can work with flexible, high-quality assets.',
+      icon: <KeyIcon className="w-5 h-5 text-blue-600" />
+    },
+    {
+      id: 'marketing',
+      eyebrow: 'Marketing',
+      title: 'Refine campaign visuals',
+      description:
+        'Polish hero images, banners, and ad creatives by removing anything that steals focus from your offer or call-to-action. Produce professional-grade visuals directly in your browser.',
+      icon: <Car className="w-5 h-5 text-blue-600" />
+    }
+  ];
+
+  return (
+    <section className="mb-10">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            Use AI photo cleanup for personal and professional purposes
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Apply ModernPhotoTools’ AI Cleanup across photography, eCommerce, real estate, social media, design, and marketing projects.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {useCases.map((item) => (
+            <div
+              key={item.id}
+              className="bg-gray-50 border border-gray-100 rounded-lg p-4 flex flex-col h-full"
+            >
+              <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 mb-3">
+                {item.icon}
+                <span>{item.eyebrow}</span>
+              </div>
+              <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-2">
+                {item.title}
+              </h3>
+              <p className="text-gray-700 text-sm md:text-base leading-relaxed">
+                {item.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 function RemoveBgZigZagLayout() {
   return (
@@ -230,6 +688,197 @@ function RemoveBgZigZagLayout() {
   );
 }
 
+function ExpandZigZagLayout() {
+  return (
+    <section className="mb-10">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-8 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            Expand your canvas realistically with AI
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Use AI Expand to uncrop pictures, extend backgrounds, and grow your scene while keeping sharp, natural detail from edge to edge.
+          </p>
+        </div>
+        <div className="space-y-10">
+          {expandZigZagSections.map((section, index) => {
+            const textFirst = index % 2 === 0;
+            return (
+              <div
+                key={section.id}
+                className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12"
+              >
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-2 lg:order-1' : 'order-2 lg:order-2'
+                  }`}
+                >
+                  <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 mb-3">
+                    {section.icon}
+                    <span>{section.eyebrow}</span>
+                  </div>
+                  <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3">
+                    {section.title}
+                  </h3>
+                  <p className="text-gray-700 text-sm md:text-base leading-relaxed">
+                    {section.description}
+                  </p>
+                  {section.bullets && (
+                    <ul className="mt-3 space-y-1 text-gray-700 text-sm md:text-base list-disc list-inside">
+                      {section.bullets.map((bullet) => (
+                        <li key={bullet}>{bullet}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-1 lg:order-2' : 'order-1 lg:order-1'
+                  }`}
+                >
+                  <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-gray-50">
+                    <img
+                      src={section.imageSrc}
+                      alt={section.imageAlt}
+                      loading="lazy"
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ReplaceZigZagLayout() {
+  return (
+    <section className="mb-10">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-8 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            Replace anything in your image with AI-guided edits
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Use AI Replace to swap objects, fix distractions, and reimagine parts of a scene while keeping everything else in the photo intact.
+          </p>
+        </div>
+        <div className="space-y-10">
+          {replaceZigZagSections.map((section, index) => {
+            const textFirst = index % 2 === 0;
+            return (
+              <div
+                key={section.id}
+                className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12"
+              >
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-2 lg:order-1' : 'order-2 lg:order-2'
+                  }`}
+                >
+                  <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 mb-3">
+                    {section.icon}
+                    <span>{section.eyebrow}</span>
+                  </div>
+                  <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3">
+                    {section.title}
+                  </h3>
+                  <p className="text-gray-700 text-sm md:text-base leading-relaxed">
+                    {section.description}
+                  </p>
+                </div>
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-1 lg:order-2' : 'order-1 lg:order-1'
+                  }`}
+                >
+                  <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-gray-50">
+                    <img
+                      src={section.imageSrc}
+                      alt={section.imageAlt}
+                      loading="lazy"
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CleanupZigZagLayout() {
+  return (
+    <section className="mb-10">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-8 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            Clean up anything that gets in the way of a great photo
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Use the AI Cleanup tool to remove people, objects, text, and other distractions while keeping the rest of the image natural and sharp.
+          </p>
+        </div>
+        <div className="space-y-10">
+          {cleanupZigZagSections.map((section, index) => {
+            const textFirst = index % 2 === 0;
+            return (
+              <div
+                key={section.id}
+                className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12"
+              >
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-2 lg:order-1' : 'order-2 lg:order-2'
+                  }`}
+                >
+                  <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 mb-3">
+                    {section.icon}
+                    <span>{section.eyebrow}</span>
+                  </div>
+                  <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3">
+                    {section.title}
+                  </h3>
+                  <p className="text-gray-700 text-sm md:text-base leading-relaxed">
+                    {section.description}
+                  </p>
+                  {section.bullets && (
+                    <ul className="mt-3 space-y-1 text-gray-700 text-sm md:text-base list-disc list-inside">
+                      {section.bullets.map((bullet) => (
+                        <li key={bullet}>{bullet}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-1 lg:order-2' : 'order-1 lg:order-1'
+                  }`}
+                >
+                  <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-gray-50">
+                    <img
+                      src={section.imageSrc}
+                      alt={section.imageAlt}
+                      loading="lazy"
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function RemoveBgFAQ() {
   const [openId, setOpenId] = useState<string | null>(removeBgFaqItems[0]?.id ?? null);
 
@@ -254,6 +903,189 @@ function RemoveBgFAQ() {
             {removeBgFaqItems.map((item) => {
               const isOpen = openId === item.id;
               const answerId = `remove-bg-faq-answer-${item.id}`;
+              return (
+                <div key={item.id} className="bg-white rounded-lg shadow border border-gray-200">
+                  <button
+                    type="button"
+                    onClick={() => handleToggle(item.id)}
+                    className="w-full flex items-center justify-between px-4 md:px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    aria-expanded={isOpen}
+                    aria-controls={answerId}
+                  >
+                    <div className="flex items-start gap-3">
+                      <HelpCircle className="w-5 h-5 text-blue-600 mt-1" />
+                      <span className="font-semibold text-gray-900">{item.question}</span>
+                    </div>
+                    <ChevronDown
+                      className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
+                        isOpen ? 'transform rotate-180' : ''
+                      }`}
+                    />
+                  </button>
+                  <div
+                    id={answerId}
+                    className={`px-4 md:px-6 pb-4 text-gray-700 text-sm leading-relaxed ${
+                      isOpen ? 'block' : 'hidden'
+                    }`}
+                  >
+                    {item.answer}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ExpandFAQ() {
+  const [openId, setOpenId] = useState<string | null>(expandFaqItems[0]?.id ?? null);
+
+  const handleToggle = (id: string) => {
+    setOpenId((current) => (current === id ? null : id));
+  };
+
+  return (
+    <section className="mb-12">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            AI Expand: frequently asked questions
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Answers to common questions about how the AI Expand tool works, what it can generate, and where it fits in your workflow.
+          </p>
+        </div>
+        <SchemaJSONLD data={expandFaqSchema} />
+        <div className="max-w-3xl mx-auto">
+          <div className="space-y-4">
+            {expandFaqItems.map((item) => {
+              const isOpen = openId === item.id;
+              const answerId = `expand-faq-answer-${item.id}`;
+              return (
+                <div key={item.id} className="bg-white rounded-lg shadow border border-gray-200">
+                  <button
+                    type="button"
+                    onClick={() => handleToggle(item.id)}
+                    className="w-full flex items-center justify-between px-4 md:px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    aria-expanded={isOpen}
+                    aria-controls={answerId}
+                  >
+                    <div className="flex items-start gap-3">
+                      <HelpCircle className="w-5 h-5 text-blue-600 mt-1" />
+                      <span className="font-semibold text-gray-900">{item.question}</span>
+                    </div>
+                    <ChevronDown
+                      className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
+                        isOpen ? 'transform rotate-180' : ''
+                      }`}
+                    />
+                  </button>
+                  <div
+                    id={answerId}
+                    className={`px-4 md:px-6 pb-4 text-gray-700 text-sm leading-relaxed ${
+                      isOpen ? 'block' : 'hidden'
+                    }`}
+                  >
+                    {item.answer}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ReplaceFAQ() {
+  const [openId, setOpenId] = useState<string | null>(replaceFaqItems[0]?.id ?? null);
+
+  const handleToggle = (id: string) => {
+    setOpenId((current) => (current === id ? null : id));
+  };
+
+  return (
+    <section className="mb-12">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            AI Replace: frequently asked questions
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Answers to common questions about how AI Replace works, what it can edit, and how to guide results with prompts.
+          </p>
+        </div>
+        <SchemaJSONLD data={replaceFaqSchema} />
+        <div className="max-w-3xl mx-auto">
+          <div className="space-y-4">
+            {replaceFaqItems.map((item) => {
+              const isOpen = openId === item.id;
+              const answerId = `replace-faq-answer-${item.id}`;
+              return (
+                <div key={item.id} className="bg-white rounded-lg shadow border border-gray-200">
+                  <button
+                    type="button"
+                    onClick={() => handleToggle(item.id)}
+                    className="w-full flex items-center justify-between px-4 md:px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    aria-expanded={isOpen}
+                    aria-controls={answerId}
+                  >
+                    <div className="flex items-start gap-3">
+                      <HelpCircle className="w-5 h-5 text-blue-600 mt-1" />
+                      <span className="font-semibold text-gray-900">{item.question}</span>
+                    </div>
+                    <ChevronDown
+                      className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
+                        isOpen ? 'transform rotate-180' : ''
+                      }`}
+                    />
+                  </button>
+                  <div
+                    id={answerId}
+                    className={`px-4 md:px-6 pb-4 text-gray-700 text-sm leading-relaxed ${
+                      isOpen ? 'block' : 'hidden'
+                    }`}
+                  >
+                    {item.answer}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CleanupFAQ() {
+  const [openId, setOpenId] = useState<string | null>(cleanupFaqItems[0]?.id ?? null);
+
+  const handleToggle = (id: string) => {
+    setOpenId((current) => (current === id ? null : id));
+  };
+
+  return (
+    <section className="mb-12">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            AI Cleanup: frequently asked questions
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Answers to common questions about how the AI photo cleanup tool works and where you can use it.
+          </p>
+        </div>
+        <SchemaJSONLD data={cleanupFaqSchema} />
+        <div className="max-w-3xl mx-auto">
+          <div className="space-y-4">
+            {cleanupFaqItems.map((item) => {
+              const isOpen = openId === item.id;
+              const answerId = `cleanup-faq-answer-${item.id}`;
               return (
                 <div key={item.id} className="bg-white rounded-lg shadow border border-gray-200">
                   <button
@@ -2253,6 +3085,12 @@ const handleAIImageToImageGenerate = async () => {
               </div>
             </section>
           )}
+
+          {tool.id === 'ai-expand' && <ExpandHeroSection />}
+
+          {tool.id === 'ai-replace' && <ReplaceHeroSection />}
+
+          {tool.id === 'ai-cleanup' && <CleanupUseCasesSection />}
           
           {/* Add PromptsGuide for tools that use text prompts */}
           {(tool.id === 'ai-replace' || 
@@ -3971,6 +4809,33 @@ const handleAIImageToImageGenerate = async () => {
             currentToolId={tool.id} 
             hasResult={!!processedImage.url} 
           />
+
+          {tool.id === 'ai-expand' && (
+            <SectionErrorBoundary>
+              <>
+                <ExpandZigZagLayout />
+                <ExpandFAQ />
+              </>
+            </SectionErrorBoundary>
+          )}
+
+          {tool.id === 'ai-replace' && (
+            <SectionErrorBoundary>
+              <>
+                <ReplaceZigZagLayout />
+                <ReplaceFAQ />
+              </>
+            </SectionErrorBoundary>
+          )}
+
+          {tool.id === 'ai-cleanup' && (
+            <SectionErrorBoundary>
+              <>
+                <CleanupZigZagLayout />
+                <CleanupFAQ />
+              </>
+            </SectionErrorBoundary>
+          )}
 
           {tool.id === 'remove-background' && (
             <SectionErrorBoundary>
