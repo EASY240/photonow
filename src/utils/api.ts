@@ -747,18 +747,28 @@ export async function startCartoonJob({ imageUrl, styleImageUrl, textPrompt }: {
   try {
     const { baseUrl } = getEnvironmentConfig();
 
+    const cleanImageUrl = imageUrl.trim().replace(/`/g, '');
+    const cleanStyleImageUrl = (styleImageUrl ?? '').trim().replace(/`/g, '');
+    const cleanTextPrompt = (textPrompt ?? '').trim();
+
+    const requestBody: Record<string, unknown> = {
+      imageUrl: cleanImageUrl,
+      textPrompt: cleanTextPrompt
+    };
+
+    // Only include cartoonReferenceUrl when we actually have one
+    if (cleanStyleImageUrl) {
+      (requestBody as any).cartoonReferenceUrl = cleanStyleImageUrl;
+    }
+
     const response = await fetch(`${baseUrl}/api/lightx-proxy`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+       'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         endpoint: 'v2/cartoon',
-        body: {
-          imageUrl: imageUrl,
-          styleImageUrl: styleImageUrl || "",
-          textPrompt: textPrompt || ""
-        }
+        body: requestBody
       }),
     });
 

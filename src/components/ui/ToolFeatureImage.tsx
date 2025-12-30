@@ -54,7 +54,7 @@ const ToolFeatureImage: React.FC<ToolFeatureImageProps> = ({
               objectFit: 'contain'
             }}
             loading={toolId === 'ai-replace' ? 'eager' : 'lazy'}
-            fetchPriority={toolId === 'ai-replace' ? 'high' : 'auto'}
+            fetchpriority={toolId === 'ai-replace' ? 'high' : 'auto'}
             onError={handleImageError}
             onLoad={handleImageLoad}
           />

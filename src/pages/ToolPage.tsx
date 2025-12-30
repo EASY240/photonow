@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
-import { Download, Loader, Brush, XCircle, HelpCircle, X, ChevronDown, Sparkles, ShoppingBag, Car, Home, KeyIcon, CameraIcon, Gem } from 'lucide-react';
+import { Download, Loader, Brush, XCircle, HelpCircle, X, ChevronDown, Sparkles, ShoppingBag, Car, Home, KeyIcon, CameraIcon, Gem, Atom } from 'lucide-react';
 import SEO from '../components/ui/SEO';
 import { Helmet } from 'react-helmet-async';
 import Button from '../components/ui/Button';
@@ -64,6 +64,80 @@ class SectionErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
 
     return this.props.children;
   }
+}
+
+function CartoonHeroSection() {
+  const [activePrompt, setActivePrompt] = useState<'prompt1' | 'prompt2' | 'prompt3'>('prompt3');
+
+  const prompts = {
+    prompt1: {
+      label: 'Prompt 1:',
+      text: 'Fredrickson character, cartoon look',
+      imageSrc: '/images/blog/Fredrickson character, cartoon look.jpg'
+    },
+    prompt2: {
+      label: 'Prompt 2:',
+      text: 'Moanna character, cartoon',
+      imageSrc: '/images/blog/Moanna character, cartoon look.jpg'
+    },
+    prompt3: {
+      label: 'Prompt 3:',
+      text: 'Russel, realistic character',
+      imageSrc: '/images/blog/Russel, realistic character.jpg'
+    }
+  } as const;
+
+  const current = prompts[activePrompt];
+
+  return (
+    <section className="mb-10">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+          <div>
+            <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+              Convert yourself into a cartoon character via prompt
+            </h2>
+            <p className="mt-3 text-sm md:text-base text-gray-700">
+              Expand your creativity by turning yourself into a custom cartoon character using simple text prompts. Describe the look you want and let AI draw the rest.
+            </p>
+            <div className="mt-6 space-y-3">
+              {(['prompt1', 'prompt2', 'prompt3'] as const).map((key) => {
+                const prompt = prompts[key];
+                const isActive = activePrompt === key;
+                return (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => setActivePrompt(key)}
+                    className={`w-full flex items-center justify-start rounded-2xl border-2 px-3 py-3 text-left transition-colors ${
+                      isActive ? 'border-blue-500 bg-blue-50' : 'border-gray-200 bg-gray-50 hover:bg-gray-100'
+                    }`}
+                  >
+                    <div className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-purple-100 to-blue-100 text-xs font-semibold text-blue-700 px-3 py-2 mr-3">
+                      {prompt.label}
+                    </div>
+                    <div className="text-sm md:text-base text-gray-700">{prompt.text}</div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+          <div className="flex justify-end">
+            <div className="w-full max-w-md">
+              <div className="relative overflow-hidden rounded-3xl border border-gray-200 bg-gray-50">
+                <img
+                  src={current.imageSrc}
+                  alt="AI-generated cartoon character example"
+                  loading="lazy"
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }
 
 function ReplaceHeroSection() {
@@ -437,6 +511,57 @@ const expandZigZagSections: ExpandZigZagSection[] = [
   }
 ];
 
+interface CartoonZigZagSection {
+  id: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  imageSrc: string;
+  imageAlt: string;
+  icon: React.ReactNode;
+  bullets?: string[];
+}
+
+const cartoonZigZagSections: CartoonZigZagSection[] = [
+  {
+    id: 'custom-characters',
+    eyebrow: 'Text to cartoon',
+    title: 'Generate custom cartoon characters from text prompts',
+    description:
+      'Make custom cartoon characters using the AI cartoon maker. Just describe your idea through a text prompt and the AI will generate it. Choose outfits, hairstyles, accessories, and background scenes so the final cartoon looks exactly how you imagined.',
+    imageSrc: '/images/blog/Generate custom cartoon characters from text prompts.jpg',
+    imageAlt: 'AI-generated cartoon characters created from text prompts.',
+    icon: <Sparkles className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'photo-to-cartoon',
+    eyebrow: 'Cartoon look-alikes',
+    title: 'Turn your photo into popular cartoon characters',
+    description:
+      'See the cartoon version of yourself with an AI cartoon filter. Explore comic, manga, Disney-style, 3D, anime, webtoon, caricature, and more. Use one-click presets or prompts to transform selfies and portraits into familiar or completely original characters.',
+    imageSrc: '/images/blog/Turn your photo into popular cartoon characters.jpg',
+    imageAlt: 'Portrait photo transformed into different cartoon styles.jpg',
+    icon: <Atom className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'uses-and-benefits',
+    eyebrow: 'Uses & benefits',
+    title: 'Use AI cartoon characters for many purposes',
+    description:
+      'Convert photos into cartoon characters you can reuse across gaming, social content, branding, and more. Enjoy authentic transformations that preserve facial features, deliver precise details, and export in high resolution.',
+    imageSrc: '/images/blog/Use AI cartoon characters for many purposes.jpg',
+    imageAlt: 'AI cartoon avatars used across social media, gaming, and branding.',
+    icon: <Gem className="w-6 h-6 text-blue-600" />,
+    bullets: [
+      'Gaming: design expressive cartoon characters that react naturally in games.',
+      'Profile pictures: create unique cartoon avatars for your online identity.',
+      'Social media content: share playful cartoon versions of yourself or your audience.',
+      'Marketing and advertising: use AI cartoons in ads, banners, and email visuals.',
+      'Branding and e-commerce: turn characters into mascots or product visuals for your store.'
+    ]
+  }
+];
+
 interface ExpandFaqItem {
   id: string;
   question: string;
@@ -532,6 +657,58 @@ const removeBgFaqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: removeBgFaqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer
+    }
+  }))
+} as const;
+
+interface CartoonFaqItem {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+const cartoonFaqItems: CartoonFaqItem[] = [
+  {
+    id: 'what-it-does',
+    question: 'What does the AI Cartoon tool do?',
+    answer:
+      'The AI Cartoon tool transforms your photos into cartoon-style artwork. You can start from a selfie or upload a reference and guide the look with text prompts so the final image matches the style you have in mind.'
+  },
+  {
+    id: 'text-or-photo',
+    question: 'Can I create cartoons from text prompts or only from photos?',
+    answer:
+      'You can do both. Describe your character with a text prompt to generate a brand-new cartoon from scratch, or upload a photo and use prompts or presets to turn yourself into a cartoon version while keeping your key features recognizable.'
+  },
+  {
+    id: 'styles',
+    question: 'What cartoon styles can I generate?',
+    answer:
+      'You can explore many styles like comic, manga, Disney-inspired, anime, 3D, webtoon, or caricature. Try the built-in presets for quick results or combine them with your own prompts for more specific looks.'
+  },
+  {
+    id: 'quality-and-usage',
+    question: 'Is the output quality good enough for social media and branding?',
+    answer:
+      'Yes. The AI Cartoon tool is designed to keep clear facial features and produce sharp, high-resolution images. You can comfortably use them for profile pictures, social posts, lightweight marketing visuals, and brand experiments.'
+  },
+  {
+    id: 'commercial-use',
+    question: 'Can I use AI cartoon images commercially?',
+    answer:
+      'In many cases you can, but always review the latest terms of use and licensing rules for ModernPhotoTools and any platform where you publish. Avoid using trademarked characters or copyrighted likenesses in ways that could infringe on existing rights.'
+  }
+];
+
+const cartoonFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: cartoonFaqItems.map((item) => ({
     '@type': 'Question',
     name: item.question,
     acceptedAnswer: {
@@ -702,6 +879,72 @@ function ExpandZigZagLayout() {
         </div>
         <div className="space-y-10">
           {expandZigZagSections.map((section, index) => {
+            const textFirst = index % 2 === 0;
+            return (
+              <div
+                key={section.id}
+                className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12"
+              >
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-2 lg:order-1' : 'order-2 lg:order-2'
+                  }`}
+                >
+                  <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 mb-3">
+                    {section.icon}
+                    <span>{section.eyebrow}</span>
+                  </div>
+                  <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3">
+                    {section.title}
+                  </h3>
+                  <p className="text-gray-700 text-sm md:text-base leading-relaxed">
+                    {section.description}
+                  </p>
+                  {section.bullets && (
+                    <ul className="mt-3 space-y-1 text-gray-700 text-sm md:text-base list-disc list-inside">
+                      {section.bullets.map((bullet) => (
+                        <li key={bullet}>{bullet}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-1 lg:order-2' : 'order-1 lg:order-1'
+                  }`}
+                >
+                  <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-gray-50">
+                    <img
+                      src={section.imageSrc}
+                      alt={section.imageAlt}
+                      loading="lazy"
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CartoonZigZagLayout() {
+  return (
+    <section className="mb-10">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-8 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            Create AI cartoon characters from photos or text
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Use the AI Cartoon tool to turn portraits into stylized characters or generate original cartoons from prompts for games, social media, and branding.
+          </p>
+        </div>
+        <div className="space-y-10">
+          {cartoonZigZagSections.map((section, index) => {
             const textFirst = index % 2 === 0;
             return (
               <div
@@ -1025,6 +1268,67 @@ function ReplaceFAQ() {
             {replaceFaqItems.map((item) => {
               const isOpen = openId === item.id;
               const answerId = `replace-faq-answer-${item.id}`;
+              return (
+                <div key={item.id} className="bg-white rounded-lg shadow border border-gray-200">
+                  <button
+                    type="button"
+                    onClick={() => handleToggle(item.id)}
+                    className="w-full flex items-center justify-between px-4 md:px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    aria-expanded={isOpen}
+                    aria-controls={answerId}
+                  >
+                    <div className="flex items-start gap-3">
+                      <HelpCircle className="w-5 h-5 text-blue-600 mt-1" />
+                      <span className="font-semibold text-gray-900">{item.question}</span>
+                    </div>
+                    <ChevronDown
+                      className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
+                        isOpen ? 'transform rotate-180' : ''
+                      }`}
+                    />
+                  </button>
+                  <div
+                    id={answerId}
+                    className={`px-4 md:px-6 pb-4 text-gray-700 text-sm leading-relaxed ${
+                      isOpen ? 'block' : 'hidden'
+                    }`}
+                  >
+                    {item.answer}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CartoonFAQ() {
+  const [openId, setOpenId] = useState<string | null>(cartoonFaqItems[0]?.id ?? null);
+
+  const handleToggle = (id: string) => {
+    setOpenId((current) => (current === id ? null : id));
+  };
+
+  return (
+    <section className="mb-12">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            AI Cartoon: frequently asked questions
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Answers to common questions about turning photos into cartoons, guiding styles with prompts, and using the results in your projects.
+          </p>
+        </div>
+        <SchemaJSONLD data={cartoonFaqSchema} />
+        <div className="max-w-3xl mx-auto">
+          <div className="space-y-4">
+            {cartoonFaqItems.map((item) => {
+              const isOpen = openId === item.id;
+              const answerId = `cartoon-faq-answer-${item.id}`;
               return (
                 <div key={item.id} className="bg-white rounded-lg shadow border border-gray-200">
                   <button
@@ -3086,6 +3390,8 @@ const handleAIImageToImageGenerate = async () => {
             </section>
           )}
 
+          {tool.id === 'ai-cartoon' && <CartoonHeroSection />}
+
           {tool.id === 'ai-expand' && <ExpandHeroSection />}
 
           {tool.id === 'ai-replace' && <ReplaceHeroSection />}
@@ -4809,6 +5115,15 @@ const handleAIImageToImageGenerate = async () => {
             currentToolId={tool.id} 
             hasResult={!!processedImage.url} 
           />
+
+          {tool.id === 'ai-cartoon' && (
+            <SectionErrorBoundary>
+              <>
+                <CartoonZigZagLayout />
+                <CartoonFAQ />
+              </>
+            </SectionErrorBoundary>
+          )}
 
           {tool.id === 'ai-expand' && (
             <SectionErrorBoundary>
