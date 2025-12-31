@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
-import { Download, Loader, Brush, XCircle, HelpCircle, X, ChevronDown, Sparkles, ShoppingBag, Car, Home, KeyIcon, CameraIcon, Gem, Atom } from 'lucide-react';
+import { Download, Loader, Brush, XCircle, HelpCircle, X, ChevronDown, Sparkles, ShoppingBag, Car, Home, KeyIcon, CameraIcon, Gem, Atom, Users } from 'lucide-react';
 import SEO from '../components/ui/SEO';
 import { Helmet } from 'react-helmet-async';
 import Button from '../components/ui/Button';
@@ -128,6 +128,80 @@ function CartoonHeroSection() {
                 <img
                   src={current.imageSrc}
                   alt="AI-generated cartoon character example"
+                  loading="lazy"
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CaricatureHeroSection() {
+  const [activePrompt, setActivePrompt] = useState<'prompt1' | 'prompt2' | 'prompt3'>('prompt1');
+
+  const prompts = {
+    prompt1: {
+      label: 'Prompt 1:',
+      text: 'Doctor caricature, big smile, exaggerated features',
+      imageSrc: '/images/blog/Doctor caricature.jpg'
+    },
+    prompt2: {
+      label: 'Prompt 2:',
+      text: 'Rockstar caricature, bold outlines, dramatic lighting',
+      imageSrc: '/images/blog/Rockstar caricature.jpg'
+    },
+    prompt3: {
+      label: 'Prompt 3:',
+      text: 'Architect caricature, playful details, vibrant colors',
+      imageSrc: '/images/blog/Architect caricature.jpg'
+    }
+  } as const;
+
+  const current = prompts[activePrompt];
+
+  return (
+    <section className="mb-10">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+          <div>
+            <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+              Turn photos into expressive caricatures with prompts
+            </h2>
+            <p className="mt-3 text-sm md:text-base text-gray-700">
+              Use the AI Caricature tool to transform regular portraits into fun, stylized caricatures. Choose a mood and describe the style in a short prompt, then let AI reveal a new side of each face.
+            </p>
+            <div className="mt-6 space-y-3">
+              {(['prompt1', 'prompt2', 'prompt3'] as const).map((key) => {
+                const prompt = prompts[key];
+                const isActive = activePrompt === key;
+                return (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => setActivePrompt(key)}
+                    className={`w-full flex items-center justify-start rounded-2xl border-2 px-3 py-3 text-left transition-colors ${
+                      isActive ? 'border-blue-500 bg-blue-50' : 'border-gray-200 bg-gray-50 hover:bg-gray-100'
+                    }`}
+                  >
+                    <div className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-purple-100 to-blue-100 text-xs font-semibold text-blue-700 px-3 py-2 mr-3">
+                      {prompt.label}
+                    </div>
+                    <div className="text-sm md:text-base text-gray-700">{prompt.text}</div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+          <div className="flex justify-end">
+            <div className="w-full max-w-md">
+              <div className="relative overflow-hidden rounded-3xl border border-gray-200 bg-gray-50">
+                <img
+                  src={current.imageSrc}
+                  alt="AI-generated caricature example"
                   loading="lazy"
                   className="w-full h-auto object-cover"
                 />
@@ -562,6 +636,40 @@ const cartoonZigZagSections: CartoonZigZagSection[] = [
   }
 ];
 
+interface CaricatureZigZagSection {
+  id: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  imageSrc: string;
+  imageAlt: string;
+  icon: React.ReactNode;
+  bullets?: string[];
+}
+
+const caricatureZigZagSections: CaricatureZigZagSection[] = [
+  {
+    id: 'text-prompts',
+    eyebrow: 'Text prompts',
+    title: 'Turn photos into caricatures with simple text prompts',
+    description:
+      'Transform everyday photos into playful caricatures in a few words. Describe a mood like humorous, serious, or quirky and let the AI exaggerate features, expression, and style while keeping the person recognizable.',
+    imageSrc: '/images/blog/Turn photos into caricatures with simple text prompts.jpg',
+    imageAlt: 'Photo turned into expressive AI caricature using text prompts',
+    icon: <Sparkles className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'friends-caricatures',
+    eyebrow: 'Friends and social',
+    title: 'Create funny caricatures of your friends',
+    description:
+      'Upload photos of your friends and generate lighthearted caricatures you can share in chats, on social media, or as digital gifts. Keep it friendly, adjust the prompts for softer or bolder exaggeration, and create reactions that make everyone smile.',
+    imageSrc: '/images/blog/nano-banana-3d-caricature-easy.jpeg',
+    imageAlt: 'Funny AI caricature of friends ready to share online',
+    icon: <Users className="w-6 h-6 text-blue-600" />
+  }
+];
+
 interface ExpandFaqItem {
   id: string;
   question: string;
@@ -709,6 +817,64 @@ const cartoonFaqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: cartoonFaqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer
+    }
+  }))
+} as const;
+
+interface CaricatureFaqItem {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+const caricatureFaqItems: CaricatureFaqItem[] = [
+  {
+    id: 'from-photo',
+    question: 'How to create a caricature painting from a photo?',
+    answer:
+      'Upload a clear portrait to the AI Caricature tool, pick a style preset or upload a reference image, then add a short prompt describing the mood and exaggeration you want. The AI converts your photo into a stylized caricature painting while keeping key facial features intact.'
+  },
+  {
+    id: 'yourself',
+    question: 'How to make a caricature of yourself?',
+    answer:
+      'Use a well-lit, front-facing selfie with your face clearly visible. Upload it to the AI Caricature tool, choose a style, and optionally add a prompt such as “playful, big smile, bright colors.” The AI generates a caricature version of you that you can download and share.'
+  },
+  {
+    id: 'cartoon-caricature',
+    question: 'How to make a cartoon caricature from a photo?',
+    answer:
+      'Start with a portrait photo, then combine a caricature style preset with a prompt that mentions a cartoon look, such as “cartoon caricature, bold outlines, flat colors.” The AI exaggerates proportions and simplifies shapes to create a cartoon-style caricature from your original image.'
+  },
+  {
+    id: 'free-caricature',
+    question: 'How to turn a photo into a caricature for free?',
+    answer:
+      'Open the AI Caricature tool in your browser, upload a photo, and experiment with the free styles and prompts available. You can generate caricatures without installing software, then download results within the limits of your current plan.'
+  },
+  {
+    id: 'online-free',
+    question: 'How to make caricatures online for free?',
+    answer:
+      'Use a browser-based caricature maker like ModernPhotoTools. Upload your image, select a style preset or type a short prompt, and click generate. You can try multiple variations online at no cost before deciding which results you want to keep.'
+  },
+  {
+    id: 'personalized',
+    question: 'How to make a personalized caricature?',
+    answer:
+      'Combine a clear photo with specific prompts about the person’s interests, personality, and look. Mention details like outfit, background, or hobbies (for example “musician caricature on stage, energetic lighting”) so the AI produces a caricature that feels tailored to that individual.'
+  }
+];
+
+const caricatureFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: caricatureFaqItems.map((item) => ({
     '@type': 'Question',
     name: item.question,
     acceptedAnswer: {
@@ -945,6 +1111,72 @@ function CartoonZigZagLayout() {
         </div>
         <div className="space-y-10">
           {cartoonZigZagSections.map((section, index) => {
+            const textFirst = index % 2 === 0;
+            return (
+              <div
+                key={section.id}
+                className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12"
+              >
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-2 lg:order-1' : 'order-2 lg:order-2'
+                  }`}
+                >
+                  <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 mb-3">
+                    {section.icon}
+                    <span>{section.eyebrow}</span>
+                  </div>
+                  <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3">
+                    {section.title}
+                  </h3>
+                  <p className="text-gray-700 text-sm md:text-base leading-relaxed">
+                    {section.description}
+                  </p>
+                  {section.bullets && (
+                    <ul className="mt-3 space-y-1 text-gray-700 text-sm md:text-base list-disc list-inside">
+                      {section.bullets.map((bullet) => (
+                        <li key={bullet}>{bullet}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-1 lg:order-2' : 'order-1 lg:order-1'
+                  }`}
+                >
+                  <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-gray-50">
+                    <img
+                      src={section.imageSrc}
+                      alt={section.imageAlt}
+                      loading="lazy"
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CaricatureZigZagLayout() {
+  return (
+    <section className="mb-10">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-8 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            Turn any photo into a playful AI caricature
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Use the AI Caricature tool to exaggerate expressions, style, and personality while keeping the original person recognizable, perfect for gifts, avatars, and social posts.
+          </p>
+        </div>
+        <div className="space-y-10">
+          {caricatureZigZagSections.map((section, index) => {
             const textFirst = index % 2 === 0;
             return (
               <div
@@ -1329,6 +1561,67 @@ function CartoonFAQ() {
             {cartoonFaqItems.map((item) => {
               const isOpen = openId === item.id;
               const answerId = `cartoon-faq-answer-${item.id}`;
+              return (
+                <div key={item.id} className="bg-white rounded-lg shadow border border-gray-200">
+                  <button
+                    type="button"
+                    onClick={() => handleToggle(item.id)}
+                    className="w-full flex items-center justify-between px-4 md:px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    aria-expanded={isOpen}
+                    aria-controls={answerId}
+                  >
+                    <div className="flex items-start gap-3">
+                      <HelpCircle className="w-5 h-5 text-blue-600 mt-1" />
+                      <span className="font-semibold text-gray-900">{item.question}</span>
+                    </div>
+                    <ChevronDown
+                      className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
+                        isOpen ? 'transform rotate-180' : ''
+                      }`}
+                    />
+                  </button>
+                  <div
+                    id={answerId}
+                    className={`px-4 md:px-6 pb-4 text-gray-700 text-sm leading-relaxed ${
+                      isOpen ? 'block' : 'hidden'
+                    }`}
+                  >
+                    {item.answer}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CaricatureFAQ() {
+  const [openId, setOpenId] = useState<string | null>(caricatureFaqItems[0]?.id ?? null);
+
+  const handleToggle = (id: string) => {
+    setOpenId((current) => (current === id ? null : id));
+  };
+
+  return (
+    <section className="mb-12">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            AI Caricature: frequently asked questions
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Answers to common questions about turning photos into fun caricatures, choosing styles, and using the results online.
+          </p>
+        </div>
+        <SchemaJSONLD data={caricatureFaqSchema} />
+        <div className="max-w-3xl mx-auto">
+          <div className="space-y-4">
+            {caricatureFaqItems.map((item) => {
+              const isOpen = openId === item.id;
+              const answerId = `caricature-faq-answer-${item.id}`;
               return (
                 <div key={item.id} className="bg-white rounded-lg shadow border border-gray-200">
                   <button
@@ -3391,6 +3684,7 @@ const handleAIImageToImageGenerate = async () => {
           )}
 
           {tool.id === 'ai-cartoon' && <CartoonHeroSection />}
+          {tool.id === 'ai-caricature' && <CaricatureHeroSection />}
 
           {tool.id === 'ai-expand' && <ExpandHeroSection />}
 
@@ -5116,6 +5410,15 @@ const handleAIImageToImageGenerate = async () => {
             hasResult={!!processedImage.url} 
           />
 
+          {tool.id === 'ai-caricature' && (
+            <SectionErrorBoundary>
+              <>
+                <CaricatureZigZagLayout />
+                <CaricatureFAQ />
+              </>
+            </SectionErrorBoundary>
+          )}
+
           {tool.id === 'ai-cartoon' && (
             <SectionErrorBoundary>
               <>
@@ -5193,6 +5496,8 @@ function getToolDescription(tool: Tool): string {
       return 'replace objects or areas in your images with AI-generated content that seamlessly blends with the rest of the image';
     case 'ai-cartoon':
       return 'transform your photos into cartoon-style artwork with various artistic styles';
+    case 'ai-caricature':
+      return 'turn regular photos into expressive caricatures using style presets, reference images, or text prompts';
     case 'ai-portrait':
       return 'create realistic portrait transformations with professional styling and artistic effects';
     case 'ai-face-swap':
