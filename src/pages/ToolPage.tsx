@@ -140,6 +140,80 @@ function CartoonHeroSection() {
   );
 }
 
+function BackgroundHeroSection() {
+  const [activeVariant, setActiveVariant] = useState<'variant1' | 'variant2' | 'variant3'>('variant1');
+
+  const variants = {
+    variant1: {
+      label: 'Example 1:',
+      text: 'Insta photos with unique backgrounds',
+      imageSrc: '/images/blog/bg-insta-unique-placeholder.jpg'
+    },
+    variant2: {
+      label: 'Example 2:',
+      text: 'Backgrounds for fashion photoshoots',
+      imageSrc: '/images/blog/bg-fashion-photoshoot-placeholder.jpg'
+    },
+    variant3: {
+      label: 'Example 3:',
+      text: 'Backgrounds for professional portraits',
+      imageSrc: '/images/blog/bg-professional-portraits-placeholder.jpg'
+    }
+  } as const;
+
+  const current = variants[activeVariant];
+
+  return (
+    <section className="mb-10">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+          <div>
+            <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+              Generate new AI backgrounds for any photo
+            </h2>
+            <p className="mt-3 text-sm md:text-base text-gray-700">
+              Turn ordinary images into scroll-stopping visuals by swapping the background with AI. Pick a style you like, describe the scene, and let the background generator handle the rest.
+            </p>
+            <div className="mt-6 space-y-3">
+              {(['variant1', 'variant2', 'variant3'] as const).map((key) => {
+                const variant = variants[key];
+                const isActive = activeVariant === key;
+                return (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => setActiveVariant(key)}
+                    className={`w-full flex items-center justify-start rounded-2xl border-2 px-3 py-3 text-left transition-colors ${
+                      isActive ? 'border-blue-500 bg-blue-50' : 'border-gray-200 bg-gray-50 hover:bg-gray-100'
+                    }`}
+                  >
+                    <div className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-purple-100 to-blue-100 text-xs font-semibold text-blue-700 px-3 py-2 mr-3">
+                      {variant.label}
+                    </div>
+                    <div className="text-sm md:text-base text-gray-700">{variant.text}</div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+          <div className="flex justify-end">
+            <div className="w-full max-w-md">
+              <div className="relative overflow-hidden rounded-3xl border border-gray-200 bg-gray-50">
+                <img
+                  src={current.imageSrc}
+                  alt="AI-generated background example"
+                  loading="lazy"
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function CaricatureHeroSection() {
   const [activePrompt, setActivePrompt] = useState<'prompt1' | 'prompt2' | 'prompt3'>('prompt1');
 
@@ -202,6 +276,80 @@ function CaricatureHeroSection() {
                 <img
                   src={current.imageSrc}
                   alt="AI-generated caricature example"
+                  loading="lazy"
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function PortraitHeroSection() {
+  const [activePrompt, setActivePrompt] = useState<'prompt1' | 'prompt2' | 'prompt3'>('prompt1');
+
+  const prompts = {
+    prompt1: {
+      label: 'Prompt 1:',
+      text: 'Soft daylight portrait, neutral background, natural skin tones',
+      imageSrc: '/images/blog/Soft daylight portrait.jpg'
+    },
+    prompt2: {
+      label: 'Prompt 2:',
+      text: 'Studio headshot, dramatic lighting, cinematic color grading',
+      imageSrc: '/images/blog/Studio headshot portrait.jpg'
+    },
+    prompt3: {
+      label: 'Prompt 3:',
+      text: 'Outdoor lifestyle portrait, warm sunset light, shallow depth of field',
+      imageSrc: '/images/blog/Outdoor lifestyle portrait.jpg'
+    }
+  } as const;
+
+  const current = prompts[activePrompt];
+
+  return (
+    <section className="mb-10">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+          <div>
+            <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+              Turn simple photos into AI-enhanced portraits
+            </h2>
+            <p className="mt-3 text-sm md:text-base text-gray-700">
+              Use the AI Portrait tool to upgrade everyday photos into polished portraits with professional lighting, color grading, and styling. Start from a clear face photo and guide the look with short prompts.
+            </p>
+            <div className="mt-6 space-y-3">
+              {(['prompt1', 'prompt2', 'prompt3'] as const).map((key) => {
+                const prompt = prompts[key];
+                const isActive = activePrompt === key;
+                return (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => setActivePrompt(key)}
+                    className={`w-full flex items-center justify-start rounded-2xl border-2 px-3 py-3 text-left transition-colors ${
+                      isActive ? 'border-blue-500 bg-blue-50' : 'border-gray-200 bg-gray-50 hover:bg-gray-100'
+                    }`}
+                  >
+                    <div className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-purple-100 to-blue-100 text-xs font-semibold text-blue-700 px-3 py-2 mr-3">
+                      {prompt.label}
+                    </div>
+                    <div className="text-sm md:text-base text-gray-700">{prompt.text}</div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+          <div className="flex justify-end">
+            <div className="w-full max-w-md">
+              <div className="relative overflow-hidden rounded-3xl border border-gray-200 bg-gray-50">
+                <img
+                  src={current.imageSrc}
+                  alt="AI-generated portrait example"
                   loading="lazy"
                   className="w-full h-auto object-cover"
                 />
@@ -331,6 +479,212 @@ const removeBgZigZagSections: RemoveBgZigZagSection[] = [
   }
 ];
 
+interface AvatarZigZagSection {
+  id: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  imageSrc: string;
+  imageAlt: string;
+  icon: React.ReactNode;
+}
+
+const avatarZigZagSections: AvatarZigZagSection[] = [
+  {
+    id: 'best-generator',
+    eyebrow: 'Top-rated',
+    title: 'The best AI avatar generator website',
+    description:
+      'Know no limits when it comes to creating avatars. With the Modern-powered AI avatar generator inside Modern PhotoTools, you can explore a growing library of ready-made styles, from fantasy and anime to cartoon and 3D looks. Each style is tuned for accuracy and realism so your avatar still feels like you, just more stylized.',
+    imageSrc: '/images/blog/The best AI avatar generator website.jpg',
+    imageAlt: 'Example of different AI avatar styles generated from one face',
+    icon: <Sparkles className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'unlimited-avatars',
+    eyebrow: 'Efficient',
+    title: 'Make unlimited avatars from a single photo upload',
+    description:
+      'Upload one high-quality photo of your face and generate avatars in multiple styles without repeating the upload. Modern AI studies your features once, then lets you remix the look across professional, creative, and playful presets so you can experiment quickly without extra effort.',
+    imageSrc: '/images/blog/Make unlimited avatars from a single photo upload.jpg',
+    imageAlt: 'Multiple AI avatar variations created from a single portrait',
+    icon: <CameraIcon className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'gaming-social',
+    eyebrow: 'Versatile',
+    title: 'Avatar maker for gaming, chat rooms, and social media',
+    description:
+      'Turn your face into a recognizable avatar for online games, chat rooms, forums, or social platforms. Use AI-generated avatars to give your profile a consistent visual identity, stand out in crowded feeds, and share a version of yourself that feels fun but still authentic.',
+    imageSrc: '/images/blog/Avatar maker for gaming, chat rooms, and social media.jpg',
+    imageAlt: 'AI avatar examples used across gaming and social platforms',
+    icon: <Users className="w-6 h-6 text-blue-600" />
+  }
+];
+
+interface PortraitZigZagSection {
+  id: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  imageSrc: string;
+  imageAlt: string;
+  icon: React.ReactNode;
+  bullets?: string[];
+}
+
+const portraitZigZagSections: PortraitZigZagSection[] = [
+  {
+    id: 'professional-headshots',
+    eyebrow: 'Professional',
+    title: 'Create polished AI portraits for profiles and portfolios',
+    description:
+      'Start from a clear face photo and generate portraits that look like they were shot in a studio. Adjust lighting, framing, and background while keeping the person recognisable and true to life.',
+    imageSrc: '/images/blog/AI portraits for profiles and portfolios.jpg',
+    imageAlt: 'AI-generated professional portrait headshot example',
+    icon: <CameraIcon className="w-6 h-6 text-blue-600" />,
+    bullets: [
+      'Upgrade casual photos into clean, professional headshots.',
+      'Match different industries with subtle style changes.',
+      'Keep natural skin tones and realistic facial features.'
+    ]
+  },
+  {
+    id: 'creative-looks',
+    eyebrow: 'Creative looks',
+    title: 'Explore artistic portrait styles in a few prompts',
+    description:
+      'Experiment with cinematic, editorial, and painterly portrait styles without hiring a full creative team. Use short prompts to try new moods, color palettes, and compositions around the same face.',
+    imageSrc: '/images/blog/artistic portrait styles in a few prompts.jpg',
+    imageAlt: 'AI-generated artistic portrait variations',
+    icon: <Sparkles className="w-6 h-6 text-blue-600" />,
+    bullets: [
+      'Test different lighting setups such as golden hour or film noir.',
+      'Switch between minimal, bold, or textured backgrounds.',
+      'Create cohesive sets of portraits for campaigns or series.'
+    ]
+  },
+  {
+    id: 'brand-ready',
+    eyebrow: 'Brand-ready',
+    title: 'Portraits that fit your brand identity',
+    description:
+      'Keep portraits aligned with your visual identity by reusing the same prompts and settings across your team. Generate consistent photos for websites, pitch decks, and social media profiles.',
+    imageSrc: '/images/blog/Portraits that fit your brand identity.jpg',
+    imageAlt: 'AI-generated portraits used across a brand touchpoints',
+    icon: <Gem className="w-6 h-6 text-blue-600" />,
+    bullets: [
+      'Create matching portrait sets for teams and collaborators.',
+      'Adapt framing and crop to different platforms and layouts.',
+      'Quickly refresh portraits as your style or branding evolves.'
+    ]
+  }
+];
+
+interface ImageGeneratorZigZagSection {
+  id: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  imageSrc: string;
+  imageAlt: string;
+  icon: React.ReactNode;
+  bullets?: string[];
+}
+
+const imageGeneratorZigZagSections: ImageGeneratorZigZagSection[] = [
+  {
+    id: 'no-prompts',
+    eyebrow: 'No prompt skills needed',
+    title: 'A text-to-image tool that does not require prompt expertise',
+    description:
+      'Create AI images without learning complex prompt formulas. The AI Image Generator includes purpose-built tools so you can focus on your idea instead of technical wording.',
+    imageSrc: '/images/blog/A text to image tool.jpg',
+    imageAlt: 'AI Image Generator interface creating visuals from simple prompts',
+    icon: <Sparkles className="w-6 h-6 text-blue-600" />,
+    bullets: [
+      'Pick from tools like the AI Logo Generator or AI Anime Art Generator.',
+      'Each tool is tuned for a specific type of image, so prompts can stay simple.',
+      'Type short, natural language descriptions and let the model handle the details.'
+    ]
+  },
+  {
+    id: 'brands',
+    eyebrow: 'For brands',
+    title: 'An image generator designed for brands',
+    description:
+      'Experiment with bold visual ideas that would be too expensive or slow to produce with traditional photoshoots. Quickly explore variations before you commit budget to a full campaign.',
+    imageSrc: '/images/blog/image generator designed for brands.jpg',
+    imageAlt: 'Brand visuals created with an AI image generator',
+    icon: <Atom className="w-6 h-6 text-blue-600" />,
+    bullets: [
+      'Generate marketing visuals, ad concepts, and social media posts on demand.',
+      'Test packaging concepts, logos, and branding directions without a studio setup.',
+      'Produce multiple creative variations from a single idea in just a few prompts.'
+    ]
+  },
+  {
+    id: 'customize',
+    eyebrow: 'Edit and refine',
+    title: 'Customize AI images with powerful editing features',
+    description:
+      'Turn generated images into production-ready assets using the rest of the ModernPhotoTools suite. Enhance quality, adapt formats, and fine-tune details in the same workflow.',
+    imageSrc: '/images/blog/Customize AI images with powerful editing features.jpg',
+    imageAlt: 'AI-generated image being refined with additional editing tools',
+    icon: <Gem className="w-6 h-6 text-blue-600" />,
+    bullets: [
+      'Upscale AI images up to 4× for sharper, higher resolution output.',
+      'Apply AI filters to match different moods, styles, or campaign aesthetics.',
+      'Resize images for different platforms without manual cropping.',
+      'Make precise cutouts to isolate subjects or remove unwanted elements.',
+      'Replace parts of an image to perfect the overall composition or message.'
+    ]
+  }
+];
+
+interface ProductZigZagSection {
+  id: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  imageSrc: string;
+  imageAlt: string;
+  icon: React.ReactNode;
+}
+
+const productZigZagSections: ProductZigZagSection[] = [
+  {
+    id: 'fast-results',
+    eyebrow: 'Speed and quality',
+    title: 'AI product photoshoot: fast and realistic results',
+    description:
+      'Create polished product photos that look like they came from a professional studio, without booking equipment or locations. Use ModernPhotoTools’ AI Product Photoshoot to generate on-brand scenes in minutes instead of days.',
+    imageSrc: '/images/blog/AI product photoshoot results.jpg',
+    imageAlt: 'Example of AI-generated product photos in different realistic scenes',
+    icon: <Sparkles className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'for-everyone',
+    eyebrow: 'For every team',
+    title: 'Online AI product shot generator for any workflow',
+    description:
+      'Support agencies, photographers, ecommerce sellers, and social media teams with one flexible tool. Start from ready-made styles or your own prompts to keep product photos consistent across websites, ads, and marketplaces.',
+    imageSrc: '/images/blog/Online AI product shot generator for any workflow.jpg',
+    imageAlt: 'Different people using an AI product photography workflow',
+    icon: <Users className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'imaginative-backgrounds',
+    eyebrow: 'Creative backgrounds',
+    title: 'Imaginative AI product background generation with prompts',
+    description:
+      'Place your product in any environment you can describe. Type a short prompt to stage it on a beach, in a studio, on a marble counter, or inside a themed set—without having to physically shoot in each location.',
+    imageSrc: '/images/blog/Imaginative AI product background generation with prompts.jpg',
+    imageAlt: 'Product shown on multiple AI-generated backgrounds based on prompts',
+    icon: <CameraIcon className="w-6 h-6 text-blue-600" />
+  }
+];
+
 interface CleanupZigZagSection {
   id: string;
   eyebrow: string;
@@ -430,6 +784,58 @@ const cleanupFaqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: cleanupFaqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer
+    }
+  }))
+} as const;
+
+interface ProductFaqItem {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+const productFaqItems: ProductFaqItem[] = [
+  {
+    id: 'what-it-does',
+    question: 'What does the AI Product Photoshoot tool do?',
+    answer:
+      'It uses AI to generate professional-looking product photos in different scenes and styles. You upload a product image, choose or describe a setup, and the tool creates new shots that are ready for stores, ads, and social media.'
+  },
+  {
+    id: 'who-it-is-for',
+    question: 'Who is the AI Product Photoshoot tool designed for?',
+    answer:
+      'It is built for ecommerce sellers, marketers, photographers, and agencies who need consistent product visuals quickly. Whether you manage a small online shop or a large catalog, you can use it to refresh photos without repeated studio sessions.'
+  },
+  {
+    id: 'image-requirements',
+    question: 'What kind of product photos work best with this tool?',
+    answer:
+      'Clear, well-lit product photos with the item in focus work best. Centered products on simple backgrounds are easier for the AI to understand. Very dark, blurry, or low-resolution images may produce lower quality results.'
+  },
+  {
+    id: 'pricing',
+    question: 'Is the AI Product Photoshoot tool free to use?',
+    answer:
+      'You can try the AI Product Photoshoot tool directly in your browser without installing extra software. Availability, limits, and commercial usage options can depend on your current plan, but it is optimized so you can start testing it on real products right away.'
+  },
+  {
+    id: 'where-it-works',
+    question: 'Which types of products can I create AI photos for?',
+    answer:
+      'You can generate shots for jewelry, clothing, perfumes, cosmetics, electronics, food, decor, and more. The same tool works across categories by letting you pick different styles, backgrounds, and prompts tailored to your brand.'
+  }
+];
+
+const productFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: productFaqItems.map((item) => ({
     '@type': 'Question',
     name: item.question,
     acceptedAnswer: {
@@ -585,6 +991,58 @@ const expandZigZagSections: ExpandZigZagSection[] = [
   }
 ];
 
+interface BackgroundZigZagSection {
+  id: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  imageSrc: string;
+  imageAlt: string;
+  icon: React.ReactNode;
+  bullets?: string[];
+}
+
+const backgroundZigZagSections: BackgroundZigZagSection[] = [
+  {
+    id: 'drive-sales',
+    eyebrow: 'Sell more',
+    title: 'AI photo backgrounds that help products stand out',
+    description:
+      'Stop searching for stock photos or setting up complex shoots. Use the AI Background Generator to create polished, realistic scenes around your existing photos so every image looks ready for your store, ads, and social feeds.',
+    imageSrc: '/images/blog/AI photo backgrounds that help products stand out.jpg',
+    imageAlt: 'Product photo placed on an AI-generated background designed for ecommerce.',
+    icon: <Sparkles className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'for-every-industry',
+    eyebrow: 'For any brand',
+    title: 'Built for every industry and product category',
+    description:
+      'Whether you work with fashion, electronics, furniture, beauty, food, or accessories, you can turn plain or cluttered backgrounds into on-brand, buyer-friendly scenes that match your visual identity.',
+    imageSrc: '/images/blog/AI-backgrounds-for-every-industry.jpg',
+    imageAlt: 'Different product categories shown with AI-generated backgrounds.',
+    icon: <ShoppingBag className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'use-cases',
+    eyebrow: 'Use cases',
+    title: 'Explore a wide range of AI background use cases',
+    description:
+      'Use AI-generated backgrounds anywhere you need clean, consistent visuals, from marketplaces to personal branding.',
+    imageSrc: '/images/blog/AI-background-generator-use-cases.jpg',
+    imageAlt: 'Collage of photos using AI-generated backgrounds for different purposes.',
+    icon: <Home className="w-6 h-6 text-blue-600" />,
+    bullets: [
+      'Use AI backgrounds for product listings on Amazon, Shopify, eBay, Etsy, or your own site.',
+      'Generate multiple background options and A/B test which versions convert better.',
+      'Create catalog images and marketing visuals without organizing new photo shoots.',
+      'Design social posts, reel covers, YouTube thumbnails, and other creator content.',
+      'Update model and actor portfolios with clean, versatile scenes at low cost.',
+      'Apply simple, professional backdrops for CV photos and job application headshots.'
+    ]
+  }
+];
+
 interface CartoonZigZagSection {
   id: string;
   eyebrow: string;
@@ -722,6 +1180,70 @@ const expandFaqSchema = {
   }))
 } as const;
 
+interface BackgroundFaqItem {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+const backgroundFaqItems: BackgroundFaqItem[] = [
+  {
+    id: 'transparent-required',
+    question: 'Do I have to upload an image with a transparent background for a new AI background?',
+    answer:
+      'No. You can upload regular photos with their original backgrounds. The AI Background Generator can detect the subject and replace or rebuild the background for you. Well-lit images with a clear subject usually give the best results.'
+  },
+  {
+    id: 'without-subject',
+    question: 'Can I generate a background image without a product or subject?',
+    answer:
+      'Yes. You can use the tool to generate standalone backgrounds from text prompts, then reuse them later behind products, portraits, or designs. Just describe the scene you want and download the generated background.'
+  },
+  {
+    id: 'same-product-different-scenes',
+    question: 'Is it possible to generate the same product in different background settings?',
+    answer:
+      'Yes. Upload a clear photo of your product once, then try multiple prompts or presets to place it in different scenes. This is useful for testing lifestyle, studio, and seasonal backgrounds without repeating photoshoots.'
+  },
+  {
+    id: 'generation-time',
+    question: 'How long does it take for the AI to generate a background?',
+    answer:
+      'In most cases, results appear within a few seconds, depending on image size and server load. More complex prompts or very large images can take slightly longer, but the goal is to keep generation fast enough for quick experimentation.'
+  },
+  {
+    id: 'popular-backgrounds',
+    question: 'What are some popular backgrounds that I can try with AI?',
+    answer:
+      'Common choices include clean studio setups, soft gradients, minimal desk scenes, outdoor lifestyle settings, seasonal themes, and on-brand color backdrops. You can also reference materials like wood, marble, concrete, or fabric for more texture.'
+  },
+  {
+    id: 'free-limits',
+    question: 'How many backgrounds can I generate for free?',
+    answer:
+      'You can start generating backgrounds for free in your browser. Exact limits depend on your current plan and any usage caps in place, but the experience is tuned so you can try multiple prompts and variations before deciding whether you need more.'
+  },
+  {
+    id: 'watermarks',
+    question: 'Will my photos be watermark-free?',
+    answer:
+      'Yes. Backgrounds generated with ModernPhotoTools are delivered without watermarks so you can use them in product listings, marketing designs, and personal projects. Always review the latest terms of use for details on commercial usage.'
+  }
+];
+
+const backgroundFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: backgroundFaqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer
+    }
+  }))
+} as const;
+
 interface RemoveBgFaqItem {
   id: string;
   question: string;
@@ -765,6 +1287,128 @@ const removeBgFaqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: removeBgFaqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer
+    }
+  }))
+} as const;
+
+interface AvatarFaqItem {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+const avatarFaqItems: AvatarFaqItem[] = [
+  {
+    id: 'what-is-avatar',
+    question: 'What is an AI avatar?',
+    answer:
+      'An AI avatar is a stylized image of your face generated by artificial intelligence. It keeps your core features recognizable while reimagining you in different artistic, professional, or playful styles for online profiles, games, and communities.'
+  },
+  {
+    id: 'best-generator',
+    question: 'What is the best AI avatar generator?',
+    answer:
+      'The best AI avatar generator is one that creates accurate, high-quality results from a single clear photo while giving you control over style. Modern PhotoTools uses Modern technology to offer curated presets and custom prompts so you can generate avatars that look polished and on-brand.'
+  },
+  {
+    id: 'free-avatar',
+    question: 'Where can I generate an AI avatar for free?',
+    answer:
+      'You can generate free AI avatars directly in your browser on Modern PhotoTools. Upload a compatible image, choose a preset or describe your desired look, and create avatars without installing software or setting up complex tools.'
+  },
+  {
+    id: 'single-photo',
+    question: 'How do I make an avatar with a single photo?',
+    answer:
+      'Upload one clear, front-facing photo with good lighting and minimal obstructions. Select a preset style or add a short text prompt, then run the AI Avatar tool. The system analyzes your face once and produces avatars based on that single image.'
+  },
+  {
+    id: 'face-avatar',
+    question: 'How can I create an AI avatar of my face?',
+    answer:
+      'Start with a photo where your facial features are visible and sharp. Avoid heavy filters or blurred shots. Upload it to the AI Avatar tool, pick a style or describe one with text, and let the AI generate versions that keep your face recognizable while changing the styling.'
+  },
+  {
+    id: 'avatar-types',
+    question: 'What are the different types of AI avatars?',
+    answer:
+      'You can create many types of AI avatars, including realistic portraits, cartoon and anime styles, fantasy characters, game-inspired looks, and professional profile images. Each type adjusts lighting, color, and details while preserving your core facial structure.'
+  },
+  {
+    id: 'avatar-uses',
+    question: 'What are the different applications of AI avatars?',
+    answer:
+      'AI avatars are used for gaming profiles, social media pictures, streaming and creator branding, online communities, business headshots, and anonymous but expressive identities. They help you stay recognizable while sharing a curated or creative version of yourself.'
+  }
+];
+
+const avatarFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: avatarFaqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer
+    }
+  }))
+} as const;
+
+interface PortraitFaqItem {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+const portraitFaqItems: PortraitFaqItem[] = [
+  {
+    id: 'what-it-does',
+    question: 'What does the AI Portrait tool do?',
+    answer:
+      'The AI Portrait tool upgrades regular photos into polished portraits with improved lighting, color, and styling while keeping the person recognizable.'
+  },
+  {
+    id: 'best-input-photo',
+    question: 'What kind of photo should I upload for best results?',
+    answer:
+      'Use a clear, front-facing photo with good lighting where the face is not cropped, heavily blurred, or covered by strong filters, text, or stickers.'
+  },
+  {
+    id: 'background-and-lighting',
+    question: 'Can I change the background and lighting in my portraits?',
+    answer:
+      'Yes. You can describe the mood, lighting, and background in a short prompt to generate portraits that feel like they were taken in a studio or a specific location.'
+  },
+  {
+    id: 'retouching',
+    question: 'Is this the same as traditional photo retouching?',
+    answer:
+      'Traditional retouching makes small edits to an existing photo. The AI Portrait tool uses generative AI to reinterpret the portrait while keeping key facial traits and overall likeness.'
+  },
+  {
+    id: 'where-to-use',
+    question: 'Where can I use AI portraits from this tool?',
+    answer:
+      'You can use them for social media profiles, websites, pitch decks, resumes, brand pages, and creator thumbnails as long as they follow the terms of use for your platform.'
+  },
+  {
+    id: 'privacy',
+    question: 'Is my photo stored or used to train models?',
+    answer:
+      'Modern PhotoTools processes your images to generate results and follows strict policies around data handling. Always review the latest privacy policy and terms of use for details.'
+  }
+];
+
+const portraitFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: portraitFaqItems.map((item) => ({
     '@type': 'Question',
     name: item.question,
     acceptedAnswer: {
@@ -875,6 +1519,64 @@ const caricatureFaqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: caricatureFaqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer
+    }
+  }))
+} as const;
+
+interface ImageGeneratorFaqItem {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+const imageGeneratorFaqItems: ImageGeneratorFaqItem[] = [
+  {
+    id: 'training-data',
+    question: 'What kind of training data is used to train the AI model for generating images?',
+    answer:
+      'The AI Image Generator is trained on large collections of licensed, synthetic, and publicly available image–text pairs. The goal is to help the model understand how everyday language maps to visual concepts, styles, and compositions so it can create new images from your prompts. It does not train directly on your private uploads.'
+  },
+  {
+    id: 'copyright',
+    question: 'Who owns the copyright of images generated on Modern AI?',
+    answer:
+      'In general, you have broad rights to use the images you generate for personal and commercial projects, as long as your prompts and outputs comply with ModernPhotoTools’ terms of use and applicable laws. Always review the latest licensing and policy pages for details on attribution, restrictions, and prohibited content.'
+  },
+  {
+    id: 'mobile-app',
+    question: 'Is there a mobile app for AI text-to-image?',
+    answer:
+      'You can access the AI Image Generator in a mobile browser, and some ModernPhotoTools experiences may also be available through companion apps or integrations. Check the official website or app store listings for the most current information about dedicated mobile apps and supported platforms.'
+  },
+  {
+    id: 'image-types',
+    question: 'What types of images can be generated with text-to-image AI?',
+    answer:
+      'You can generate a wide range of visuals, including logos, illustrations, product renders, concept art, portraits, landscapes, and abstract designs. Results depend on the prompt you write, the style you choose, and any additional tools you combine with the generator, such as filters or upscaling.'
+  },
+  {
+    id: 'age-restriction',
+    question: 'Is there any age restriction to using the AI Image Generator?',
+    answer:
+      'Yes. Like most AI and creative platforms, ModernPhotoTools is intended for users who meet the minimum age requirements defined in the terms of use and privacy policy. Parents and guardians should supervise younger users and make sure generated content and prompts stay within appropriate guidelines.'
+  },
+  {
+    id: 'commercial-use',
+    question: 'Can the generated images be used commercially?',
+    answer:
+      'Yes, many users rely on AI-generated images for marketing, branding, social media, and client work. You are generally allowed to use your outputs commercially, provided you follow ModernPhotoTools’ policies and do not create content that infringes on trademarks, copyrighted characters, or other protected material.'
+  }
+];
+
+const imageGeneratorFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: imageGeneratorFaqItems.map((item) => ({
     '@type': 'Question',
     name: item.question,
     acceptedAnswer: {
@@ -1031,6 +1733,257 @@ function RemoveBgZigZagLayout() {
   );
 }
 
+function ProductZigZagLayout() {
+  return (
+    <section className="mb-10">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-8 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            AI product photos ready for your store and campaigns
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Use AI Product Photoshoot to create studio-style images, lifestyle scenes, and creative
+            backgrounds for every type of product—all without reshoots or complex manual editing.
+          </p>
+        </div>
+        <div className="space-y-10">
+          {productZigZagSections.map((section, index) => {
+            const textFirst = index % 2 === 0;
+            return (
+              <div
+                key={section.id}
+                className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12"
+              >
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-2 lg:order-1' : 'order-2 lg:order-2'
+                  }`}
+                >
+                  <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 mb-3">
+                    {section.icon}
+                    <span>{section.eyebrow}</span>
+                  </div>
+                  <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3">
+                    {section.title}
+                  </h3>
+                  <p className="text-gray-700 text-sm md:text-base leading-relaxed">
+                    {section.description}
+                  </p>
+                </div>
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-1 lg:order-2' : 'order-1 lg:order-1'
+                  }`}
+                >
+                  <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-gray-50">
+                    <img
+                      src={section.imageSrc}
+                      alt={section.imageAlt}
+                      loading="lazy"
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function AvatarZigZagLayout() {
+  return (
+    <section className="mb-10">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-8 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            Built for every kind of online avatar
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Use the AI Avatar generator for gaming, communities, social media, and professional profiles without needing design skills or complex tools.
+          </p>
+        </div>
+        <div className="space-y-10">
+          {avatarZigZagSections.map((section, index) => {
+            const textFirst = index % 2 === 0;
+            return (
+              <div
+                key={section.id}
+                className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12"
+              >
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-2 lg:order-1' : 'order-2 lg:order-2'
+                  }`}
+                >
+                  <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 mb-3">
+                    {section.icon}
+                    <span>{section.eyebrow}</span>
+                  </div>
+                  <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3">
+                    {section.title}
+                  </h3>
+                  <p className="text-gray-700 text-sm md:text-base leading-relaxed">
+                    {section.description}
+                  </p>
+                </div>
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-1 lg:order-2' : 'order-1 lg:order-1'
+                  }`}
+                >
+                  <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-gray-50">
+                    <img
+                      src={section.imageSrc}
+                      alt={section.imageAlt}
+                      loading="lazy"
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function PortraitZigZagLayout() {
+  return (
+    <section className="mb-10">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-8 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            AI portraits for profiles, branding, and creative projects
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Use the AI Portrait tool to generate professional, brand-ready portraits and creative looks from simple face photos and short prompts.
+          </p>
+        </div>
+        <div className="space-y-10">
+          {portraitZigZagSections.map((section, index) => {
+            const textFirst = index % 2 === 0;
+            return (
+              <div
+                key={section.id}
+                className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12"
+              >
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-2 lg:order-1' : 'order-2 lg:order-2'
+                  }`}
+                >
+                  <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 mb-3">
+                    {section.icon}
+                    <span>{section.eyebrow}</span>
+                  </div>
+                  <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3">
+                    {section.title}
+                  </h3>
+                  <p className="text-gray-700 text-sm md:text-base leading-relaxed">
+                    {section.description}
+                  </p>
+                  {section.bullets && (
+                    <ul className="mt-3 space-y-1 text-gray-700 text-sm md:text-base list-disc list-inside">
+                      {section.bullets.map((bullet) => (
+                        <li key={bullet}>{bullet}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-1 lg:order-2' : 'order-1 lg:order-1'
+                  }`}
+                >
+                  <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-gray-50">
+                    <img
+                      src={section.imageSrc}
+                      alt={section.imageAlt}
+                      loading="lazy"
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ImageGeneratorZigZagLayout() {
+  return (
+    <section className="mb-10">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-8 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            Built for every image creation need
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Use the AI Image Generator to create professional visuals without design skills or complex tools.
+          </p>
+        </div>
+        <div className="space-y-10">
+          {imageGeneratorZigZagSections.map((section, index) => {
+            const textFirst = index % 2 === 0;
+            return (
+              <div
+                key={section.id}
+                className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12"
+              >
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-2 lg:order-1' : 'order-2 lg:order-2'
+                  }`}
+                >
+                  <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 mb-3">
+                    {section.icon}
+                    <span>{section.eyebrow}</span>
+                  </div>
+                  <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3">
+                    {section.title}
+                  </h3>
+                  <p className="text-gray-700 text-sm md:text-base leading-relaxed">
+                    {section.description}
+                  </p>
+                  {section.bullets && (
+                    <ul className="mt-3 space-y-1 text-gray-700 text-sm md:text-base list-disc list-inside">
+                      {section.bullets.map((bullet) => (
+                        <li key={bullet}>{bullet}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-1 lg:order-2' : 'order-1 lg:order-1'
+                  }`}
+                >
+                  <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-gray-50">
+                    <img
+                      src={section.imageSrc}
+                      alt={section.imageAlt}
+                      loading="lazy"
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function ExpandZigZagLayout() {
   return (
     <section className="mb-10">
@@ -1045,6 +1998,73 @@ function ExpandZigZagLayout() {
         </div>
         <div className="space-y-10">
           {expandZigZagSections.map((section, index) => {
+            const textFirst = index % 2 === 0;
+            return (
+              <div
+                key={section.id}
+                className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12"
+              >
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-2 lg:order-1' : 'order-2 lg:order-2'
+                  }`}
+                >
+                  <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 mb-3">
+                    {section.icon}
+                    <span>{section.eyebrow}</span>
+                  </div>
+                  <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3">
+                    {section.title}
+                  </h3>
+                  <p className="text-gray-700 text-sm md:text-base leading-relaxed">
+                    {section.description}
+                  </p>
+                  {section.bullets && (
+                    <ul className="mt-3 space-y-1 text-gray-700 text-sm md:text-base list-disc list-inside">
+                      {section.bullets.map((bullet) => (
+                        <li key={bullet}>{bullet}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-1 lg:order-2' : 'order-1 lg:order-1'
+                  }`}
+                >
+                  <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-gray-50">
+                    <img
+                      src={section.imageSrc}
+                      alt={section.imageAlt}
+                      loading="lazy"
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function BackgroundZigZagLayout() {
+  return (
+    <section className="mb-10">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-8 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            Build custom AI backgrounds for every photo workflow
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Use the AI Background Generator to turn plain or cluttered scenes into clean, on-brand
+            visuals that work across marketplaces, campaigns, and social channels.
+          </p>
+        </div>
+        <div className="space-y-10">
+          {backgroundZigZagSections.map((section, index) => {
             const textFirst = index % 2 === 0;
             return (
               <div
@@ -1415,6 +2435,190 @@ function RemoveBgFAQ() {
   );
 }
 
+function ProductFAQ() {
+  const [openId, setOpenId] = useState<string | null>(productFaqItems[0]?.id ?? null);
+
+  const handleToggle = (id: string) => {
+    setOpenId((current) => (current === id ? null : id));
+  };
+
+  return (
+    <section className="mb-12">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            AI Product Photoshoot: frequently asked questions
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Answers to common questions about how the AI Product Photoshoot tool works and how to
+            use it in your product photo workflows.
+          </p>
+        </div>
+        <SchemaJSONLD data={productFaqSchema} />
+        <div className="max-w-3xl mx-auto">
+          <div className="space-y-4">
+            {productFaqItems.map((item) => {
+              const isOpen = openId === item.id;
+              const answerId = `product-faq-answer-${item.id}`;
+              return (
+                <div key={item.id} className="bg-white rounded-lg shadow border border-gray-200">
+                  <button
+                    type="button"
+                    onClick={() => handleToggle(item.id)}
+                    className="w-full flex items-center justify-between px-4 md:px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    aria-expanded={isOpen}
+                    aria-controls={answerId}
+                  >
+                    <div className="flex items-start gap-3">
+                      <HelpCircle className="w-5 h-5 text-blue-600 mt-1" />
+                      <span className="font-semibold text-gray-900">{item.question}</span>
+                    </div>
+                    <ChevronDown
+                      className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
+                        isOpen ? 'transform rotate-180' : ''
+                      }`}
+                    />
+                  </button>
+                  <div
+                    id={answerId}
+                    className={`px-4 md:px-6 pb-4 text-gray-700 text-sm leading-relaxed ${
+                      isOpen ? 'block' : 'hidden'
+                    }`}
+                  >
+                    {item.answer}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function AvatarFAQ() {
+  const [openId, setOpenId] = useState<string | null>(avatarFaqItems[0]?.id ?? null);
+
+  const handleToggle = (id: string) => {
+    setOpenId((current) => (current === id ? null : id));
+  };
+
+  return (
+    <section className="mb-12">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            AI Avatar: frequently asked questions
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Answers to common questions about how the AI Avatar generator works and where you can use your avatars.
+          </p>
+        </div>
+        <SchemaJSONLD data={avatarFaqSchema} />
+        <div className="max-w-3xl mx-auto">
+          <div className="space-y-4">
+            {avatarFaqItems.map((item) => {
+              const isOpen = openId === item.id;
+              const answerId = `avatar-faq-answer-${item.id}`;
+              return (
+                <div key={item.id} className="bg-white rounded-lg shadow border border-gray-200">
+                  <button
+                    type="button"
+                    onClick={() => handleToggle(item.id)}
+                    className="w-full flex items-center justify-between px-4 md:px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    aria-expanded={isOpen}
+                    aria-controls={answerId}
+                  >
+                    <div className="flex items-start gap-3">
+                      <HelpCircle className="w-5 h-5 text-blue-600 mt-1" />
+                      <span className="font-semibold text-gray-900">{item.question}</span>
+                    </div>
+                    <ChevronDown
+                      className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
+                        isOpen ? 'transform rotate-180' : ''
+                      }`}
+                    />
+                  </button>
+                  <div
+                    id={answerId}
+                    className={`px-4 md:px-6 pb-4 text-gray-700 text-sm leading-relaxed ${
+                      isOpen ? 'block' : 'hidden'
+                    }`}
+                  >
+                    {item.answer}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function PortraitFAQ() {
+  const [openId, setOpenId] = useState<string | null>(portraitFaqItems[0]?.id ?? null);
+
+  const handleToggle = (id: string) => {
+    setOpenId((current) => (current === id ? null : id));
+  };
+
+  return (
+    <section className="mb-12">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            AI Portrait: frequently asked questions
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Answers to common questions about how the AI Portrait tool works and how to get the best results from your photos.
+          </p>
+        </div>
+        <SchemaJSONLD data={portraitFaqSchema} />
+        <div className="max-w-3xl mx-auto">
+          <div className="space-y-4">
+            {portraitFaqItems.map((item) => {
+              const isOpen = openId === item.id;
+              const answerId = `portrait-faq-answer-${item.id}`;
+              return (
+                <div key={item.id} className="bg-white rounded-lg shadow border border-gray-200">
+                  <button
+                    type="button"
+                    onClick={() => handleToggle(item.id)}
+                    className="w-full flex items-center justify-between px-4 md:px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    aria-expanded={isOpen}
+                    aria-controls={answerId}
+                  >
+                    <div className="flex items-start gap-3">
+                      <HelpCircle className="w-5 h-5 text-blue-600 mt-1" />
+                      <span className="font-semibold text-gray-900">{item.question}</span>
+                    </div>
+                    <ChevronDown
+                      className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
+                        isOpen ? 'transform rotate-180' : ''
+                      }`}
+                    />
+                  </button>
+                  <div
+                    id={answerId}
+                    className={`px-4 md:px-6 pb-4 text-gray-700 text-sm leading-relaxed ${
+                      isOpen ? 'block' : 'hidden'
+                    }`}
+                  >
+                    {item.answer}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function ExpandFAQ() {
   const [openId, setOpenId] = useState<string | null>(expandFaqItems[0]?.id ?? null);
 
@@ -1598,6 +2802,68 @@ function CartoonFAQ() {
   );
 }
 
+function BackgroundFAQ() {
+  const [openId, setOpenId] = useState<string | null>(backgroundFaqItems[0]?.id ?? null);
+
+  const handleToggle = (id: string) => {
+    setOpenId((current) => (current === id ? null : id));
+  };
+
+  return (
+    <section className="mb-12">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            AI Background Generator: frequently asked questions
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Answers to common questions about generating new AI backgrounds, using them with
+            products and portraits, and understanding limits and usage.
+          </p>
+        </div>
+        <SchemaJSONLD data={backgroundFaqSchema} />
+        <div className="max-w-3xl mx-auto">
+          <div className="space-y-4">
+            {backgroundFaqItems.map((item) => {
+              const isOpen = openId === item.id;
+              const answerId = `background-faq-answer-${item.id}`;
+              return (
+                <div key={item.id} className="bg-white rounded-lg shadow border border-gray-200">
+                  <button
+                    type="button"
+                    onClick={() => handleToggle(item.id)}
+                    className="w-full flex items-center justify-between px-4 md:px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    aria-expanded={isOpen}
+                    aria-controls={answerId}
+                  >
+                    <div className="flex items-start gap-3">
+                      <HelpCircle className="w-5 h-5 text-blue-600 mt-1" />
+                      <span className="font-semibold text-gray-900">{item.question}</span>
+                    </div>
+                    <ChevronDown
+                      className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
+                        isOpen ? 'transform rotate-180' : ''
+                      }`}
+                    />
+                  </button>
+                  <div
+                    id={answerId}
+                    className={`px-4 md:px-6 pb-4 text-gray-700 text-sm leading-relaxed ${
+                      isOpen ? 'block' : 'hidden'
+                    }`}
+                  >
+                    {item.answer}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function CaricatureFAQ() {
   const [openId, setOpenId] = useState<string | null>(caricatureFaqItems[0]?.id ?? null);
 
@@ -1683,6 +2949,67 @@ function CleanupFAQ() {
             {cleanupFaqItems.map((item) => {
               const isOpen = openId === item.id;
               const answerId = `cleanup-faq-answer-${item.id}`;
+              return (
+                <div key={item.id} className="bg-white rounded-lg shadow border border-gray-200">
+                  <button
+                    type="button"
+                    onClick={() => handleToggle(item.id)}
+                    className="w-full flex items-center justify-between px-4 md:px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    aria-expanded={isOpen}
+                    aria-controls={answerId}
+                  >
+                    <div className="flex items-start gap-3">
+                      <HelpCircle className="w-5 h-5 text-blue-600 mt-1" />
+                      <span className="font-semibold text-gray-900">{item.question}</span>
+                    </div>
+                    <ChevronDown
+                      className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
+                        isOpen ? 'transform rotate-180' : ''
+                      }`}
+                    />
+                  </button>
+                  <div
+                    id={answerId}
+                    className={`px-4 md:px-6 pb-4 text-gray-700 text-sm leading-relaxed ${
+                      isOpen ? 'block' : 'hidden'
+                    }`}
+                  >
+                    {item.answer}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ImageGeneratorFAQ() {
+  const [openId, setOpenId] = useState<string | null>(imageGeneratorFaqItems[0]?.id ?? null);
+
+  const handleToggle = (id: string) => {
+    setOpenId((current) => (current === id ? null : id));
+  };
+
+  return (
+    <section className="mb-12">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            AI Image Generator: frequently asked questions
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Answers to common questions about how the AI Image Generator works and where you can use the images you create.
+          </p>
+        </div>
+        <SchemaJSONLD data={imageGeneratorFaqSchema} />
+        <div className="max-w-3xl mx-auto">
+          <div className="space-y-4">
+            {imageGeneratorFaqItems.map((item) => {
+              const isOpen = openId === item.id;
+              const answerId = `image-generator-faq-answer-${item.id}`;
               return (
                 <div key={item.id} className="bg-white rounded-lg shadow border border-gray-200">
                   <button
@@ -1899,6 +3226,70 @@ const ToolPage: React.FC = () => {
   };
 
   const [activeRemoveBgUseCase, setActiveRemoveBgUseCase] = useState<(typeof removeBgUseCaseTabs)[number]['id']>('people');
+
+  const productUseCaseTabs: {
+    id: 'jewelry' | 'clothing' | 'perfumes' | 'food-beverages' | 'furniture' | 'beauty';
+    label: string;
+  }[] = [
+    { id: 'jewelry', label: 'Jewelry' },
+    { id: 'clothing', label: 'Clothing' },
+    { id: 'perfumes', label: 'Perfumes' },
+    { id: 'food-beverages', label: 'Food and Beverages' },
+    { id: 'furniture', label: 'Furniture and Home Decor' },
+    { id: 'beauty', label: 'Beauty and Cosmetics' }
+  ];
+
+  const productUseCases: Record<
+    (typeof productUseCaseTabs)[number]['id'],
+    { title: string; description: string; imageSrc: string; imageAlt: string }
+  > = {
+    jewelry: {
+      title: 'Luxury jewelry product shots',
+      description:
+        'Highlight fine details, shine, and craftsmanship with clean, close-up jewelry photos tailored for online stores and campaigns.',
+      imageSrc: '/images/blog/product-jewelry-placeholder.jpg',
+      imageAlt: 'AI-generated jewelry product photo on a stylized background'
+    },
+    clothing: {
+      title: 'Fashion and clothing catalog images',
+      description:
+        'Create professional clothing photos for lookbooks, marketplaces, and social media without booking a physical studio every time.',
+      imageSrc: '/images/blog/product-clothing-placeholder.jpg',
+      imageAlt: 'AI-styled clothing product photo arranged for ecommerce'
+    },
+    perfumes: {
+      title: 'Premium perfume and fragrance scenes',
+      description:
+        'Place perfume bottles in atmospheric settings with soft lighting, reflections, and props that feel elegant and on-brand.',
+      imageSrc: '/images/blog/product-perfumes-placeholder.jpg',
+      imageAlt: 'Perfume bottle product photo in an elegant AI-generated setup'
+    },
+    'food-beverages': {
+      title: 'Food and beverage hero shots',
+      description:
+        'Generate appetizing food and drink compositions with realistic textures, steam, and table settings tailored to your menu or campaign.',
+      imageSrc: '/images/blog/product-food-placeholder.jpg',
+      imageAlt: 'Food and beverage product photo styled on a tabletop scene'
+    },
+    furniture: {
+      title: 'Furniture and home decor room sets',
+      description:
+        'Show furniture and decor inside complete rooms, with lighting and styling that matches your brand’s interior look.',
+      imageSrc: '/images/blog/product-furniture-placeholder.jpg',
+      imageAlt: 'Furniture product photo in a modern AI-generated room'
+    },
+    beauty: {
+      title: 'Beauty and cosmetics product layouts',
+      description:
+        'Design polished beauty flatlays and close-ups for skincare, makeup, and haircare that feel editorial and consistent across campaigns.',
+      imageSrc: '/images/blog/product-beauty-placeholder.jpg',
+      imageAlt: 'Beauty and cosmetics product photo arranged with props'
+    }
+  };
+
+  const [activeProductUseCase, setActiveProductUseCase] = useState<(typeof productUseCaseTabs)[number]['id']>(
+    'jewelry'
+  );
   
   // Find the tool based on the toolId param
   const tool = tools.find(t => t.id === toolId);
@@ -3683,14 +5074,138 @@ const handleAIImageToImageGenerate = async () => {
             </section>
           )}
 
+          {tool.id === 'ai-product-photoshoot' && (
+            <section className="mb-10">
+              <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+                <div className="mb-6 text-center">
+                  <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+                    AI Product Photoshoot: perfectly capturing every product
+                  </h2>
+                  <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+                    Explore ready-made setups for jewelry, clothing, perfumes, food, decor, and beauty products, then generate matching AI product shots in a click.
+                  </p>
+                </div>
+
+                <div className="mb-6 -mx-4">
+                  <div className="tabs-scroll px-4 flex gap-2 overflow-x-auto">
+                    {productUseCaseTabs.map(tab => {
+                      const isActive = tab.id === activeProductUseCase;
+                      return (
+                        <button
+                          key={tab.id}
+                          type="button"
+                          className={[
+                            'whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium border transition-colors',
+                            isActive
+                              ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
+                              : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'
+                          ].join(' ')}
+                          onClick={() => setActiveProductUseCase(tab.id)}
+                        >
+                          {tab.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                  <div>
+                    <div className="w-full max-w-3xl mx-auto">
+                      <div className="relative overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
+                        <img
+                          src={productUseCases[activeProductUseCase].imageSrc}
+                          alt={productUseCases[activeProductUseCase].imageAlt}
+                          loading="lazy"
+                          className="w-full h-auto object-cover"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3">
+                      {productUseCases[activeProductUseCase].title}
+                    </h3>
+                    <p className="text-gray-700 text-sm md:text-base leading-relaxed">
+                      {productUseCases[activeProductUseCase].description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+
+          {tool.id === 'ai-image-generator' && (
+            <section className="mb-10">
+              <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+                <div className="mb-6 text-center">
+                  <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+                    AI Image Creator: Transform text into images online
+                  </h2>
+                  <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+                    Transform words into innovative realms, algorithmic portraits, and commercial visuals using the finest AI image generator. Featuring a user-friendly interface and no need for prompting expertise, it is ideal for designers, creators, and businesses.
+                  </p>
+                </div>
+                <div className="max-w-3xl mx-auto">
+                  <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-black">
+                    <video
+                      src="/videos/text-to-image_video-tool-page.mp4"
+                      autoPlay
+                      loop
+                      playsInline
+                      muted
+                      preload="none"
+                      className="w-full h-full"
+                    >
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+
+          {tool.id === 'ai-avatar' && (
+            <section className="mb-10">
+              <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+                <div className="mb-6 text-center">
+                  <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+                    One Tool, Endless Avatar Possibilities
+                  </h2>
+                  <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+                    Explore how the AI Avatar generator fits into different workflows, from gaming profiles and social content to professional headshots and creator branding.
+                  </p>
+                </div>
+                <div className="max-w-3xl mx-auto">
+                  <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-black">
+                    <video
+                      src="/videos/AI-avatar_video-tool.mp4"
+                      autoPlay
+                      loop
+                      playsInline
+                      muted
+                      preload="none"
+                      className="w-full h-full"
+                    >
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+
           {tool.id === 'ai-cartoon' && <CartoonHeroSection />}
           {tool.id === 'ai-caricature' && <CaricatureHeroSection />}
+          {tool.id === 'ai-portrait' && <PortraitHeroSection />}
 
           {tool.id === 'ai-expand' && <ExpandHeroSection />}
 
           {tool.id === 'ai-replace' && <ReplaceHeroSection />}
 
           {tool.id === 'ai-cleanup' && <CleanupUseCasesSection />}
+
+          {tool.id === 'ai-background-generator' && <BackgroundHeroSection />}
           
           {/* Add PromptsGuide for tools that use text prompts */}
           {(tool.id === 'ai-replace' || 
@@ -5455,11 +6970,56 @@ const handleAIImageToImageGenerate = async () => {
             </SectionErrorBoundary>
           )}
 
+          {tool.id === 'ai-background-generator' && (
+            <SectionErrorBoundary>
+              <>
+                <BackgroundZigZagLayout />
+                <BackgroundFAQ />
+              </>
+            </SectionErrorBoundary>
+          )}
+
+          {tool.id === 'ai-image-generator' && (
+            <SectionErrorBoundary>
+              <>
+                <ImageGeneratorZigZagLayout />
+                <ImageGeneratorFAQ />
+              </>
+            </SectionErrorBoundary>
+          )}
+
+          {tool.id === 'ai-product-photoshoot' && (
+            <SectionErrorBoundary>
+              <>
+                <ProductZigZagLayout />
+                <ProductFAQ />
+              </>
+            </SectionErrorBoundary>
+          )}
+
           {tool.id === 'remove-background' && (
             <SectionErrorBoundary>
               <>
                 <RemoveBgZigZagLayout />
                 <RemoveBgFAQ />
+              </>
+            </SectionErrorBoundary>
+          )}
+
+          {tool.id === 'ai-portrait' && (
+            <SectionErrorBoundary>
+              <>
+                <PortraitZigZagLayout />
+                <PortraitFAQ />
+              </>
+            </SectionErrorBoundary>
+          )}
+
+          {tool.id === 'ai-avatar' && (
+            <SectionErrorBoundary>
+              <>
+                <AvatarZigZagLayout />
+                <AvatarFAQ />
               </>
             </SectionErrorBoundary>
           )}

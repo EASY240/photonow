@@ -751,20 +751,26 @@ export async function startCartoonJob({ imageUrl, styleImageUrl, textPrompt }: {
     const cleanStyleImageUrl = (styleImageUrl ?? '').trim().replace(/`/g, '');
     const cleanTextPrompt = (textPrompt ?? '').trim();
 
-    const requestBody: Record<string, unknown> = {
-      imageUrl: cleanImageUrl,
-      textPrompt: cleanTextPrompt
+    const requestBody: {
+      imageUrl: string;
+      textPrompt?: string;
+      cartoonReferenceUrl?: string;
+    } = {
+      imageUrl: cleanImageUrl
     };
 
-    // Only include cartoonReferenceUrl when we actually have one
+    if (cleanTextPrompt) {
+      requestBody.textPrompt = cleanTextPrompt;
+    }
+
     if (cleanStyleImageUrl) {
-      (requestBody as any).cartoonReferenceUrl = cleanStyleImageUrl;
+      requestBody.cartoonReferenceUrl = cleanStyleImageUrl;
     }
 
     const response = await fetch(`${baseUrl}/api/lightx-proxy`, {
       method: 'POST',
       headers: {
-       'Content-Type': 'application/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         endpoint: 'v2/cartoon',
@@ -790,60 +796,82 @@ export async function startCartoonJob({ imageUrl, styleImageUrl, textPrompt }: {
   }
 }
 
-  export async function startCaricatureJob({ imageUrl, styleImageUrl, textPrompt }: { imageUrl: string; styleImageUrl?: string; textPrompt?: string; }): Promise<string> {
-    try {
-      const { baseUrl } = getEnvironmentConfig();
+export async function startCaricatureJob({ imageUrl, styleImageUrl, textPrompt }: { imageUrl: string; styleImageUrl?: string; textPrompt?: string; }): Promise<string> {
+  try {
+    const { baseUrl } = getEnvironmentConfig();
 
-      const cleanImageUrl = imageUrl.trim().replace(/`/g, '');
-      const cleanStyleImageUrl = (styleImageUrl ?? '').trim().replace(/`/g, '');
-      const cleanTextPrompt = (textPrompt ?? '').trim();
+    const cleanImageUrl = imageUrl.trim().replace(/`/g, '');
+    const cleanStyleImageUrl = (styleImageUrl ?? '').trim().replace(/`/g, '');
+    const cleanTextPrompt = (textPrompt ?? '').trim();
 
-      const requestBody: {
-        imageUrl: string;
-        textPrompt: string;
-        caricatureReferenceUrl?: string;
-      } = {
-        imageUrl: cleanImageUrl,
-        textPrompt: cleanTextPrompt
-      };
+    const requestBody: {
+      imageUrl: string;
+      textPrompt?: string;
+      caricatureReferenceUrl?: string;
+    } = {
+      imageUrl: cleanImageUrl
+    };
 
-      if (cleanStyleImageUrl) {
-        requestBody.caricatureReferenceUrl = cleanStyleImageUrl;
-      }
-
-      const response = await fetch(`${baseUrl}/api/lightx-proxy`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          endpoint: 'v2/caricature',
-          body: requestBody
-        }),
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Failed to start caricature job: ${response.status} -  ${errorText}`);
-      }
-
-      const data = await response.json();
-
-      if (!data.body || !data.body.orderId) {
-        throw new Error(`Invalid caricature job response:
-${JSON.stringify(data)}`);
-      }
-
-      return data.body.orderId;
-    } catch (error) {
-      console.error('Error starting caricature job:', error);
-      throw error;
+    if (cleanTextPrompt) {
+      requestBody.textPrompt = cleanTextPrompt;
     }
+
+    if (cleanStyleImageUrl) {
+      requestBody.caricatureReferenceUrl = cleanStyleImageUrl;
+    }
+
+    const response = await fetch(`${baseUrl}/api/lightx-proxy`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        endpoint: 'v2/caricature',
+        body: requestBody
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Failed to start caricature job: ${response.status} - ${errorText}`);
+    }
+
+    const data = await response.json();
+
+    if (!data.body || !data.body.orderId) {
+      throw new Error(`Invalid caricature job response: ${JSON.stringify(data)}`);
+    }
+
+    return data.body.orderId;
+  } catch (error) {
+    console.error('Error starting caricature job:', error);
+    throw error;
   }
+}
 
 export async function startAvatarJob({ imageUrl, styleImageUrl, textPrompt }: { imageUrl: string; styleImageUrl?: string; textPrompt?: string; }): Promise<string> {
   try {
     const { baseUrl } = getEnvironmentConfig();
+
+    const cleanImageUrl = imageUrl.trim().replace(/`/g, '');
+    const cleanStyleImageUrl = (styleImageUrl ?? '').trim().replace(/`/g, '');
+    const cleanTextPrompt = (textPrompt ?? '').trim();
+
+    const requestBody: {
+      imageUrl: string;
+      textPrompt?: string;
+      avatarReferenceUrl?: string;
+    } = {
+      imageUrl: cleanImageUrl
+    };
+
+    if (cleanTextPrompt) {
+      requestBody.textPrompt = cleanTextPrompt;
+    }
+
+    if (cleanStyleImageUrl) {
+      requestBody.avatarReferenceUrl = cleanStyleImageUrl;
+    }
 
     const response = await fetch(`${baseUrl}/api/lightx-proxy`, {
       method: 'POST',
@@ -852,11 +880,7 @@ export async function startAvatarJob({ imageUrl, styleImageUrl, textPrompt }: { 
       },
       body: JSON.stringify({
         endpoint: 'v2/avatar',
-        body: {
-          imageUrl: imageUrl,
-          styleImageUrl: styleImageUrl || "",
-          textPrompt: textPrompt || ""
-        }
+        body: requestBody
       }),
     });
 
