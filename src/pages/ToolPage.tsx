@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
-import { Download, Loader, Brush, XCircle, HelpCircle, X, ChevronDown, Sparkles, ShoppingBag, Car, Home, KeyIcon, CameraIcon, Gem, Atom, Users } from 'lucide-react';
+import { Download, Loader, Brush, XCircle, HelpCircle, X, ChevronDown, Sparkles, ShoppingBag, Car, Home, KeyIcon, CameraIcon, Gem, Atom, Users, Gift, Briefcase } from 'lucide-react';
 import SEO from '../components/ui/SEO';
 import { Helmet } from 'react-helmet-async';
 import Button from '../components/ui/Button';
@@ -426,6 +426,104 @@ function ExpandHeroSection() {
   );
 }
 
+function ImageToImageHeroSection() {
+  return (
+    <section className="mb-10">
+              <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+                <div className="mb-6 text-center">
+                  <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+                    Create AI images from any photo
+                  </h2>
+                  <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+                    Transform a simple photo into a polished AI image using ModernPhotoTools image-to-image generator.
+                Combine your input image with text prompts and strength controls to decide how boldly the AI
+                reimagines the style, colors, and mood of your scene.</p>
+                </div>
+                <div className="max-w-3xl mx-auto">
+                  <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-black">
+                    <video
+                      src="/videos/ai-image-to-image_video tool page.mp4"
+                      autoPlay
+                      loop
+                      playsInline
+                      muted
+                      preload="none"
+                      className="w-full h-full"
+                    >
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                </div>
+              </div>
+            </section>
+  );
+}
+
+function SketchToImageHeroSection() {
+  const useCases = [
+    {
+      id: 'fashion-design',
+      eyebrow: 'Fashion designing',
+      title: 'Visualize garments from rough fashion sketches',
+      description:
+        'Transform hand-drawn silhouettes into polished outfit visuals you can use for lookbooks, client pitches, and social previews. Explore fabrics, colors, and styling options without sewing a single sample.',
+      icon: <Sparkles className="w-5 h-5 text-blue-600" />
+    },
+    {
+      id: 'interior-architecture',
+      eyebrow: 'Interior and architectural design',
+      title: 'Bring interior and architectural drafts to life',
+      description:
+        'Upload floor plans, elevations, or room sketches and turn them into realistic concept images. Test lighting, materials, and furniture layouts so clients can understand the space long before construction begins.',
+      icon: <Home className="w-5 h-5 text-blue-600" />
+    },
+    {
+      id: 'product-prototyping',
+      eyebrow: 'Product prototyping',
+      title: 'Prototype products without complex 3D software',
+      description:
+        'Convert quick product doodles into clean, presentation-ready renders. Use sketch-to-image AI to explore form, finish, and context shots for packaging, gadgets, and consumer goods before investing in physical prototypes.',
+      icon: <Briefcase className="w-5 h-5 text-blue-600" />
+    }
+  ] as const;
+
+  return (
+    <section className="mb-10">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            Turn rough sketches into production-ready visuals
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Use the AI Sketch to Image tool to move from quick ideas on paper to detailed images for
+            fashion, interiors, and product design—all in a few uploads and prompts.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {useCases.map((item) => (
+            <div
+              key={item.id}
+              className="bg-gray-50 border border-gray-100 rounded-lg p-4 flex flex-col h-full"
+            >
+              <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 mb-3">
+                {item.icon}
+                <span>{item.eyebrow}</span>
+              </div>
+              <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-2">
+                {item.title}
+              </h3>
+              <p className="text-gray-700 text-sm md:text-base leading-relaxed">
+                {item.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 interface RemoveBgZigZagSection {
   id: string;
   eyebrow: string;
@@ -581,6 +679,103 @@ const portraitZigZagSections: PortraitZigZagSection[] = [
   }
 ];
 
+interface OutfitZigZagSection {
+  id: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  imageSrc: string;
+  imageAlt: string;
+  icon: React.ReactNode;
+}
+
+const outfitZigZagSections: OutfitZigZagSection[] = [
+  {
+    id: 'virtual-try-on',
+    eyebrow: 'Virtual try-on',
+    title: 'AI outfit generator for virtual try-on in photos',
+    description:
+      'Use Modern’s AI clothes changer to preview new looks on your existing photos. Upload one image, pick a one-click outfit style, and try everything from casual streetwear to red-carpet looks without changing in real life.',
+    imageSrc: '/images/blog/AI outfit generator.jpg',
+    imageAlt: 'Photo showing a virtual AI outfit try-on on a person',
+    icon: <Sparkles className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'festive-outfits',
+    eyebrow: 'Festive outfits',
+    title: 'Get ready for the holidays with AI festive looks',
+    description:
+      'Dress up for Halloween, Christmas, birthdays, and cultural celebrations using AI-generated outfits instead of shopping and manual editing. In a few clicks, turn everyday photos into festive portraits with themed clothing and accessories.',
+    imageSrc: '/images/blog/holidays with AI festive looks.jpg',
+    imageAlt: 'AI-generated festive outfits applied to a portrait',
+    icon: <Gift className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'corporate-outfits',
+    eyebrow: 'Professional style',
+    title: 'Explore corporate looks with an AI formal outfit editor',
+    description:
+      'Transform casual photos into polished professional portraits by trying on suits, blazers, and formal dresses. Modern’s AI outfit creator builds clean, office-ready looks from a single upload so you can update headshots and profile photos in minutes.',
+    imageSrc: '/images/blog/AI formal outfit editor.jpg',
+    imageAlt: 'AI-generated formal outfit applied for a professional portrait',
+    icon: <Briefcase className="w-6 h-6 text-blue-600" />
+  }
+];
+
+interface HairstyleZigZagSection {
+  id: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  imageSrc: string;
+  imageAlt: string;
+  icon: React.ReactNode;
+  bullets?: string[];
+}
+
+const hairstyleZigZagSections: HairstyleZigZagSection[] = [
+  {
+    id: 'scissor-free-transformation',
+    eyebrow: 'Virtual hairstyle try-on',
+    title: 'Transform your look without a single haircut',
+    description:
+      'Use ModernPhotoTools’ AI hairstyle generator to explore bold hair changes with zero commitment. Upload one clear photo, pick a preset style, and preview short, long, curly, or textured looks that are mapped precisely to your face.',
+    imageSrc:
+      '/images/blog/Transform your look without a single haircut.jpg',
+    imageAlt: 'AI-generated long wavy hairstyle applied virtually to a portrait',
+    icon: <Sparkles className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'celebrity-hairstyles',
+    eyebrow: 'Celebrity-inspired looks',
+    title: 'See yourself in celebrity-style AI hairstyles',
+    description:
+      'Try hairstyles inspired by icons in seconds. From classic silhouettes to modern trends, combine your photo with AI to see how signature cuts, fringes, and volumes would look on you before you ever book a salon visit.',
+    imageSrc:
+      '/images/blog/See yourself in celebrity-style AI hairstyles.jpg',
+    imageAlt: 'AI preview of a sharp taper fade inspired by celebrity styles',
+    icon: <Gem className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'creative-use-cases',
+    eyebrow: 'Everyday uses',
+    title: 'An AI hairstyle changer for real-life decisions',
+    description:
+      'Plan hair changes, content, and client looks with practical AI previews you can trust.',
+    imageSrc:
+      '/images/blog/AI hairstyle changer for real-life decisions.jpg',
+    imageAlt: 'AI-generated space bun hairstyle preview on a portrait',
+    icon: <Home className="w-6 h-6 text-blue-600" />,
+    bullets: [
+      'Before salon visits: compare cuts, lengths, and textures before committing.',
+      'Match hairstyles to face shape so cuts suit round, oval, square, or long faces.',
+      'Experiment with mustache and beard combinations using coordinated hair previews.',
+      'Plan looks for weddings, parties, shoots, and everyday styling with virtual trials.',
+      'Support wig, barbershop, and salon consultations by sharing realistic hairstyle renders.'
+    ]
+  }
+];
+
 interface ImageGeneratorZigZagSection {
   id: string;
   eyebrow: string;
@@ -639,6 +834,99 @@ const imageGeneratorZigZagSections: ImageGeneratorZigZagSection[] = [
       'Make precise cutouts to isolate subjects or remove unwanted elements.',
       'Replace parts of an image to perfect the overall composition or message.'
     ]
+  }
+];
+
+interface ImageToImageZigZagSection {
+  id: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  imageSrc: string;
+  imageAlt: string;
+  icon: React.ReactNode;
+  bullets?: string[];
+}
+
+const imageToImageZigZagSections: ImageToImageZigZagSection[] = [
+  {
+    id: 'ai-transformer',
+    eyebrow: 'Image transformation',
+    title: 'An AI image transformer for fresh compositions',
+    description:
+      'Use the image-to-image tool to restyle any photo into a new composition while keeping the main layout recognizable. The model analyzes structure, lighting, and style, then rebuilds textures, colors, and details so the result feels like a new version of the same scene.',
+    imageSrc: '/images/blog/AI image transformer for fresh compositions.jpg',
+    imageAlt: 'Example of an AI-transformed image based on an input photo',
+    icon: <Sparkles className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'prompt-control',
+    eyebrow: 'Prompt control',
+    title: 'Personalize every image with detailed text prompts',
+    description:
+      'Guide the AI with short prompts that describe what you want to see more of and what to avoid. Combine your source image with clear directions about style, mood, and subject so each generation moves closer to your ideal result without endless trial and error.',
+    imageSrc: '/images/blog/Personalize every image with detailed text prompts.jpg',
+    imageAlt: 'Interface showing text prompts used to control an AI image transformation',
+    icon: <Atom className="w-6 h-6 text-blue-600" />,
+    bullets: [
+      'Add or remove elements by describing them in natural language.',
+      'Specify materials, lighting, camera angle, or artistic style.',
+      'Use prompts to keep key subjects while refreshing the overall look.'
+    ]
+  },
+  {
+    id: 'targeted-edits',
+    eyebrow: 'Targeted edits',
+    title: 'Use prompts for precise modifications and scene updates',
+    description:
+      'Describe focused changes such as “add a golden sunset,” “make the city look futuristic,” or “turn this into a painterly illustration.” The AI applies your instructions across the image so you can explore variations and refinements without manual brushing.',
+    imageSrc: '/images/blog/prompts for precise modifications.jpg',
+    imageAlt: 'AI-generated variations of the same scene shown side by side',
+    icon: <Gem className="w-6 h-6 text-blue-600" />
+  }
+];
+
+interface SketchToImageZigZagSection {
+  id: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  imageSrc: string;
+  imageAlt: string;
+  icon: React.ReactNode;
+  bullets?: string[];
+}
+
+const sketchToImageZigZagSections: SketchToImageZigZagSection[] = [
+  {
+    id: 'turn-sketch-into-photo',
+    eyebrow: 'From sketch to image',
+    title: 'Turn sketches into detailed AI-generated images',
+    description:
+      'Upload your sketch or draw directly on the canvas, then let the sketch-to-image engine rebuild it as a finished scene. The model interprets lines, shapes, and shading to create rich lighting, texture, and depth around your original idea.',
+    imageSrc: '/images/blog/Turn sketches into detailed AI-generated images.jpg',
+    imageAlt: 'Example of a hand-drawn sketch transformed into a polished AI-generated image',
+    icon: <Sparkles className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'sketch-to-digital-art',
+    eyebrow: 'Sketch to digital art',
+    title: 'Convert hand-drawn art into polished digital visuals',
+    description:
+      'Move seamlessly from paper or tablet sketches to clean, presentation-ready artwork. The AI reads contours, textures, and notes in your drawing, then outputs a refined image suitable for portfolios, pitch decks, and marketing creatives.',
+    imageSrc: '/images/blog/hand-drawn art into polished digital visuals.jpg',
+    imageAlt: 'Side-by-side comparison of a sketch and its refined digital counterpart',
+    icon: <Atom className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'multi-modal-control',
+    eyebrow: 'Multi-modal control',
+    title: 'Guide generations with text prompts and style references',
+    description:
+      'Combine rough sketches with text prompts and optional style images to control every aspect of the result. Describe the mood, environment, and color palette, or reference another image so the AI follows your vision while still respecting the structure of your sketch.',
+    imageSrc: '/images/blog/Guide generations with text prompts and style references.jpg',
+    imageAlt: 'Sketch-to-image interface showing prompts and style reference controls',
+    icon: <Gem className="w-6 h-6 text-blue-600" />
   }
 ];
 
@@ -1094,6 +1382,50 @@ const cartoonZigZagSections: CartoonZigZagSection[] = [
   }
 ];
 
+interface FaceSwapZigZagSection {
+  id: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  imageSrc: string;
+  imageAlt: string;
+  icon: React.ReactNode;
+  bullets?: string[];
+}
+
+const faceSwapZigZagSections: FaceSwapZigZagSection[] = [
+  {
+    id: 'ai-face-swap',
+    eyebrow: 'AI face swap',
+    title: 'AI Face Swap: replace faces in your photos',
+    description:
+      'Modern PhotoTools precisely places one face onto another body so swaps feel natural. Put yourself or someone else into new scenes, from portraits to characters, while keeping expressions, lighting, and perspective believable.',
+    imageSrc: '/images/blog/Online Face Swapping.jpg',
+    imageAlt: 'Examples of AI-generated characters suitable for face swapping',
+    icon: <Users className="w-6 h-6 text-blue-600" />,
+    bullets: [
+      'Replace faces in photos without manual cutouts or layered editing.',
+      'Keep facial structure recognizable while adapting to new poses and angles.',
+      'Try swaps on portraits, character shots, and creative concepts.'
+    ]
+  },
+  {
+    id: 'superhero-swaps',
+    eyebrow: 'Superhero & characters',
+    title: 'Create superhero-style AI face replacements',
+    description:
+      'Combine your photos with stylized character bodies for cartoon, realistic, or 3D superhero looks. The AI aligns and blends your face so it matches the pose, lighting, and style of the original character image.',
+    imageSrc: '/images/blog/superhero-style AI face replacements.jpg',
+    imageAlt: 'AI character presets that can be used for superhero-style swaps',
+    icon: <Sparkles className="w-6 h-6 text-blue-600" />,
+    bullets: [
+      'Use presets inspired by action heroes and fantasy characters.',
+      'Generate cartoon, realistic, or 3D superhero face replacements.',
+      'Upload your own source face to create unique hero variations.'
+    ]
+  }
+];
+
 interface CaricatureZigZagSection {
   id: string;
   eyebrow: string;
@@ -1418,6 +1750,150 @@ const portraitFaqSchema = {
   }))
 } as const;
 
+interface FaceSwapFaqItem {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+const faceSwapFaqItems: FaceSwapFaqItem[] = [
+  {
+    id: 'swap-vs-morph',
+    question: "What's the difference between face swapping and face morphing?",
+    answer:
+      'Face swapping replaces one face with another while keeping the rest of the image the same. Face morphing gradually blends two faces into a new in-between face, usually shown as an animation or sequence. The AI Face Swap tool focuses on clean, realistic replacements rather than animated morphs.'
+  },
+  {
+    id: 'free-use',
+    question: 'Can I replace a face in a photo for free?',
+    answer:
+      'You can start testing AI face swaps for free in your browser. Exact limits, export sizes, and advanced options may depend on your current plan, but the experience is designed so you can try multiple swaps without installing software.'
+  },
+  {
+    id: 'realism',
+    question: 'Is the face swapping realistic?',
+    answer:
+      'The tool analyzes skin tone, lighting, and perspective to blend faces as naturally as possible. Results look most realistic when the source and target faces have similar angles, expressions, and image quality. You can always try a few different photos to see which combination looks best.'
+  },
+  {
+    id: 'photo-security',
+    question: 'How secure are my photos when using your face swapping tool?',
+    answer:
+      'Uploaded images are processed over encrypted connections and handled according to ModernPhotoTools privacy and data policies. Avoid uploading highly sensitive photos, and review the latest privacy policy and terms of use to understand how long images are stored and how they may be processed.'
+  },
+  {
+    id: 'safety-measures',
+    question: 'What measures are in place to prevent my face from appearing in explicit content?',
+    answer:
+      'The service is built with strict content and safety guidelines. Models are tuned and monitored to block explicit, abusive, or otherwise harmful outputs where possible, and usage is governed by clear terms of use. You should still avoid prompts, uploads, or use cases that violate the content policy or local laws.'
+  }
+];
+
+const faceSwapFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faceSwapFaqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer
+    }
+  }))
+} as const;
+
+interface OutfitFaqItem {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+const outfitFaqItems: OutfitFaqItem[] = [
+  {
+    id: 'ai-try-on-app',
+    question: 'Which AI app lets you try on clothes?',
+    answer:
+      'Modern PhotoTools includes an AI Outfit tool that lets you virtually try on outfits in your existing photos. Upload a clear image, choose a preset style or describe your own look, and see the new outfit applied automatically.'
+  },
+  {
+    id: 'find-dress',
+    question: 'Can AI help me find a dress?',
+    answer:
+      'Yes. You can describe the type of dress you have in mind—such as “long satin evening dress in emerald green” or “casual summer floral dress”—and the AI Outfit tool will generate versions that match your description on your photo.'
+  },
+  {
+    id: 'virtual-try-on',
+    question: 'Is there a way to virtually try on clothes?',
+    answer:
+      'Use the AI Outfit tool as a virtual try-on. Upload a portrait or full-body photo, then try different clothing styles, colors, and themes without changing in real life. You can quickly compare multiple looks to decide what you like best.'
+  },
+  {
+    id: 'image-safety',
+    question: 'Are my images safe when using Modern’s AI Clothes Changer?',
+    answer:
+      'Images are processed according to Modern PhotoTools privacy and security policies. Photos are sent over encrypted connections and used to generate your results. Avoid uploading highly sensitive images, and review the latest terms of use and privacy policy to understand how your data is handled.'
+  }
+];
+
+const outfitFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: outfitFaqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer
+    }
+  }))
+} as const;
+
+interface HairstyleFaqItem {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+const hairstyleFaqItems: HairstyleFaqItem[] = [
+  {
+    id: 'how-to-try',
+    question: 'How do I try hairstyles virtually with AI?',
+    answer:
+      'Upload a clear, front-facing photo to the AI Hairstyle tool and choose a preset style or describe the cut and length you want. The AI maps hair directly onto your face so you can compare different looks before you change your real hair.'
+  },
+  {
+    id: 'what-is-generator',
+    question: 'What is an AI hairstyle generator?',
+    answer:
+      'An AI hairstyle generator is a tool that uses artificial intelligence to simulate haircuts, colors, and styles on your photos. Instead of guessing in a mirror, you get realistic previews that follow your face shape, features, and lighting.'
+  },
+  {
+    id: 'choose-color',
+    question: 'Can I generate a hairstyle in a specific color?',
+    answer:
+      'Yes. You can either pick presets that already include certain colors or describe the shade you want in your text prompt, such as “platinum blonde bob” or “dark curly hair with copper highlights.” The AI applies both the style and color to your image.'
+  },
+  {
+    id: 'apps-availability',
+    question: 'Is there an app that lets you try different hairstyles?',
+    answer:
+      'ModernPhotoTools works in any modern browser on desktop or mobile, so you can use the AI Hairstyle tool like an app without installing heavy software. Open the site, upload a photo, and start exploring new hairstyles instantly.'
+  }
+];
+
+const hairstyleFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: hairstyleFaqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer
+    }
+  }))
+} as const;
+
 interface CartoonFaqItem {
   id: string;
   question: string;
@@ -1577,6 +2053,111 @@ const imageGeneratorFaqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: imageGeneratorFaqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer
+    }
+  }))
+} as const;
+
+interface ImageToImageFaqItem {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+const imageToImageFaqItems: ImageToImageFaqItem[] = [
+  {
+    id: 'more-detail',
+    question:
+      'Can I use the AI image-to-image tool to make more detailed images than the original photo?',
+    answer:
+      'Yes. The AI image-to-image tool can add texture, depth, and stylistic detail beyond what is visible in the source photo. It respects the main composition of your image while reimagining surfaces, lighting, and fine elements so the output feels richer and more polished. For best results, start from a clear, well-lit image with enough structure for the model to understand.'
+  },
+  {
+    id: 'creative-uses',
+    question: 'What are some creative uses of the image-to-image AI tool?',
+    answer:
+      'You can restyle existing photos into new art directions, generate moodboard variations, create alternate versions of product shots, or turn sketches and rough renders into refined visuals. Many people use image-to-image to explore different color palettes, materials, and environments while keeping the same base composition for campaigns, thumbnails, and concept art.'
+  },
+  {
+    id: 'safety',
+    question: 'Is it safe to use personal photos with image-to-image AI?',
+    answer:
+      'Images are processed according to ModernPhotoTools privacy and security policies. Uploads are sent over encrypted connections and used to generate your results, not to retrain public models. Avoid sharing highly sensitive or confidential photos and always review the latest privacy policy and terms of use for full details on retention and allowed content.'
+  },
+  {
+    id: 'control',
+    question: 'How much control do I have over the output of the image-to-image AI?',
+    answer:
+      'You control the output through your text prompts, strength settings, and other tool options. Prompts guide what should be emphasized, added, or toned down, while strength controls how strongly the AI is allowed to reinterpret your original image. Lower strength keeps more of the original look; higher strength gives you bolder, more stylized transformations.'
+  },
+  {
+    id: 'photo-quality',
+    question: 'Can AI-generated images match the quality of real photographs?',
+    answer:
+      'In many cases, image-to-image outputs can look similar to high-quality photos, especially for web, social media, and marketing use. The tool can simulate realistic lighting, materials, and depth of field. However, AI results are still synthetic and may not replace carefully controlled studio photography for every use case, so always review outputs before publishing or printing.'
+  }
+];
+
+const imageToImageFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: imageToImageFaqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer
+    }
+  }))
+} as const;
+
+interface SketchToImageFaqItem {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+const sketchToImageFaqItems: SketchToImageFaqItem[] = [
+  {
+    id: 'upload-limit',
+    question: 'How many sketches can I upload at a time?',
+    answer:
+      'The AI Sketch to Image tool is optimized for one sketch per generation so the model can focus on your lines and details. You can transform multiple sketches by processing them one after another and downloading each result.'
+  },
+  {
+    id: 'generation-time',
+    question: 'How long does it take to convert a sketch into an AI image?',
+    answer:
+      'Most generations complete in a few seconds, depending on server load and the complexity of your settings. Detailed prompts, high strength values, or large images may take slightly longer, but the tool is designed for fast sketch-to-image previews.'
+  },
+  {
+    id: 'strength-control',
+    question: 'How should I adjust the strength for sketch-to-image conversion?',
+    answer:
+      'Use higher sketch strength values when you want the AI to follow your lines closely and preserve the composition. Lower values give the model more freedom to reinterpret shapes and add creative details. You can rerun generations with different strengths until the balance feels right.'
+  },
+  {
+    id: 'three-d-art',
+    question: 'Can I generate 3D-style art from a rough sketch with AI?',
+    answer:
+      'Yes. Add phrases like “3D render,” “cinematic lighting,” or “3D cartoon style” to your text prompt, and optionally upload a style reference image. The AI will keep the structure of your sketch while rendering it with more dimensional lighting and materials.'
+  },
+  {
+    id: 'messy-sketches',
+    question: 'What if my sketch is messy or has unclear lines?',
+    answer:
+      'The tool can still generate results from loose or rough sketches, but clearer outlines usually produce more accurate images. If outputs look off, try darkening key lines, simplifying the drawing, or tightening the areas that matter most before uploading again.'
+  }
+];
+
+const sketchToImageFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: sketchToImageFaqItems.map((item) => ({
     '@type': 'Question',
     name: item.question,
     acceptedAnswer: {
@@ -1852,6 +2433,198 @@ function AvatarZigZagLayout() {
   );
 }
 
+function FaceSwapZigZagLayout() {
+  return (
+    <section className="mb-10">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-8 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            AI face swaps for fun edits and creative concepts
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Use the AI Face Swap tool to place faces onto new bodies, characters, and scenes while keeping results
+            natural-looking and shareable.
+          </p>
+        </div>
+        <div className="space-y-10">
+          {faceSwapZigZagSections.map((section, index) => {
+            const textFirst = index % 2 === 0;
+            return (
+              <div
+                key={section.id}
+                className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12"
+              >
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-2 lg:order-1' : 'order-2 lg:order-2'
+                  }`}
+                >
+                  <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 mb-3">
+                    {section.icon}
+                    <span>{section.eyebrow}</span>
+                  </div>
+                  <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3">
+                    {section.title}
+                  </h3>
+                  <p className="text-gray-700 text-sm md:text-base leading-relaxed">
+                    {section.description}
+                  </p>
+                  {section.bullets && (
+                    <ul className="mt-3 space-y-1 text-gray-700 text-sm md:text-base list-disc list-inside">
+                      {section.bullets.map((bullet) => (
+                        <li key={bullet}>{bullet}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-1 lg:order-2' : 'order-1 lg:order-1'
+                  }`}
+                >
+                  <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-gray-50">
+                    <img
+                      src={section.imageSrc}
+                      alt={section.imageAlt}
+                      loading="lazy"
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function OutfitZigZagLayout() {
+  return (
+    <section className="mb-10">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-8 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            AI outfit ideas for every occasion
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Use the AI Outfit tool to test casual, festive, and formal looks on your photos before you commit to a style.
+          </p>
+        </div>
+        <div className="space-y-10">
+          {outfitZigZagSections.map((section, index) => {
+            const textFirst = index % 2 === 0;
+            return (
+              <div
+                key={section.id}
+                className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12"
+              >
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-2 lg:order-1' : 'order-2 lg:order-2'
+                  }`}
+                >
+                  <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 mb-3">
+                    {section.icon}
+                    <span>{section.eyebrow}</span>
+                  </div>
+                  <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3">
+                    {section.title}
+                  </h3>
+                  <p className="text-gray-700 text-sm md:text-base leading-relaxed">
+                    {section.description}
+                  </p>
+                </div>
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-1 lg:order-2' : 'order-1 lg:order-1'
+                  }`}
+                >
+                  <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-gray-50">
+                    <img
+                      src={section.imageSrc}
+                      alt={section.imageAlt}
+                      loading="lazy"
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function HairstyleZigZagLayout() {
+  return (
+    <section className="mb-10">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-8 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            AI hairstyles for every mood and occasion
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Use the AI Hairstyle tool to preview cuts, lengths, and colors before you change your real hair.
+          </p>
+        </div>
+        <div className="space-y-10">
+          {hairstyleZigZagSections.map((section, index) => {
+            const textFirst = index % 2 === 0;
+            return (
+              <div
+                key={section.id}
+                className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12"
+              >
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-2 lg:order-1' : 'order-2 lg:order-2'
+                  }`}
+                >
+                  <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 mb-3">
+                    {section.icon}
+                    <span>{section.eyebrow}</span>
+                  </div>
+                  <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3">
+                    {section.title}
+                  </h3>
+                  <p className="text-gray-700 text-sm md:text-base leading-relaxed">
+                    {section.description}
+                  </p>
+                  {section.bullets && (
+                    <ul className="mt-3 space-y-1 text-gray-700 text-sm md:text-base list-disc list-inside">
+                      {section.bullets.map((bullet) => (
+                        <li key={bullet}>{bullet}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-1 lg:order-2' : 'order-1 lg:order-1'
+                  }`}
+                >
+                  <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-gray-50">
+                    <img
+                      src={section.imageSrc}
+                      alt={section.imageAlt}
+                      loading="lazy"
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function PortraitZigZagLayout() {
   return (
     <section className="mb-10">
@@ -1932,6 +2705,139 @@ function ImageGeneratorZigZagLayout() {
         </div>
         <div className="space-y-10">
           {imageGeneratorZigZagSections.map((section, index) => {
+            const textFirst = index % 2 === 0;
+            return (
+              <div
+                key={section.id}
+                className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12"
+              >
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-2 lg:order-1' : 'order-2 lg:order-2'
+                  }`}
+                >
+                  <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 mb-3">
+                    {section.icon}
+                    <span>{section.eyebrow}</span>
+                  </div>
+                  <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3">
+                    {section.title}
+                  </h3>
+                  <p className="text-gray-700 text-sm md:text-base leading-relaxed">
+                    {section.description}
+                  </p>
+                  {section.bullets && (
+                    <ul className="mt-3 space-y-1 text-gray-700 text-sm md:text-base list-disc list-inside">
+                      {section.bullets.map((bullet) => (
+                        <li key={bullet}>{bullet}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-1 lg:order-2' : 'order-1 lg:order-1'
+                  }`}
+                >
+                  <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-gray-50">
+                    <img
+                      src={section.imageSrc}
+                      alt={section.imageAlt}
+                      loading="lazy"
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ImageToImageZigZagLayout() {
+  return (
+    <section className="mb-10">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-8 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            Transform existing photos into new AI images
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Use the image-to-image tool to restyle, refine, or completely reimagine your images while keeping the core composition in place.
+          </p>
+        </div>
+        <div className="space-y-10">
+          {imageToImageZigZagSections.map((section, index) => {
+            const textFirst = index % 2 === 0;
+            return (
+              <div
+                key={section.id}
+                className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12"
+              >
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-2 lg:order-1' : 'order-2 lg:order-2'
+                  }`}
+                >
+                  <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 mb-3">
+                    {section.icon}
+                    <span>{section.eyebrow}</span>
+                  </div>
+                  <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3">
+                    {section.title}
+                  </h3>
+                  <p className="text-gray-700 text-sm md:text-base leading-relaxed">
+                    {section.description}
+                  </p>
+                  {section.bullets && (
+                    <ul className="mt-3 space-y-1 text-gray-700 text-sm md:text-base list-disc list-inside">
+                      {section.bullets.map((bullet) => (
+                        <li key={bullet}>{bullet}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-1 lg:order-2' : 'order-1 lg:order-1'
+                  }`}
+                >
+                  <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-gray-50">
+                    <img
+                      src={section.imageSrc}
+                      alt={section.imageAlt}
+                      loading="lazy"
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function SketchToImageZigZagLayout() {
+  return (
+    <section className="mb-10">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-8 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            Turn sketches into fully rendered scenes
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Use Sketch to Image to move from quick line drawings to rich, production-ready visuals
+            for client pitches, creative explorations, and portfolio pieces.
+          </p>
+        </div>
+        <div className="space-y-10">
+          {sketchToImageZigZagSections.map((section, index) => {
             const textFirst = index % 2 === 0;
             return (
               <div
@@ -2398,6 +3304,189 @@ function RemoveBgFAQ() {
             {removeBgFaqItems.map((item) => {
               const isOpen = openId === item.id;
               const answerId = `remove-bg-faq-answer-${item.id}`;
+              return (
+                <div key={item.id} className="bg-white rounded-lg shadow border border-gray-200">
+                  <button
+                    type="button"
+                    onClick={() => handleToggle(item.id)}
+                    className="w-full flex items-center justify-between px-4 md:px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    aria-expanded={isOpen}
+                    aria-controls={answerId}
+                  >
+                    <div className="flex items-start gap-3">
+                      <HelpCircle className="w-5 h-5 text-blue-600 mt-1" />
+                      <span className="font-semibold text-gray-900">{item.question}</span>
+                    </div>
+                    <ChevronDown
+                      className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
+                        isOpen ? 'transform rotate-180' : ''
+                      }`}
+                    />
+                  </button>
+                  <div
+                    id={answerId}
+                    className={`px-4 md:px-6 pb-4 text-gray-700 text-sm leading-relaxed ${
+                      isOpen ? 'block' : 'hidden'
+                    }`}
+                  >
+                    {item.answer}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function OutfitFAQ() {
+  const [openId, setOpenId] = useState<string | null>(outfitFaqItems[0]?.id ?? null);
+
+  const handleToggle = (id: string) => {
+    setOpenId((current) => (current === id ? null : id));
+  };
+
+  return (
+    <section className="mb-12">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            AI Outfit: frequently asked questions
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Learn how the AI Outfit tool works, how to try on virtual clothes, and how your images are handled.
+          </p>
+        </div>
+        <SchemaJSONLD data={outfitFaqSchema} />
+        <div className="max-w-3xl mx-auto">
+          <div className="space-y-4">
+            {outfitFaqItems.map((item) => {
+              const isOpen = openId === item.id;
+              const answerId = `ai-outfit-faq-answer-${item.id}`;
+              return (
+                <div key={item.id} className="bg-white rounded-lg shadow border border-gray-200">
+                  <button
+                    type="button"
+                    onClick={() => handleToggle(item.id)}
+                    className="w-full flex items-center justify-between px-4 md:px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    aria-expanded={isOpen}
+                    aria-controls={answerId}
+                  >
+                    <div className="flex items-start gap-3">
+                      <HelpCircle className="w-5 h-5 text-blue-600 mt-1" />
+                      <span className="font-semibold text-gray-900">{item.question}</span>
+                    </div>
+                    <ChevronDown
+                      className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
+                        isOpen ? 'transform rotate-180' : ''
+                      }`}
+                    />
+                  </button>
+                  <div
+                    id={answerId}
+                    className={`px-4 md:px-6 pb-4 text-gray-700 text-sm leading-relaxed ${
+                      isOpen ? 'block' : 'hidden'
+                    }`}
+                  >
+                    {item.answer}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function HairstyleFAQ() {
+  const [openId, setOpenId] = useState<string | null>(hairstyleFaqItems[0]?.id ?? null);
+
+  const handleToggle = (id: string) => {
+    setOpenId((current) => (current === id ? null : id));
+  };
+
+  return (
+    <section className="mb-12">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            AI Hairstyle: frequently asked questions
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Learn how to preview new haircuts, colors, and styles with the AI Hairstyle tool before visiting a salon.
+          </p>
+        </div>
+        <SchemaJSONLD data={hairstyleFaqSchema} />
+        <div className="max-w-3xl mx-auto">
+          <div className="space-y-4">
+            {hairstyleFaqItems.map((item) => {
+              const isOpen = openId === item.id;
+              const answerId = `ai-hairstyle-faq-answer-${item.id}`;
+              return (
+                <div key={item.id} className="bg-white rounded-lg shadow border border-gray-200">
+                  <button
+                    type="button"
+                    onClick={() => handleToggle(item.id)}
+                    className="w-full flex items-center justify-between px-4 md:px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    aria-expanded={isOpen}
+                    aria-controls={answerId}
+                  >
+                    <div className="flex items-start gap-3">
+                      <HelpCircle className="w-5 h-5 text-blue-600 mt-1" />
+                      <span className="font-semibold text-gray-900">{item.question}</span>
+                    </div>
+                    <ChevronDown
+                      className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
+                        isOpen ? 'transform rotate-180' : ''
+                      }`}
+                    />
+                  </button>
+                  <div
+                    id={answerId}
+                    className={`px-4 md:px-6 pb-4 text-gray-700 text-sm leading-relaxed ${
+                      isOpen ? 'block' : 'hidden'
+                    }`}
+                  >
+                    {item.answer}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FaceSwapFAQ() {
+  const [openId, setOpenId] = useState<string | null>(faceSwapFaqItems[0]?.id ?? null);
+
+  const handleToggle = (id: string) => {
+    setOpenId((current) => (current === id ? null : id));
+  };
+
+  return (
+    <section className="mb-12">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            AI Face Swap: frequently asked questions
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Answers to common questions about how AI face swaps work, where to use them, and how your photos are handled.
+          </p>
+        </div>
+        <SchemaJSONLD data={faceSwapFaqSchema} />
+        <div className="max-w-3xl mx-auto">
+          <div className="space-y-4">
+            {faceSwapFaqItems.map((item) => {
+              const isOpen = openId === item.id;
+              const answerId = `face-swap-faq-answer-${item.id}`;
               return (
                 <div key={item.id} className="bg-white rounded-lg shadow border border-gray-200">
                   <button
@@ -3047,6 +4136,128 @@ function ImageGeneratorFAQ() {
   );
 }
 
+function SketchToImageFAQ() {
+  const [openId, setOpenId] = useState<string | null>(sketchToImageFaqItems[0]?.id ?? null);
+
+  const handleToggle = (id: string) => {
+    setOpenId((current) => (current === id ? null : id));
+  };
+
+  return (
+    <section className="mb-12">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            AI Sketch to Image: frequently asked questions
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Learn how to upload sketches, control strength, and shape different sketch-to-image results for your projects.
+          </p>
+        </div>
+        <SchemaJSONLD data={sketchToImageFaqSchema} />
+        <div className="max-w-3xl mx-auto">
+          <div className="space-y-4">
+            {sketchToImageFaqItems.map((item) => {
+              const isOpen = openId === item.id;
+              const answerId = `ai-sketch-to-image-faq-answer-${item.id}`;
+              return (
+                <div key={item.id} className="bg-white rounded-lg shadow border border-gray-200">
+                  <button
+                    type="button"
+                    onClick={() => handleToggle(item.id)}
+                    className="w-full flex items-center justify-between px-4 md:px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    aria-expanded={isOpen}
+                    aria-controls={answerId}
+                  >
+                    <div className="flex items-start gap-3">
+                      <HelpCircle className="w-5 h-5 text-blue-600 mt-1" />
+                      <span className="font-semibold text-gray-900">{item.question}</span>
+                    </div>
+                    <ChevronDown
+                      className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
+                        isOpen ? 'transform rotate-180' : ''
+                      }`}
+                    />
+                  </button>
+                  <div
+                    id={answerId}
+                    className={`px-4 md:px-6 pb-4 text-gray-700 text-sm leading-relaxed ${
+                      isOpen ? 'block' : 'hidden'
+                    }`}
+                  >
+                    {item.answer}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ImageToImageFAQ() {
+  const [openId, setOpenId] = useState<string | null>(imageToImageFaqItems[0]?.id ?? null);
+
+  const handleToggle = (id: string) => {
+    setOpenId((current) => (current === id ? null : id));
+  };
+
+  return (
+    <section className="mb-12">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            AI Image to Image: frequently asked questions
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Learn how to control image-to-image generations, work safely with personal photos, and get the most out of prompts and strength settings.
+          </p>
+        </div>
+        <SchemaJSONLD data={imageToImageFaqSchema} />
+        <div className="max-w-3xl mx-auto">
+          <div className="space-y-4">
+            {imageToImageFaqItems.map((item) => {
+              const isOpen = openId === item.id;
+              const answerId = `ai-image-to-image-faq-answer-${item.id}`;
+              return (
+                <div key={item.id} className="bg-white rounded-lg shadow border border-gray-200">
+                  <button
+                    type="button"
+                    onClick={() => handleToggle(item.id)}
+                    className="w-full flex items-center justify-between px-4 md:px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    aria-expanded={isOpen}
+                    aria-controls={answerId}
+                  >
+                    <div className="flex items-start gap-3">
+                      <HelpCircle className="w-5 h-5 text-blue-600 mt-1" />
+                      <span className="font-semibold text-gray-900">{item.question}</span>
+                    </div>
+                    <ChevronDown
+                      className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
+                        isOpen ? 'transform rotate-180' : ''
+                      }`}
+                    />
+                  </button>
+                  <div
+                    id={answerId}
+                    className={`px-4 md:px-6 pb-4 text-gray-700 text-sm leading-relaxed ${
+                      isOpen ? 'block' : 'hidden'
+                    }`}
+                  >
+                    {item.answer}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 const ToolPage: React.FC = () => {
   const { toolId } = useParams<{ toolId: string }>();
   const [selectedImage, setSelectedImage] = useState<ImageFile>({ file: null, preview: null });
@@ -3175,6 +4386,60 @@ const ToolPage: React.FC = () => {
   const [filterCustomStyleImage, setFilterCustomStyleImage] = useState<File | null>(null);
   const [filterTextPrompt, setFilterTextPrompt] = useState('');
   const [filterUseCustom, setFilterUseCustom] = useState(false);
+
+  const outfitHeroLooks = [
+    {
+      id: 'outfit-1',
+      imageSrc: '/images/blog/outfit style 1.jpg',
+      imageAlt: 'AI outfit preset applied to a portrait'
+    },
+    {
+      id: 'outfit-2',
+      imageSrc: '/images/blog/outfit style 2.jpg',
+      imageAlt: 'Alternative AI outfit style on a portrait'
+    },
+    {
+      id: 'outfit-3',
+      imageSrc: '/images/blog/outfit style 3.jpg',
+      imageAlt: 'Gallery of AI-generated outfit looks'
+    }
+  ];
+
+  const [activeOutfitHeroId, setActiveOutfitHeroId] = useState(outfitHeroLooks[0]?.id ?? '');
+
+  const activeOutfitHero =
+    outfitHeroLooks.find((item) => item.id === activeOutfitHeroId) ?? outfitHeroLooks[0];
+
+  const [activeHairstylePresetName, setActiveHairstylePresetName] = useState(
+    hairstylePresets[0]?.name ?? ''
+  );
+
+  const activeHairstylePreset =
+    hairstylePresets.find((style) => style.name === activeHairstylePresetName) ??
+    hairstylePresets[0];
+
+  const faceSwapCharacters = [
+    {
+      id: 'character-1',
+      imageSrc: '/images/blog/Swap Face in black suite.jpg',
+      imageAlt: 'AI character used as a face swap preset'
+    },
+    {
+      id: 'character-2',
+      imageSrc: '/images/blog/Swap Face in brown suite.jpg',
+      imageAlt: 'AI character preset for face swapping'
+    },
+    {
+      id: 'character-3',
+      imageSrc: '/images/blog/Swap Face in king suite.jpg',
+      imageAlt: 'AI character gallery example for face swap'
+    }
+  ];
+
+  const [activeFaceSwapCharacterId, setActiveFaceSwapCharacterId] = useState(faceSwapCharacters[0]?.id ?? '');
+
+  const activeFaceSwapCharacter =
+    faceSwapCharacters.find((item) => item.id === activeFaceSwapCharacterId) ?? faceSwapCharacters[0];
 
   const removeBgUseCaseTabs: { id: 'people' | 'products' | 'cars' | 'animals' | 'real-estate'; label: string }[] = [
     { id: 'people', label: 'People' },
@@ -5017,8 +6282,8 @@ const handleAIImageToImageGenerate = async () => {
           </div>
 
           {tool.id === 'remove-background' && (
-            <section className="mb-10">
-              <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+          <section className="mb-10">
+            <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
                 <div className="mb-6 text-center">
                   <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
                     One Tool, Endless Possibilities
@@ -5068,6 +6333,189 @@ const handleAIImageToImageGenerate = async () => {
                     <p className="text-gray-700 text-sm md:text-base leading-relaxed">
                       {removeBgUseCases[activeRemoveBgUseCase].description}
                     </p>
+                  </div>
+              </div>
+            </div>
+          </section>
+          )}
+
+          {tool.id === 'ai-outfit' && (
+            <section className="mb-10">
+              <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                  <div>
+                    <div className="w-full max-w-3xl mx-auto">
+                      <div className="relative overflow-hidden rounded-3xl border border-gray-200 bg-gray-50">
+                        <img
+                          src={activeOutfitHero?.imageSrc}
+                          alt={activeOutfitHero?.imageAlt}
+                          loading="lazy"
+                          className="w-full h-auto object-cover"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+                      Smart dressing with pre-made AI outfit styles
+                    </h2>
+                    <p className="mt-3 text-sm md:text-base text-gray-700">
+                      Dress up your photos with ready-made women&apos;s and men&apos;s outfit styles powered by Modern AI. Explore new looks in a click and cycle through presets to discover outfits that match your vibe without changing clothes in real life.
+                    </p>
+                    <div className="mt-5 flex flex-wrap gap-4">
+                      {outfitHeroLooks.map((item) => {
+                        const isActive = item.id === activeOutfitHeroId;
+                        return (
+                          <button
+                            key={item.id}
+                            type="button"
+                            onClick={() => setActiveOutfitHeroId(item.id)}
+                            className={`group focus:outline-none ${
+                              isActive ? 'ring-2 ring-blue-500 rounded-2xl' : ''
+                            }`}
+                          >
+                            <div
+                              className={`overflow-hidden rounded-2xl border transition-all ${
+                                isActive
+                                  ? 'border-blue-500 shadow-lg'
+                                  : 'border-gray-200 hover:border-blue-400 hover:shadow-md'
+                              }`}
+                            >
+                              <img
+                                src={item.imageSrc}
+                                alt={item.imageAlt}
+                                loading="lazy"
+                                className="w-28 h-28 md:w-32 md:h-32 object-cover transition-transform group-hover:-translate-y-1"
+                              />
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+
+          {tool.id === 'ai-hairstyle' && hairstylePresets.length > 0 && (
+            <section className="mb-10">
+              <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                  <div>
+                    <div className="w-full max-w-3xl mx-auto">
+                      <div className="relative overflow-hidden rounded-3xl border border-gray-200 bg-gray-50">
+                        <img
+                          src={activeHairstylePreset?.imageUrl}
+                          alt={`${activeHairstylePreset?.name} AI hairstyle preset`}
+                          loading="lazy"
+                          className="w-full h-auto object-cover"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+                      Dozens of preset AI hairstyles
+                    </h2>
+                    <p className="mt-3 text-sm md:text-base text-gray-700">
+                      Browse a gallery of ready-made hairstyles for every gender, texture, and length. ModernPhotoTools&apos; virtual hairstyle try-on uses AI to show realistic previews so you can explore new looks with confidence.
+                    </p>
+                    <div className="mt-5 flex flex-wrap gap-4">
+                      {hairstylePresets.map((style) => {
+                        const isActive = style.name === activeHairstylePresetName;
+                        return (
+                          <button
+                            key={style.name}
+                            type="button"
+                            onClick={() => {
+                              setActiveHairstylePresetName(style.name);
+                              setHairstyleTextPrompt(style.prompt);
+                            }}
+                            className={`group focus:outline-none ${
+                              isActive ? 'ring-2 ring-blue-500 rounded-2xl' : ''
+                            }`}
+                          >
+                            <div
+                              className={`overflow-hidden rounded-2xl border transition-all ${
+                                isActive
+                                  ? 'border-blue-500 shadow-lg'
+                                  : 'border-gray-200 hover:border-blue-400 hover:shadow-md'
+                              }`}
+                            >
+                              <img
+                                src={style.imageUrl}
+                                alt={style.name}
+                                loading="lazy"
+                                className="w-24 h-24 md:w-28 md:h-28 object-cover transition-transform group-hover:-translate-y-1"
+                              />
+                            </div>
+                            <div className="mt-1 text-xs md:text-sm text-gray-700 text-center">
+                              {style.name}
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+
+          {tool.id === 'ai-face-swap' && (
+          <section className="mb-10">
+            <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                  <div>
+                    <div className="w-full max-w-3xl mx-auto">
+                      <div className="relative overflow-hidden rounded-3xl border border-gray-200 bg-gray-50">
+                        <img
+                          src={activeFaceSwapCharacter?.imageSrc}
+                          alt={activeFaceSwapCharacter?.imageAlt}
+                          loading="lazy"
+                          className="w-full h-auto object-cover"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+                      A vast library of characters
+                    </h2>
+                    <p className="mt-3 text-sm md:text-base text-gray-700">
+                      Browse AI-generated characters and presets designed for face swapping. Pick a look and replace faces in a single click while the AI handles alignment and blending.
+                    </p>
+                    <div className="mt-5 flex flex-wrap gap-4">
+                      {faceSwapCharacters.map((item) => {
+                        const isActive = item.id === activeFaceSwapCharacterId;
+                        return (
+                          <button
+                            key={item.id}
+                            type="button"
+                            onClick={() => setActiveFaceSwapCharacterId(item.id)}
+                            className={`group focus:outline-none ${
+                              isActive ? 'ring-2 ring-blue-500 rounded-2xl' : ''
+                            }`}
+                          >
+                            <div
+                              className={`overflow-hidden rounded-2xl border transition-all ${
+                                isActive
+                                  ? 'border-blue-500 shadow-lg'
+                                  : 'border-gray-200 hover:border-blue-400 hover:shadow-md'
+                              }`}
+                            >
+                              <img
+                                src={item.imageSrc}
+                                alt={item.imageAlt}
+                                loading="lazy"
+                                className="w-28 h-28 md:w-32 md:h-32 object-cover transition-transform group-hover:-translate-y-1"
+                              />
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -5164,6 +6612,10 @@ const handleAIImageToImageGenerate = async () => {
               </div>
             </section>
           )}
+
+          {tool.id === 'ai-image-to-image' && <ImageToImageHeroSection />}
+
+          {tool.id === 'ai-sketch-to-image' && <SketchToImageHeroSection />}
 
           {tool.id === 'ai-avatar' && (
             <section className="mb-10">
@@ -6989,28 +8441,73 @@ const handleAIImageToImageGenerate = async () => {
           )}
 
           {tool.id === 'ai-product-photoshoot' && (
+          <SectionErrorBoundary>
+            <>
+              <ProductZigZagLayout />
+              <ProductFAQ />
+            </>
+          </SectionErrorBoundary>
+          )}
+
+          {tool.id === 'ai-outfit' && (
             <SectionErrorBoundary>
               <>
-                <ProductZigZagLayout />
-                <ProductFAQ />
+                <OutfitZigZagLayout />
+                <OutfitFAQ />
+              </>
+            </SectionErrorBoundary>
+          )}
+
+          {tool.id === 'ai-hairstyle' && (
+            <SectionErrorBoundary>
+              <>
+                <HairstyleZigZagLayout />
+                <HairstyleFAQ />
               </>
             </SectionErrorBoundary>
           )}
 
           {tool.id === 'remove-background' && (
+          <SectionErrorBoundary>
+            <>
+              <RemoveBgZigZagLayout />
+              <RemoveBgFAQ />
+            </>
+          </SectionErrorBoundary>
+          )}
+
+          {tool.id === 'ai-face-swap' && (
             <SectionErrorBoundary>
               <>
-                <RemoveBgZigZagLayout />
-                <RemoveBgFAQ />
+                <FaceSwapZigZagLayout />
+                <FaceSwapFAQ />
+              </>
+            </SectionErrorBoundary>
+          )}
+
+          {tool.id === 'ai-image-to-image' && (
+            <SectionErrorBoundary>
+              <>
+                <ImageToImageZigZagLayout />
+                <ImageToImageFAQ />
+              </>
+            </SectionErrorBoundary>
+          )}
+
+          {tool.id === 'ai-sketch-to-image' && (
+            <SectionErrorBoundary>
+              <>
+                <SketchToImageZigZagLayout />
+                <SketchToImageFAQ />
               </>
             </SectionErrorBoundary>
           )}
 
           {tool.id === 'ai-portrait' && (
-            <SectionErrorBoundary>
-              <>
-                <PortraitZigZagLayout />
-                <PortraitFAQ />
+          <SectionErrorBoundary>
+            <>
+              <PortraitZigZagLayout />
+              <PortraitFAQ />
               </>
             </SectionErrorBoundary>
           )}
