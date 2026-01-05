@@ -6930,7 +6930,7 @@ const handleAIImageToImageGenerate = async () => {
         title={tool.name} 
         description={`${tool.description}. Free online tool with instant results.`}
         ogImage={toolFeatureImage.imagePath ? generateOgImageUrl(toolFeatureImage.imagePath) : undefined}
-        canonicalUrl={generateCanonicalUrl(`/tools/${tool.id}`)}
+        canonicalUrl={generateCanonicalUrl(tool.path)}
       />
       <Helmet>
         <script type="application/ld+json">
