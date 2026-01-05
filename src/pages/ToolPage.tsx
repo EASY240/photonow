@@ -214,6 +214,85 @@ function BackgroundHeroSection() {
   );
 }
 
+function FilterHeroSection() {
+  const [activePrompt, setActivePrompt] = useState<'prompt1' | 'prompt2' | 'prompt3'>('prompt1');
+
+  const prompts = {
+    prompt1: {
+      label: 'Prompt 1:',
+      text: 'Japanese zen filter',
+      imageSrc: '/images/blog/Japanese zen filter.jpg',
+      imageAlt: 'Photo styled with a calm Japanese zen inspired AI filter'
+    },
+    prompt2: {
+      label: 'Prompt 2:',
+      text: 'Art deco filter',
+      imageSrc: '/images/blog/AI filter art deco.jpg',
+      imageAlt: 'Portrait enhanced with a bold geometric art deco AI filter'
+    },
+    prompt3: {
+      label: 'Prompt 3:',
+      text: 'Bohemian chic filter',
+      imageSrc: '/images/blog/AI filter bohemian chic.jpg',
+      imageAlt: 'Image transformed with a colorful bohemian chic AI filter'
+    }
+  } as const;
+
+  const current = prompts[activePrompt];
+
+  return (
+    <section className="mb-10">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+          <div>
+            <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+              Create imaginative filters with simple prompts
+            </h2>
+            <p className="mt-3 text-sm md:text-base text-gray-700">
+              Describe the mood, era, or art style you have in mind and let the AI Filter tool
+              design a custom look for your photo. Turn your ideas into trendy color grades and
+              artistic effects instead of scrolling through generic presets.
+            </p>
+            <div className="mt-6 space-y-3">
+              {(['prompt1', 'prompt2', 'prompt3'] as const).map((key) => {
+                const prompt = prompts[key];
+                const isActive = activePrompt === key;
+                return (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => setActivePrompt(key)}
+                    className={`w-full flex items-center justify-start rounded-2xl border-2 px-3 py-3 text-left transition-colors ${
+                      isActive ? 'border-blue-500 bg-blue-50' : 'border-gray-200 bg-gray-50 hover:bg-gray-100'
+                    }`}
+                  >
+                    <div className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-purple-100 to-blue-100 text-xs font-semibold text-blue-700 px-3 py-2 mr-3">
+                      {prompt.label}
+                    </div>
+                    <div className="text-sm md:text-base text-gray-700">{prompt.text}</div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+          <div className="flex justify-end">
+            <div className="w-full max-w-md">
+              <div className="relative overflow-hidden rounded-3xl border border-gray-200 bg-gray-50">
+                <img
+                  src={current.imageSrc}
+                  alt={current.imageAlt}
+                  loading="lazy"
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function CaricatureHeroSection() {
   const [activePrompt, setActivePrompt] = useState<'prompt1' | 'prompt2' | 'prompt3'>('prompt1');
 
@@ -426,6 +505,38 @@ function ExpandHeroSection() {
   );
 }
 
+function WatermarkHeroSection() {
+  return (
+    <section className="mb-10">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            Free AI watermark remover for all your photos
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Clean up logos, text, and proof stamps in a single click. The AI Watermark Remover automatically finds and erases marks for you, so you do not need to trace shapes or brush over pixels manually. Use it online for free whenever you need a polished, ready-to-share image.
+          </p>
+        </div>
+        <div className="max-w-3xl mx-auto">
+          <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-black">
+            <video
+              src="/videos/Remove Watermark_video-tool-page.mp4"
+              autoPlay
+              loop
+              playsInline
+              muted
+              preload="none"
+              className="w-full h-full"
+            >
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function ImageToImageHeroSection() {
   return (
     <section className="mb-10">
@@ -574,6 +685,130 @@ const removeBgZigZagSections: RemoveBgZigZagSection[] = [
     imageSrc: '/images/blog/Real estate and interiors.jpg',
     imageAlt: 'Interior photo cleaned up with a simplified background',
     icon: <Home className="w-6 h-6 text-blue-600" />
+  }
+];
+
+interface WatermarkZigZagSection {
+  id: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  imageSrc: string;
+  imageAlt: string;
+  icon: React.ReactNode;
+  bullets?: string[];
+}
+
+const watermarkZigZagSections: WatermarkZigZagSection[] = [
+  {
+    id: 'clean-removal',
+    eyebrow: 'Automatic cleanup',
+    title: 'Erase watermarks and logos so they blend away',
+    description:
+      'Use AI to strip out visible logos, text stamps, and copyright labels without drawing masks by hand. The model detects the mark, separates it from the rest of the image, and rebuilds the area using nearby pixels so the edit looks natural at a glance.',
+    imageSrc: '/images/blog/Erase watermarks and logos so they blend away.jpg',
+    imageAlt: 'Example image cleaned with an AI watermark remover',
+    icon: <Sparkles className="w-6 h-6 text-blue-600" />,
+    bullets: [
+      'Handles simple text watermarks as well as more complex logo graphics.',
+      'Fills the cleared region based on surrounding colors and textures.',
+      'Works on common formats like JPG and PNG used for everyday photos.'
+    ]
+  },
+  {
+    id: 'who-it-is-for',
+    eyebrow: 'For work and personal use',
+    title: 'A single watermark remover for many kinds of users',
+    description:
+      'Whether you manage content for a brand or simply want cleaner personal images, the tool is designed to fit into everyday workflows without extra software.',
+    imageSrc: '/images/blog/single watermark remover for many kinds of users.jpg',
+    imageAlt: 'Professionals and casual users using a watermark remover tool',
+    icon: <Briefcase className="w-6 h-6 text-blue-600" />,
+    bullets: [
+      'Photographers and designers can tidy up previews or retire old watermarks from their own archives.',
+      'Businesses can clean licensed images after purchase so final creatives stay on-brand.',
+      'Content creators can remove marks from approved assets before posting on social platforms.',
+      'Students and teachers can prepare watermark-free visuals for presentations when usage rights allow.',
+      'Everyday users can clear proof labels added by mobile editing apps on their personal photos.'
+    ]
+  },
+  {
+    id: 'image-types',
+    eyebrow: 'Flexible image types',
+    title: 'Remove watermarks from many kinds of visuals',
+    description:
+      'Apply the AI Watermark Remover to a wide range of images used across the web, social media, and marketing materials.',
+    imageSrc: '/images/blog/Remove watermarks from many kinds of visuals.jpg',
+    imageAlt: 'Different image types prepared with watermark removal',
+    icon: <CameraIcon className="w-6 h-6 text-blue-600" />,
+    bullets: [
+      'Stock imagery that needs to be cleaned after you obtain the proper license.',
+      'Product shots where old logos or labels distract from the item itself.',
+      'Event photography from weddings, concerts, and festivals with heavy proof marks.',
+      'Property and interior photos where agency overlays hide important details.',
+      'Mockups that include sample watermarks before you add your real design.',
+      'Editorial and educational visuals that must look clean and readable.'
+    ]
+  },
+  {
+    id: 'benefits',
+    eyebrow: 'Why use this tool',
+    title: 'A fast, reliable AI proof remover',
+    description:
+      'Combine automatic detection with high-quality image reconstruction to get watermark-free results you can confidently share or publish.',
+    imageSrc: '/images/blog/fast reliable AI proof remover.jpg',
+    imageAlt: 'High quality result after AI proof removal',
+    icon: <Gem className="w-6 h-6 text-blue-600" />,
+    bullets: [
+      'Free to start using directly in your browser.',
+      'Quick, one-click workflow with no complex settings required.',
+      'Processing designed with modern privacy standards in mind.',
+      'Outputs stay sharp so your image does not look heavily edited.',
+      'Pairs well with tools like AI Cleanup, AI Replace, and AI Image Upscaler for deeper edits.'
+    ]
+  }
+];
+
+interface FilterZigZagSection {
+  id: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  imageSrc: string;
+  imageAlt: string;
+  icon: React.ReactNode;
+}
+
+const filterZigZagSections: FilterZigZagSection[] = [
+  {
+    id: 'sketch-painting',
+    eyebrow: 'Sketches and paintings',
+    title: 'Turn photos into sketches and paintings with AI filters',
+    description:
+      'Use the AI Filter tool to transform your images into detailed sketches or rich painterly artwork. Experiment with pencil-style, ink, and cross-hatching looks for line-focused results, or apply painting filters that add color, depth, and texture for a gallery-ready finish.',
+    imageSrc: '/images/blog/AI filter sketches and paintings.jpg',
+    imageAlt: 'Photo transformed into a pencil sketch and painted artwork using AI filters',
+    icon: <Brush className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'anime-manga',
+    eyebrow: 'Anime and manga',
+    title: 'Explore anime and manga-inspired AI photo filters',
+    description:
+      'Apply bold colors, stylized outlines, and cel-shaded lighting to turn your photos into anime or manga-style scenes. Combine ready-made filters with your own prompts to live out popular character aesthetics and create vibrant comic-style artwork from everyday images.',
+    imageSrc: '/images/blog/AI filter anime and manga.jpg',
+    imageAlt: 'Portrait converted into anime and manga-style art with AI filters',
+    icon: <Atom className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'free-filters',
+    eyebrow: 'Free filters',
+    title: 'Free AI filters for every kind of photo',
+    description:
+      'Browse a range of trending AI filters and apply them in a single click. Quickly add creative effects to portraits, products, and social content without complex manual editing or paid desktop software.',
+    imageSrc: '/images/blog/AI filter free effects.jpg',
+    imageAlt: 'Various photos enhanced with different AI filter styles',
+    icon: <Gift className="w-6 h-6 text-blue-600" />
   }
 ];
 
@@ -772,6 +1007,59 @@ const hairstyleZigZagSections: HairstyleZigZagSection[] = [
       'Experiment with mustache and beard combinations using coordinated hair previews.',
       'Plan looks for weddings, parties, shoots, and everyday styling with virtual trials.',
       'Support wig, barbershop, and salon consultations by sharing realistic hairstyle renders.'
+    ]
+  }
+];
+
+interface ImageUpscalerZigZagSection {
+  id: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  imageSrc: string;
+  imageAlt: string;
+  icon: React.ReactNode;
+  bullets?: string[];
+}
+
+const imageUpscalerZigZagSections: ImageUpscalerZigZagSection[] = [
+  {
+    id: 'sharper-detail',
+    eyebrow: 'Sharper images',
+    title: 'Get higher-quality, sharper, more detailed images',
+    description:
+      'Turn soft, low-resolution photos into crisp, high-resolution images in just a few seconds. The AI Image Upscaler boosts resolution while preserving important details, improving edges, textures, and patterns so results look clean instead of over-smoothed, even on low-light or compressed images.',
+    imageSrc: '/images/blog/AI upscaler sharper images.jpg',
+    imageAlt: 'Portrait photo upscaled with sharper details and reduced noise',
+    icon: <Sparkles className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'zoom-without-pixels',
+    eyebrow: 'Clean zoom',
+    title: 'Zoom in without pixelation',
+    description:
+      'When you zoom into a small photo, blocks and jagged pixels usually appear because there are not enough original pixels to fill the space. The AI upsizer intelligently generates additional pixels between what is already there so close-up crops stay clear and readable instead of breaking apart.',
+    imageSrc: '/images/blog/AI upscaler zoom without pixelation.jpg',
+    imageAlt: 'Zoomed-in image upscaled to remove blocky pixels',
+    icon: <CameraIcon className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'why-use-upscaler',
+    eyebrow: 'Everyday uses',
+    title: 'Why use the AI Image Upscaler?',
+    description:
+      'Use AI upscaling whenever you need more resolution, cleaner details, or larger exports without re-shooting the original photo.',
+    imageSrc: '/images/blog/AI upscaler use cases.jpg',
+    imageAlt: 'Collage of different photos enhanced with AI upscaling',
+    icon: <Gem className="w-6 h-6 text-blue-600" />,
+    bullets: [
+      'Create 4K-ready wallpapers and screensavers from everyday photos.',
+      'Recover small or blurry text so screenshots and documents are easier to read.',
+      'Prepare sharp images for Instagram, Facebook, and YouTube thumbnails.',
+      'Clarify CCTV and security footage to better distinguish faces and objects.',
+      'Boost resolution before printing posters, flyers, and large banners.',
+      'Enhance product photos so fine textures and details stand out in listings.',
+      'Revive older or scanned photos by increasing resolution and reducing noise.'
     ]
   }
 ];
@@ -1628,6 +1916,192 @@ const removeBgFaqSchema = {
   }))
 } as const;
 
+interface WatermarkFaqItem {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+const watermarkFaqItems: WatermarkFaqItem[] = [
+  {
+    id: 'download-no-watermark',
+    question: 'Will the edited image get downloaded without a watermark?',
+    answer:
+      'Yes. When processing is complete you download the cleaned version without an additional watermark from the tool. If you still see marks, they are either part of the original file that could not be fully removed or elements the AI chose to keep to preserve image quality.'
+  },
+  {
+    id: 'multiple-watermarks',
+    question: 'Can the tool remove multiple watermarks in one image?',
+    answer:
+      'In many cases it can. The AI scans the entire photo and tries to remove repeated logos or text that follow a similar pattern. Extremely dense or overlapping marks may leave slight traces, in which case you can run another pass or refine the result with an object cleanup tool.'
+  },
+  {
+    id: 'text-based-images',
+    question: 'Is it possible to erase watermarks from text-based images?',
+    answer:
+      'It can work on documents, quotes, and other text-heavy images, but results depend on how much of the underlying text is covered. If a watermark hides large portions of words or lines, removing it completely may also erase important content or reduce readability.'
+  },
+  {
+    id: 'manual-brush',
+    question: 'Is there a manual brush feature?',
+    answer:
+      'The AI Watermark Remover is designed as a one-click automatic tool, so it does not require you to paint masks. If you need fine-grained control for specific areas, you can pair it with a separate cleanup or inpainting tool that supports manual brushing.'
+  },
+  {
+    id: 'semi-transparent',
+    question: 'Does the tool work on semi-transparent watermarks?',
+    answer:
+      'Often yes. Semi-transparent marks with clear contrast from the background are good candidates for AI removal. Very dense patterns or tiled overlays may be harder to clean perfectly and can sometimes leave faint texture where the mark used to be.'
+  },
+  {
+    id: 'ethics',
+    question: 'Is it ethical to remove copyright from photo?',
+    answer:
+      'Only remove watermarks from photos and assets you own, have created, or are otherwise permitted to edit. Do not use the tool to bypass licensing terms or remove copyright information from media you do not have rights to. Always follow local laws and the usage rules set by the content owner.'
+  }
+];
+
+const watermarkFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: watermarkFaqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer
+    }
+  }))
+} as const;
+
+interface FilterFaqItem {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+const filterFaqItems: FilterFaqItem[] = [
+  {
+    id: 'what-is-ai-filter',
+    question: 'What is the AI filter?',
+    answer:
+      'The AI filter is an image effect powered by artificial intelligence that restyles your photos. Instead of simple color overlays, it can change textures, lighting, and artistic details based on preset styles or your own text prompts.'
+  },
+  {
+    id: 'how-to-get-filter',
+    question: 'How do I get an AI filter for a photo?',
+    answer:
+      'Open the AI Filter tool, upload your photo, then choose a preset style or switch to a custom style with your own prompt. Click Generate and the AI will apply the selected filter so you can download the updated image.'
+  },
+  {
+    id: 'anime-filter-online',
+    question: 'Where can I find an AI filter online for anime?',
+    answer:
+      'You can create anime-style looks directly in the AI Filter tool. Pick anime or manga-inspired presets if available, or describe the character, era, or art style you like in a text prompt to generate a custom anime filter for your photo.'
+  },
+  {
+    id: 'how-to-add-filter',
+    question: 'How do I add an AI filter?',
+    answer:
+      'Upload an image to the AI Filter tool, select a style or type a prompt that describes the look you want, and click Generate. The filter is applied automatically, so you do not need to install extra plugins or edit layers manually.'
+  },
+  {
+    id: 'popular-filter',
+    question: 'What is the AI filter everyone is using?',
+    answer:
+      'Popular AI filters change over time, from vintage film looks to anime, cyberpunk, or illustrative styles. With the AI Filter tool, you can explore curated presets that follow current trends or recreate viral looks by describing them in a prompt.'
+  },
+  {
+    id: 'free-ai-effect',
+    question: 'How can I use AI effect for free?',
+    answer:
+      'You can experiment with AI effects for free in your browser using the AI Filter tool. Upload a compatible image, apply filters, and download results without installing heavy software. Usage limits may depend on the current plan.'
+  },
+  {
+    id: 'ai-filter-app',
+    question: 'Is there an AI filter app?',
+    answer:
+      'You do not need a separate app. The AI Filter tool runs in your browser on desktop and mobile, so you can access it like an app by visiting the site or adding a shortcut to your home screen.'
+  },
+  {
+    id: 'where-to-get-free-filter',
+    question: 'Where can I get AI image filter for free?',
+    answer:
+      'You can get free AI image filters on Modern PhotoTools by opening the AI Filter tool, uploading a photo, and trying different presets or custom prompts. Everything runs online, so there is nothing to download or install.'
+  }
+];
+
+const filterFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: filterFaqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer
+    }
+  }))
+} as const;
+
+interface UpscalerFaqItem {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+const upscalerFaqItems: UpscalerFaqItem[] = [
+  {
+    id: '2x-vs-4x',
+    question: 'What is the difference between 2x and 4x upscaling?',
+    answer:
+      '2x upscaling doubles your image dimensions, while 4x upscaling makes them four times larger. Both use the same AI model, but 4x creates much bigger files and is best for smaller images that need to be enlarged a lot. For larger photos, 2x is usually enough to sharpen details without overdoing the size.'
+  },
+  {
+    id: 'file-size',
+    question: 'Will upscaling increase the file size?',
+    answer:
+      'Yes. When you upscale an image, the number of pixels increases, so the file usually gets larger as well. The final size also depends on the format and compression level, but expect bigger dimensions and a larger file compared to your original image.'
+  },
+  {
+    id: 're-upscale',
+    question: 'Can I upscale the image again to improve quality even more?',
+    answer:
+      'You can re-upload an upscaled image and run it through the tool again, but repeated passes rarely add meaningful detail and may start to look artificial. For best results, start from the original photo and choose the highest upscale factor you need in one step.'
+  },
+  {
+    id: 'max-size',
+    question: 'What is the maximum image size I can upload for upscaling?',
+    answer:
+      'You can upload images up to 2048 pixels on the longest side. For images larger than 1024 pixels on the longest edge, only 2x upscaling is available so the output stays within safe limits. Smaller images can use both 2x and 4x upscaling.'
+  },
+  {
+    id: 'hi-res',
+    question: 'Will upscaling improve the details of an already high-resolution image?',
+    answer:
+      'Upscaling can gently sharpen and clean noise in high-resolution photos, but it cannot invent unlimited new detail. If your image is already large and crisp, 2x upscaling is usually enough, and sometimes you may not need to upscale at all for typical screen use.'
+  },
+  {
+    id: 'mobile',
+    question: 'Is there a mobile version or app available for upscaling on the go?',
+    answer:
+      'You do not need a separate app. The AI Image Upscaler runs directly in your browser, so you can open the site on your phone or tablet and upscale images on the go as long as you have an internet connection.'
+  }
+];
+
+const upscalerFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: upscalerFaqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer
+    }
+  }))
+} as const;
+
 interface AvatarFaqItem {
   id: string;
   question: string;
@@ -2314,6 +2788,131 @@ function RemoveBgZigZagLayout() {
   );
 }
 
+function WatermarkZigZagLayout() {
+  return (
+    <section className="mb-10">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-8 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            Designed for watermark-heavy photos and assets
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Use the Watermark Remover whenever logos, proof labels, or overlay text get in the way of your final image. Combine it with other ModernPhotoTools features to clean, enhance, and restyle visuals in one workflow.
+          </p>
+        </div>
+        <div className="space-y-10">
+          {watermarkZigZagSections.map((section, index) => {
+            const textFirst = index % 2 === 0;
+            return (
+              <div
+                key={section.id}
+                className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12"
+              >
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-2 lg:order-1' : 'order-2 lg:order-2'
+                  }`}
+                >
+                  <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 mb-3">
+                    {section.icon}
+                    <span>{section.eyebrow}</span>
+                  </div>
+                  <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3">
+                    {section.title}
+                  </h3>
+                  <p className="text-gray-700 text-sm md:text-base leading-relaxed">
+                    {section.description}
+                  </p>
+                  {section.bullets && section.bullets.length > 0 && (
+                    <ul className="mt-3 list-disc list-inside text-gray-700 text-sm md:text-base space-y-1">
+                      {section.bullets.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-1 lg:order-2' : 'order-1 lg:order-1'
+                  }`}
+                >
+                  <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-gray-50">
+                    <img
+                      src={section.imageSrc}
+                      alt={section.imageAlt}
+                      loading="lazy"
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FilterZigZagLayout() {
+  return (
+    <section className="mb-10">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-8 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            Creative AI filters for every style of photo
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Use the AI Filter tool whenever you want to add mood, texture, or stylization without learning complex editing. Mix preset filters with your own prompts to build unique looks for portraits, artwork, and social content.
+          </p>
+        </div>
+        <div className="space-y-10">
+          {filterZigZagSections.map((section, index) => {
+            const textFirst = index % 2 === 0;
+            return (
+              <div
+                key={section.id}
+                className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12"
+              >
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-2 lg:order-1' : 'order-2 lg:order-2'
+                  }`}
+                >
+                  <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 mb-3">
+                    {section.icon}
+                    <span>{section.eyebrow}</span>
+                  </div>
+                  <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3">
+                    {section.title}
+                  </h3>
+                  <p className="text-gray-700 text-sm md:text-base leading-relaxed">
+                    {section.description}
+                  </p>
+                </div>
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-1 lg:order-2' : 'order-1 lg:order-1'
+                  }`}
+                >
+                  <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-gray-50">
+                    <img
+                      src={section.imageSrc}
+                      alt={section.imageAlt}
+                      loading="lazy"
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function ProductZigZagLayout() {
   return (
     <section className="mb-10">
@@ -2565,7 +3164,7 @@ function HairstyleZigZagLayout() {
       <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
         <div className="mb-8 text-center">
           <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
-            AI hairstyles for every mood and occasion
+          AI hairstyles for every mood and occasion
           </h2>
           <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
             Use the AI Hairstyle tool to preview cuts, lengths, and colors before you change your real hair.
@@ -2573,6 +3172,72 @@ function HairstyleZigZagLayout() {
         </div>
         <div className="space-y-10">
           {hairstyleZigZagSections.map((section, index) => {
+            const textFirst = index % 2 === 0;
+            return (
+              <div
+                key={section.id}
+                className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12"
+              >
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-2 lg:order-1' : 'order-2 lg:order-2'
+                  }`}
+                >
+                  <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 mb-3">
+                    {section.icon}
+                    <span>{section.eyebrow}</span>
+                  </div>
+                  <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3">
+                    {section.title}
+                  </h3>
+                  <p className="text-gray-700 text-sm md:text-base leading-relaxed">
+                    {section.description}
+                  </p>
+                  {section.bullets && (
+                    <ul className="mt-3 space-y-1 text-gray-700 text-sm md:text-base list-disc list-inside">
+                      {section.bullets.map((bullet) => (
+                        <li key={bullet}>{bullet}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-1 lg:order-2' : 'order-1 lg:order-1'
+                  }`}
+                >
+                  <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-gray-50">
+                    <img
+                      src={section.imageSrc}
+                      alt={section.imageAlt}
+                      loading="lazy"
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ImageUpscalerZigZagLayout() {
+  return (
+    <section className="mb-10">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-8 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            AI upscaling for real-world photo workflows
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Use the AI Image Upscaler whenever you need larger, cleaner versions of your photos for screens, print, or close-up crops.
+          </p>
+        </div>
+        <div className="space-y-10">
+          {imageUpscalerZigZagSections.map((section, index) => {
             const textFirst = index % 2 === 0;
             return (
               <div
@@ -3341,6 +4006,67 @@ function RemoveBgFAQ() {
   );
 }
 
+function WatermarkFAQ() {
+  const [openId, setOpenId] = useState<string | null>(watermarkFaqItems[0]?.id ?? null);
+
+  const handleToggle = (id: string) => {
+    setOpenId((current) => (current === id ? null : id));
+  };
+
+  return (
+    <section className="mb-12">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            Watermark Remover: frequently asked questions
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Learn how the AI Watermark Remover handles different kinds of marks, where it works best, and how to use it responsibly.
+          </p>
+        </div>
+        <SchemaJSONLD data={watermarkFaqSchema} />
+        <div className="max-w-3xl mx-auto">
+          <div className="space-y-4">
+            {watermarkFaqItems.map((item) => {
+              const isOpen = openId === item.id;
+              const answerId = `watermark-remover-faq-answer-${item.id}`;
+              return (
+                <div key={item.id} className="bg-white rounded-lg shadow border border-gray-200">
+                  <button
+                    type="button"
+                    onClick={() => handleToggle(item.id)}
+                    className="w-full flex items-center justify-between px-4 md:px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    aria-expanded={isOpen}
+                    aria-controls={answerId}
+                  >
+                    <div className="flex items-start gap-3">
+                      <HelpCircle className="w-5 h-5 text-blue-600 mt-1" />
+                      <span className="font-semibold text-gray-900">{item.question}</span>
+                    </div>
+                    <ChevronDown
+                      className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
+                        isOpen ? 'transform rotate-180' : ''
+                      }`}
+                    />
+                  </button>
+                  <div
+                    id={answerId}
+                    className={`px-4 md:px-6 pb-4 text-gray-700 text-sm leading-relaxed ${
+                      isOpen ? 'block' : 'hidden'
+                    }`}
+                  >
+                    {item.answer}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function OutfitFAQ() {
   const [openId, setOpenId] = useState<string | null>(outfitFaqItems[0]?.id ?? null);
 
@@ -3426,6 +4152,128 @@ function HairstyleFAQ() {
             {hairstyleFaqItems.map((item) => {
               const isOpen = openId === item.id;
               const answerId = `ai-hairstyle-faq-answer-${item.id}`;
+              return (
+                <div key={item.id} className="bg-white rounded-lg shadow border border-gray-200">
+                  <button
+                    type="button"
+                    onClick={() => handleToggle(item.id)}
+                    className="w-full flex items-center justify-between px-4 md:px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    aria-expanded={isOpen}
+                    aria-controls={answerId}
+                  >
+                    <div className="flex items-start gap-3">
+                      <HelpCircle className="w-5 h-5 text-blue-600 mt-1" />
+                      <span className="font-semibold text-gray-900">{item.question}</span>
+                    </div>
+                    <ChevronDown
+                      className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
+                        isOpen ? 'transform rotate-180' : ''
+                      }`}
+                    />
+                  </button>
+                  <div
+                    id={answerId}
+                    className={`px-4 md:px-6 pb-4 text-gray-700 text-sm leading-relaxed ${
+                      isOpen ? 'block' : 'hidden'
+                    }`}
+                  >
+                    {item.answer}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FilterFAQ() {
+  const [openId, setOpenId] = useState<string | null>(filterFaqItems[0]?.id ?? null);
+
+  const handleToggle = (id: string) => {
+    setOpenId((current) => (current === id ? null : id));
+  };
+
+  return (
+    <section className="mb-12">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            AI Filter: frequently asked questions
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Find answers to common questions about how AI filters work, how to apply them, and where to use them.
+          </p>
+        </div>
+        <SchemaJSONLD data={filterFaqSchema} />
+        <div className="max-w-3xl mx-auto">
+          <div className="space-y-4">
+            {filterFaqItems.map((item) => {
+              const isOpen = openId === item.id;
+              const answerId = `ai-filter-faq-answer-${item.id}`;
+              return (
+                <div key={item.id} className="bg-white rounded-lg shadow border border-gray-200">
+                  <button
+                    type="button"
+                    onClick={() => handleToggle(item.id)}
+                    className="w-full flex items-center justify-between px-4 md:px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    aria-expanded={isOpen}
+                    aria-controls={answerId}
+                  >
+                    <div className="flex items-start gap-3">
+                      <HelpCircle className="w-5 h-5 text-blue-600 mt-1" />
+                      <span className="font-semibold text-gray-900">{item.question}</span>
+                    </div>
+                    <ChevronDown
+                      className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
+                        isOpen ? 'transform rotate-180' : ''
+                      }`}
+                    />
+                  </button>
+                  <div
+                    id={answerId}
+                    className={`px-4 md:px-6 pb-4 text-gray-700 text-sm leading-relaxed ${
+                      isOpen ? 'block' : 'hidden'
+                    }`}
+                  >
+                    {item.answer}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ImageUpscalerFAQ() {
+  const [openId, setOpenId] = useState<string | null>(upscalerFaqItems[0]?.id ?? null);
+
+  const handleToggle = (id: string) => {
+    setOpenId((current) => (current === id ? null : id));
+  };
+
+  return (
+    <section className="mb-12">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            AI Image Upscaler: frequently asked questions
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Answers to common questions about how AI upscaling works, recommended settings, and image limits.
+          </p>
+        </div>
+        <SchemaJSONLD data={upscalerFaqSchema} />
+        <div className="max-w-3xl mx-auto">
+          <div className="space-y-4">
+            {upscalerFaqItems.map((item) => {
+              const isOpen = openId === item.id;
+              const answerId = `ai-image-upscaler-faq-answer-${item.id}`;
               return (
                 <div key={item.id} className="bg-white rounded-lg shadow border border-gray-200">
                   <button
@@ -6339,6 +7187,42 @@ const handleAIImageToImageGenerate = async () => {
           </section>
           )}
 
+          {tool.id === 'ai-image-upscaler' && (
+            <section className="mb-10">
+              <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+                <div className="mb-6 text-center">
+                  <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+                    Upscale images up to 4K in seconds
+                  </h2>
+                  <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+                    Use the AI Image Upscaler to sharpen blurry photos, fix blocky pixels, and clean up noise in a few seconds. Boost image resolution by up to 4x while keeping important details clear enough for large screens and prints.
+                  </p>
+                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                  <div>
+                    <ImageComparison
+                      beforeSrc="/images/blog/AI upscaler before.jpg"
+                      afterSrc="/images/blog/AI upscaler after.jpg"
+                      beforeLabel="Original"
+                      afterLabel="Upscaled"
+                      ariaLabel="Before and after AI image upscaling example"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3">
+                      See the difference with AI upscaling
+                    </h3>
+                    <p className="text-gray-700 text-sm md:text-base leading-relaxed">
+                      Drag the slider to compare the original image with the enhanced version. Fine details become clearer, edges look smoother, and the overall photo holds up better on 4K displays, social media, and high-quality prints.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+
+          {tool.id === 'ai-filter' && <FilterHeroSection />}
+
           {tool.id === 'ai-outfit' && (
             <section className="mb-10">
               <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
@@ -6642,9 +7526,9 @@ const handleAIImageToImageGenerate = async () => {
                       Your browser does not support the video tag.
                     </video>
                   </div>
-                </div>
-              </div>
-            </section>
+          </div>
+        </div>
+      </section>
           )}
 
           {tool.id === 'ai-cartoon' && <CartoonHeroSection />}
@@ -6658,6 +7542,7 @@ const handleAIImageToImageGenerate = async () => {
           {tool.id === 'ai-cleanup' && <CleanupUseCasesSection />}
 
           {tool.id === 'ai-background-generator' && <BackgroundHeroSection />}
+          {tool.id === 'watermark-remover' && <WatermarkHeroSection />}
           
           {/* Add PromptsGuide for tools that use text prompts */}
           {(tool.id === 'ai-replace' || 
@@ -8463,6 +9348,33 @@ const handleAIImageToImageGenerate = async () => {
               <>
                 <HairstyleZigZagLayout />
                 <HairstyleFAQ />
+              </>
+            </SectionErrorBoundary>
+          )}
+
+          {tool.id === 'ai-image-upscaler' && (
+          <SectionErrorBoundary>
+            <>
+              <ImageUpscalerZigZagLayout />
+              <ImageUpscalerFAQ />
+            </>
+          </SectionErrorBoundary>
+          )}
+
+          {tool.id === 'ai-filter' && (
+            <SectionErrorBoundary>
+              <>
+                <FilterZigZagLayout />
+                <FilterFAQ />
+              </>
+            </SectionErrorBoundary>
+          )}
+
+          {tool.id === 'watermark-remover' && (
+            <SectionErrorBoundary>
+              <>
+                <WatermarkZigZagLayout />
+                <WatermarkFAQ />
               </>
             </SectionErrorBoundary>
           )}
