@@ -227,8 +227,13 @@ const BlogArticlePage: React.FC = () => {
 
   // Render HTML content with proper styling
   const renderContent = (content: string) => {
+    const sanitizedContent = content.replace(
+      /<script[^>]*type=["']application\/ld\+json["'][^>]*>[\s\S]*?FAQPage[\s\S]*?<\/script>/gi,
+      ''
+    );
+
     // Check if content contains HTML tags
-    const hasHtmlTags = /<[^>]+>/.test(content);
+    const hasHtmlTags = /<[^>]+>/.test(sanitizedContent);
     
     if (hasHtmlTags) {
       // Content contains HTML, render it directly with dangerouslySetInnerHTML
@@ -236,7 +241,7 @@ const BlogArticlePage: React.FC = () => {
       return (
         <div 
           className="article-content"
-          dangerouslySetInnerHTML={{ __html: content }}
+          dangerouslySetInnerHTML={{ __html: sanitizedContent }}
         />
       );
     }
