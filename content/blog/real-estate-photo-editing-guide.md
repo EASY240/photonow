@@ -402,21 +402,21 @@ metaDescription: "Learn essential and advanced real estate photo editing techniq
       <h3 class="faq-question" itemprop="name">How long does it take to edit real estate photos?</h3>
       <div class="faq-answer" itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
         <p itemprop="text">Editing time varies based on complexity:</p>
-        <ul itemprop="text">
+        <ul>
           <li><strong>Basic edits:</strong> 5-10 minutes per photo for experienced editors</li>
           <li><strong>HDR blending:</strong> 10-15 minutes per photo</li>
           <li><strong>Advanced techniques:</strong> 15-30+ minutes per photo for day-to-dusk, complex object removal, etc.</li>
           <li><strong>Virtual staging:</strong> 30-60 minutes per room</li>
         </ul>
-        <p itemprop="text">Professional services typically deliver standard edits within 12-24 hours and advanced edits within 24-48 hours.</p>
+        <p>Professional services typically deliver standard edits within 12-24 hours and advanced edits within 24-48 hours.</p>
       </div>
     </div>
 
     <div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
       <h3 class="faq-question" itemprop="name">What is the best resolution for MLS photos?</h3>
       <div class="faq-answer" itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-        <p itemprop="text">Most MLS systems require a minimum of 1024x768 pixels, but for optimal quality across devices, aim for:</p>
-        <ul itemprop="text">
+        <p>Most MLS systems require a minimum of 1024x768 pixels, but for optimal quality across devices, aim for:</p>
+        <ul>
           <li><strong>Standard quality:</strong> 2000-3000 pixels on the long edge (approximately 6-9 megapixels)</li>
           <li><strong>High quality:</strong> 3000-4000 pixels on the long edge (approximately 9-16 megapixels)</li>
         </ul>
@@ -428,7 +428,7 @@ metaDescription: "Learn essential and advanced real estate photo editing techniq
       <h3 class="faq-question" itemprop="name">What's the difference between HDR and Flambient techniques?</h3>
       <div class="faq-answer" itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
         <p itemprop="text"><strong>HDR (High Dynamic Range)</strong> involves taking multiple exposures of the same scene (typically 3-7 brackets) and blending them in software to capture details in both highlights and shadows. This technique is faster to shoot but can sometimes produce less natural results.</p>
-        <p itemprop="text"><strong>Flambient</strong> combines flash and ambient exposures, manually blending them in layers during editing. This technique gives more control over the final look and often produces more natural results, but requires more equipment and expertise during both shooting and editing.</p>
+        <p><strong>Flambient</strong> combines flash and ambient exposures, manually blending them in layers during editing. This technique gives more control over the final look and often produces more natural results, but requires more equipment and expertise during both shooting and editing.</p>
       </div>
     </div>
 
@@ -436,7 +436,7 @@ metaDescription: "Learn essential and advanced real estate photo editing techniq
       <h3 class="faq-question" itemprop="name">Can I remove permanent property features in editing?</h3>
       <div class="faq-answer" itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
         <p itemprop="text">Removing permanent property features (power lines, neighboring buildings, structural issues) is generally considered unethical and potentially fraudulent. The guiding principle should be: "Will buyers be disappointed or surprised when they see the property in person?"</p>
-        <p itemprop="text">Focus editing on temporary elements (vehicles, seasonal issues, personal items) rather than permanent features. When in doubt, consult your local real estate board's guidelines on photo representation.</p>
+        <p>Focus editing on temporary elements (vehicles, seasonal issues, personal items) rather than permanent features. When in doubt, consult your local real estate board's guidelines on photo representation.</p>
       </div>
     </div>
   
