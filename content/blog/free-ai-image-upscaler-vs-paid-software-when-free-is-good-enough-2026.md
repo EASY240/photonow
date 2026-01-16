@@ -216,7 +216,7 @@ metaDescription: "Discover when free AI image upscalers are sufficient and when 
     <p><strong>Look for specialized AI models:</strong> The best tools offer models tailored to portraits, landscapes, digital art, or text, ensuring more nuanced and accurate enhancement than generic algorithms.</p>
   </section>
 
-  <section id="faq" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/FAQPage">
+  <section id="faq">
     <h2>Frequently Asked Questions About AI Image Upscaling</h2>
 
     <div class="faq-container">
