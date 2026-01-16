@@ -3,6 +3,9 @@ import { useParams, Link, Navigate } from 'react-router-dom';
 import SEO from '../components/ui/SEO';
 import { getBlogArticleById, BlogArticleWithContent } from '../utils/blogLoader';
 import ArticleNavigation from '../components/ArticleNavigation';
+import { SchemaJSONLD } from '../components/ui/SchemaJSONLD';
+import 'img-comparison-slider/dist/styles.css';
+import 'img-comparison-slider';
 
 const BlogArticlePage: React.FC = () => {
   const { articleId } = useParams<{ articleId: string }>();
@@ -282,11 +285,57 @@ const BlogArticlePage: React.FC = () => {
   return (
     <>
       <SEO 
-        title={article.title}
-        description={article.excerpt}
+        title={article.metaTitle || article.title}
+        description={article.metaDescription || article.excerpt}
         canonicalUrl={`https://modernphototools.com/blog/${articleId}`}
         ogImage={article.featuredImage}
       />
+      {article.id === 'free-ai-image-upscaler-vs-paid-software-when-free-is-good-enough-2026' && (
+        <SchemaJSONLD
+          data={{
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: [
+              {
+                '@type': 'Question',
+                name: 'When is a free AI image upscaler good enough?',
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text:
+                    'Free AI image upscalers are usually good enough for personal projects, social media posts, and occasional upscaling tasks where you do not need massive print sizes or strict brand consistency. If you only upscale a handful of images each month and your final output is screens rather than large-format prints, you will get excellent value from free desktop tools like Upscayl or web-based services with modest limits.'
+                }
+              },
+              {
+                '@type': 'Question',
+                name: 'When should I invest in paid AI upscaling software?',
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text:
+                    'Paid AI upscaling software makes sense when you work with clients, print at large sizes, or process images in high volume. If you need batch processing, RAW support, consistent color, clear commercial licensing, and maximum detail retention, paid tools quickly pay for themselves. For e-commerce, print studios, agencies, or archival work, free tools rarely offer the control and reliability you need.'
+                }
+              },
+              {
+                '@type': 'Question',
+                name: 'What features matter most when comparing AI upscaling tools?',
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text:
+                    'The most important features are maximum resolution and scale, batch processing, noise and artifact control, support for formats like TIFF or RAW, export fidelity for EXIF and color profiles, and clear licensing for commercial use. Ease of use and processing speed also matter, especially when you handle dozens or hundreds of images per week.'
+                }
+              },
+              {
+                '@type': 'Question',
+                name: 'How does Modern Photo Tools AI Image Upscaler fit into a workflow?',
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text:
+                    'Modern Photo Tools AI Image Upscaler is ideal as a fast, browser-based step in your editing workflow. You can quickly upscale low-resolution assets, product photos, or social images without installing software or creating an account. For many users, it replaces basic desktop upscalers entirely; for professionals, it serves as a convenient first pass before deeper editing in tools like Photoshop, Topaz Gigapixel AI, or PhotoDirector.'
+                }
+              }
+            ]
+          }}
+        />
+      )}
       
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
         <div className="container mx-auto px-4 py-12">

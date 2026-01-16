@@ -9,10 +9,27 @@ export interface BlogArticle {
   featuredImage: string;
   relatedTool?: string;
   keywords?: string[];
+  metaTitle?: string;
+  metaDescription?: string;
 }
 
 // Blog article metadata index - content is now loaded from individual Markdown files
 export const blogArticleIndex = [
+  {
+    id: 'free-ai-image-upscaler-vs-paid-software-when-free-is-good-enough-2026',
+    title: 'Free AI Image Upscaler vs Paid Software: When Free is Good Enough 2026',
+    excerpt:
+      'Discover when free AI image upscalers are sufficient and when paid software is worth the investment. Compare Modern AI Upscaler, Topaz, PhotoDirector, and more to make the right choice for your needs.',
+    publishDate: '2026-01-16',
+    readTime: '16 min read',
+    category: 'tools' as const,
+    featuredImage: '/images/blog/AI image upscaler artice.jpg',
+    relatedTool: 'ai-image-upscaler',
+    keywords: ['AI image upscaler', 'free vs paid upscaling', 'image enlargement', 'Modern AI Upscaler', 'upscale photos for print'],
+    metaTitle: 'Free AI Image Upscaler vs Paid Software: When Free is Good Enough 2026',
+    metaDescription:
+      'Discover when free AI image upscalers are sufficient and when paid software is worth the investment. Compare Modern AI Upscaler, Topaz, PhotoDirector, and more to make the right choice for your needs.'
+  },
   {
     id: 'top-ai-photo-editing-tools-to-increase-online-store-sales-2026',
     title: 'Visuals That Sell: Top AI Photo Editing Tools to Increase Online Store Sales in 2026',
