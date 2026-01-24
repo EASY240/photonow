@@ -26,6 +26,7 @@ import { aiFilterStyles, filterCategories, type AIFilterStyle } from '../constan
 import { generateCanonicalUrl, generateOgImageUrl } from '../utils/siteConfig';
 import { scrollToResultContainer, scrollToGenerateButton, debounce } from '../utils/scrollUtils';
 import { SchemaJSONLD } from '../components/ui/SchemaJSONLD';
+import SupportBanner from '../components/ui/SupportBanner';
 
 interface ErrorBoundaryProps {
   children: React.ReactNode;
@@ -9242,6 +9243,7 @@ const handleAIImageToImageGenerate = async () => {
                   >
                     Download Result
                   </Button>
+                  <SupportBanner />
                 </div>
               ) : processedImage.error ? (
                 <div className="border-2 border-dashed border-red-300 bg-red-50 rounded-lg p-8 flex flex-col items-center justify-center">

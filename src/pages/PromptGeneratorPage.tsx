@@ -9,6 +9,7 @@ import ToolFeatureImage from '../components/ui/ToolFeatureImage';
 import { findToolImage, generateAltText } from '../utils/imageMapper';
 import SEO from '../components/ui/SEO';
 import { generateCanonicalUrl, generateOgImageUrl } from '../utils/siteConfig';
+import SupportBanner from '../components/ui/SupportBanner';
 
 const DEFINITIONS: Record<string, string> = {
   Instruction: 'The specific task to perform.',
@@ -40,6 +41,7 @@ export default function PromptGeneratorPage() {
   const [copied, setCopied] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [recentPrompts, setRecentPrompts] = useState<string[]>([]);
+  const [hasGenerated, setHasGenerated] = useState(false);
   const ideaInputRef = useRef<HTMLTextAreaElement | null>(null);
   const animateScrollToCenter = (el: HTMLElement, duration = 400) => {
     const rect = el.getBoundingClientRect();
@@ -81,6 +83,7 @@ export default function PromptGeneratorPage() {
     setSuggestions(data as Record<string, string>);
     setFormValues(Object.fromEntries(ordered.map((k) => [k, (data as Record<string, string>)[k] || ''])));
     setIsLoading(false);
+    setHasGenerated(true);
     const trimmed = input.trim();
     setRecentPrompts((prev) => {
       const next = [trimmed, ...prev.filter((p) => p !== trimmed)].slice(0, 10);
@@ -277,13 +280,14 @@ export default function PromptGeneratorPage() {
               </div>
             )}
 
-            {fields.length > 0 && (
+            {fields.length > 0 && hasGenerated && (
               <div className="bg-white rounded-lg shadow p-6">
                 <h2 className="text-2xl font-semibold text-gray-900 mb-4">Final Output</h2>
                 <pre className="bg-gray-50 border border-gray-200 rounded-md p-4 overflow-auto text-sm whitespace-pre-wrap">{finalOutput}</pre>
                 <div className="mt-4">
                   <Button variant="secondary" onClick={handleCopy} leftIcon={<ClipboardCopy className="w-4 h-4" />}>{copied ? 'Copied' : 'Copy to Clipboard'}</Button>
                 </div>
+                <SupportBanner />
               </div>
             )}
 
