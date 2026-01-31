@@ -15,6 +15,39 @@ const debugLog = (...args: any[]) => {
   }
 };
 
+const sanitizeErrorMessage = (message: string) => {
+  return message
+    .replace(/Bearer\s+[A-Za-z0-9\-_\.]+/gi, 'Bearer [redacted]')
+    .replace(/sk-[A-Za-z0-9]+/gi, '[redacted]');
+};
+
+const extractPromptError = (payload: any, status: number) => {
+  let message = '';
+  let code = status;
+  if (payload && typeof payload.error === 'string') {
+    message = payload.error;
+  } else if (payload && payload.error && typeof payload.error.message === 'string') {
+    message = payload.error.message;
+  } else if (payload && typeof payload.message === 'string') {
+    message = payload.message;
+  }
+  if (payload && payload.error && typeof payload.error.code === 'number') {
+    code = payload.error.code;
+  } else if (payload && payload.meta && typeof payload.meta.code === 'number') {
+    code = payload.meta.code;
+  }
+  if (!message && payload && typeof payload.error === 'object') {
+    try {
+      message = JSON.stringify(payload.error);
+    } catch {}
+  }
+  const normalized = message ? sanitizeErrorMessage(message) : `HTTP ${status}`;
+  if (code === 429 || /rate[-\s]?limit/i.test(normalized)) {
+    return 'The prompt engine is temporarily rate-limited. Please try again in a minute.';
+  }
+  return normalized;
+};
+
 // Helper function to safely determine environment and base URL for SSR compatibility
 function getEnvironmentConfig() {
   const isProduction = import.meta.env.PROD || (typeof process !== 'undefined' && process.env.NODE_ENV === 'production');
@@ -51,14 +84,15 @@ export async function fetchOptimizedPrompt(basePrompt: string, framework: string
       payload = { success: false, error: text };
     }
     debugLog('optimize-prompt:client:response', { reqId, ok: res.ok, status: res.status, hasData: !!(payload && payload.data), keys: payload && payload.data && typeof payload.data === 'object' ? Object.keys(payload.data).length : 0, meta: payload && payload.meta });
-    if (!res.ok) {
-      const message = (payload && payload.error) ? payload.error : `HTTP ${res.status}`;
+    if (!res.ok || payload?.success === false) {
+      const message = extractPromptError(payload, res.status);
       return { success: false, error: message, data: {} };
     }
     return payload;
   } catch (err: any) {
-    debugLog('optimize-prompt:client:error', { message: err?.message });
-    return { success: false, error: err?.message || 'Request failed', data: {} };
+    const message = err?.message ? sanitizeErrorMessage(err.message) : 'Request failed';
+    debugLog('optimize-prompt:client:error', { message });
+    return { success: false, error: message, data: {} };
   }
 }
 

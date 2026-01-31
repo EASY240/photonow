@@ -120,14 +120,28 @@ export async function handler(event) {
     };
 
   } catch (e) {
-    console.error("CRITICAL FUNCTION ERROR:", e);
+    const status = Number(e?.statusCode || e?.status || e?.response?.status || e?.response?.statusCode || 500);
+    let message = typeof e?.message === 'string' ? e.message : 'Prompt request failed';
+    let code = status;
+    if (typeof e?.body === 'string') {
+      try {
+        const parsed = JSON.parse(e.body);
+        if (parsed?.error?.message) message = parsed.error.message;
+        if (parsed?.error?.metadata?.raw) message = parsed.error.metadata.raw;
+        if (typeof parsed?.error?.code === 'number') code = parsed.error.code;
+      } catch {}
+    }
+    if (code === 429 || /rate[-\s]?limit/i.test(message)) {
+      message = 'The prompt engine is temporarily rate-limited. Please try again in a minute.';
+    }
+    console.error("CRITICAL FUNCTION ERROR:", { status: code, message });
     return {
-      statusCode: 200,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      statusCode: code === 200 ? 500 : code,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
       body: JSON.stringify({
         success: false,
-        error: `Server Error: ${e && e.message ? e.message : 'Unknown error'}`,
-        meta: { errorType: e && e.name ? e.name : 'Error' }
+        error: message,
+        meta: { errorType: e && e.name ? e.name : 'Error', code }
       })
     };
   }

@@ -42,6 +42,7 @@ export default function PromptGeneratorPage() {
   const [isMounted, setIsMounted] = useState(false);
   const [recentPrompts, setRecentPrompts] = useState<string[]>([]);
   const [hasGenerated, setHasGenerated] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const ideaInputRef = useRef<HTMLTextAreaElement | null>(null);
   const animateScrollToCenter = (el: HTMLElement, duration = 400) => {
     const rect = el.getBoundingClientRect();
@@ -71,11 +72,27 @@ export default function PromptGeneratorPage() {
 
   const handleGenerate = async () => {
     if (!input.trim()) return;
+    setErrorMessage(null);
     setIsLoading(true);
+    setHasGenerated(false);
     const detected = analyzePromptIntent(input);
     setFramework(detected);
     const res = await fetchOptimizedPrompt(input, detected);
+    if (!res || !res.success) {
+      setIsLoading(false);
+      setSuggestions({});
+      setFormValues({});
+      setErrorMessage(res && res.error ? res.error : 'We could not generate a prompt right now. Please try again.');
+      return;
+    }
     const data = res && res.data ? res.data : {};
+    if (!data || Object.keys(data).length === 0) {
+      setIsLoading(false);
+      setSuggestions({});
+      setFormValues({});
+      setErrorMessage('We could not generate a prompt right now. Please try again.');
+      return;
+    }
     const keys = Object.keys(data);
     const frameworkObj = FRAMEWORKS[detected as keyof typeof FRAMEWORKS];
     const ordered = frameworkObj ? frameworkObj.fields : keys;
@@ -252,6 +269,11 @@ export default function PromptGeneratorPage() {
                 <Button size="lg" onClick={handleGenerate} isLoading={isLoading}>Generate</Button>
                 <span className="text-sm text-gray-600">Framework: {framework}</span>
               </div>
+              {errorMessage && (
+                <div className="mt-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                  {errorMessage}
+                </div>
+              )}
             </div>
 
             {fields.length > 0 && suggestions && Object.keys(suggestions).length > 0 && (

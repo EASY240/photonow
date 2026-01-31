@@ -158,8 +158,22 @@ app.post('/api/optimize-prompt', async (req, res) => {
 
     return res.json({ success: true, data: parsed || {} });
   } catch (e) {
-    console.error('optimize-prompt Error:', e);
-    return res.status(500).json({ error: e.message });
+    const status = Number(e?.statusCode || e?.status || e?.response?.status || e?.response?.statusCode || 500);
+    let message = typeof e?.message === 'string' ? e.message : 'Prompt request failed';
+    let code = status;
+    if (typeof e?.body === 'string') {
+      try {
+        const parsed = JSON.parse(e.body);
+        if (parsed?.error?.message) message = parsed.error.message;
+        if (parsed?.error?.metadata?.raw) message = parsed.error.metadata.raw;
+        if (typeof parsed?.error?.code === 'number') code = parsed.error.code;
+      } catch {}
+    }
+    if (code === 429 || /rate[-\s]?limit/i.test(message)) {
+      message = 'The prompt engine is temporarily rate-limited. Please try again in a minute.';
+    }
+    console.error('optimize-prompt Error:', { status: code, message });
+    return res.status(code === 200 ? 500 : code).json({ success: false, error: message, meta: { code } });
   }
 });
 
