@@ -8,6 +8,7 @@ import PromptsGuide from '../components/ui/PromptsGuide';
 import { SchemaJSONLD } from '../components/ui/SchemaJSONLD';
 import { tools } from '../data/tools';
 import { getVideoUrl } from '../utils/videoMapping';
+import { generateBreadcrumbSchema } from '../utils/siteConfig';
 import '../styles/video-tool-card.css';
 
 const homeFaqSchema = {
@@ -71,6 +72,10 @@ const homeFaqSchema = {
   ],
 } as const;
 
+const homeBreadcrumbSchema = generateBreadcrumbSchema([
+  { name: 'Home', path: '/' }
+]);
+
 const homeFaqItems = [
   {
     id: 'what-is-mpt',
@@ -129,7 +134,7 @@ const HomePage: React.FC = () => {
   return (
     <>
       <SEO />
-      <SchemaJSONLD data={homeFaqSchema} />
+      <SchemaJSONLD data={[homeFaqSchema, homeBreadcrumbSchema]} />
       
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-50 to-indigo-50 py-16 md:py-24">

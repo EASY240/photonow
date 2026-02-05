@@ -2,48 +2,20 @@ import fs from 'node:fs';
 import path from 'node:path';
 import url from 'node:url';
 
-// --- START: Static Route Generation ---
-// Base static pages
 const basePages = ['/', '/tools', '/blog', '/about', '/contact', '/privacy-policy', '/terms-of-use', '/dmca', '/cookies-policy'];
-
-// Tool pages (based on tools data)
-const toolPages = [
-  '/tools/prompt-generator',
-  '/tools/remove-background',
-  '/tools/ai-cleanup',
-  '/tools/ai-expand',
-  '/tools/ai-replace',
-  '/tools/ai-cartoon',
-  '/tools/ai-caricature',
-  '/tools/ai-avatar',
-  '/tools/ai-product-photoshoot',
-  '/tools/ai-background-generator',
-  '/tools/ai-image-generator',
-  '/tools/ai-portrait',
-  '/tools/ai-face-swap',
-  '/tools/ai-outfit',
-  '/tools/ai-image-to-image',
-  '/tools/ai-sketch-to-image',
-  '/tools/ai-hairstyle',
-  '/tools/ai-image-upscaler',
-  '/tools/ai-filter'
-];
-
-// Blog pages (based on blogArticles data)
-const blogPages = [
-  '/blog/ai-image-enhancement-guide',
-  '/blog/ai-background-generators-2025',
-  '/blog/best-ai-headshot-generators',
-  '/blog/ai-avatar-creation-guide',
-  '/blog/professional-headshots-ai',
-  '/blog/ai-cartoon-photo-effects',
-  '/blog/best-ai-logo-prompts', 
-  '/blog/nano-banana-3d-caricature-easy'
-];
-// --- END: Static Route Generation ---
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 const toAbsolute = (p) => path.resolve(__dirname, p);
+
+const extractIds = (source) => {
+  return Array.from(source.matchAll(/id:\s*['"]([^'"]+)['"]/g)).map((match) => match[1]);
+};
+
+const toolDataSource = fs.readFileSync(toAbsolute('src/data/tools.ts'), 'utf-8');
+const blogDataSource = fs.readFileSync(toAbsolute('src/data/blogArticles.ts'), 'utf-8');
+
+const toolPages = Array.from(new Set(extractIds(toolDataSource))).map((id) => `/tools/${id}`);
+const blogPages = Array.from(new Set(extractIds(blogDataSource))).map((id) => `/blog/${id}`);
 
 const template = fs.readFileSync(toAbsolute('dist/index.html'), 'utf-8');
 const { render } = await import('./dist/server/entry-server.js');

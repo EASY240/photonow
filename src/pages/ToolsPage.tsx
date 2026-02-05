@@ -1,17 +1,24 @@
 import React from 'react';
 import SEO from '../components/ui/SEO';
+import { SchemaJSONLD } from '../components/ui/SchemaJSONLD';
 import VideoToolCard from '../components/ui/VideoToolCard';
 import { tools } from '../data/tools';
 import { getVideoUrl } from '../utils/videoMapping';
+import { generateBreadcrumbSchema } from '../utils/siteConfig';
 import '../styles/video-tool-card.css';
 
 const ToolsPage: React.FC = () => {
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Tools', path: '/tools' }
+  ]);
   return (
     <>
       <SEO 
         title="All Photo Editing Tools" 
         description="Explore our complete collection of AI-powered photo editing tools. Transform, enhance, and perfect your images with professional results in seconds."
       />
+      <SchemaJSONLD data={breadcrumbSchema} />
       
       <div className="min-h-screen bg-gray-50 py-12 px-[10%]">
         <div className="w-full mx-auto">

@@ -1,15 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/ui/SEO';
+import { SchemaJSONLD } from '../components/ui/SchemaJSONLD';
 import Button from '../components/ui/Button';
+import { generateBreadcrumbSchema } from '../utils/siteConfig';
 
 const AboutPage: React.FC = () => {
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'About', path: '/about' }
+  ]);
   return (
     <>
       <SEO 
         title="About Us" 
         description="Learn about ModernPhotoTools.com, our mission, and how we're making professional photo editing accessible to everyone with AI-powered tools."
       />
+      <SchemaJSONLD data={breadcrumbSchema} />
       
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-50 to-indigo-50 py-16 md:py-24">

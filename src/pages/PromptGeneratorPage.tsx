@@ -8,7 +8,7 @@ import PromptGuideSection from '../components/PromptGuideSection';
 import ToolFeatureImage from '../components/ui/ToolFeatureImage';
 import { findToolImage, generateAltText } from '../utils/imageMapper';
 import SEO from '../components/ui/SEO';
-import { generateCanonicalUrl, generateOgImageUrl } from '../utils/siteConfig';
+import { generateBreadcrumbSchema, generateCanonicalUrl, generateOgImageUrl } from '../utils/siteConfig';
 import SupportBanner from '../components/ui/SupportBanner';
 
 const DEFINITIONS: Record<string, string> = {
@@ -207,6 +207,12 @@ export default function PromptGeneratorPage() {
     ],
   } as const;
 
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Tools', path: '/tools' },
+    { name: 'AI Prompt Generator', path: '/tools/prompt-generator' }
+  ]);
+
   const [featureImagePath, setFeatureImagePath] = useState<string | null>(null);
   const [featureAltText, setFeatureAltText] = useState<string>('');
 
@@ -244,7 +250,7 @@ export default function PromptGeneratorPage() {
         ogImage={featureImagePath ? generateOgImageUrl(featureImagePath) : undefined}
         canonicalUrl={generateCanonicalUrl('/tools/prompt-generator')}
       />
-      <SchemaJSONLD data={[webAppSchema, faqSchema]} />
+      <SchemaJSONLD data={[webAppSchema, faqSchema, breadcrumbSchema]} />
 
       <div className="container mx-auto px-4 py-12">
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 text-center">AI Prompt Generator</h1>

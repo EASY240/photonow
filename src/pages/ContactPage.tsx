@@ -2,9 +2,15 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, Send } from 'lucide-react';
 import SEO from '../components/ui/SEO';
+import { SchemaJSONLD } from '../components/ui/SchemaJSONLD';
 import Button from '../components/ui/Button';
+import { generateBreadcrumbSchema } from '../utils/siteConfig';
 
 const ContactPage: React.FC = () => {
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Contact', path: '/contact' }
+  ]);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -79,6 +85,7 @@ const ContactPage: React.FC = () => {
         title="Contact Us" 
         description="Have questions or feedback? Contact the ModernPhotoTools.com team. We're here to help with any inquiries about our AI photo editing tools."
       />
+      <SchemaJSONLD data={breadcrumbSchema} />
       
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-3xl mx-auto">

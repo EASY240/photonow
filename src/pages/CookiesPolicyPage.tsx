@@ -1,13 +1,20 @@
 import React from 'react';
 import SEO from '../components/ui/SEO';
+import { SchemaJSONLD } from '../components/ui/SchemaJSONLD';
+import { generateBreadcrumbSchema } from '../utils/siteConfig';
 
 const CookiesPolicyPage: React.FC = () => {
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Cookies Policy', path: '/cookies-policy' }
+  ]);
   return (
     <>
       <SEO 
         title="Cookies Policy" 
         description="Learn about how ModernPhotoTools.com uses cookies to enhance your browsing experience and improve our services."
       />
+      <SchemaJSONLD data={breadcrumbSchema} />
 
       <section className="bg-white text-gray-800 py-16 px-4 md:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">

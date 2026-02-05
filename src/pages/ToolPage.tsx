@@ -23,7 +23,7 @@ import { faceSwapStyles } from '../constants/faceSwapStyles';
 import { presetOutfitStyles, suggestedOutfitPrompts, type OutfitStyle } from '../constants/outfitStyles';
 import { hairstylePresets } from '../constants/hairstylePrompts';
 import { aiFilterStyles, filterCategories, type AIFilterStyle } from '../constants/filterStyles';
-import { generateCanonicalUrl, generateOgImageUrl } from '../utils/siteConfig';
+import { generateBreadcrumbSchema, generateCanonicalUrl, generateOgImageUrl } from '../utils/siteConfig';
 import { scrollToResultContainer, scrollToGenerateButton, debounce } from '../utils/scrollUtils';
 import { SchemaJSONLD } from '../components/ui/SchemaJSONLD';
 import SupportBanner from '../components/ui/SupportBanner';
@@ -5413,6 +5413,12 @@ const ToolPage: React.FC = () => {
     return <Navigate to="/tools" replace />;
   }
 
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Tools', path: '/tools' },
+    { name: tool.name, path: tool.path }
+  ]);
+
   const beforeImagePreview = (() => {
     if (tool.id === 'ai-face-swap') {
       return faceSwapTargetImage.preview;
@@ -6933,6 +6939,7 @@ const handleAIImageToImageGenerate = async () => {
         ogImage={toolFeatureImage.imagePath ? generateOgImageUrl(toolFeatureImage.imagePath) : undefined}
         canonicalUrl={generateCanonicalUrl(tool.path)}
       />
+      <SchemaJSONLD data={breadcrumbSchema} />
       <Helmet>
         <script type="application/ld+json">
           {JSON.stringify({

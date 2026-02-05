@@ -1,13 +1,20 @@
 import React from 'react';
 import SEO from '../components/ui/SEO';
+import { SchemaJSONLD } from '../components/ui/SchemaJSONLD';
+import { generateBreadcrumbSchema } from '../utils/siteConfig';
 
 const PrivacyPolicyPage: React.FC = () => {
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Privacy Policy', path: '/privacy-policy' }
+  ]);
   return (
     <>
       <SEO 
         title="Privacy Policy" 
         description="Learn how ModernPhotoTools.com protects your privacy and handles your data when you use our AI photo editing tools."
       />
+      <SchemaJSONLD data={breadcrumbSchema} />
       
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-50 to-indigo-50 py-16 md:py-24">

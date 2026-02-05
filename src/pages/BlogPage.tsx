@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/ui/SEO';
+import { SchemaJSONLD } from '../components/ui/SchemaJSONLD';
 import { loadBlogArticles, BlogArticleWithContent } from '../utils/blogLoader';
+import { generateBreadcrumbSchema } from '../utils/siteConfig';
 
 const BlogPage: React.FC = () => {
   const [articles, setArticles] = useState<BlogArticleWithContent[]>([]);
   const [loading, setLoading] = useState(true);
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Blog', path: '/blog' }
+  ]);
 
   useEffect(() => {
     const loadArticles = async () => {
@@ -38,6 +44,7 @@ const BlogPage: React.FC = () => {
         title="Blog" 
         description="Stay updated with the latest tips, tutorials, and news about AI photo editing and digital image processing."
       />
+      <SchemaJSONLD data={breadcrumbSchema} />
       
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
         <div className="container mx-auto px-4 py-12">

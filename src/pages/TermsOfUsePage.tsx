@@ -1,13 +1,20 @@
 import React from 'react';
 import SEO from '../components/ui/SEO';
+import { SchemaJSONLD } from '../components/ui/SchemaJSONLD';
+import { generateBreadcrumbSchema } from '../utils/siteConfig';
 
 const TermsOfUsePage: React.FC = () => {
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Terms of Use', path: '/terms-of-use' }
+  ]);
   return (
     <>
       <SEO 
         title="Terms of Use" 
         description="Read the terms and conditions for using ModernPhotoTools.com and our AI-powered photo editing services."
       />
+      <SchemaJSONLD data={breadcrumbSchema} />
 
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-50 to-indigo-50 py-16 md:py-24">

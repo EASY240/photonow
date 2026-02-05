@@ -1,13 +1,20 @@
 import React from 'react';
 import SEO from '../components/ui/SEO';
+import { SchemaJSONLD } from '../components/ui/SchemaJSONLD';
+import { generateBreadcrumbSchema } from '../utils/siteConfig';
 
 const DMCAPage: React.FC = () => {
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'DMCA', path: '/dmca' }
+  ]);
   return (
     <>
       <SEO 
         title="DMCA Notice" 
         description="Digital Millennium Copyright Act (DMCA) notice and takedown policy for ModernPhotoTools.com."
       />
+      <SchemaJSONLD data={breadcrumbSchema} />
 
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-50 to-indigo-50 py-16 md:py-24">

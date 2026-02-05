@@ -4,6 +4,7 @@ import SEO from '../components/ui/SEO';
 import { getBlogArticleById, BlogArticleWithContent } from '../utils/blogLoader';
 import ArticleNavigation from '../components/ArticleNavigation';
 import { SchemaJSONLD } from '../components/ui/SchemaJSONLD';
+import { generateBreadcrumbSchema } from '../utils/siteConfig';
 import 'img-comparison-slider/dist/styles.css';
 import 'img-comparison-slider';
 
@@ -228,6 +229,53 @@ const BlogArticlePage: React.FC = () => {
     return <Navigate to="/blog" replace />;
   }
 
+  const upscalerFaqItems = [
+    {
+      question: 'When is a free AI image upscaler good enough?',
+      answer:
+        'Free AI image upscalers are usually good enough for personal projects, social media posts, and occasional upscaling tasks where you do not need massive print sizes or strict brand consistency. If you only upscale a handful of images each month and your final output is screens rather than large-format prints, you will get excellent value from free desktop tools like Upscayl or web-based services with modest limits.'
+    },
+    {
+      question: 'When should I invest in paid AI upscaling software?',
+      answer:
+        'Paid AI upscaling software makes sense when you work with clients, print at large sizes, or process images in high volume. If you need batch processing, RAW support, consistent color, clear commercial licensing, and maximum detail retention, paid tools quickly pay for themselves. For e-commerce, print studios, agencies, or archival work, free tools rarely offer the control and reliability you need.'
+    },
+    {
+      question: 'What features matter most when comparing AI upscaling tools?',
+      answer:
+        'The most important features are maximum resolution and scale, batch processing, noise and artifact control, support for formats like TIFF or RAW, export fidelity for EXIF and color profiles, and clear licensing for commercial use. Ease of use and processing speed also matter, especially when you handle dozens or hundreds of images per week.'
+    },
+    {
+      question: 'How does Modern Photo Tools AI Image Upscaler fit into a workflow?',
+      answer:
+        'Modern Photo Tools AI Image Upscaler is ideal as a fast, browser-based step in your editing workflow. You can quickly upscale low-resolution assets, product photos, or social images without installing software or creating an account. For many users, it replaces basic desktop upscalers entirely; for professionals, it serves as a convenient first pass before deeper editing in tools like Photoshop, Topaz Gigapixel AI, or PhotoDirector.'
+    }
+  ];
+
+  const shouldShowUpscalerFaq =
+    article.id === 'free-ai-image-upscaler-vs-paid-software-when-free-is-good-enough-2026';
+
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Blog', path: '/blog' },
+    { name: article.title, path: `/blog/${articleId}` }
+  ]);
+
+  const upscalerFaqSchema = shouldShowUpscalerFaq
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: upscalerFaqItems.map((item) => ({
+          '@type': 'Question',
+          name: item.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: item.answer
+          }
+        }))
+      }
+    : null;
+
   // Render HTML content with proper styling
   const renderContent = (content: string) => {
     const sanitizedContent = content.replace(
@@ -290,52 +338,7 @@ const BlogArticlePage: React.FC = () => {
         canonicalUrl={`https://modernphototools.com/blog/${articleId}`}
         ogImage={article.featuredImage}
       />
-      {article.id === 'free-ai-image-upscaler-vs-paid-software-when-free-is-good-enough-2026' && (
-        <SchemaJSONLD
-          data={{
-            '@context': 'https://schema.org',
-            '@type': 'FAQPage',
-            mainEntity: [
-              {
-                '@type': 'Question',
-                name: 'When is a free AI image upscaler good enough?',
-                acceptedAnswer: {
-                  '@type': 'Answer',
-                  text:
-                    'Free AI image upscalers are usually good enough for personal projects, social media posts, and occasional upscaling tasks where you do not need massive print sizes or strict brand consistency. If you only upscale a handful of images each month and your final output is screens rather than large-format prints, you will get excellent value from free desktop tools like Upscayl or web-based services with modest limits.'
-                }
-              },
-              {
-                '@type': 'Question',
-                name: 'When should I invest in paid AI upscaling software?',
-                acceptedAnswer: {
-                  '@type': 'Answer',
-                  text:
-                    'Paid AI upscaling software makes sense when you work with clients, print at large sizes, or process images in high volume. If you need batch processing, RAW support, consistent color, clear commercial licensing, and maximum detail retention, paid tools quickly pay for themselves. For e-commerce, print studios, agencies, or archival work, free tools rarely offer the control and reliability you need.'
-                }
-              },
-              {
-                '@type': 'Question',
-                name: 'What features matter most when comparing AI upscaling tools?',
-                acceptedAnswer: {
-                  '@type': 'Answer',
-                  text:
-                    'The most important features are maximum resolution and scale, batch processing, noise and artifact control, support for formats like TIFF or RAW, export fidelity for EXIF and color profiles, and clear licensing for commercial use. Ease of use and processing speed also matter, especially when you handle dozens or hundreds of images per week.'
-                }
-              },
-              {
-                '@type': 'Question',
-                name: 'How does Modern Photo Tools AI Image Upscaler fit into a workflow?',
-                acceptedAnswer: {
-                  '@type': 'Answer',
-                  text:
-                    'Modern Photo Tools AI Image Upscaler is ideal as a fast, browser-based step in your editing workflow. You can quickly upscale low-resolution assets, product photos, or social images without installing software or creating an account. For many users, it replaces basic desktop upscalers entirely; for professionals, it serves as a convenient first pass before deeper editing in tools like Photoshop, Topaz Gigapixel AI, or PhotoDirector.'
-                }
-              }
-            ]
-          }}
-        />
-      )}
+      <SchemaJSONLD data={upscalerFaqSchema ? [upscalerFaqSchema, breadcrumbSchema] : breadcrumbSchema} />
       
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
         <div className="container mx-auto px-4 py-12">
@@ -392,6 +395,23 @@ const BlogArticlePage: React.FC = () => {
                   <div className="prose prose-lg max-w-none">
                     {renderContent(article.content)}
                   </div>
+
+                  {shouldShowUpscalerFaq && (
+                    <div className="mt-12 pt-8 border-t border-gray-200">
+                      <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
+                      <p className="text-gray-600 mb-6">
+                        Answers to the most common questions about choosing between free and paid AI upscaling tools.
+                      </p>
+                      <div className="space-y-4">
+                        {upscalerFaqItems.map((item) => (
+                          <div key={item.question} className="rounded-lg border border-gray-200 bg-white p-5">
+                            <h3 className="text-lg font-semibold text-gray-900 mb-2">{item.question}</h3>
+                            <p className="text-gray-700">{item.answer}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
                   <div className="mt-12 pt-8 border-t border-gray-200">
                     <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6">
