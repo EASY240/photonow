@@ -34,69 +34,73 @@ const DMCAPage: React.FC = () => {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <div className="prose prose-lg max-w-none text-gray-700">
+            <div className="space-y-8 text-gray-700">
+              <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
+                <h2 className="text-2xl font-semibold text-gray-900 mb-3">DMCA Policy Overview</h2>
+                <p>
+                  At <span className="font-semibold text-gray-900">ModernPhotoTools.com</span>, we respect the intellectual property rights of others and expect our users to do the same. This DMCA Policy outlines how we respond to copyright infringement notifications in compliance with the <em>Digital Millennium Copyright Act</em> (DMCA).
+                </p>
+              </div>
 
-              <h2>DMCA Policy Overview</h2>
-              <p>
-                At <strong>ModernPhotoTools.com</strong>, we respect the intellectual property rights of others and expect our users to do the same.
-                This DMCA Policy outlines how we respond to copyright infringement notifications in compliance with the
-                <em>Digital Millennium Copyright Act</em> (DMCA).
-              </p>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">DMCA Takedown Notice</h3>
+                  <p className="mb-4">If you believe that material on our website infringes your copyright, please submit a written notification including:</p>
+                  <ol className="list-decimal list-inside space-y-2">
+                    <li><span className="font-semibold text-gray-900">Identification</span> of the copyrighted work.</li>
+                    <li><span className="font-semibold text-gray-900">Identification</span> of the allegedly infringing material with enough detail for us to locate it.</li>
+                    <li><span className="font-semibold text-gray-900">Your contact information</span>: name, address, phone number, and email.</li>
+                    <li><span className="font-semibold text-gray-900">Statement</span> that you have a good faith belief the use is unauthorized.</li>
+                    <li><span className="font-semibold text-gray-900">Statement</span> that the notice is accurate and you are authorized to act on behalf of the copyright owner.</li>
+                    <li><span className="font-semibold text-gray-900">Your physical or electronic signature</span> (typing your full name suffices).</li>
+                  </ol>
+                  <p className="mt-4">
+                    Send your takedown notice via our <a href="/contact" className="text-blue-600 underline">Contact Page</a> and include "DMCA Takedown Notice" in the subject line.
+                  </p>
+                </div>
 
-              <h2>Submitting a DMCA Takedown Notice</h2>
-              <p>
-                If you believe that material on our website infringes your copyright, please submit a written notification including:
-              </p>
+                <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">Counter-Notification</h3>
+                  <p className="mb-4">If you believe your content was removed by mistake or misidentification, you may submit a counter-notice containing:</p>
+                  <ol className="list-decimal list-inside space-y-2">
+                    <li>Your physical or electronic signature.</li>
+                    <li>Identification of the removed material and its location prior to removal.</li>
+                    <li>A good faith statement under penalty of perjury that the removal was in error.</li>
+                    <li>Your name, address, phone number, and consent to the jurisdiction of the relevant U.S. Federal District Court.</li>
+                  </ol>
+                  <p className="mt-4">
+                    Counter-notices should also be submitted via our <a href="/contact" className="text-blue-600 underline">Contact Page</a> with "DMCA Counter Notice" in the subject.
+                  </p>
+                </div>
+              </div>
 
-              <ol>
-                <li><strong>Identification</strong> of the copyrighted work.</li>
-                <li><strong>Identification</strong> of the allegedly infringing material with enough detail for us to locate it.</li>
-                <li><strong>Your contact information</strong>: name, address, phone number, and email.</li>
-                <li><strong>Statement</strong> that you have a good faith belief the use is unauthorized.</li>
-                <li><strong>Statement</strong> that the notice is accurate and you are authorized to act on behalf of the copyright owner.</li>
-                <li><strong>Your physical or electronic signature</strong> (typing your full name suffices).</li>
-              </ol>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="rounded-2xl bg-blue-50 border border-blue-100 p-5">
+                  <h3 className="text-lg font-semibold text-blue-900 mb-2">Repeat Infringers</h3>
+                  <p className="text-blue-900">
+                    We may terminate accounts or restrict access for users who repeatedly violate copyright policies.
+                  </p>
+                </div>
+                <div className="rounded-2xl bg-amber-50 border border-amber-100 p-5">
+                  <h3 className="text-lg font-semibold text-amber-900 mb-2">False Claims Warning</h3>
+                  <p className="text-amber-900">
+                    Under Section 512(f) of the DMCA, anyone who knowingly submits false claims may be liable for damages, including costs and attorney’s fees.
+                  </p>
+                </div>
+                <div className="rounded-2xl bg-emerald-50 border border-emerald-100 p-5">
+                  <h3 className="text-lg font-semibold text-emerald-900 mb-2">No Legal Advice</h3>
+                  <p className="text-emerald-900">
+                    This DMCA page is provided for informational purposes only and does not constitute legal advice.
+                  </p>
+                </div>
+              </div>
 
-              <p>
-                Send your takedown notice via our <a href="/contact" className="text-blue-600 underline">Contact Page</a> and include "DMCA Takedown Notice" in the subject line.
-              </p>
-
-              <h2>Submitting a Counter-Notification</h2>
-              <p>
-                If you believe your content was removed by mistake or misidentification, you may submit a counter-notice containing:
-              </p>
-
-              <ol>
-                <li>Your physical or electronic signature.</li>
-                <li>Identification of the removed material and its location prior to removal.</li>
-                <li>A good faith statement under penalty of perjury that the removal was in error.</li>
-                <li>Your name, address, phone number, and consent to the jurisdiction of the relevant U.S. Federal District Court.</li>
-              </ol>
-
-              <p>
-                Counter-notices should also be submitted via our <a href="/contact" className="text-blue-600 underline">Contact Page</a> with "DMCA Counter Notice" in the subject.
-              </p>
-
-              <h2>Repeat Infringers</h2>
-              <p>
-                We may terminate accounts or restrict access for users who repeatedly violate copyright policies.
-              </p>
-
-              <h2>False Claims Warning</h2>
-              <p>
-                Under Section 512(f) of the DMCA, anyone who knowingly submits false claims may be liable for damages, including costs and attorney’s fees.
-              </p>
-
-              <h2>No Legal Advice</h2>
-              <p>
-                This DMCA page is provided for informational purposes only and does not constitute legal advice. Please consult a qualified attorney for legal guidance.
-              </p>
-
-              <h2>Contact Information</h2>
-              <p>
-                For DMCA-related issues, please reach out via our <a href="/contact" className="text-blue-600 underline">Contact Page</a> with "DMCA" in the subject line.
-              </p>
-
+              <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">Contact Information</h3>
+                <p>
+                  For DMCA-related issues, please reach out via our <a href="/contact" className="text-blue-600 underline">Contact Page</a> with "DMCA" in the subject line.
+                </p>
+              </div>
             </div>
           </div>
         </div>

@@ -47,6 +47,17 @@ const PrivacyPolicyPage: React.FC = () => {
               </section>
 
               <section className="mb-8">
+                <h2 className="text-2xl font-semibold mb-2">Data Processing</h2>
+                <ul className="list-disc list-inside space-y-2">
+                  <li>Uploaded images are processed temporarily</li>
+                  <li>Images are NOT stored permanently on our servers</li>
+                  <li>Images are automatically deleted after 24 hours</li>
+                  <li>We do NOT use your images to train AI models</li>
+                  <li>We do NOT share your images with third parties</li>
+                </ul>
+              </section>
+
+              <section className="mb-8">
                 <h2 className="text-2xl font-semibold mb-2">Information We Collect</h2>
 
                 <h3 className="text-xl font-medium mt-4 mb-1">📷 Images & Files</h3>

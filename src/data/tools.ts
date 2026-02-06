@@ -154,13 +154,4 @@ export const tools: Tool[] = [
     apiEndpoint: '/api/external/api/v2/ai-filter'
   },
 
-  {
-    id: 'watermark-remover',
-    name: 'Watermark Remover',
-    description: 'Automatically detect and remove watermarks, logos, and text overlays',
-    icon: 'erase',
-    path: '/tools/watermark-remover',
-    apiEndpoint: '/api/external/api/v2/watermark-remover'
-  },
-
 ];

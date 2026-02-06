@@ -104,6 +104,11 @@ const Footer: React.FC = () => {
                   Cookies Policy
                 </Link>
               </li>
+              <li>
+                <Link to="/acceptable-use" className="text-gray-600 hover:text-blue-600 transition-colors">
+                  Acceptable Use Policy
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

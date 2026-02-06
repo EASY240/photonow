@@ -17,6 +17,7 @@ import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import TermsOfUsePage from './pages/TermsOfUsePage';
 import DMCAPage from './pages/DMCAPage';
 import CookiesPolicyPage from './pages/CookiesPolicyPage';
+import AcceptableUsePolicyPage from './pages/AcceptableUsePolicyPage';
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
           <Route path="/terms-of-use" element={<TermsOfUsePage />} />
           <Route path="/dmca" element={<DMCAPage />} />
           <Route path="/cookies-policy" element={<CookiesPolicyPage />} />
+          <Route path="/acceptable-use" element={<AcceptableUsePolicyPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>

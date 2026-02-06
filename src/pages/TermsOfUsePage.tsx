@@ -48,6 +48,27 @@ const TermsOfUsePage: React.FC = () => {
               </section>
 
               <section className="mb-8">
+                <h2 className="text-2xl font-semibold mb-2">Prohibited Uses</h2>
+                <p>You may NOT use our tools to:</p>
+                <ol className="list-decimal list-inside space-y-2">
+                  <li>Remove watermarks, logos, or copyright notices from images you do not own or do not have explicit permission to modify</li>
+                  <li>Infringe on intellectual property rights of photographers, artists, or content creators</li>
+                  <li>Bypass digital rights management (DRM) or copyright protection</li>
+                  <li>Generate images that violate others' copyrights, trademarks, or other intellectual property rights</li>
+                  <li>Create misleading, deceptive, or fraudulent content</li>
+                </ol>
+              </section>
+
+              <section className="mb-8">
+                <h2 className="text-2xl font-semibold mb-2">User Responsibility</h2>
+                <ul className="list-disc list-inside space-y-2">
+                  <li>You are solely responsible for ensuring you have the legal right to edit any image you upload</li>
+                  <li>You confirm that your use complies with all applicable laws</li>
+                  <li>We reserve the right to suspend access for violations</li>
+                </ul>
+              </section>
+
+              <section className="mb-8">
                 <h2 className="text-2xl font-semibold mb-2">Use License</h2>
                 <p>
                   You are granted a temporary, non-exclusive license to use ModernPhotoTools.com for personal, non-commercial purposes only. Under this license, you may not:

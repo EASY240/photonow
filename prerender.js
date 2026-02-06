@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import url from 'node:url';
 
-const basePages = ['/', '/tools', '/blog', '/about', '/contact', '/privacy-policy', '/terms-of-use', '/dmca', '/cookies-policy'];
+const basePages = ['/', '/tools', '/blog', '/about', '/contact', '/privacy-policy', '/terms-of-use', '/dmca', '/cookies-policy', '/acceptable-use'];
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 const toAbsolute = (p) => path.resolve(__dirname, p);

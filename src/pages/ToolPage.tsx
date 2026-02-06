@@ -5419,6 +5419,35 @@ const ToolPage: React.FC = () => {
     { name: tool.name, path: tool.path }
   ]);
 
+  const usageNotice = tool.id === 'ai-image-generator'
+    ? {
+        title: 'Use Responsibly',
+        items: [
+          'Generated images must respect copyright and trademark rights.',
+          'You are responsible for ensuring you have rights to any prompts or reference content.',
+          'Do not create content that violates others’ privacy or legal rights.'
+        ]
+      }
+    : tool.id === 'ai-replace'
+      ? {
+          title: 'Use Responsibly',
+          items: [
+            'Only replace objects in images you own or have permission to edit.',
+            'Do not create misleading or deceptive images.',
+            'Respect others’ privacy and rights.'
+          ]
+        }
+      : tool.id === 'ai-portrait'
+        ? {
+            title: 'Ethical Use',
+            items: [
+              'For enhancing your own photos.',
+              'Not for deepfakes or identity manipulation.',
+              'Respect portrait subjects’ consent.'
+            ]
+          }
+        : null;
+
   const beforeImagePreview = (() => {
     if (tool.id === 'ai-face-swap') {
       return faceSwapTargetImage.preview;
@@ -6984,6 +7013,16 @@ const handleAIImageToImageGenerate = async () => {
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               {tool.description}
             </p>
+            {usageNotice && (
+              <div className="mt-6 max-w-2xl mx-auto rounded-lg border border-amber-200 bg-amber-50 px-6 py-4 text-left">
+                <h2 className="text-base font-semibold text-amber-900 mb-2">{usageNotice.title}</h2>
+                <ul className="list-disc list-inside space-y-1 text-amber-900">
+                  {usageNotice.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
           
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">

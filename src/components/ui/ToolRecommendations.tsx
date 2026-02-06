@@ -20,7 +20,6 @@ const ToolRecommendations: React.FC<ToolRecommendationsProps> = ({
     const recommendationMap: Record<string, string[]> = {
       'remove-background': ['ai-background-generator', 'ai-product-photoshoot', 'ai-expand'],
       'ai-cleanup': ['ai-image-upscaler', 'ai-filter', 'ai-expand'],
-      'watermark-remover': ['ai-cleanup', 'ai-image-upscaler', 'ai-filter'],
       'ai-expand': ['ai-background-generator', 'ai-cleanup', 'ai-filter'],
       'ai-replace': ['ai-cleanup', 'ai-background-generator', 'ai-expand'],
       'ai-cartoon': ['ai-caricature', 'ai-avatar', 'ai-portrait'],
