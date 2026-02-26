@@ -265,43 +265,43 @@ metaDescription: "Compare free and paid AI image upscalers side by side in 2026.
   </section>
 
   <!-- FAQ -->
-  <section id="faq" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/FAQPage">
+  <section id="faq">
     <h2>Frequently Asked Questions About AI Image Upscaling</h2>
 
     <div class="faq-container">
 
-      <div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
-        <h3 class="faq-question" itemprop="name">When is a free AI image upscaler good enough?</h3>
-        <div class="faq-answer" itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-          <p itemprop="text">Free AI upscalers are sufficient for personal projects, social media, and screen-only output below 4K. If you upscale fewer than 10 images per month and your deliverable is not a large print or a client file, a free tool will meet your needs without meaningful compromise.</p>
+      <div class="faq-item">
+        <h3 class="faq-question">When is a free AI image upscaler good enough?</h3>
+        <div class="faq-answer">
+          <p>Free AI upscalers are sufficient for personal projects, social media, and screen-only output below 4K. If you upscale fewer than 10 images per month and your deliverable is not a large print or a client file, a free tool will meet your needs without meaningful compromise.</p>
         </div>
       </div>
 
-      <div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
-        <h3 class="faq-question" itemprop="name">When should I invest in paid AI upscaling software?</h3>
-        <div class="faq-answer" itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-          <p itemprop="text">Paid software becomes necessary when you need batch processing, RAW file support, TIFF export, 300 DPI output for large-format printing, Photoshop integration, or clear commercial licensing for client deliverables. At professional volume, the time saved by batch processing alone pays for the subscription within weeks.</p>
+      <div class="faq-item">
+        <h3 class="faq-question">When should I invest in paid AI upscaling software?</h3>
+        <div class="faq-answer">
+          <p>Paid software becomes necessary when you need batch processing, RAW file support, TIFF export, 300 DPI output for large-format printing, Photoshop integration, or clear commercial licensing for client deliverables. At professional volume, the time saved by batch processing alone pays for the subscription within weeks.</p>
         </div>
       </div>
 
-      <div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
-        <h3 class="faq-question" itemprop="name">What features matter most when comparing AI upscaling tools?</h3>
-        <div class="faq-answer" itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-          <p itemprop="text">The most important features are maximum scale factor, batch processing, noise and artifact control, format support (especially RAW and TIFF), EXIF and ICC profile retention, and commercial licensing terms. Processing speed and specialized AI models for specific content types (portraits, landscapes, illustrations) also affect real-world output quality significantly.</p>
+      <div class="faq-item">
+        <h3 class="faq-question">What features matter most when comparing AI upscaling tools?</h3>
+        <div class="faq-answer">
+          <p>The most important features are maximum scale factor, batch processing, noise and artifact control, format support (especially RAW and TIFF), EXIF and ICC profile retention, and commercial licensing terms. Processing speed and specialized AI models for specific content types (portraits, landscapes, illustrations) also affect real-world output quality significantly.</p>
         </div>
       </div>
 
-      <div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
-        <h3 class="faq-question" itemprop="name">How does Modern Photo Tools AI Image Upscaler compare to Topaz Gigapixel AI?</h3>
-        <div class="faq-answer" itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-          <p itemprop="text">Modern Photo Tools AI Upscaler is a free, browser-based tool requiring no installation or signup—ideal for fast upscaling of standard JPEG and PNG files up to 4x. Topaz Gigapixel AI is a paid desktop application that supports RAW files, 6x+ upscaling, batch processing, Photoshop integration, and independent control over noise and detail parameters. For screen output and personal use, Modern Photo Tools is the faster and more accessible choice. For professional print and client work, Topaz provides the quality ceiling and workflow integration that justifies the cost.</p>
+      <div class="faq-item">
+        <h3 class="faq-question">How does Modern Photo Tools AI Image Upscaler compare to Topaz Gigapixel AI?</h3>
+        <div class="faq-answer">
+          <p>Modern Photo Tools AI Upscaler is a free, browser-based tool requiring no installation or signup—ideal for fast upscaling of standard JPEG and PNG files up to 4x. Topaz Gigapixel AI is a paid desktop application that supports RAW files, 6x+ upscaling, batch processing, Photoshop integration, and independent control over noise and detail parameters. For screen output and personal use, Modern Photo Tools is the faster and more accessible choice. For professional print and client work, Topaz provides the quality ceiling and workflow integration that justifies the cost.</p>
         </div>
       </div>
 
-      <div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
-        <h3 class="faq-question" itemprop="name">Can free AI upscalers produce print-quality results?</h3>
-        <div class="faq-answer" itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-          <p itemprop="text">For small prints (up to 8×10 inches at 300 DPI), free tools can produce acceptable results from high-quality source images. For larger formats—16×24 inches and above—the resolution caps of most free tools (typically 4K output maximum) fall short of the pixel count required. Additionally, free tools output JPEG rather than lossless TIFF, which introduces compression artifacts that compound when reproduced at large scale.</p>
+      <div class="faq-item">
+        <h3 class="faq-question">Can free AI upscalers produce print-quality results?</h3>
+        <div class="faq-answer">
+          <p>For small prints (up to 8×10 inches at 300 DPI), free tools can produce acceptable results from high-quality source images. For larger formats—16×24 inches and above—the resolution caps of most free tools (typically 4K output maximum) fall short of the pixel count required. Additionally, free tools output JPEG rather than lossless TIFF, which introduces compression artifacts that compound when reproduced at large scale.</p>
         </div>
       </div>
 

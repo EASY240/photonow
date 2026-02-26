@@ -7,7 +7,7 @@ readTime: 18 min read
 category: general
 featuredImage: https://storage.googleapis.com/48877118-7272-4a4d-b302-0465d8aa4548/0cd66b1e-46e8-4f6e-a6dd-3d571e79013d/43b3a8d0-02da-49a5-91b1-4a27d9f12e48.jpg
 keywords: ["Easter card messages", "Easter greetings 2026", "Easter card ideas", "how to write Easter card", "holiday card messages", "Easter wishes", "religious Easter messages", "funny Easter messages", "Easter message for family", "professional Easter greetings"]
-metaTitle: 100+ Easter Card Messages in 2026: How to Write the Perfect Greeting | Modern PhotoTools
+metaTitle: "100+ Easter Card Messages in 2026: How to Write the Perfect Greeting | Modern PhotoTools"
 metaDescription: Learn exactly how to write Easter card messages for every relationship—religious, funny, heartfelt, or professional. 100+ ready-to-use examples included.
 faqSchema: {
   "@context": "https://schema.org",
