@@ -1,16 +1,15 @@
 ---
 id: how-to-restore-old-family-photos
-title: "How to Restore Old Family Photos: A Step-by-Step AI Guide"
-excerpt: "Learn how to breathe new life into damaged family photos with AI photo restoration. Our step-by-step guide shows you how to fix scratches, enhance details, and preserve precious memories."
-publishDate: "2025-010-18"
+title: "How to Restore Old Family Photos with AI: Step-by-Step Guide 2026"
+excerpt: "A complete step-by-step guide to restoring old and damaged family photos using AI tools. Learn how to digitize, repair scratches and tears, enhance facial details, colorize black-and-white images, and export archive-quality results."
+publishDate: "2025-10-18"
 readTime: "12 min read"
 category: tutorial
 featuredImage: "https://storage.googleapis.com/48877118-7272-4a4d-b302-0465d8aa4548/0b16f7b9-eb19-45a7-b6af-e1473db97d56/6ff08068-9649-4f10-9595-ddd7a339576e.jpg"
 relatedTool: "ai-image-upscaler"
-keywords: ["AI photo restoration", "restore old photos", "family photo restoration", "AI image upscaler", "photo repair", "digital photo restoration"]
-metaTitle: "How to Restore Old Family Photos: A Step-by-Step AI Guide"
-metaDescription: "Learn how to breathe new life into damaged family photos with AI photo restoration. Our step-by-step guide shows you how to fix scratches, enhance details, and preserve precious memories."
-
+keywords: ["AI photo restoration", "restore old photos", "how to restore old family photos", "AI image upscaler", "old photo repair", "digital photo restoration", "colorize black and white photos", "fix damaged photos AI", "photo restoration guide 2026"]
+metaTitle: "How to Restore Old Family Photos with AI: Complete Step-by-Step Guide 2026"
+metaDescription: "Learn exactly how to restore old and damaged family photos with AI. Step-by-step process from scanning to export—fix scratches, enhance faces, colorize B&W images, no technical skills required."
 faqSchema: {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -20,15 +19,15 @@ faqSchema: {
       "name": "Can AI restore any damaged photo?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "AI can restore most damaged photos, but results vary based on damage severity. Our tool works best with photos that have scratches, tears, fading, and blurriness. Extremely damaged photos with large missing sections may have limitations, but you'll be surprised by what modern AI can accomplish."
+        "text": "AI restores most damaged photos effectively—scratches, tears, fading, blurriness, and staining all respond well. Photos with large physically missing sections (more than 20-30% of the image area) have inherent limitations because the AI must reconstruct content it cannot reference. For these cases, multiple restoration passes focusing first on structural damage, then on detail enhancement, produce the best achievable results."
       }
     },
     {
-      "@type": "Question", 
+      "@type": "Question",
       "name": "Will AI photo restoration change how people look in my photos?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Our AI is designed to enhance while preserving authenticity. It improves clarity and detail but maintains the original appearance and expressions of people in your photos. The goal is restoration, not alteration."
+        "text": "AI restoration is designed to enhance existing detail, not alter identity. It improves facial clarity and sharpness from what is already in the photo—it does not change bone structure, expressions, or distinguishing features. The goal is recovery of what was originally there, not generative replacement."
       }
     },
     {
@@ -36,325 +35,399 @@ faqSchema: {
       "name": "How accurate is AI colorization for black and white photos?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "AI colorization has become remarkably accurate. The algorithm analyzes context clues and historical data to apply natural, period-appropriate colors. While not 100% historically accurate in every detail, the results are usually very convincing and bring new life to black and white photos."
+        "text": "AI colorization produces convincing, natural-looking results for skin tones, foliage, sky, and common fabrics. It is contextually informed—analyzing image content and era indicators to apply period-appropriate colors. It is not historically verified: specific garment colors, interior paint, or personal details may differ from the original. Review colorized output critically for any historically significant images."
       }
     },
     {
       "@type": "Question",
-      "name": "Is my data safe when using your AI photo restoration tool?",
+      "name": "Is my data safe when using the AI photo restoration tool?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes, we take privacy seriously. Your uploaded photos are processed securely and are not stored permanently on our servers. All uploads are automatically deleted after processing, and we never use your personal photos for AI training without explicit consent."
+        "text": "Uploaded photos are processed securely and deleted automatically after processing. They are not stored permanently on the server and are not used for AI training without explicit consent. Do not upload documents or images containing sensitive personal information beyond the photo content itself."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What scan resolution gives the best AI restoration results?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "300 DPI is the minimum for adequate AI processing. 600 DPI is recommended for standard prints and produces noticeably better edge recovery and detail reconstruction. For small original photos (wallet size, passport photos), scan at 1200 DPI to give the AI sufficient pixel data to work with. Save as uncompressed TIFF or maximum-quality JPEG before uploading."
       }
     }
   ]
 }
 ---
 
+<style>.styled-container *{box-sizing:border-box}.styled-container{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff}.styled-container h1,.styled-container h2,.styled-container h3,.styled-container h4,.styled-container h5,.styled-container h6{line-height:1.2;font-weight:700}.styled-container h1{font-size:32px;margin-bottom:16px}.styled-container h2{font-size:28px;margin-bottom:12px}.styled-container h3{font-size:24px;margin-bottom:12px}.styled-container h4{font-size:20px;margin-bottom:8px}.styled-container p,.styled-container ul,.styled-container ol{margin-bottom:1.5em}.styled-container a:not([class]){color:#3498db;text-decoration:none;transition:color .3s}.styled-container a:not([class]):hover{color:#2980b9}.styled-container img{max-width:100%;height:auto}.styled-container .cta-btn{display:inline-block;width:fit-content;padding:12px 24px;background-color:#3498db;color:#fff;font-weight:700;font-size:16px;text-align:center;text-decoration:none;border-radius:4px;border:none;cursor:pointer;transition:all .3s ease;box-shadow:0 4px 6px rgba(0,0,0,.1);margin:10px 0}.styled-container .cta-btn:hover{background-color:#2980b9;color:#fff;transform:translateY(-2px);box-shadow:0 6px 8px rgba(0,0,0,.15)}.styled-container .cta-btn-large{padding:16px 32px;font-size:18px}.styled-container .cta-block{background-color:#f8f9fa;border-radius:8px;padding:30px;margin:30px 0;text-align:center;border:1px solid #e9ecef;display:flex;flex-direction:column;align-items:center}.styled-container .cta-block-title{font-size:24px;font-weight:700;margin-bottom:15px;color:#333}.styled-container .cta-block-text{font-size:16px;margin-bottom:16px;color:#555}.styled-container .custom-list{list-style:none;padding:0;margin:20px 0}.styled-container .custom-list li{padding:10px 0 10px 25px;position:relative;margin-bottom:10px;border-bottom:1px solid #eee}.styled-container .custom-list li:before{content:"";position:absolute;left:0;top:16px;width:14px;height:14px;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%233498db"><circle cx="12" cy="12" r="6"/></svg>');background-size:contain;background-repeat:no-repeat}.styled-container .list-numbers{counter-reset:list-counter;list-style:none;padding:0;margin:20px 0}.styled-container .list-numbers li{counter-increment:list-counter;padding:10px 0 10px 45px;position:relative;margin-bottom:15px}.styled-container .list-numbers li:before{content:counter(list-counter);position:absolute;left:0;top:8px;width:30px;height:30px;background-color:#3498db;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold}.styled-container .img-container{margin:20px 0;text-align:center}.styled-container .img-container img{border-radius:8px;max-width:100%}.styled-container .two-columns{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin:20px 0}.styled-container .three-columns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin:20px 0}.styled-container .column-card{height:100%;background-color:#fff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1);padding:20px;display:flex;flex-direction:column}.styled-container .faq-item{margin-bottom:15px;border:1px solid #e0e0e0;border-radius:8px;overflow:hidden}.styled-container .faq-question{padding:15px 20px;background-color:#f8f9fa;font-weight:600;position:relative;border-bottom:1px solid #e0e0e0}.styled-container .faq-answer{padding:20px;background-color:#fff}.styled-container .highlight-box{padding:20px;background-color:#fff8e1;border-left:5px solid #ffc107;margin:20px 0;border-radius:0 4px 4px 0}.styled-container .info-box{padding:20px;background-color:#e3f2fd;border-left:4px solid #2563eb;margin:20px 0;border-radius:0 4px 4px 0}.styled-container .warning-box{padding:20px;background-color:#fff3e0;border-left:5px solid #ff9800;margin:20px 0;border-radius:0 4px 4px 0}.styled-container .blockquote{display:flex;flex-direction:column;font-size:18px;font-style:italic;margin:25px 0;padding:20px 30px;border-left:4px solid #2563eb;background-color:#f8f9fa;color:#555;position:relative}.styled-container .table-of-contents{border:1px solid #e0e0e0;background:#fafafa;border-radius:12px;padding:16px;margin:16px 0 24px}.styled-container .table-of-contents h2{margin-top:0}.styled-container .toc-list{list-style:none;padding:0}.styled-container .toc-list li{margin:8px 0}.styled-container .toc-list a{font-weight:600;color:#3498db}.styled-container .step-block{background:#f8f9fa;border-left:4px solid #3498db;border-radius:0 12px 12px 0;padding:16px 20px;margin:16px 0}.styled-container .step-number{font-size:0.85rem;font-weight:700;color:#3498db;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px}@media(max-width:768px){.styled-container .two-columns,.styled-container .three-columns{grid-template-columns:1fr;gap:20px}}.video-embed{border-radius:12px;overflow:hidden;margin:20px 0;position:relative;padding-bottom:56.25%;height:0}.video-embed iframe{position:absolute;top:0;left:0;width:100%;height:100%}</style>
 
-      <title>How to Restore Old Family Photos: A Step-by-Step AI Guide</title>
-      <style>.styled-container *{box-sizing:border-box}.styled-container{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff}.styled-container h1,.styled-container h2,.styled-container h3,.styled-container h4,.styled-container h5,.styled-container h6{line-height:1.2;font-weight:700}.styled-container h1.elementor-heading-title,.styled-container h2.elementor-heading-title,.styled-container h3.elementor-heading-title,.styled-container h4.elementor-heading-title,.styled-container h5.elementor-heading-title,.styled-container h6.elementor-heading-title{color:var(--head-color)}.styled-container h1{font-size:32px;margin-bottom:16px}.styled-container h2{font-size:28px;margin-bottom:12px}.styled-container h3{font-size:24px;margin-bottom:12px}.styled-container h4{font-size:20px;margin-bottom:8px}.styled-container h5{font-size:18px;margin-bottom:8px}.styled-container h6{font-size:16px;margin-bottom:8px}.styled-container p,.styled-container ul,.styled-container ol{margin-bottom:1.5em}.styled-container a:not([class]){color:#3498db;text-decoration:none;transition:color .3s}.styled-container a:not([class]):hover{color:#2980b9}.styled-container img{max-width:100%;height:auto}.styled-container .section-gap{margin:60px 0}.styled-container .section-gap-small{margin:30px 0}.styled-container .cta-btn,.styled-container .elementor-widget-button.cta-btn a{display:inline-block;width:fit-content;padding:12px 24px;background-color:#3498db;color:#fff;font-weight:700;font-size:16px;text-align:center;text-decoration:none;border-radius:4px;border:none;cursor:pointer;transition:all .3s ease;box-shadow:0 4px 6px rgba(0,0,0,.1);margin:10px 0}.styled-container .cta-btn:hover,.styled-container .elementor-widget-button.cta-btn a:hover{background-color:#2980b9;color:#fff;transform:translateY(-2px);box-shadow:0 6px 8px rgba(0,0,0,.15)}.styled-container .cta-btn-secondary{background-color:#27ae60}.styled-container .cta-btn-secondary:hover{background-color:#219653}.styled-container .cta-btn-accent,.styled-container .elementor-element.cta-btn-accent a{background-color:#e74c3c}.styled-container .cta-btn-accent:hover,.styled-container .elementor-element.cta-btn-accent a:hover{background-color:#c0392b}.styled-container .cta-block{background-color:#f8f9fa;border-radius:8px;padding:30px;margin:30px 0;text-align:center;border:1px solid #e9ecef;display:flex;flex-direction:column;align-items:center}.styled-container .elementor-element.cta-block{display:flow}.styled-container .cta-block-title{font-size:24px;font-weight:700;margin-bottom:15px;color:#333}.styled-container .cta-block-text{font-size:16px;margin-bottom:16px;color:#555}.styled-container .cta-btn-small{padding:8px 16px;font-size:14px}.styled-container .cta-btn-large{padding:16px 32px;font-size:18px}.styled-container .cta-btn-full{display:block;width:100%}.styled-container .cta-btn-display{display:flex;justify-content:center;align-items:center;margin:28px 0;gap:16px;flex-wrap:wrap;position:relative}.styled-container .cta-btn-icon{display:inline-flex;align-items:center;justify-content:center;margin-right:10px;font-size:1.2em;transform:translateY(-1px);transition:transform .2s ease}.styled-container .cta-btn:hover .cta-btn-icon{transform:translateY(-1px) scale(1.15)}.styled-container form{width:100%}.styled-container .form-container{background-color:#fff;border-radius:8px;padding:25px;margin:20px 0;box-shadow:0 2px 10px rgba(0,0,0,.1);border:1px solid #ddd;overflow:hidden}.styled-container .form-group{margin-bottom:20px;width:100%}.styled-container .form-label{display:block;margin-bottom:8px;font-weight:600;color:#333}.styled-container .form-input{width:100%;padding:12px 15px;border:1px solid #ced4da;border-radius:4px;font-size:16px;transition:border-color .3s}.styled-container select.form-input{-webkit-appearance:none;-moz-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23666' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 15px center;padding-right:2.5rem;background-color:#fff}.styled-container .form-input:focus{border-color:#3498db;outline:none;box-shadow:0 0 0 3px rgba(52,152,219,.25)}.styled-container .form-textarea{width:100%;min-height:120px;resize:vertical;padding:12px 15px;border:1px solid #ced4da;border-radius:4px;transition:border-color .3s}.styled-container .form-textarea:focus{border-color:#3498db;outline:none;box-shadow:0 0 0 3px rgba(52,152,219,.25)}.styled-container .form-btn{padding:12px 20px;background-color:#3498db;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:16px;font-weight:600;transition:background-color .3s;width:auto}.styled-container .form-btn:hover{background-color:#2980b9}.styled-container .form-help{margin-top:12px}.styled-container .cta-block .cta-block-buttons{margin:0}.styled-container .cta-block-primary{background-color:#f0f6ff;border-left:4px solid #2563eb;position:relative;overflow:hidden}.styled-container .cta-block-secondary{background-color:#ecfdf5;border-left:4px solid #10b981;position:relative;overflow:hidden}.styled-container .cta-block-accent{background-color:#fef2f2;border-left:4px solid #ef4444;position:relative;overflow:hidden}.styled-container .cta-block-buttons{display:flex;justify-content:center;align-items:center;gap:16px;flex-wrap:wrap;margin:16px 0 0;position:relative;z-index:2}@media(max-width: 576px){.styled-container .cta-block-buttons{flex-direction:column;gap:12px}.styled-container .cta-block-buttons .cta-btn{width:100%}}.styled-container .card{display:flex;flex-direction:column;height:fit-content;border-radius:8px;overflow:hidden;margin:20px 0;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,.1);background-color:#fff;border:1px solid #e0e0e0;transition:transform .3s,box-shadow .3s}.styled-container .card.elementor-element{padding-bottom:0}.styled-container .card .elementor-widget-container ol li::marker,.styled-container .card .elementor-widget-container ul li::marker,.styled-container .two-columns .elementor-widget-container ol li::marker,.styled-container .two-columns .elementor-widget-container ul li::marker{content:none}.styled-container .card:hover{transform:translateY(-5px);box-shadow:0 8px 15px rgba(0,0,0,.15)}.styled-container .card-img{width:100%;height:auto;display:block}.styled-container .card-content{flex-grow:1;padding:0}.styled-container .card-title{font-size:20px;font-weight:700;margin-bottom:10px;color:#333;word-wrap:break-word}.styled-container .card-text{font-size:16px;color:#555;margin-bottom:15px;line-height:1.5}.styled-container .card-footer{margin-top:auto;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:15px 20px;background-color:#f8f9fa;border-top:1px solid #e0e0e0;margin-left:-20px;margin-right:-20px;margin-bottom:-20px}.styled-container .card-footer.e-con{--width: auto}.styled-container .card-footer.e-con,.styled-container .card-footer.e-con>.e-con-inner{display:flow}.styled-container .card-footer .elementor-button-wrapper{justify-content:center;display:flex}.styled-container .card-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));gap:20px;margin:20px 0}.styled-container .card-grid .card{margin:0;height:100%}.styled-container .pros-cons{display:flex;flex-wrap:wrap;gap:20px;margin:25px 0}.styled-container .pros,.styled-container .cons{flex:1;min-width:300px;padding:20px;border-radius:8px}.styled-container .pros{background-color:#e9f7ef;border:1px solid #d5f5e3}.styled-container .cons{background-color:#fdedec;border:1px solid #f5b7b1}.styled-container .pros-title,.styled-container .cons-title{font-size:18px;font-weight:700;margin-bottom:15px;display:flex;align-items:center}.styled-container .pros-title:before{content:"✓";color:#27ae60;margin-right:10px;font-weight:bold}.styled-container .cons-title:before{content:"✗";color:#e74c3c;margin-right:10px;font-weight:bold}.styled-container [dir=rtl] .pros-title:before,.styled-container [dir=rtl] .cons-title:before{margin-right:0;margin-left:10px}.styled-container .pros ul,.styled-container .cons ul{margin:0;padding-left:30px}.styled-container .pros li,.styled-container .cons li{margin-bottom:8px;line-height:1.5}.styled-container .rating-container{padding:24px;display:flex;flex-wrap:wrap;gap:24px;align-items:stretch;border-bottom:1px solid #f0f0f0;margin-bottom:20px}.styled-container .elementor-element.rating-container,.styled-container .elementor-element.rating-container .elementor-widget-container{width:100%}.styled-container .rating-overall{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding-right:24px;border-right:1px solid #f0f0f0}.styled-container .rating-score{font-size:36px;font-weight:700;color:#333;line-height:1;margin-bottom:8px}.styled-container .rating-stars[data-rating="0"]{--rating: 0}.styled-container .rating-stars[data-rating="0.5"]{--rating: 0.5}.styled-container .rating-stars[data-rating="1"]{--rating: 1}.styled-container .rating-stars[data-rating="1.5"]{--rating: 1.5}.styled-container .rating-stars[data-rating="2"]{--rating: 2}.styled-container .rating-stars[data-rating="2.5"]{--rating: 2.5}.styled-container .rating-stars[data-rating="3"]{--rating: 3}.styled-container .rating-stars[data-rating="3.5"]{--rating: 3.5}.styled-container .rating-stars[data-rating="4"]{--rating: 4}.styled-container .rating-stars[data-rating="4.1"]{--rating: 4.1}.styled-container .rating-stars[data-rating="4.2"]{--rating: 4.2}.styled-container .rating-stars[data-rating="4.3"]{--rating: 4.3}.styled-container .rating-stars[data-rating="4.4"]{--rating: 4.4}.styled-container .rating-stars[data-rating="4.5"]{--rating: 4.5}.styled-container .rating-stars[data-rating="4.6"]{--rating: 4.6}.styled-container .rating-stars[data-rating="4.7"]{--rating: 4.7}.styled-container .rating-stars[data-rating="4.8"]{--rating: 4.8}.styled-container .rating-stars[data-rating="4.9"]{--rating: 4.9}.styled-container .rating-stars[data-rating="5"]{--rating: 5}.styled-container .rating-stars{--rating: 5;color:rgba(0,0,0,0);font-size:20px;margin-bottom:6px;position:relative;display:inline-block;line-height:1;unicode-bidi:bidi-override;white-space:nowrap;overflow:hidden;content:""}.styled-container .rating-stars::after{content:"★★★★★";position:absolute;top:0;left:0;color:#f5a623;width:calc(var(--rating)/5*100%);overflow:hidden}.styled-container .rating-stars::before{content:"★★★★★";color:#ccc}.styled-container .rating-label{font-size:14px;color:#666}.styled-container .rating-details{flex:1;display:flex;flex-direction:column;justify-content:center;gap:14px}.styled-container .rating-item{display:grid;grid-template-columns:150px 1fr auto;align-items:center;gap:12px}.styled-container .rating-name{font-size:14px;font-weight:500;color:#555;word-break:break-word}.styled-container .rating-bar-container{height:8px;background-color:#eee;border-radius:4px;overflow:hidden;width:100%}.styled-container .rating-bar{height:100%;background-color:#f5a623;border-radius:4px;display:block}.styled-container .rating-value{font-size:14px;font-weight:600;color:#333;white-space:nowrap}@media(max-width: 768px){.styled-container .rating-container{flex-direction:column;gap:20px}.styled-container .rating-overall{border-right:none;border-bottom:1px solid #f0f0f0;padding-right:0;padding-bottom:20px;width:100%;align-items:center}.styled-container .rating-item{grid-template-columns:90px 1fr auto}}.styled-container .rating-container.vertical{flex-direction:column}.styled-container .rating-container.vertical .rating-overall{border-right:none;border-bottom:1px solid #f0f0f0;padding-right:0;padding-bottom:20px;width:100%}.styled-container .rating-container.compact .rating-item{grid-template-columns:80px 1fr auto;gap:8px}.styled-container .rating-container.compact .rating-bar-container{height:6px}.styled-container .rating-container.expanded .rating-details{max-width:none}.styled-container .rating-container.theme-blue .rating-bar,.styled-container .rating-container.theme-blue .rating-stars{background-color:#1976d2;color:#1976d2}.styled-container .rating-container.theme-green .rating-bar,.styled-container .rating-container.theme-green .rating-stars{background-color:#388e3c;color:#388e3c}.styled-container .rating-container.theme-red .rating-bar,.styled-container .rating-container.theme-red .rating-stars{background-color:#d32f2f;color:#d32f2f}.styled-container .custom-list{list-style:none;padding:0;margin:20px 0}.styled-container .custom-list li{padding:10px 0 10px 25px;position:relative;margin-bottom:10px;border-bottom:1px solid #eee}.styled-container .custom-list li:before{content:"";position:absolute;left:0;top:16px;width:14px;height:14px;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%233498db"><circle cx="12" cy="12" r="6"/></svg>');background-size:contain;background-repeat:no-repeat}.styled-container [dir=rtl] .custom-list li{padding:10px 35px 10px 0}.styled-container [dir=rtl] .custom-list li:before{left:initial;right:0}.styled-container .list-numbers{counter-reset:list-counter;list-style:none;padding:0;margin:20px 0}.styled-container .list-numbers li{counter-increment:list-counter;padding:10px 0 10px 45px;position:relative;margin-bottom:15px}.styled-container .list-numbers li:before{content:counter(list-counter);position:absolute;left:0;top:8px;width:30px;height:30px;background-color:#3498db;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold}.styled-container [dir=rtl] .list-numbers li{padding:10px 45px 10px 0}.styled-container [dir=rtl] .list-numbers li:before{left:initial;right:0}.styled-container .list-comparison{display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:25px;margin:30px 0}.styled-container .list-comparison-column{list-style:none;padding:0;margin:0;border-radius:10px;overflow:hidden;box-shadow:0 3px 10px rgba(0,0,0,.1)}.styled-container .list-comparison-title{padding:15px;background-color:#3498db;color:#fff;font-weight:700;font-size:18px;text-align:center;margin:0}.styled-container .list-comparison-column li{padding:14px 15px 14px 42px;position:relative;border-bottom:1px solid #eee;background-color:#fff}.styled-container .list-comparison-column li:last-child{border-bottom:none}.styled-container .list-comparison-column li:before{content:"";position:absolute;left:15px;top:16px;width:18px;height:18px;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%233498db"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>');background-size:contain;background-repeat:no-repeat}.styled-container [dir=rtl] .list-comparison-column li{padding:14px 42px 14px 15px}.styled-container [dir=rtl] .list-comparison-column li:before{left:initial;right:15px}.styled-container .list-comparison-primary .list-comparison-title{background-color:#3498db}.styled-container .list-comparison-primary li:before{background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%233498db"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>')}.styled-container .list-comparison-success .list-comparison-title{background-color:#27ae60}.styled-container .list-comparison-success li:before{background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%2327ae60"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>')}.styled-container .list-comparison-warning .list-comparison-title{background-color:#f39c12}.styled-container .list-comparison-warning li:before{background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23f39c12"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>')}.styled-container .list-comparison-danger .list-comparison-title{background-color:#e74c3c}.styled-container .list-comparison-danger li:before{background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23e74c3c"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>')}@media(max-width: 768px){.styled-container .list-comparison{grid-template-columns:1fr;gap:20px}.styled-container .list-comparison-column{margin-bottom:20px}}.styled-container .table-container{width:100%;overflow-x:auto;margin-bottom:20px;border-radius:8px}.styled-container .elementor-element.table-container table,.styled-container .elementor-element.table-container table *{border:none}.styled-container table{width:100%;margin:12px 0;font-size:15px;background-color:#fff}.styled-container table tr:first-child th:first-child{border-top-left-radius:8px}.styled-container table tr:first-child th:last-child{border-top-right-radius:8px}.styled-container table tbody tr:last-child td:first-child{border-bottom-left-radius:8px}.styled-container table tbody tr:last-child td:last-child{border-bottom-right-radius:8px}.styled-container table thead tr{background-color:#3498db;color:#fff;text-align:left}.styled-container table th,.styled-container table td,.styled-container .elementor-element.table-container table th,.styled-container .elementor-element.table-container table td{padding:12px 15px;border-bottom:1px solid #ddd;overflow-wrap:break-word}.styled-container table th .highlight-box,.styled-container table td .highlight-box{padding:2px;background-color:#fff8e1;border:0;margin:2px;border-radius:0}.styled-container table tbody tr{border-bottom:1px solid #ddd;background-color:#fff;transition:background-color .3s ease}.styled-container table tbody tr:nth-of-type(even){background-color:#f8f9fa}.styled-container table tbody tr:hover{background-color:#edf2f7}.styled-container table span{display:contents}@media screen and (max-width: 768px){.styled-container .table-container{box-shadow:none;overflow-x:visible;border-radius:0}.styled-container table{border:0;box-shadow:none;margin:0}.styled-container table thead{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0}.styled-container table,.styled-container table tbody,.styled-container table tr,.styled-container table td{display:block;width:100%}.styled-container table tr{margin-bottom:15px;border:1px solid #ddd;border-radius:8px;box-shadow:0 0 10px rgba(0,0,0,.1);background-color:#fff;overflow:hidden}.styled-container table td{position:relative;text-align:right;padding:10px 15px 10px 50%;border-bottom:1px solid #eee;min-height:45px;display:flex;align-items:center;justify-content:flex-end}.styled-container table td:last-child{border-bottom:0}.styled-container table td::before{content:attr(data-label);position:absolute;left:0;top:0;bottom:0;width:45%;padding:10px 15px;font-weight:bold;text-align:left;color:#333;background-color:#f8f9fa;display:flex;align-items:center;border-right:1px solid #eee}.styled-container table td:last-child{justify-content:center;padding-left:15px}.styled-container table td:last-child::before{display:none}}@media screen and (max-width: 480px){.styled-container table td{font-size:14px;padding:8px 10px 8px 45%}.styled-container table td::before{padding:8px 10px;font-size:13px}}.styled-container .blockquote{display:flex;flex-direction:column;font-size:18px;font-style:italic;margin:25px 0;padding:20px 30px;border-left:4px solid #2563eb;background-color:#f8f9fa;color:#555;position:relative}.styled-container .blockquote:before{content:"";position:absolute;top:0;left:10px;font-size:60px;color:#bdc3c7;font-family:Georgia,serif;line-height:1}.styled-container .blockquote-author{display:block;margin-top:auto;font-weight:600;font-style:normal;color:#333}.styled-container .elementor-element.blockquote{display:flow}.styled-container .elementor-element.blockquote blockquote{border:none}.styled-container .highlight-box{padding:20px;background-color:#fff8e1;border-left:5px solid #ffc107;margin:20px 0;border-radius:0 4px 4px 0}.styled-container .elementor-element.highlight-box{display:flow}.styled-container .info-box{padding:20px;background-color:#e3f2fd;border-left:4px solid #2563eb;margin:20px 0;border-radius:0 4px 4px 0}.styled-container .elementor-element.info-box{display:flow}.styled-container .warning-box{padding:20px;background-color:#fff3e0;border-left:5px solid #ff9800;margin:20px 0;border-radius:0 4px 4px 0}.styled-container .elementor-element.warning-box{display:flow}.styled-container section[itemtype="https://schema.org/FAQPage"]{margin-bottom:20px}.styled-container section[itemtype="https://schema.org/FAQPage"] h2{margin-bottom:20px}.styled-container .faq-item{margin-bottom:15px;border:1px solid #e0e0e0;border-radius:8px;overflow:hidden}.styled-container .faq-item h3,.styled-container .faq-question{padding:15px 20px;background-color:#f8f9fa;font-weight:600;position:relative;border-bottom:1px solid #e0e0e0}.styled-container .faq-answer{padding:20px;background-color:#fff}.styled-container .two-columns{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin:20px 0}.styled-container .three-columns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin:20px 0}.styled-container .two-columns .custom-list,.styled-container .three-columns .custom-list{margin:0}.styled-container .two-columns .card,.styled-container .three-columns .card{margin:0;height:100%}.styled-container .two-columns .cta-btn-display,.styled-container .three-columns .cta-btn-display{margin:auto 0 28px 0}.styled-container .two-columns>div:not([class]),.styled-container .three-columns>div:not([class]){display:flex;flex-direction:column;gap:8px}.styled-container .grid-item:nth-child(1){grid-area:1/1/2/2}.styled-container .grid-item:nth-child(2){grid-area:1/2/2/3}.styled-container .grid-item:nth-child(3){grid-area:2/1/3/2}.styled-container .grid-item:nth-child(4){grid-area:2/2/3/3}.styled-container .four-columns{display:grid;grid-template-columns:repeat(4, 1fr);gap:20px;margin:20px 0}.styled-container .auto-columns{display:grid;grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));gap:25px;margin:20px 0}.styled-container .columns-start{align-items:start}.styled-container .columns-center{align-items:center}.styled-container .columns-end{align-items:end}.styled-container .columns-stretch{align-items:stretch}.styled-container .columns-1-2{grid-template-columns:1fr 2fr}.styled-container .columns-2-1{grid-template-columns:2fr 1fr}.styled-container .columns-1-3{grid-template-columns:1fr 3fr}.styled-container .columns-3-1{grid-template-columns:3fr 1fr}.styled-container .column-card{height:100%;background-color:#fff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1);padding:20px;transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}.styled-container .column-card .badge,.styled-container .two-columns .img-container:last-child,.styled-container .three-columns .img-container:last-child,.styled-container .four-columns .img-container:last-child{margin-top:auto}.styled-container .column-card:hover{transform:translateY(-5px);box-shadow:0 5px 15px rgba(0,0,0,.15)}.styled-container .column-split{display:grid;grid-template-columns:1fr 1fr;gap:15px}@media(max-width: 992px){.styled-container .four-columns{grid-template-columns:1fr 1fr}}@media(max-width: 768px){.styled-container .two-columns,.styled-container .three-columns,.styled-container .four-columns,.styled-container .columns-1-2,.styled-container .columns-2-1,.styled-container .columns-1-3,.styled-container .columns-3-1{grid-template-columns:1fr;gap:25px}.styled-container .grid-item:nth-child(1){grid-area:1/1/2/2}.styled-container .grid-item:nth-child(2){grid-area:2/1/3/2}.styled-container .grid-item:nth-child(3){grid-area:3/1/4/2}.styled-container .grid-item:nth-child(4){grid-area:4/1/5/2}}.styled-container .two-columns .e-con-inner,.styled-container .three-columns .e-con-inner,.styled-container .pros-cons .e-con-inner{display:contents}.styled-container .pros-cons.e-flex{flex-direction:row}.styled-container .img-container{margin:20px 0;text-align:center}.styled-container .img-caption{font-size:14px;color:#666;margin-top:10px;font-style:italic}.styled-container .img-rounded{border-radius:8px}.styled-container .img-shadow{box-shadow:0 4px 8px rgba(0,0,0,.1)}.styled-container .img-border{border:1px solid #ddd;padding:5px;background-color:#fff}.styled-container .gallery{display:grid;grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));gap:15px;margin:25px 0}.styled-container .elementor-element.gallery{display:contents}.styled-container .gallery-item{overflow:hidden;border-radius:8px;position:relative}.styled-container .elementor-element.gallery-item .e-con-inner{display:inline-block}.styled-container .gallery-img{width:100%;height:auto;display:block;transition:transform .3s}.styled-container .gallery-item:hover .gallery-img{transform:scale(1.05)}@media(max-width: 992px){.styled-container .cta-block{padding:20px}.styled-container .form-container{padding:20px}.styled-container .card-grid{grid-template-columns:repeat(auto-fill, minmax(240px, 1fr))}}@media(max-width: 768px){.styled-container .pros-cons{flex-direction:column}.styled-container .timeline:before{left:40px}.styled-container .timeline-item{width:100%;padding-left:70px;padding-right:20px}.styled-container .timeline-item:nth-child(even){left:0}.styled-container .two-columns,.styled-container .three-columns{grid-template-columns:1fr;gap:20px}}@media(max-width: 576px){.styled-container .cta-btn{display:block;width:100%}.styled-container .section{padding:20px}.styled-container .blockquote{padding:15px 20px}}.styled-container .map-container{margin:25px 0;border-radius:8px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.1)}.styled-container .map-container iframe{display:block;width:100%;height:300px;border:none}.styled-container .map-caption{font-size:14px;color:#666;margin-top:10px;font-style:italic;text-align:center}.styled-container .map-h300 iframe{height:300px}.styled-container .map-h400 iframe{height:400px}.styled-container .map-h500 iframe{height:500px}.styled-container .phone-number-cta{font-size:28px;font-weight:700;color:#2c3e50;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;margin:10px 0;transition:all .2s ease}.styled-container .phone-number-cta:hover{color:#3498db}.styled-container .phone-number-small{font-size:18px}.styled-container .phone-number-large{font-size:38px}.styled-container .phone-number-display{display:flex;align-items:center;margin:40px 0;justify-content:center;gap:16px}.styled-container .phone-number-display p{margin-bottom:0}.styled-container .phone-number-caption{display:inline-block;font-size:14px;font-weight:600;padding:6px 12px;border-radius:50px;letter-spacing:.3px;background-color:rgba(100,116,139,.1);color:#64748b;border:1px solid rgba(100,116,139,.2);text-align:center;white-space:nowrap;transition:all .3s ease;box-shadow:0 1px 2px rgba(0,0,0,.05);text-transform:uppercase;opacity:.95;margin-bottom:0}.styled-container .phone-number-cta-primary .phone-number-caption{background-color:rgba(37,99,235,.1);color:#2563eb;border:1px solid rgba(37,99,235,.2)}.styled-container .phone-number-cta-secondary .phone-number-caption{background-color:rgba(16,185,129,.1);color:#10b981;border:1px solid rgba(16,185,129,.2)}.styled-container .phone-number-cta-accent .phone-number-caption{background-color:rgba(239,68,68,.1);color:#ef4444;border:1px solid rgba(239,68,68,.2)}.styled-container .phone-number-cta:hover .phone-number-caption{transform:translateY(-2px);box-shadow:0 3px 6px rgba(0,0,0,.1);opacity:1}.styled-container .video-container{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;max-width:100%;margin-bottom:16px}.styled-container .video-container iframe{position:absolute;top:0;left:0;width:100%;height:100%}.styled-container .badge{display:inline-block;padding:4.5px 8px;font-size:13px;font-weight:600;line-height:1;color:#fff;background:#3498db;border-radius:4px;text-align:center;margin-bottom:5px}.styled-container .badge.badge-pill{border-radius:9999px}.styled-container .badge.badge-primary{background:#3498db}.styled-container .badge.badge-success{background:#28a745}.styled-container .badge.badge-info{background:#17a2b8}.styled-container .badge.badge-purple{background:#6c5ce7}.styled-container .badge.badge-small{font-size:12px;padding:3px 6px}.styled-container .badge.badge-medium{font-size:16px;padding:6.4px 12.8px;margin-bottom:8px}.styled-container .badge.badge-large{font-size:20px;padding:10px 20px;margin-bottom:16px}.styled-container .badge.badge-xl{font-size:28px;padding:16.8px 33.6px;margin-bottom:16px}.styled-container .badge.badge-xxl{font-size:36px;padding:25.2px 50.4px;margin-bottom:16px}</style>
-  
-    
-      <div class="styled-container"><section id="introduction">
-    <h1>How to Restore Old Family Photos: A Step-by-Step AI Guide</h1>
+<div class="styled-container">
 
-    <div class="table-of-contents">
-        <h2>Table of Contents</h2>
-        <ul class="toc-list">
-            <li><a href="#why-restore">Why Restore Your Old Family Photos?</a></li>
-            <li><a href="#how-ai-works">How AI Photo Restoration Works</a></li>
-            <li><a href="#preparation">Preparing Your Photos for AI Restoration</a></li>
-            <li><a href="#step-by-step">Step-by-Step Guide to AI Photo Restoration</a></li>
-            <li><a href="#advanced-techniques">Advanced AI Photo Restoration Techniques</a></li>
-            <li><a href="#tips-tricks">Tips and Tricks for Better Results</a></li>
-            <li><a href="#faq">Frequently Asked Questions About AI Photo Restoration</a></li>
-            <li><a href="#conclusion">Conclusion</a></li>
-        </ul>
-    </div>
+<section id="introduction">
+  <h1>How to Restore Old Family Photos with AI: Step-by-Step Guide 2026</h1>
 
-    <p>Those faded, scratched, and torn family photographs tucked away in albums and shoeboxes hold irreplaceable memories. Until recently, restoring these treasured images required expensive professional services or complex photo editing skills. Today, AI photo restoration technology has made it possible for anyone to breathe new life into damaged photos with just a few clicks. This guide will walk you through the simple process of transforming your deteriorating family photos into vibrant, clear images that can be preserved for generations to come.</p>
+  <div class="img-container">
+    <img src="https://storage.googleapis.com/48877118-7272-4a4d-b302-0465d8aa4548/0b16f7b9-eb19-45a7-b6af-e1473db97d56/6ff08068-9649-4f10-9595-ddd7a339576e.jpg" alt="Before and after comparison of AI photo restoration — damaged family photo transformed to clear, vibrant image">
+  </div>
+
+  <div class="table-of-contents">
+    <h2>Table of Contents</h2>
+    <ul class="toc-list">
+      <li><a href="#quick-summary">Quick Summary</a></li>
+      <li><a href="#the-problem">The Problem: How Physical Photos Degrade</a></li>
+      <li><a href="#how-ai-works">How AI Photo Restoration Works</a></li>
+      <li><a href="#preparation">Step 1: Digitize Your Photos Correctly</a></li>
+      <li><a href="#step-by-step">Step 2–6: The Full AI Restoration Process</a></li>
+      <li><a href="#advanced-techniques">Advanced Techniques for Specific Damage Types</a></li>
+      <li><a href="#practical-example">Practical Example: Full Restoration Walkthrough</a></li>
+      <li><a href="#pro-tips">Professional Tips for Better Results</a></li>
+      <li><a href="#common-mistakes">Common Mistakes to Avoid</a></li>
+      <li><a href="#future">The Future of AI Photo Restoration</a></li>
+      <li><a href="#faq">Frequently Asked Questions</a></li>
+    </ul>
+  </div>
 </section>
 
-<section id="why-restore">
-    <h2>Why Restore Your Old Family Photos?</h2>
-    <div class="img-container">
-        <img src="https://storage.googleapis.com/48877118-7272-4a4d-b302-0465d8aa4548/0b16f7b9-eb19-45a7-b6af-e1473db97d56/6ff08068-9649-4f10-9595-ddd7a339576e.jpg" alt="Before and after comparison of AI photo restoration showing a damaged family photo transformed into a clear, vibrant image" data-method="text-to-image">
-    </div>
-    <p>Old photographs are more than just images—they're irreplaceable windows into your family's history. Unfortunately, time takes its toll on physical photos. Colors fade, paper deteriorates, and handling causes scratches and tears. Restoring these photos preserves your family legacy and brings forgotten memories back to life.</p>
-
-    <div class="two-columns">
-        <div>
-            <h3>Common Issues with Old Photos</h3>
-            <ul class="custom-list">
-                <li>Fading and color shifts</li>
-                <li>Scratches, creases, and tears</li>
-                <li>Water damage and stains</li>
-                <li>Blurriness and loss of detail</li>
-                <li>Yellowing and sepia toning</li>
-            </ul>
-        </div>
-        <div>
-            <h3>Benefits of AI Photo Restoration</h3>
-            <ul class="custom-list">
-                <li>Restore damaged photos in seconds</li>
-                <li>Enhance facial details and expressions</li>
-                <li>Revive faded colors or colorize black and white photos</li>
-                <li>Improve overall clarity and sharpness</li>
-                <li>Preserve precious memories for future generations</li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="cta-block">
-        <h3 class="cta-block-title">Ready to Bring Your Old Photos Back to Life?</h3>
-        <p class="cta-block-text">Our AI Image Upscaler tool can help restore your precious memories in just a few clicks.</p>
-        <a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank" class="cta-btn" data-link="true" data-id="1">Restore Your Photos Now</a>
-    </div>
+<!-- QUICK SUMMARY -->
+<section id="quick-summary">
+  <h2>Quick Summary</h2>
+  <p>AI photo restoration works in six steps: scan the physical photo at a minimum 300 DPI (600 DPI recommended); upload the digital file to an AI restoration tool; select the relevant repair options for your damage type; let the AI process the image; review and fine-tune the output; and export in a lossless or high-quality format. No Photoshop knowledge or technical skills are required. The AI handles damage identification, detail reconstruction, color correction, and facial enhancement automatically. Total time per photo: 2–10 minutes depending on scan quality and damage complexity.</p>
 </section>
 
+<!-- THE PROBLEM -->
+<section id="the-problem">
+  <h2>The Problem: How Physical Photos Degrade</h2>
+  <p>Physical photographs deteriorate through four independent mechanisms that compound over time. Chemical degradation causes color dyes to fade and shift — yellow and magenta channels fade faster than cyan, producing the characteristic orange or yellow cast in old color prints. Physical damage from handling, storage, and accidents creates scratches, creases, and tears. Biological damage from moisture, mold, and insects produces staining, spotting, and surface texture loss. Environmental exposure to light and heat accelerates all three processes simultaneously.</p>
+  <p>The result is a class of damage that traditional photo editing cannot address efficiently. Manual retouching of a heavily scratched photo in Photoshop requires hours of skilled work per image. AI photo restoration tools trained on millions of image pairs automate the identification and reconstruction of all four damage types in under a minute.</p>
+
+  <div class="two-columns">
+    <div>
+      <h3>Common Damage Types AI Can Fix</h3>
+      <ul class="custom-list">
+        <li>Scratches and surface abrasions across the photo face</li>
+        <li>Creases, folds, and physical tears</li>
+        <li>Fading and color shift (yellowing, orange cast)</li>
+        <li>Water stains and mold spotting</li>
+        <li>Blurriness from camera movement or lens issues</li>
+        <li>Low resolution and loss of fine detail</li>
+        <li>Loss of contrast in overexposed or underexposed areas</li>
+      </ul>
+    </div>
+    <div>
+      <h3>What AI Restoration Delivers</h3>
+      <ul class="custom-list">
+        <li>Scratch and tear removal without manual masking</li>
+        <li>Facial detail recovery — eyes, expressions, skin texture</li>
+        <li>Color restoration to original tones or period-accurate colorization</li>
+        <li>Resolution upscaling from low-DPI originals</li>
+        <li>Contrast and tonal range recovery</li>
+        <li>Archive-quality export at full resolution</li>
+        <li>Results in seconds, not hours of manual editing</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cta-block">
+    <h3 class="cta-block-title">Restore Your Family Photos Now</h3>
+    <p class="cta-block-text">Upload your damaged photo and let AI handle the repair — no skills required.</p>
+    <a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank" class="cta-btn" data-link="true" data-id="1">Try the AI Photo Restoration Tool</a>
+  </div>
+</section>
+
+<!-- HOW AI WORKS -->
 <section id="how-ai-works">
-    <h2>How AI Photo Restoration Works</h2>
-    <p>Before diving into the restoration process, it helps to understand how AI photo restoration actually works. Unlike traditional photo editing that requires manual adjustments, AI-powered tools use machine learning algorithms trained on millions of images to automatically identify and fix damage.</p>
+  <h2>How AI Photo Restoration Works</h2>
+  <p>Understanding the underlying process helps you make better decisions at each step — specifically which restoration options to select for which type of damage, and what to expect from the output.</p>
 
-    <div class="video-embed">
-        <iframe src="https://www.youtube.com/embed/u317ockLJ44" width="100%" height="450" frameborder="0" allowfullscreen></iframe>
-    </div>
+  <div class="video-embed">
+    <iframe src="https://www.youtube.com/embed/u317ockLJ44" width="100%" height="450" frameborder="0" allowfullscreen></iframe>
+  </div>
 
-    <div class="three-columns">
-        <div class="column-card">
-            <h3>Pattern Recognition</h3>
-            <p>AI analyzes your photo to identify patterns of damage like scratches, tears, and stains, distinguishing them from the actual image content.</p>
-        </div>
-        <div class="column-card">
-            <h3>Detail Reconstruction</h3>
-            <p>Using what it's learned from millions of images, the AI fills in missing details, restores faded areas, and enhances facial features.</p>
-        </div>
-        <div class="column-card">
-            <h3>Color Enhancement</h3>
-            <p>AI algorithms can revive faded colors or even intelligently colorize black and white photos based on contextual understanding.</p>
-        </div>
+  <div class="three-columns">
+    <div class="column-card">
+      <h3>Pattern Recognition</h3>
+      <p>The AI analyzes every pixel in the image to distinguish damage patterns — the linear geometry of a scratch, the irregular border of a water stain, the uniform fade of a color channel — from the actual image content underneath. This separation is what allows reconstruction without affecting undamaged areas.</p>
     </div>
+    <div class="column-card">
+      <h3>Detail Reconstruction</h3>
+      <p>Using training data from millions of paired damaged-and-restored images, the AI predicts what the content beneath the damage originally looked like. For faces, specialized facial recognition models reconstruct eye detail, skin texture, and expression with particular accuracy.</p>
+    </div>
+    <div class="column-card">
+      <h3>Color Enhancement & Colorization</h3>
+      <p>Color restoration algorithms reverse channel fading by analyzing the relationship between surviving color information and known color distributions for the image content type. Colorization models for B&W photos use contextual scene understanding to apply historically plausible color assignments to skin, clothing, and environment.</p>
+    </div>
+  </div>
 </section>
 
-
-
+<!-- STEP 1: PREPARATION -->
 <section id="preparation">
-    <h2>Preparing Your Photos for AI Restoration</h2>
-    <div class="img-container">
-        <img src="https://storage.googleapis.com/48877118-7272-4a4d-b302-0465d8aa4548/0b16f7b9-eb19-45a7-b6af-e1473db97d56/665e2d19-22b0-4558-9544-af49c4906d05.jpg" alt="Person scanning an old damaged family photo using a flatbed scanner for AI photo restoration" data-method="text-to-image">
-    </div>
-    <p>Before you can restore old photos with AI, you'll need to digitize them. The quality of your digital scan directly impacts the restoration results, so follow these steps for the best outcome:</p>
+  <h2>Step 1: Digitize Your Photos Correctly</h2>
+  <p>The quality of your digital scan is the single most important variable in the restoration outcome. AI tools reconstruct from the data in your input file — they cannot recover detail that was never captured in the scan. Five minutes of careful digitization eliminates the most common reason for poor restoration results.</p>
 
-    <div class="two-columns">
-        <div>
-            <h3>Digitizing Options</h3>
-            <ul class="list-numbers">
-                <li>Use a flatbed scanner at 300-600 DPI for best results</li>
-                <li>If you don't have a scanner, use a smartphone with good lighting</li>
-                <li>For valuable photos, consider professional scanning services</li>
-                <li>Ensure the entire photo is captured, including edges</li>
-            </ul>
-        </div>
-        <div>
-            <h3>Scanning Tips</h3>
-            <ul class="custom-list">
-                <li>Clean the scanner glass thoroughly before scanning</li>
-                <li>Place photos flat to avoid additional shadows or distortion</li>
-                <li>Scan in color even for black and white photos</li>
-                <li>Save files as uncompressed TIFF or high-quality JPG</li>
-                <li>Create a backup of original scans before restoration</li>
-            </ul>
-        </div>
-    </div>
+  <div class="img-container">
+    <img src="https://storage.googleapis.com/48877118-7272-4a4d-b302-0465d8aa4548/0b16f7b9-eb19-45a7-b6af-e1473db97d56/665e2d19-22b0-4558-9544-af49c4906d05.jpg" alt="Person scanning an old damaged family photo with a flatbed scanner for AI restoration">
+  </div>
 
-    <div class="blockquote">
-        <p>"The better your initial scan quality, the better your restoration results will be. Take time to properly digitize your photos before starting the AI restoration process."</p>
+  <div class="two-columns">
+    <div>
+      <h3>Digitizing Options by Priority</h3>
+      <ol class="list-numbers">
+        <li><strong>Flatbed scanner at 600 DPI</strong> — the highest quality option for standard prints. Produces flat, evenly lit scans with no distortion.</li>
+        <li><strong>Flatbed scanner at 300 DPI</strong> — acceptable for large prints (8×10 and above). For wallet-size or small photos, use 1200 DPI.</li>
+        <li><strong>Smartphone camera</strong> — adequate when a scanner is unavailable. Use a document scanning app (Microsoft Lens, Google PhotoScan) rather than the standard camera app. Shoot in even daylight, not direct sunlight, to eliminate reflections.</li>
+        <li><strong>Professional scanning service</strong> — appropriate for fragile, brittle, or historically significant photos where physical handling risk is a concern.</li>
+      </ol>
     </div>
+    <div>
+      <h3>Scanning Preparation Checklist</h3>
+      <ul class="custom-list">
+        <li>Clean the scanner glass with a lint-free cloth before each session — dust on the glass becomes a permanent artifact in the scan.</li>
+        <li>Clean the photo surface gently with a dry soft brush or compressed air. Do not use liquid on deteriorating prints.</li>
+        <li>Place the photo completely flat against the scanner glass. Any lift creates shadow gradients that the AI interprets as damage.</li>
+        <li>Scan in color even for black and white photos. Color scans capture tonal variation in monochrome images that grayscale scans discard.</li>
+        <li>Save as TIFF (lossless) or maximum-quality JPEG. Never scan directly to low-quality JPEG — compression artifacts from the scan compound with restoration processing.</li>
+        <li>Back up all original scans before starting restoration. Keep the unprocessed originals permanently.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="blockquote">
+    <p>"The better your input scan, the better your restoration output. A well-prepared 600 DPI scan of a damaged photo consistently produces better AI results than a poor scan of the same photo at any resolution."</p>
+  </div>
 </section>
 
+<!-- STEPS 2-6 -->
 <section id="step-by-step">
-    <h2>Step-by-Step Guide to AI Photo Restoration</h2>
-    <p>Now that you understand how AI photo restoration works and have digitized your photos, let's walk through the restoration process using our AI Image Upscaler tool.</p>
+  <h2>Steps 2–6: The Full AI Restoration Process</h2>
+  <p>With your photo digitized, the restoration process itself takes under five minutes for most images. These steps apply to the <a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank" data-link="true" data-id="2">ModernPhotoTools AI Image Upscaler</a>.</p>
+
+  <div class="img-container">
+    <img src="https://storage.googleapis.com/48877118-7272-4a4d-b302-0465d8aa4548/0b16f7b9-eb19-45a7-b6af-e1473db97d56/8d03fae9-f7c9-4eb2-b078-dddc3f2e60fb.jpg" alt="ModernPhotoTools AI Image Upscaler interface showing the photo upload process">
+  </div>
+
+  <div class="step-block">
+    <div class="step-number">Step 2</div>
+    <h3>Upload Your Digitized Photo</h3>
+    <p>Go to the <a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank" data-link="true" data-id="2">AI Image Upscaler tool</a> and upload your scan. Accepted formats include JPEG, PNG, TIFF, and WebP. The tool accepts files up to the maximum upload size — if your TIFF scan is large, compress to maximum-quality JPEG first to reduce upload time without quality loss.</p>
+    <p><strong>File check before uploading:</strong> Confirm the file is in focus, fully captures the photo including edges, and is not rotated or skewed. The AI processes images at their input orientation — upload upright and correctly framed.</p>
+  </div>
+
+  <div class="step-block">
+    <div class="step-number">Step 3</div>
+    <h3>Select Restoration Options for Your Damage Type</h3>
+    <p>Match the restoration options to the damage present in your specific photo. Selecting options irrelevant to your damage type extends processing time without improving results.</p>
+    <ul class="custom-list">
+      <li><strong>Fix Scratches & Damage</strong> — select for any photo with visible surface scratches, creases, tears, or staining. This is the most commonly needed option.</li>
+      <li><strong>Enhance Faces</strong> — select for any portrait or group photo where facial detail has been lost to fading, blur, or low original resolution. The AI applies a specialized facial reconstruction model that goes beyond general image enhancement.</li>
+      <li><strong>Color Correction</strong> — select for faded color photos or to restore color accuracy lost to aging. Also select when colorizing black and white images.</li>
+      <li><strong>Upscale Resolution</strong> — select for small originals, heavily cropped photos, or any image you plan to print at a size larger than the original. This is independent of damage restoration and can be applied to undamaged photos.</li>
+    </ul>
+  </div>
+
+  <div class="step-block">
+    <div class="step-number">Step 4</div>
+    <h3>Process the Image</h3>
+    <p>Click the restoration button to begin AI processing. Standard processing time is 30–90 seconds for most photos. Larger files, higher selected enhancement levels, and multiple simultaneous options extend processing time.</p>
+    <div class="highlight-box">
+      <p><strong>During processing:</strong> Do not close the browser tab or navigate away. Processing runs server-side — your connection needs to remain open to receive the output file. If the session times out, re-upload and reprocess.</p>
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div class="step-number">Step 5</div>
+    <h3>Review the Output with the Comparison Slider</h3>
+    <p>The tool displays a side-by-side or slider comparison of your original and restored photo. Evaluate the output against these specific quality criteria before accepting:</p>
+    <ul class="custom-list">
+      <li>Are scratches and tears removed without leaving smearing or blurring in the surrounding areas?</li>
+      <li>Do skin tones look natural, or has the AI over-smoothed facial areas into an artificial appearance?</li>
+      <li>Is color restoration consistent across the image, or are there localized color shifts at damage boundaries?</li>
+      <li>Are fine details — hair, fabric texture, background elements — preserved or reconstructed convincingly?</li>
+    </ul>
 
     <div class="img-container">
-        <img src="https://storage.googleapis.com/48877118-7272-4a4d-b302-0465d8aa4548/0b16f7b9-eb19-45a7-b6af-e1473db97d56/8d03fae9-f7c9-4eb2-b078-dddc3f2e60fb.jpg" alt="ModernPhotoTools AI Image Upscaler interface showing the upload Process" data-method="text-to-image">
+      <img src="https://storage.googleapis.com/48877118-7272-4a4d-b302-0465d8aa4548/0b16f7b9-eb19-45a7-b6af-e1473db97d56/73041e80-c93c-4f1a-9a6e-4604609189ed.jpg" alt="Side-by-side comparison of original damaged photo and AI-restored version using slider interface">
     </div>
+  </div>
 
-    <ol class="list-numbers">
-        <li>
-            <h3>Upload Your Photo</h3>
-            <p>Visit our <a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank" data-link="true" data-id="2">AI Image Upscaler tool</a> and click the "Upload Image" button. You can drag and drop your photo or browse to select it from your computer.</p>
-        </li>
-        <li>
-            <h3>Select Restoration Options</h3>
-            <p>Once your photo is uploaded, you'll see several restoration options. For old family photos, we recommend selecting:</p>
-            <ul class="custom-list">
-                <li><strong>Fix Scratches &amp; Damage:</strong> Removes physical imperfections</li>
-                <li><strong>Enhance Faces:</strong> Improves facial details and expressions</li>
-                <li><strong>Color Correction:</strong> Restores natural colors or colorizes B&amp;W photos</li>
-                <li><strong>Upscale:</strong> Increases resolution for better printing quality</li>
-            </ul>
-        </li>
-        <li>
-            <h3>Start the Restoration Process</h3>
-            <p>Click the "Restore Photo" button to begin the AI restoration process. The advanced algorithms will analyze your photo and apply the selected enhancements automatically.</p>
-            <div class="highlight-box">
-                <p>The restoration process typically takes 30-60 seconds depending on the photo size and selected options. Larger photos or more extensive damage may take slightly longer to process.</p>
-            </div>
-        </li>
-        <li>
-            <h3>Review and Adjust</h3>
-            <p>After processing, you'll see a side-by-side comparison of your original and restored photo. Use the slider to compare the differences and see the improvements.</p>
-            <div class="img-container">
-                <img src="https://storage.googleapis.com/48877118-7272-4a4d-b302-0465d8aa4548/0b16f7b9-eb19-45a7-b6af-e1473db97d56/73041e80-c93c-4f1a-9a6e-4604609189ed.jpg" alt="Side-by-side comparison of original damaged photo and AI-restored version with comparison slider" data-method="text-to-image">
-            </div>
-        </li>
-        <li>
-            <h3>Fine-tune Results (Optional)</h3>
-            <p>If needed, you can adjust specific settings to fine-tune the restoration:</p>
-            <ul class="custom-list">
-                <li><strong>Detail Enhancement:</strong> Adjust the level of detail recovery</li>
-                <li><strong>Color Intensity:</strong> Control how vibrant the restored colors appear</li>
-                <li><strong>Sharpness:</strong> Fine-tune the overall sharpness of the image</li>
-            </ul>
-        </li>
-        <li>
-            <h3>Download Your Restored Photo</h3>
-            <p>Once you're satisfied with the results, click the "Download" button to save your restored photo. We recommend saving in high-quality JPG or PNG format for the best balance of quality and file size.</p>
-        </li>
-    </ol>
+  <div class="step-block">
+    <div class="step-number">Step 6</div>
+    <h3>Fine-Tune and Export</h3>
+    <p>If the default processing produces over-correction — over-smoothed skin, over-saturated colors, or detail that looks AI-generated rather than photographic — reduce the enhancement intensity via the available sliders before re-processing.</p>
+    <ul class="custom-list">
+      <li><strong>Detail Enhancement level:</strong> Reduce if the AI is hallucinating detail that was not in the original — adding texture to completely blank damage areas.</li>
+      <li><strong>Color Intensity:</strong> Reduce if restored colors appear oversaturated compared to period-accurate expectations for the photo's era.</li>
+      <li><strong>Sharpness:</strong> Reduce if sharpening halos are visible around edges — a sign the sharpening level exceeds what the underlying resolution supports.</li>
+    </ul>
+    <p><strong>Export format:</strong> Download as PNG for archiving (lossless, no compression artifacts). Use maximum-quality JPEG for sharing or printing where file size matters. Never export restored photos as low-quality JPEG — you will introduce compression artifacts that undermine the restoration work.</p>
+  </div>
 
-    <div class="cta-block">
-        <h3 class="cta-block-title">Ready to Try It Yourself?</h3>
-        <p class="cta-block-text">Restore your precious family photos in just a few clicks with our powerful AI technology.</p>
-        <a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank" class="cta-btn" data-link="true" data-id="3">Start Restoring Your Photos</a>
-    </div>
+  <div class="cta-block">
+    <h3 class="cta-block-title">Start Restoring Your Photos</h3>
+    <p class="cta-block-text">Upload your digitized photo and let the AI handle scratches, fading, and detail recovery automatically.</p>
+    <a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank" class="cta-btn" data-link="true" data-id="3">Restore Your Family Photos Now</a>
+  </div>
 </section>
 
+<!-- ADVANCED TECHNIQUES -->
 <section id="advanced-techniques">
-    <h2>Advanced AI Photo Restoration Techniques</h2>
-    <p>While our AI Image Upscaler tool handles most restoration needs automatically, here are some advanced techniques for specific photo issues:</p>
+  <h2>Advanced Techniques for Specific Damage Types</h2>
+  <p>Standard single-pass restoration handles most photos adequately. These techniques address the damage types that require a different approach.</p>
 
-    <div class="three-columns">
-        <div class="column-card">
-            <h3>Fixing Severely Damaged Photos</h3>
-            <div class="img-container">
-                <img src="https://storage.googleapis.com/48877118-7272-4a4d-b302-0465d8aa4548/0b16f7b9-eb19-45a7-b6af-e1473db97d56/b8054665-ddb8-493a-8aea-7656aac8bf8a.jpg" alt="Before and after of a severely damaged photo restored with AI photo restoration" data-method="text-to-image">
-            </div>
-            <p>For photos with extensive damage, try multiple restoration passes. First, focus on fixing structural damage (tears, missing pieces), then enhance details and colors in a second pass.</p>
-        </div>
-        <div class="column-card">
-            <h3>Enhancing Facial Details</h3>
-            <div class="img-container">
-                <img src="https://storage.googleapis.com/48877118-7272-4a4d-b302-0465d8aa4548/0b16f7b9-eb19-45a7-b6af-e1473db97d56/ead2a21b-8baf-43a4-a709-0a6f7f605f94.jpg" alt="Close-up comparison of facial details before and after AI photo restoration" data-method="text-to-image">
-            </div>
-            <p>Our AI is specially trained to recognize and enhance facial features. For family portraits, select the "Enhance Faces" option for the best results in recovering expressions and details.</p>
-        </div>
-        <div class="column-card">
-            <h3>Colorizing Black &amp; White Photos</h3>
-            <div class="img-container">
-                <img src="https://storage.googleapis.com/48877118-7272-4a4d-b302-0465d8aa4548/0b16f7b9-eb19-45a7-b6af-e1473db97d56/ceb353d2-ba50-40a9-a53f-ab0b5aaf44a5.jpg" alt="Black and white family photo colorized using AI photo restoration" data-method="text-to-image">
-            </div>
-            <p>Our AI can add natural-looking color to black and white photos. The algorithm analyzes the image context to apply historically accurate colors to clothing, skin tones, and backgrounds.</p>
-        </div>
+  <div class="three-columns">
+    <div class="column-card">
+      <h3>Severely Damaged Photos with Large Missing Areas</h3>
+      <div class="img-container">
+        <img src="https://storage.googleapis.com/48877118-7272-4a4d-b302-0465d8aa4548/0b16f7b9-eb19-45a7-b6af-e1473db97d56/b8054665-ddb8-493a-8aea-7656aac8bf8a.jpg" alt="Before and after of severely damaged photo restored with AI">
+      </div>
+      <p>Use a two-pass approach. First pass: select only "Fix Scratches & Damage" to address structural damage without touching color or detail. Export the result. Second pass: upload the first-pass output and apply "Color Correction" and "Enhance Faces." Separating structural repair from detail enhancement prevents the AI from amplifying damage artifacts during the detail enhancement phase.</p>
     </div>
+    <div class="column-card">
+      <h3>Enhancing Facial Details in Group Photos</h3>
+      <div class="img-container">
+        <img src="https://storage.googleapis.com/48877118-7272-4a4d-b302-0465d8aa4548/0b16f7b9-eb19-45a7-b6af-e1473db97d56/ead2a21b-8baf-43a4-a709-0a6f7f605f94.jpg" alt="Facial detail comparison before and after AI photo restoration">
+      </div>
+      <p>For group photos where faces are small relative to the overall image dimensions, crop individual faces or small groups from the original scan and restore them separately at higher effective resolution. Then composite the restored faces back into the full image. This gives the facial enhancement model more pixel data to work with than the full-image upload provides.</p>
+    </div>
+    <div class="column-card">
+      <h3>Colorizing Black and White Photos</h3>
+      <div class="img-container">
+        <img src="https://storage.googleapis.com/48877118-7272-4a4d-b302-0465d8aa4548/0b16f7b9-eb19-45a7-b6af-e1473db97d56/ceb353d2-ba50-40a9-a53f-ab0b5aaf44a5.jpg" alt="Black and white family photo colorized using AI restoration">
+      </div>
+      <p>Repair structural damage in a first pass before colorizing. Scratches and tears in a B&W photo are interpreted by the colorization model as legitimate image content — it will attempt to assign colors to damage artifacts, producing unnatural color patches. Restore the black and white image to a clean state first, then apply colorization to the repaired output.</p>
+    </div>
+  </div>
 
-    <div class="blockquote">
-        <p>"AI photo restoration isn't just about fixing damage—it's about bringing memories back to life with enhanced details and colors that make the past feel present again."</p>
-    </div>
-
-    <div class="cta-block">
-        <h3 class="cta-block-title">Tackle Even the Most Challenging Photos</h3>
-        <p class="cta-block-text">Our advanced AI can handle severely damaged photos, enhance facial details, and add natural color to black and white images.</p>
-        <a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank" class="cta-btn" data-link="true" data-id="4">Restore Challenging Photos</a>
-    </div>
+  <div class="cta-block">
+    <h3 class="cta-block-title">Handle Complex Restoration Cases</h3>
+    <p class="cta-block-text">Severe damage, facial detail recovery, and B&W colorization — the AI tool handles all three with the right processing approach.</p>
+    <a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank" class="cta-btn" data-link="true" data-id="4">Start Advanced Restoration</a>
+  </div>
 </section>
 
-<section id="tips-tricks">
-    <h2>Tips and Tricks for Better Results</h2>
-    <p>Get the most out of AI photo restoration with these expert tips:</p>
+<!-- PRACTICAL EXAMPLE -->
+<section id="practical-example">
+  <h2>Practical Example: Full Restoration Walkthrough</h2>
+  <p><strong>Photo:</strong> A 1960s black and white family portrait print, approximately 4×6 inches. Damage: two diagonal scratches across the lower half, one tear in the upper right corner (approximately 1cm), overall surface fading with loss of highlight detail in the sky area, and slight yellowing from storage.</p>
 
-    <div class="two-columns">
-        <div>
-            <h3>Before Restoration</h3>
-            <ul class="custom-list">
-                <li><strong>Clean physical photos</strong> gently with a soft cloth before scanning</li>
-                <li><strong>Scan at high resolution</strong> (at least 300 DPI, preferably 600 DPI)</li>
-                <li><strong>Crop out borders and frames</strong> unless they're part of the photo you want to preserve</li>
-                <li><strong>Adjust brightness and contrast</strong> of your scan if the original is extremely faded</li>
-            </ul>
-        </div>
-        <div>
-            <h3>After Restoration</h3>
-            <ul class="custom-list">
-                <li><strong>Compare multiple restoration attempts</strong> with different settings</li>
-                <li><strong>Save in high-quality formats</strong> like PNG or TIFF for archiving</li>
-                <li><strong>Print on acid-free paper</strong> if creating physical copies</li>
-                <li><strong>Create digital backups</strong> of both original scans and restored versions</li>
-            </ul>
-        </div>
-    </div>
+  <p><strong>Digitization:</strong> Flatbed scanner at 600 DPI. Scanner glass cleaned before scanning. Photo placed flat. Saved as TIFF (47MB).</p>
 
-    <div class="img-container">
-        
-    </div>
+  <p><strong>Pre-processing check:</strong> File opened in image viewer — sharp, fully in frame, no scanner shadow at edges. Confirmed correct orientation. No additional pre-processing needed.</p>
 
-    <div class="info-box">
-        <p><strong>Pro Tip:</strong> For precious family photos, consider creating a restoration project. Organize photos by decade or family member, restore them systematically, and create a digital family archive to share with relatives.</p>
-    </div>
+  <p><strong>First pass — structural repair:</strong> Uploaded to AI Image Upscaler. Selected only "Fix Scratches & Damage." Processing time: 42 seconds. Output: both diagonal scratches removed cleanly; tear in upper right reconstructed with background sky detail. Some residual fading in highlight areas — expected, this pass focused on physical damage only. Exported as PNG.</p>
+
+  <p><strong>Second pass — detail and color:</strong> Uploaded first-pass PNG. Selected "Enhance Faces," "Color Correction," and "Upscale Resolution." Processing time: 68 seconds. Output: facial detail in all four subjects sharply recovered, including eye detail and expression visible in the smallest subject. Color correction shifted the yellow cast to neutral and restored tonal range. Upscaling produced a 2x resolution increase suitable for printing at 8×10.</p>
+
+  <p><strong>Review and fine-tune:</strong> Color intensity was slightly oversaturated on the sky area. Reduced Color Intensity from default to 70% and reprocessed. Final output matched expected period-appropriate tonal quality.</p>
+
+  <p><strong>Export:</strong> Final PNG saved. JPEG at 95% quality created for sharing and printing. Both versions backed up alongside the original TIFF scan. Total time from scan to finished file: 28 minutes, including scanner setup.</p>
 </section>
 
+<!-- PRO TIPS -->
+<section id="pro-tips">
+  <h2>Professional Tips for Better Restoration Results</h2>
+
+  <div class="two-columns">
+    <div>
+      <h3>Before Restoration</h3>
+      <ul class="custom-list">
+        <li><strong>Scan at 600 DPI as standard practice</strong> — the difference between 300 and 600 DPI is visible in facial detail recovery and edge quality in AI output. The file size increase is worth it.</li>
+        <li><strong>Clean the photo surface before scanning</strong> — loose dust particles that can be brushed away before scanning become permanent artifacts if captured in the scan file. Use a soft brush or compressed air, not a cloth that can scratch.</li>
+        <li><strong>Crop scanner borders out of the image file</strong> — the dark border from the scanner lid compresses the image's tonal range and can affect color correction algorithms. Crop to the photo edge before uploading.</li>
+        <li><strong>Adjust extreme cases before upload</strong> — if a photo is so dark or faded that detail is barely visible even at full scan resolution, a brief brightness/contrast adjustment in any basic image viewer before uploading gives the AI more data to work with.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>After Restoration</h3>
+      <ul class="custom-list">
+        <li><strong>Compare multiple processing attempts</strong> — run two or three versions with different enhancement intensity settings. The difference between 80% and 100% detail enhancement can be significant, and the optimal level varies by photo.</li>
+        <li><strong>Archive in PNG or TIFF, not JPEG</strong> — JPEG re-compresses every time the file is opened and saved, and the compression artifacts compound. Archive files in lossless format and create JPEG copies only for sharing or printing purposes.</li>
+        <li><strong>If printing physical copies, use acid-free paper and archival inks</strong> — the same degradation mechanisms that damaged the original will damage a standard reprint within years. Archival-grade prints last decades under the same storage conditions.</li>
+        <li><strong>Build a systematic digital archive</strong> — organize restored photos by decade and family unit. Include basic metadata (names, approximate date, location) in the file name or EXIF data. An unorganized collection of restored photos loses most of its value within one generation.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <p><strong>Archival workflow tip:</strong> For each restored photo, keep three files: the original scan (TIFF), the restored output (PNG), and a sharing copy (JPEG). Store all three in a cloud backup service and a local external drive simultaneously. Single-point storage of irreplaceable photos is a risk that digital tools make completely unnecessary.</p>
+  </div>
+</section>
+
+<!-- COMMON MISTAKES -->
+<section id="common-mistakes">
+  <h2>Common Mistakes to Avoid</h2>
+
+  <div class="warning-box">
+    <h3>Scanning at 300 DPI for small original prints</h3>
+    <p>300 DPI is adequate for standard 4×6 prints and larger. For wallet-size photos, passport photos, or any small original, 300 DPI does not capture sufficient pixel data for effective AI restoration or upscaling. A 2×2 inch photo scanned at 300 DPI produces a 600×600 pixel file. The same photo scanned at 1200 DPI produces a 2400×2400 pixel file — enough for AI facial detail reconstruction. Match scan resolution to original photo size.</p>
+  </div>
+
+  <div class="warning-box">
+    <h3>Applying colorization before repairing structural damage</h3>
+    <p>Colorization models interpret every element of the input image as intentional content. A scratch across a face will be colorized as part of the face — typically in flesh tones — producing unnatural color artifacts that are difficult to correct after the fact. Always complete structural damage repair as a separate first pass before applying any colorization. The two-pass workflow adds two minutes and prevents color artifacts that would require manual correction.</p>
+  </div>
+
+  <div class="warning-box">
+    <h3>Selecting all enhancement options simultaneously for every photo</h3>
+    <p>Applying all available restoration options regardless of the specific damage present produces over-processed output. A sharp, minimally damaged photo that only needs scratch removal does not benefit from upscaling and facial enhancement — it may actually look worse. Identify the specific damage present and select only the corresponding options. Less processing on undamaged areas preserves original photographic character.</p>
+  </div>
+
+  <div class="warning-box">
+    <h3>Exporting restored photos as low-quality JPEG</h3>
+    <p>Downloading the restored photo at reduced JPEG quality (below 85%) introduces compression artifacts that visually degrade the restoration work — particularly visible as blocking artifacts in smooth skin areas and color banding in gradients. Export at maximum JPEG quality or PNG. The file size difference between 85% and 100% JPEG quality is small; the quality difference is visible.</p>
+  </div>
+
+  <div class="warning-box">
+    <h3>Discarding the original scan after restoration</h3>
+    <p>AI restoration is a reconstruction — it makes decisions about damaged areas based on probability from training data. These decisions are not always correct. The original scan is the only authoritative reference for what was actually in the photo. Keep original scans permanently alongside restored versions. Storage is inexpensive; the original scan of a unique family photo is irreplaceable.</p>
+  </div>
+</section>
+
+<!-- FUTURE -->
+<section id="future">
+  <h2>The Future of AI Photo Restoration</h2>
+  <p>AI photo restoration is currently in a period of rapid capability expansion. The tools available in 2026 handle most standard damage types automatically and with results that required hours of manual professional work five years ago. Several developments are advancing the field further.</p>
+  <p>Facial recognition models are becoming more sophisticated at reconstructing faces from minimal surviving detail — the current limitation of severely degraded portraits is receding as training datasets expand. Within 12–18 months, faces that are currently unrecoverable from high-damage photos will be reconstructable to recognizable quality.</p>
+  <p>Video restoration is the adjacent frontier. Home movie footage on Super 8 film and early VHS tapes degrades through the same mechanisms as photographic prints — and contains family history that is harder to replace than still photographs. AI video restoration tools applying frame-by-frame damage repair and resolution upscaling are already in development and will reach consumer accessibility at a similar cost to current photo tools within two to three years.</p>
+  <p>For families with physical photo archives currently in deteriorating condition: the practical recommendation is to digitize now, even if full restoration is deferred. Physical degradation is continuous. A photo scanned today at 600 DPI retains more recoverable detail than the same photo scanned in five years after additional fading and physical damage. The scan creates a baseline from which increasingly capable AI tools can work as the technology continues to improve.</p>
+</section>
+
+<!-- FAQ -->
 <section id="faq" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/FAQPage">
-    <h2>Frequently Asked Questions About AI Photo Restoration</h2>
+  <h2>Frequently Asked Questions About AI Photo Restoration</h2>
 
-    
-        <div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
-            <h3 class="faq-question" itemprop="name">Can AI restore any damaged photo?</h3>
-            <div class="faq-answer" itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <p itemprop="text">AI can restore most damaged photos, but results vary based on damage severity. Our tool works best with photos that have scratches, tears, fading, and blurriness. Extremely damaged photos with large missing sections may have limitations, but you'll be surprised by what modern AI can accomplish.</p>
-            </div>
-        </div>
+  <div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+    <h3 class="faq-question" itemprop="name">Can AI restore any damaged photo?</h3>
+    <div class="faq-answer" itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+      <p itemprop="text">AI restores most damaged photos effectively — scratches, tears, fading, staining, and blurriness all respond well. Photos with large physically missing sections have inherent limitations: the AI must reconstruct content it cannot reference from the original. For heavily damaged photos, a two-pass approach (structural repair first, then detail enhancement) consistently produces better results than a single all-options pass.</p>
+    </div>
+  </div>
 
-        <div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
-            <h3 class="faq-question" itemprop="name">Will AI photo restoration change how people look in my photos?</h3>
-            <div class="faq-answer" itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <p itemprop="text">Our AI is designed to enhance while preserving authenticity. It improves clarity and detail but maintains the original appearance and expressions of people in your photos. The goal is restoration, not alteration.</p>
-            </div>
-        </div>
+  <div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+    <h3 class="faq-question" itemprop="name">Will AI photo restoration change how people look in my photos?</h3>
+    <div class="faq-answer" itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+      <p itemprop="text">AI restoration enhances existing detail rather than replacing it. It recovers clarity and sharpness from what is already in the photo — it does not alter bone structure, expressions, or distinguishing features. If the restoration output looks different from the original, it is recovering detail that was present but obscured by damage or degradation, not substituting AI-generated facial features.</p>
+    </div>
+  </div>
 
-        <div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
-            <h3 class="faq-question" itemprop="name">How accurate is AI colorization for black and white photos?</h3>
-            <div class="faq-answer" itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <p itemprop="text">AI colorization has become remarkably accurate. The algorithm analyzes context clues and historical data to apply natural, period-appropriate colors. While not 100% historically accurate in every detail, the results are usually very convincing and bring new life to black and white photos.</p>
-            </div>
-        </div>
+  <div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+    <h3 class="faq-question" itemprop="name">How accurate is AI colorization for black and white photos?</h3>
+    <div class="faq-answer" itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+      <p itemprop="text">AI colorization produces convincing, natural results for skin tones, sky, foliage, and common fabric colors. It applies historically informed color assignments based on contextual scene analysis. It is not historically verified — specific garment colors, paint, and personal objects may differ from the actual original. For historical documentation purposes, note that colorized output is an informed approximation rather than a factual record of original colors.</p>
+    </div>
+  </div>
 
-        <div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
-            <h3 class="faq-question" itemprop="name">Is my data safe when using your AI photo restoration tool?</h3>
-            <div class="faq-answer" itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <p itemprop="text">Yes, we take privacy seriously. Your uploaded photos are processed securely and are not stored permanently on our servers. All uploads are automatically deleted after processing, and we never use your personal photos for AI training without explicit consent.</p>
-            </div>
-        </div>
+  <div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+    <h3 class="faq-question" itemprop="name">Is my data safe when using the AI photo restoration tool?</h3>
+    <div class="faq-answer" itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+      <p itemprop="text">Uploaded photos are processed securely and automatically deleted from the server after processing. They are not stored permanently and are not used for AI training without explicit consent. The privacy policy covers the full data handling procedure for uploads. Do not upload documents containing sensitive personal information — submit only the photo file itself.</p>
+    </div>
+  </div>
 
-        <div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
-            <h3 class="faq-question" itemprop="name">Can I restore multiple photos at once?</h3>
-            <div class="faq-answer" itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                <p itemprop="text">Yes, our AI Image Upscaler tool allows batch processing. You can upload multiple photos and restore them in sequence, saving you time when working with large family photo collections.</p>
-            </div>
-        </div>
-    
+  <div class="faq-item" itemscope="" itemprop="mainEntity" itemtype="https://schema.org/Question">
+    <h3 class="faq-question" itemprop="name">What scan resolution gives the best AI restoration results?</h3>
+    <div class="faq-answer" itemscope="" itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+      <p itemprop="text">600 DPI is the recommended standard for most prints. 300 DPI is adequate for large originals (8×10 and above) but insufficient for small photos. For wallet-size or passport-size originals, use 1200 DPI. Save scans as TIFF or maximum-quality JPEG before uploading — scan-time JPEG compression permanently discards detail before the AI ever processes the file.</p>
+    </div>
+  </div>
 </section>
 
-<section id="conclusion">
-    <h2>Conclusion: Preserve Your Family Legacy with AI Photo Restoration</h2>
-    <p>Old family photos are irreplaceable treasures that connect us to our past. With AI photo restoration technology, you now have the power to rescue these memories from the ravages of time. Our easy-to-use tools make it possible for anyone—regardless of technical skill—to restore clarity, color, and life to damaged photos.</p>
-
-    <p>Don't let your precious family memories fade away. Start your restoration journey today and create a digital legacy that can be shared with generations to come.</p>
-
-    <div class="cta-block">
-        <h3 class="cta-block-title">Ready to Bring Your Family Memories Back to Life?</h3>
-        <p class="cta-block-text">Our AI Image Upscaler tool makes photo restoration simple, fast, and accessible to everyone.</p>
-        <a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank" class="cta-btn cta-btn-large" data-link="true" data-id="5">Start Restoring Your Family Photos Now</a>
-    </div>
-</section></div>
+</div>

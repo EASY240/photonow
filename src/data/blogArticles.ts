@@ -106,9 +106,9 @@ export const blogArticleIndex = [
     relatedTool: 'ai-cleanup'
   },
   {
-    id: 'best-photo-background-editors-2025',
-    title: '10 Best Photo Background Editors for Perfect Images in 2025',
-    excerpt: 'Discover the top 10 best photo background editors in 2025. Compare features, pricing, and capabilities of leading tools for perfect image editing results.',
+    id: 'best-photo-background-editors-2026',
+    title: '10 Best Photo Background Editors for Perfect Images in 2026',
+    excerpt: 'Discover the top 10 best photo background editors in 2026. Compare features, pricing, and capabilities of leading tools for perfect image editing results.',
     publishDate: '2025-10-01',
     readTime: '18 min read',
     category: 'tools' as const,
@@ -136,9 +136,9 @@ export const blogArticleIndex = [
     relatedTool: 'ai-filter'
   },
   {
-    id: 'ai-background-generators-2025',
-    title: 'Best AI Background Generators in 2025: Top Tools Compared',
-    excerpt: 'Discover the best AI background generators in 2025 for stunning visuals. Compare features, pricing, and capabilities of top tools to elevate your creative projects instantly.',
+    id: 'ai-background-generators-2026',
+    title: 'Best AI Background Generators in 2026: Top Tools Compared',
+    excerpt: 'Discover the best AI background generators in 2026 for stunning visuals. Compare features, pricing, and capabilities of top tools to elevate your creative projects instantly.',
     publishDate: '2025-02-19',
     readTime: '12 min read',
     category: 'tools' as const,
@@ -146,9 +146,9 @@ export const blogArticleIndex = [
     relatedTool: 'ai-background-generator'
   },
   {
-    id: 'easter-card-messages-2025',
-    title: '100+ Easter Card Message Ideas in 2025 | Modern PhotoTools',
-    excerpt: 'Discover 100+ Easter card message ideas for 2025! From religious blessings to funny greetings, find the perfect words to pair with your Easter photos and designs.',
+    id: 'easter-card-messages-2026',
+    title: '100+ Easter Card Message Ideas in 2026 | Modern PhotoTools',
+    excerpt: 'Discover 100+ Easter card message ideas for 2026! From religious blessings to funny greetings, find the perfect words to pair with your Easter photos and designs.',
     publishDate: '2025-05-30',
     readTime: '18 min read',
     category: 'general' as const,
@@ -156,7 +156,7 @@ export const blogArticleIndex = [
   },
 
   {
-    id: 'holi-photoshoot-ideas-2025',
+    id: 'holi-photoshoot-ideas-2026',
     title: '15 Unique Holi Photoshoot Ideas for Perfect Festive Clicks',
     excerpt: 'Discover creative Holi photoshoot ideas to capture the festival\'s vibrant spirit! From color powder portraits to action shots, learn how to enhance your festive photos with AI tools.',
     publishDate: '2025-08-07',
