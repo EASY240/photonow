@@ -16,6 +16,20 @@ export interface BlogArticle {
 // Blog article metadata index - content is now loaded from individual Markdown files
 export const blogArticleIndex = [
   {
+    id: 'nano-banana-2-google-ai-image-generation',
+    title: "Nano Banana 2 Explained: Best Google's AI Image Generation Model",
+    excerpt:
+      "A complete guide to Nano Banana 2 — Google's latest AI image generation model. Learn what it is, how the technology works, and how content creators and designers can use it for real creative workflows.",
+    publishDate: '2026-02-26',
+    readTime: '12 min read',
+    category: 'tools' as const,
+    featuredImage: '/images/blog/Nano Banana 2.jpg',
+    keywords: ['Nano Banana 2', 'Google AI image generator', 'Gemini image generation', 'AI image generation 2026', 'Nano Banana 2 for designers', 'Gemini 3.1 Flash Image', 'AI image generation for content creators', 'Google Gemini image model'],
+    metaTitle: "Nano Banana 2 Explained: How Google's Latest AI Image Model Works",
+    metaDescription:
+      "Complete guide to Nano Banana 2 — Google's fastest AI image generation model. Covers how the technology works, key features, real use cases for content creators and designers, and how it compares to Nano Banana Pro."
+  },
+  {
     id: 'free-ai-image-upscaler-vs-paid-software-when-free-is-good-enough-2026',
     title: 'Free AI Image Upscaler vs Paid Software: When Free is Good Enough 2026',
     excerpt:

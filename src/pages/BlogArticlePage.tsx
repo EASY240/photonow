@@ -177,6 +177,37 @@ const BlogArticlePage: React.FC = () => {
       console.error('Failed to initialize FAQ accordions', err);
     }
   }, [article]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (!article) return;
+    let cancelled = false;
+
+    const renderMermaid = async () => {
+      const container = document.querySelector('.article-content');
+      if (!container) return;
+      const nodes = Array.from(container.querySelectorAll('.mermaid')) as HTMLElement[];
+      if (nodes.length === 0) return;
+      const pendingNodes = nodes.filter((node) => node.getAttribute('data-processed') !== 'true');
+      if (pendingNodes.length === 0) return;
+
+      const { default: mermaid } = await import('mermaid');
+      if (cancelled) return;
+      mermaid.initialize({ startOnLoad: false, theme: 'default' });
+      await mermaid.run({ nodes: pendingNodes });
+      pendingNodes.forEach((node) => {
+        node.setAttribute('data-processed', 'true');
+      });
+    };
+
+    renderMermaid().catch((error) => {
+      console.error('Failed to render mermaid diagrams', error);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [article]);
   
   if (redirectTo) {
     return (
