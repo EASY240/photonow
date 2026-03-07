@@ -16,6 +16,20 @@ export interface BlogArticle {
 // Blog article metadata index - content is now loaded from individual Markdown files
 export const blogArticleIndex = [
   {
+    id: 'best-ramadan-ai-photo-editing-prompts',
+    title: 'Best Ramadan AI Photo Editing Prompts',
+    excerpt:
+      'A structured guide to the best Ramadan AI photo editing prompts for Midjourney, DALL-E, and Stable Diffusion. Covers lantern scenes, iftar setups, portraits, product photography, and social content — with 40+ ready-to-use prompts.',
+    publishDate: '2026-03-04',
+    readTime: '14 min read',
+    category: 'general' as const,
+    featuredImage: '/images/blog/Ramadan AI Photo Editing Prompts.jpg',
+    keywords: ['Ramadan AI photo editing prompts', 'Ramadan Midjourney prompts', 'AI image generation Ramadan', 'Ramadan photo editing', 'Islamic AI art prompts', 'Ramadan content creation AI', 'Ramadan lantern prompts', 'iftar photo prompts', 'AI Ramadan visuals', 'Stable Diffusion Ramadan'],
+    metaTitle: 'Best Ramadan AI Photo Editing Prompts — 40+ Copy-Paste Examples',
+    metaDescription:
+      '40+ ready-to-use Ramadan AI photo editing prompts for Midjourney, DALL-E, and Stable Diffusion. Covers iftar scenes, lanterns, crescent moon, portraits, and product photography — with pro tips and common mistakes.'
+  },
+  {
     id: 'nano-banana-2-google-ai-image-generation',
     title: "Nano Banana 2 Explained: Best Google's AI Image Generation Model",
     excerpt:
