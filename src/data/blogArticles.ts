@@ -16,6 +16,20 @@ export interface BlogArticle {
 // Blog article metadata index - content is now loaded from individual Markdown files
 export const blogArticleIndex = [
   {
+    id: 'how-to-generate-professional-eid-mubarak-ai-photos',
+    title: 'How to Generate Professional Eid Mubarak AI Photos (10 Ready-to-Use Prompts)',
+    excerpt:
+      'A step-by-step guide to generating high-quality Eid Mubarak AI photos using Bing Image Creator, Midjourney, and Gemini. Includes 10 ready-to-use prompts for portraits, 3D text, festive scenes, and product visuals.',
+    publishDate: '2026-03-20',
+    readTime: '13 min read',
+    category: 'general' as const,
+    featuredImage: '/images/blog/Eid Mubarak AI Photos Prompts.jpg',
+    keywords: ['Eid Mubarak AI photos', 'Eid AI image generator', 'Eid Mubarak prompts Midjourney', 'AI Eid photo editing', 'Eid Mubarak AI image prompts', 'generate Eid greeting photos AI', '3D Eid Mubarak name image', 'Bing Image Creator Eid prompts', 'Eid festive AI portrait', 'Islamic AI image generation'],
+    metaTitle: 'How to Generate Professional Eid Mubarak AI Photos — 10 Ready-to-Use Prompts',
+    metaDescription:
+      'Step-by-step guide to generating professional Eid Mubarak AI photos. Includes 10 copy-paste prompts for Bing Image Creator, Midjourney, and Gemini — covering portraits, 3D names, mosque scenes, and festive visuals.'
+  },
+  {
     id: 'best-ramadan-ai-photo-editing-prompts',
     title: 'Best Ramadan AI Photo Editing Prompts',
     excerpt:
