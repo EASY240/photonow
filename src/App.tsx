@@ -1,5 +1,5 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import ShareButtons from './components/ui/ShareButtons';
@@ -20,6 +20,19 @@ import CookiesPolicyPage from './pages/CookiesPolicyPage';
 import AcceptableUsePolicyPage from './pages/AcceptableUsePolicyPage';
 
 function App() {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const ez = (window as { ezstandalone?: { cmd?: Array<() => void>; showAds?: (...ids: number[]) => void } }).ezstandalone;
+    if (!ez?.cmd) return;
+    ez.cmd.push(() => {
+      if (typeof ez.showAds === 'function') {
+        ez.showAds();
+      }
+    });
+  }, [location.pathname, location.search, location.hash]);
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />

@@ -127,7 +127,7 @@ const EzoicAdPlacements: React.FC<{ placementIds: number[] }> = ({ placementIds 
         ez.showAds(...placementIds);
       }
     });
-  }, [placementIds.join(',')]);
+  }, [placementIds]);
 
   return (
     <>
