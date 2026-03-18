@@ -5,6 +5,29 @@ import { SchemaJSONLD } from '../components/ui/SchemaJSONLD';
 import { loadBlogArticles, BlogArticleWithContent } from '../utils/blogLoader';
 import { generateBreadcrumbSchema } from '../utils/siteConfig';
 
+const ezoicBlogPlacements = [201];
+
+const EzoicAdPlacements: React.FC<{ placementIds: number[] }> = ({ placementIds }) => {
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const ez = (window as { ezstandalone?: { cmd?: Array<() => void>; showAds?: (...ids: number[]) => void } }).ezstandalone;
+    if (!ez?.cmd) return;
+    ez.cmd.push(() => {
+      if (typeof ez.showAds === 'function') {
+        ez.showAds(...placementIds);
+      }
+    });
+  }, [placementIds.join(',')]);
+
+  return (
+    <>
+      {placementIds.map((id) => (
+        <div key={id} id={`ezoic-pub-ad-placeholder-${id}`}></div>
+      ))}
+    </>
+  );
+};
+
 const BlogPage: React.FC = () => {
   const [articles, setArticles] = useState<BlogArticleWithContent[]>([]);
   const [loading, setLoading] = useState(true);
@@ -59,6 +82,9 @@ const BlogPage: React.FC = () => {
           </div>
 
           {/* Blog Articles Grid */}
+          <div className="mb-10">
+            <EzoicAdPlacements placementIds={ezoicBlogPlacements} />
+          </div>
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {articles.map((article) => (
