@@ -15,12 +15,6 @@
   status = 200
 
 [[redirects]]
-  from = "/ads.txt"
-  to = "https://srv.adstxtmanager.com/19390/modernphototools.com"
-  status = 301
-  force = true
-
-[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200

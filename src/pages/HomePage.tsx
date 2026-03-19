@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Edit3, Brain, ClipboardCopy, HelpCircle, ChevronDown } from 'lucide-react';
 import Button from '../components/ui/Button';
@@ -115,29 +115,6 @@ const homeFaqItems = [
   },
 ] as const;
 
-const ezoicHomePlacements = [101, 102];
-
-const EzoicAdPlacements: React.FC<{ placementIds: number[] }> = ({ placementIds }) => {
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const ez = (window as { ezstandalone?: { cmd?: Array<() => void>; showAds?: (...ids: number[]) => void } }).ezstandalone;
-    if (!ez?.cmd) return;
-    ez.cmd.push(() => {
-      if (typeof ez.showAds === 'function') {
-        ez.showAds(...placementIds);
-      }
-    });
-  }, [placementIds]);
-
-  return (
-    <>
-      {placementIds.map((id) => (
-        <div key={id} id={`ezoic-pub-ad-placeholder-${id}`}></div>
-      ))}
-    </>
-  );
-};
-
 const HomePage: React.FC = () => {
   // Define the 6 specific popular tools as requested
   const popularToolNames = [
@@ -182,12 +159,6 @@ const HomePage: React.FC = () => {
               </Link>
             </div>
           </div>
-        </div>
-      </section>
-
-      <section className="bg-white py-6">
-        <div className="container mx-auto px-4">
-          <EzoicAdPlacements placementIds={ezoicHomePlacements} />
         </div>
       </section>
       
