@@ -1,7 +1,8 @@
 google.com, pub-6022638934417351, DIRECT, f08c47fec0942fa0
 google.com, pub-9894004305674532, DIRECT, f08c47fec0942fa0
 
-
+improvedigital.com,1602_130403,DIRECT
+improvedigital.com,1033_130403,DIRECT
 OWNERDOMAIN=modernphototools.com
 MANAGERDOMAIN=themoneytizer.com
 themoneytizer.com,130403,DIRECT
