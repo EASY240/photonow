@@ -16,6 +16,19 @@ export interface BlogArticle {
 // Blog article metadata index - content is now loaded from individual Markdown files
 export const blogArticleIndex = [
   {
+    id: 'best-10-ai-wedding-photo-prompts',
+    title: 'Best 10 AI Wedding Photo Prompts (Copy-Paste Ready for Midjourney & DALL-E)',
+    excerpt:
+      '10 professional AI wedding photo prompts engineered with optical terminology, lighting physics, and material science. Covers cathedral portraits, South Asian galas, winter elopements, enchanted forests, and more — copy-paste ready for Midjourney V6.1 and DALL-E 3.',
+    publishDate: '2026-03-28',
+    readTime: '14 min read',
+    category: 'general' as const,
+    featuredImage: '/images/blog/Best 10 ai wedding photo prompts.jpg',
+    keywords: ['AI wedding photo prompts', 'Midjourney wedding prompts', 'wedding photography AI generator', 'DALL-E wedding photos', 'AI bridal portrait prompts', 'photorealistic wedding AI', 'Midjourney V6 wedding', 'AI wedding photography 2026', 'bridal portrait AI prompt', 'wedding photo editing AI'],
+    metaTitle: 'Best 10 AI Wedding Photo Prompts — Midjourney & DALL-E Copy-Paste Ready',
+    metaDescription: '10 professional AI wedding photo prompts with optical specs, lighting techniques, and material descriptors. Copy-paste ready for Midjourney V6.1 and DALL-E 3. Covers cathedral portraits, South Asian galas, elopements, and more.'
+  },
+  {
     id: 'how-to-generate-professional-eid-mubarak-ai-photos',
     title: 'How to Generate Professional Eid Mubarak AI Photos (10 Ready-to-Use Prompts)',
     excerpt:
