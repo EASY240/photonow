@@ -16,6 +16,20 @@ export interface BlogArticle {
 // Blog article metadata index - content is now loaded from individual Markdown files
 export const blogArticleIndex = [
   {
+    id: 'best-20-ai-trending-prompts-baby-photoshoot',
+    title: 'Best 20 AI Trending Prompts for Baby Photoshoot (2026 Guide)',
+    excerpt:
+      'A complete guide to generating professional baby photoshoot images using AI — no studio required. Includes 20 ready-to-use prompts for celestial, fantasy, themed, and heritage infant portraits, plus pro tips for facial identity retention and realistic skin texture.',
+    publishDate: '2026-04-01',
+    readTime: '14 min read',
+    category: 'general' as const,
+    featuredImage: '/images/blog/Best 20 AI Trending Prompts for Baby Photoshoot .jpg',
+    relatedTool: 'ai-image-generator',
+    keywords: ['AI baby photoshoot prompts', 'newborn photography AI', 'baby portrait AI generator', 'infant photoshoot ideas AI', 'AI image prompts for babies', 'Midjourney baby prompts', 'Bing Image Creator baby', 'AI baby photo editing', 'newborn portrait generator', 'baby photoshoot ideas 2026'],
+    metaTitle: 'Best 20 AI Trending Prompts for Baby Photoshoot (2026) | ModernPhotoTools',
+    metaDescription: '20 ready-to-use AI prompts for stunning baby photoshoot images — no studio required. Covers celestial, fantasy, heritage, and themed infant portraits with facial identity retention tips for Midjourney, Bing Image Creator, and Gemini.',
+  },
+  {
     id: 'best-10-ai-wedding-photo-prompts',
     title: 'Best 10 AI Wedding Photo Prompts (Copy-Paste Ready for Midjourney & DALL-E)',
     excerpt:
