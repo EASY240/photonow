@@ -29,6 +29,10 @@ export default defineConfig({
       '/api/optimize-prompt': {
         target: 'http://localhost:3001',
         changeOrigin: true
+      },
+      '/api/contact-email': {
+        target: 'http://localhost:3001',
+        changeOrigin: true
       }
     },
     open: true,

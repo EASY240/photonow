@@ -2,9 +2,15 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
+import posthog from 'posthog-js'
 import App from './App.tsx'
 import ScrollToTop from './components/layout/ScrollToTop.tsx'
 import './index.css'
+
+posthog.init(import.meta.env.VITE_POSTHOG_KEY, {
+  api_host: import.meta.env.VITE_POSTHOG_HOST,
+  person_profiles: 'identified_only',
+})
 
 const rootElement = document.getElementById('root')
 

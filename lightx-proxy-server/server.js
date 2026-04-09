@@ -1,6 +1,7 @@
 // server.js
 const express = require('express');
 const cors = require('cors');
+const nodemailer = require('nodemailer');
 // Use node-fetch v2 syntax for CommonJS
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 require('dotenv').config();
@@ -174,6 +175,60 @@ app.post('/api/optimize-prompt', async (req, res) => {
     }
     console.error('optimize-prompt Error:', { status: code, message });
     return res.status(code === 200 ? 500 : code).json({ success: false, error: message, meta: { code } });
+  }
+});
+
+app.post('/api/contact-email', async (req, res) => {
+  const gmailUser = process.env.GMAIL_USER;
+  const gmailAppPassword = process.env.GMAIL_APP_PASSWORD;
+  const contactReceiver = process.env.CONTACT_RECEIVER_EMAIL || 'alidue992@gmail.com';
+  const name = typeof req.body?.name === 'string' ? req.body.name.trim().slice(0, 120) : '';
+  const senderEmail = typeof req.body?.email === 'string' ? req.body.email.trim().toLowerCase().slice(0, 200) : '';
+  const message = typeof req.body?.message === 'string' ? req.body.message.trim().slice(0, 5000) : '';
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!gmailUser || !gmailAppPassword) {
+    return res.status(500).json({ success: false, message: 'Email service is not configured' });
+  }
+  if (!name || !senderEmail || !message) {
+    return res.status(400).json({ success: false, message: 'Please fill out all fields.' });
+  }
+  if (!emailRegex.test(senderEmail)) {
+    return res.status(400).json({ success: false, message: 'Please enter a valid email address.' });
+  }
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: gmailUser,
+      pass: gmailAppPassword
+    }
+  });
+
+  try {
+    await transporter.sendMail({
+      from: `ModernPhotoTools Contact <${gmailUser}>`,
+      to: contactReceiver,
+      replyTo: senderEmail,
+      subject: `New contact form message from ${name}`,
+      text: `Name: ${name}\nEmail: ${senderEmail}\n\nMessage:\n${message}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+          <h2>New Contact Form Message</h2>
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Email:</strong> ${senderEmail}</p>
+          <p><strong>Message:</strong></p>
+          <p>${message.replace(/\n/g, '<br>')}</p>
+        </div>
+      `
+    });
+    return res.status(200).json({
+      success: true,
+      message: "Your message has been sent. We'll get back to you soon!"
+    });
+  } catch (error) {
+    console.error('contact-email Error:', error.message);
+    return res.status(500).json({ success: false, message: 'Failed to send message. Please try again.' });
   }
 });
 

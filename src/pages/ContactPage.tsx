@@ -26,6 +26,7 @@ const ContactPage: React.FC = () => {
     message: '',
     submitted: false
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -35,10 +36,9 @@ const ContactPage: React.FC = () => {
     }));
   };
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validate form
     if (!formData.name || !formData.email || !formData.message) {
       setFormStatus({
         success: false,
@@ -48,7 +48,6 @@ const ContactPage: React.FC = () => {
       return;
     }
     
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       setFormStatus({
@@ -58,25 +57,54 @@ const ContactPage: React.FC = () => {
       });
       return;
     }
-    
-    // In a real implementation, you would send the form data to your backend
-    // For now, we'll just simulate a successful submission
-    
-    // Simulate API call
-    setTimeout(() => {
+
+    setIsSubmitting(true);
+    try {
+      const contactApiUrl =
+        typeof window !== 'undefined' && window.location.hostname === 'localhost'
+          ? 'http://localhost:3001/api/contact-email'
+          : '/api/contact-email';
+
+      const response = await fetch(contactApiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+      const rawResponse = await response.text();
+      let result: { success?: boolean; message?: string } = {};
+      if (rawResponse) {
+        try {
+          result = JSON.parse(rawResponse);
+        } catch {
+          result = { success: false, message: 'Unexpected server response format.' };
+        }
+      }
+      if (!response.ok || !result?.success) {
+        throw new Error(result?.message || 'Failed to send message. Please try again.');
+      }
+
       setFormStatus({
         success: true,
-        message: 'Your message has been sent. We\'ll get back to you soon!',
+        message: result.message || 'Your message has been sent. We\'ll get back to you soon!',
         submitted: true
       });
-      
-      // Reset form
       setFormData({
         name: '',
         email: '',
         message: ''
       });
-    }, 1000);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to send message. Please try again.';
+      setFormStatus({
+        success: false,
+        message,
+        submitted: true
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   
   return (
@@ -111,8 +139,6 @@ const ContactPage: React.FC = () => {
                   <div>
                     <h3 className="text-lg font-medium text-gray-900">Email Us</h3>
                     <p className="text-gray-700">
-                      support@modernphototools.com
-                      Or
                       alidue992@gmail.com
                     </p>
                   </div>
@@ -182,6 +208,8 @@ const ContactPage: React.FC = () => {
                 <Button 
                   type="submit" 
                   fullWidth
+                  isLoading={isSubmitting}
+                  disabled={isSubmitting}
                   leftIcon={<Send size={18} />}
                 >
                   Send Message

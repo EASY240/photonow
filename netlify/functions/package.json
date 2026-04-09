@@ -5,6 +5,7 @@
   "main": "lightx-proxy.js",
   "dependencies": {
     "node-fetch": "^2.6.7",
-    "@openrouter/sdk": "^0.2.9"
+    "@openrouter/sdk": "^0.2.9",
+    "nodemailer": "^6.10.1"
   }
 }
