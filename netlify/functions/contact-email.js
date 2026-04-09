@@ -1,5 +1,3 @@
-const nodemailer = require('nodemailer');
-
 const jsonHeaders = {
   'Content-Type': 'application/json',
   'Access-Control-Allow-Origin': '*',
@@ -55,15 +53,23 @@ exports.handler = async function(event) {
     return createResponse(400, { success: false, message: 'Please enter a valid email address.' });
   }
 
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: gmailUser,
-      pass: gmailAppPassword
-    }
-  });
+  let nodemailer;
+  try {
+    nodemailer = require('nodemailer');
+  } catch (error) {
+    console.error('Failed to load nodemailer:', error.message);
+    return createResponse(500, { success: false, message: 'Email service dependency is unavailable' });
+  }
 
   try {
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: gmailUser,
+        pass: gmailAppPassword
+      }
+    });
+
     await transporter.sendMail({
       from: `ModernPhotoTools Contact <${gmailUser}>`,
       to: contactReceiver,
