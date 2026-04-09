@@ -1009,9 +1009,18 @@ export async function startImageGeneratorJob({ textPrompt, width, height }: { te
   }
 }
 
-export async function startPortraitJob({ imageUrl, styleImageUrl, textPrompt }: { imageUrl: string; styleImageUrl?: string; textPrompt?: string; }): Promise<string> {
+export async function startPortraitJob({ imageUrl, styleReferenceUrl, textPrompt }: { imageUrl: string; styleReferenceUrl?: string; textPrompt?: string; }): Promise<string> {
   try {
     const { baseUrl } = getEnvironmentConfig();
+    const portraitBody: { imageUrl: string; styleReferenceUrl?: string; textPrompt?: string } = {
+      imageUrl,
+    };
+    if (styleReferenceUrl && styleReferenceUrl.trim()) {
+      portraitBody.styleReferenceUrl = styleReferenceUrl.trim();
+    }
+    if (textPrompt && textPrompt.trim()) {
+      portraitBody.textPrompt = textPrompt.trim();
+    }
 
     const response = await fetch(`${baseUrl}/api/lightx-proxy`, {
       method: 'POST',
@@ -1020,11 +1029,7 @@ export async function startPortraitJob({ imageUrl, styleImageUrl, textPrompt }: 
       },
       body: JSON.stringify({
         endpoint: 'v2/portrait',
-        body: {
-          imageUrl: imageUrl,
-          styleImageUrl: styleImageUrl || "",
-          textPrompt: textPrompt || ""
-        }
+        body: portraitBody
       }),
     });
 

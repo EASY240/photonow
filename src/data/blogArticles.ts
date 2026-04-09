@@ -211,7 +211,7 @@ export const blogArticleIndex = [
     publishDate: '2025-02-19',
     readTime: '12 min read',
     category: 'tools' as const,
-    featuredImage: '\images\tools images\AI Background Generator Tool.jpg',
+    featuredImage: '/images/tools images/AI Background Generator Tool.jpg',
     relatedTool: 'ai-background-generator'
   },
   {
@@ -275,6 +275,19 @@ export const blogArticleIndex = [
     featuredImage: 'https://storage.googleapis.com/48877118-7272-4a4d-b302-0465d8aa4548/6f8e9098-7fc6-4082-b198-c95a4b6ca49a/0f201e61-34a9-42e2-868f-5e1fa65fdac4.webp',
     relatedTool: 'ai-hairstyle',
     keywords: ['ai hairstyle generator', 'virtual hairstyle try-on', 'test a new hairstyle', 'try hairstyles online', 'hair color preview']
+  },
+  {
+    id: 'how-to-create-professional-ai-headshots-for-linkedin-cv',
+    title: 'How to Create Professional AI Headshots for LinkedIn & CVs (2026 Guide)',
+    excerpt: 'A step-by-step guide to creating professional AI headshots for LinkedIn profiles and CVs — no studio, no expensive photographer. Covers base photo prep, AI enhancement, background removal, outfit replacement, upscaling, and ready-to-use prompts for generating headshots from scratch.',
+    publishDate: '2026-04-07',
+    readTime: '14 min read',
+    category: 'tools' as const,
+    featuredImage: '/images/blog/Professional AI Headshots for LinkedIn & CVs .jpg',
+    relatedTool: 'ai-portrait',
+    keywords: ['AI headshot for LinkedIn', 'professional headshot AI', 'how to create AI headshot', 'LinkedIn profile photo AI', 'CV photo AI generator', 'AI portrait generator professional', 'free AI headshot tool', 'professional photo without studio'],
+    metaTitle: 'How to Create Professional AI Headshots for LinkedIn & CVs (2026 Guide)',
+    metaDescription: 'Step-by-step guide to creating professional AI headshots for LinkedIn and CVs. No studio needed — covers AI portrait enhancement, background removal, outfit swap, upscaling, and 8 copy-paste prompts.'
   }
 ];
 

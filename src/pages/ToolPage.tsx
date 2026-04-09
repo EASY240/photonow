@@ -6254,6 +6254,15 @@ const handleAIPortraitGenerate = async () => {
     console.error("No user image provided.");
     return;
   }
+
+  if (imageDimensions && (imageDimensions.width < 512 || imageDimensions.height < 512)) {
+    setProcessedImage({
+      url: null,
+      isLoading: false,
+      error: `AI Portrait requires at least 512x512 input. Current image is ${imageDimensions.width}x${imageDimensions.height}.`
+    });
+    return;
+  }
   
   // A style source (preset or custom) should be guaranteed by the disabled button logic
   if (!portraitSelectedStyle && !portraitCustomStyleImage) {
@@ -6293,7 +6302,7 @@ const handleAIPortraitGenerate = async () => {
     // 4. Call the job with guaranteed valid data
     const orderId = await startPortraitJob({
       imageUrl: mainImageUrl,
-      styleImageUrl: finalStyleUrl,
+      styleReferenceUrl: finalStyleUrl,
       textPrompt: finalPrompt || "A high-quality portrait"
     });
 

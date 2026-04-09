@@ -8,6 +8,35 @@ import { generateBreadcrumbSchema } from '../utils/siteConfig';
 import 'img-comparison-slider/dist/styles.css';
 import 'img-comparison-slider';
 
+const extractFaqSchemaFromContent = (content: string): Record<string, unknown> | null => {
+  const schemaScriptMatches = content.matchAll(
+    /<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi
+  );
+
+  for (const match of schemaScriptMatches) {
+    const scriptContent = match[1]?.trim();
+    if (!scriptContent) {
+      continue;
+    }
+
+    try {
+      const parsed = JSON.parse(scriptContent) as Record<string, unknown> | Record<string, unknown>[];
+      const schemaItems = Array.isArray(parsed) ? parsed : [parsed];
+      const faqSchema = schemaItems.find(
+        (item) => item && !Array.isArray(item) && item['@type'] === 'FAQPage'
+      );
+
+      if (faqSchema) {
+        return faqSchema;
+      }
+    } catch {
+      continue;
+    }
+  }
+
+  return null;
+};
+
 const BlogArticlePage: React.FC = () => {
   const { articleId } = useParams<{ articleId: string }>();
   const [article, setArticle] = useState<BlogArticleWithContent | null>(null);
@@ -306,11 +335,13 @@ const BlogArticlePage: React.FC = () => {
         }))
       }
     : null;
+  const articleFaqSchema = extractFaqSchemaFromContent(article.content);
+  const activeFaqSchema = upscalerFaqSchema || articleFaqSchema;
+  const schemaData = activeFaqSchema ? [activeFaqSchema, breadcrumbSchema] : breadcrumbSchema;
 
-  // Render HTML content with proper styling
   const renderContent = (content: string) => {
     const sanitizedContent = content.replace(
-      /<script[^>]*type=["']application\/ld\+json["'][^>]*>[\s\S]*?FAQPage[\s\S]*?<\/script>/gi,
+      /<script[^>]*type=["']application\/ld\+json["'][^>]*>[\s\S]*?<\/script>/gi,
       ''
     );
 
@@ -369,7 +400,7 @@ const BlogArticlePage: React.FC = () => {
         canonicalUrl={`https://modernphototools.com/blog/${articleId}`}
         ogImage={article.featuredImage}
       />
-      <SchemaJSONLD data={upscalerFaqSchema ? [upscalerFaqSchema, breadcrumbSchema] : breadcrumbSchema} />
+      <SchemaJSONLD data={schemaData} />
       
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
         <div className="container mx-auto px-4 py-12">
