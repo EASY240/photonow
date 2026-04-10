@@ -107,10 +107,6 @@ faqSchema: {
 <section id="the-problem">
   <h2>Why Your LinkedIn Photo Is Your First Interview</h2>
 
-  <div class="img-container">
-    <img src="/images/blog/how-to-create-professional-ai-headshots-for-linkedin-cv-1.jpg" alt="Professional LinkedIn headshot created with AI portrait enhancement and clean background">
-  </div>
-
   <p>Your <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a> profile picture is processed by human psychology in under 100 milliseconds. Before a recruiter reads your job title, your school, or a single bullet point on your CV — they have already formed a first impression from your photo. Research published by Princeton University shows that competence, trustworthiness, and likability judgments are made from facial photographs in as little as 100ms, and those judgments correlate strongly with hiring decisions.</p>
 
   <p>The problem is structural: professional photography is expensive ($200–$500 per session), requires scheduling, and produces results that date quickly. Most people default to a cropped selfie, a photo from a social event, or — worse — no photo at all. LinkedIn profiles without photos receive up to 21× fewer profile views than those with one.</p>
@@ -227,10 +223,6 @@ faqSchema: {
   </div>
 
   <h3>Step 2 — Apply AI Portrait Enhancement</h3>
-
-  <div class="img-container">
-    <img src="/images/blog/how-to-create-professional-ai-headshots-for-linkedin-cv-3.jpg" alt="AI Portrait tool interface showing before and after portrait enhancement on a professional headshot">
-  </div>
 
   <p>Upload your base photo to the <a href="https://modernphototools.com/tools/ai-portrait" target="_blank">AI Portrait tool</a>. This step handles the corrections that a professional photographer applies in post-processing: lighting balance, skin tone evening, eye brightening, and hair definition. The goal is enhancement — the output should look exactly like you, under better light.</p>
 

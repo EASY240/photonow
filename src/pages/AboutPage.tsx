@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import SEO from '../components/ui/SEO';
 import { SchemaJSONLD } from '../components/ui/SchemaJSONLD';
 import Button from '../components/ui/Button';
-import { generateBreadcrumbSchema } from '../utils/siteConfig';
+import { generateBreadcrumbSchema, personalProfile } from '../utils/siteConfig';
 
 const AboutPage: React.FC = () => {
   const breadcrumbSchema = generateBreadcrumbSchema([
@@ -13,8 +13,8 @@ const AboutPage: React.FC = () => {
   return (
     <>
       <SEO 
-        title="About Us" 
-        description="Learn about ModernPhotoTools.com, our mission, and how we're making professional photo editing accessible to everyone with AI-powered tools."
+        title="About ModernPhotoTools"
+        description={`Learn about ${personalProfile.title}, and the ModernPhotoTools mission to make professional AI photo editing accessible to everyone.`}
       />
       <SchemaJSONLD data={breadcrumbSchema} />
       
@@ -91,6 +91,52 @@ const AboutPage: React.FC = () => {
               <p className="text-gray-700">
                 We use cutting-edge AI technology powered to deliver fast and accurate results. Our tools are constantly being improved to ensure that you always have access to the latest advancements in AI-powered photo editing.
               </p>
+            </div>
+
+            <div className="mt-10 rounded-2xl border border-blue-100 bg-gradient-to-r from-blue-50 to-indigo-50 p-8 shadow-sm">
+              <div className="flex flex-col md:flex-row md:items-start gap-6">
+                <img
+                  src={personalProfile.imageUrl}
+                  alt={`Portrait of ${personalProfile.fullName}`}
+                  className="w-20 h-20 rounded-full object-cover ring-4 ring-white shadow-md shrink-0"
+                />
+                <div className="flex-1">
+                  <h2 className="text-2xl font-semibold text-gray-900">{personalProfile.fullName}</h2>
+                  <p className="text-blue-700 font-semibold mt-1">{personalProfile.title}</p>
+                  <p className="mt-4 text-lg text-gray-800 italic border-l-4 border-blue-600 pl-4">
+                    "{personalProfile.quote}"
+                  </p>
+                  <div className="mt-5 space-y-4 text-gray-700">
+                    {personalProfile.bioParagraphs.map((paragraph) => (
+                      <p key={paragraph}>{paragraph}</p>
+                    ))}
+                  </div>
+                  <div className="mt-6 flex flex-wrap gap-3">
+                    <a
+                      href={personalProfile.websiteUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center px-4 py-2 rounded-md bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors"
+                    >
+                      Visit Personal Site
+                    </a>
+                    <a
+                      href={personalProfile.instagramUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center px-4 py-2 rounded-md border border-gray-300 text-gray-800 font-semibold hover:border-blue-500 hover:text-blue-700 transition-colors"
+                    >
+                      Follow on Instagram
+                    </a>
+                    <a
+                      href={`mailto:${personalProfile.contactEmail}`}
+                      className="inline-flex items-center justify-center px-4 py-2 rounded-md border border-gray-300 text-gray-800 font-semibold hover:border-blue-500 hover:text-blue-700 transition-colors"
+                    >
+                      Contact Ali
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

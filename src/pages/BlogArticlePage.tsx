@@ -4,7 +4,7 @@ import SEO from '../components/ui/SEO';
 import { getBlogArticleById, BlogArticleWithContent } from '../utils/blogLoader';
 import ArticleNavigation from '../components/ArticleNavigation';
 import { SchemaJSONLD } from '../components/ui/SchemaJSONLD';
-import { generateBreadcrumbSchema } from '../utils/siteConfig';
+import { generateBreadcrumbSchema, personalProfile } from '../utils/siteConfig';
 import 'img-comparison-slider/dist/styles.css';
 import 'img-comparison-slider';
 
@@ -456,6 +456,47 @@ const BlogArticlePage: React.FC = () => {
 
                   <div className="prose prose-lg max-w-none">
                     {renderContent(article.content)}
+                  </div>
+
+                  <div className="mt-12 pt-8 border-t border-gray-200">
+                    <div className="rounded-xl border border-blue-100 bg-gradient-to-r from-blue-50 to-indigo-50 p-6">
+                      <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+                        <img
+                          src={personalProfile.imageUrl}
+                          alt={`Portrait of ${personalProfile.fullName}`}
+                          className="w-16 h-16 rounded-full object-cover ring-2 ring-white shadow-md shrink-0"
+                        />
+                        <div className="flex-1">
+                          <h3 className="text-xl font-bold text-gray-900 mb-1">About the Author</h3>
+                          <p className="text-blue-700 font-semibold">{personalProfile.fullName} — {personalProfile.title}</p>
+                          <p className="text-gray-700 mt-4">{personalProfile.bioParagraphs[1]}</p>
+                        </div>
+                      </div>
+                      <div className="mt-5 flex flex-wrap gap-3">
+                        <a
+                          href={personalProfile.websiteUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center justify-center px-4 py-2 rounded-md bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors"
+                        >
+                          Visit Personal Site
+                        </a>
+                        <a
+                          href={personalProfile.instagramUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center justify-center px-4 py-2 rounded-md border border-gray-300 text-gray-800 font-semibold hover:border-blue-500 hover:text-blue-700 transition-colors"
+                        >
+                          Follow on Instagram
+                        </a>
+                        <a
+                          href={`mailto:${personalProfile.contactEmail}`}
+                          className="inline-flex items-center justify-center px-4 py-2 rounded-md border border-gray-300 text-gray-800 font-semibold hover:border-blue-500 hover:text-blue-700 transition-colors"
+                        >
+                          Contact Ali
+                        </a>
+                      </div>
+                    </div>
                   </div>
 
                   {shouldShowUpscalerFaq && (

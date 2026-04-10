@@ -7,10 +7,24 @@ import App from './App.tsx'
 import ScrollToTop from './components/layout/ScrollToTop.tsx'
 import './index.css'
 
-posthog.init(import.meta.env.VITE_POSTHOG_KEY, {
-  api_host: import.meta.env.VITE_POSTHOG_HOST,
-  person_profiles: 'identified_only',
-})
+const posthogKey =
+  import.meta.env.VITE_POSTHOG_KEY ||
+  import.meta.env.VITE_PUBLIC_POSTHOG_KEY ||
+  ''
+
+const posthogHost =
+  import.meta.env.VITE_POSTHOG_HOST ||
+  import.meta.env.VITE_PUBLIC_POSTHOG_HOST ||
+  'https://us.i.posthog.com'
+
+if (posthogKey) {
+  posthog.init(posthogKey, {
+    api_host: posthogHost,
+    person_profiles: 'identified_only',
+  })
+} else {
+  console.warn('[PostHog] Missing PostHog key. Set VITE_POSTHOG_KEY (or VITE_PUBLIC_POSTHOG_KEY) in deployment environment variables.')
+}
 
 const rootElement = document.getElementById('root')
 

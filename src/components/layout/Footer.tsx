@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Image } from 'lucide-react';
+import { personalProfile } from '../../utils/siteConfig';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -17,6 +18,15 @@ const Footer: React.FC = () => {
             <p className="text-gray-600 mb-4">
               Free online photo editing tools powered by AI. Edit, enhance, and transform your images with professional-quality results in seconds.
             </p>
+            <div className="space-y-1 text-sm text-gray-600">
+              <p>{personalProfile.fullName}</p>
+              <a href={`mailto:${personalProfile.contactEmail}`} className="hover:text-blue-600 transition-colors">
+                {personalProfile.contactEmail}
+              </a>
+              <a href={personalProfile.instagramUrl} target="_blank" rel="noopener noreferrer" className="block hover:text-blue-600 transition-colors">
+                @alizurschmiede
+              </a>
+            </div>
           </div>
 
           <div className="col-span-1">

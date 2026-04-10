@@ -4,7 +4,7 @@ import { Mail, Send } from 'lucide-react';
 import SEO from '../components/ui/SEO';
 import { SchemaJSONLD } from '../components/ui/SchemaJSONLD';
 import Button from '../components/ui/Button';
-import { generateBreadcrumbSchema } from '../utils/siteConfig';
+import { generateBreadcrumbSchema, personalProfile } from '../utils/siteConfig';
 
 const ContactPage: React.FC = () => {
   const breadcrumbSchema = generateBreadcrumbSchema([
@@ -111,7 +111,7 @@ const ContactPage: React.FC = () => {
     <>
       <SEO 
         title="Contact Us" 
-        description="Have questions or feedback? Contact the ModernPhotoTools.com team. We're here to help with any inquiries about our AI photo editing tools."
+        description={`Have questions or feedback? Contact ${personalProfile.fullName} at ${personalProfile.contactEmail} for support with ModernPhotoTools AI photo editing tools.`}
       />
       <SchemaJSONLD data={breadcrumbSchema} />
       
@@ -139,11 +139,37 @@ const ContactPage: React.FC = () => {
                   <div>
                     <h3 className="text-lg font-medium text-gray-900">Email Us</h3>
                     <p className="text-gray-700">
-                      alidue992@gmail.com
+                      {personalProfile.contactEmail}
                     </p>
                   </div>
                 </div>
-                
+                <div className="text-sm text-gray-700 space-y-2">
+                  <p>
+                    Founder: <span className="font-semibold">{personalProfile.fullName}</span>
+                  </p>
+                  <p>
+                    Personal site:{' '}
+                    <a
+                      href={personalProfile.websiteUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:underline"
+                    >
+                      {personalProfile.websiteUrl}
+                    </a>
+                  </p>
+                  <p>
+                    Instagram:{' '}
+                    <a
+                      href={personalProfile.instagramUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:underline"
+                    >
+                      @alizurschmiede
+                    </a>
+                  </p>
+                </div>
                 <p className="text-sm text-gray-600">
                   We typically respond within 24-48 hours during business days.
                 </p>
