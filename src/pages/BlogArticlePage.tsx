@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import SEO from '../components/ui/SEO';
-import { getBlogArticleById, BlogArticleWithContent } from '../utils/blogLoader';
+import { getBlogArticleByIdSync, BlogArticleWithContent } from '../utils/blogLoader';
 import ArticleNavigation from '../components/ArticleNavigation';
 import { SchemaJSONLD } from '../components/ui/SchemaJSONLD';
 import { generateBreadcrumbSchema, personalProfile } from '../utils/siteConfig';
@@ -39,41 +39,36 @@ const extractFaqSchemaFromContent = (content: string): Record<string, unknown> |
 
 const BlogArticlePage: React.FC = () => {
   const { articleId } = useParams<{ articleId: string }>();
-  const [article, setArticle] = useState<BlogArticleWithContent | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [notFound, setNotFound] = useState(false);
-  const [redirectTo, setRedirectTo] = useState<string | null>(null);
+  const initialRedirect = articleId === 'remove-background-free-guide' ? '/blog/best-photo-background-editors-2025' : null;
+  const initialArticle = articleId && !initialRedirect ? getBlogArticleByIdSync(articleId) || null : null;
+  const [article, setArticle] = useState<BlogArticleWithContent | null>(initialArticle);
+  const [loading, setLoading] = useState(false);
+  const [notFound, setNotFound] = useState(!articleId ? true : !initialRedirect && !initialArticle);
+  const [redirectTo, setRedirectTo] = useState<string | null>(initialRedirect);
   const canonicalUrl = `https://modernphototools.com/blog/${articleId}`;
   
   useEffect(() => {
-    const loadArticle = async () => {
-      if (!articleId) {
-        setNotFound(true);
-        setLoading(false);
-        return;
-      }
+    if (!articleId) {
+      setArticle(null);
+      setRedirectTo(null);
+      setNotFound(true);
+      setLoading(false);
+      return;
+    }
 
-      if (articleId === 'remove-background-free-guide') {
-        setRedirectTo('/blog/best-photo-background-editors-2025');
-        return;
-      }
+    if (articleId === 'remove-background-free-guide') {
+      setArticle(null);
+      setRedirectTo('/blog/best-photo-background-editors-2025');
+      setNotFound(false);
+      setLoading(false);
+      return;
+    }
 
-      try {
-        const loadedArticle = await getBlogArticleById(articleId);
-        if (loadedArticle) {
-          setArticle(loadedArticle);
-        } else {
-          setNotFound(true);
-        }
-      } catch (error) {
-        console.error('Failed to load blog article:', error);
-        setNotFound(true);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadArticle();
+    const loadedArticle = getBlogArticleByIdSync(articleId);
+    setArticle(loadedArticle || null);
+    setRedirectTo(null);
+    setNotFound(!loadedArticle);
+    setLoading(false);
   }, [articleId]);
   
   useEffect(() => {

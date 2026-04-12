@@ -60,6 +60,21 @@ const TermsOfUsePage: React.FC = () => {
               </section>
 
               <section className="mb-8">
+                <h2 className="text-2xl font-semibold mb-2">Prohibited Content</h2>
+                <p>
+                  To protect the platform from user-generated content violations, you must not generate, upload, request, or distribute Prohibited Content using our AI tools.
+                </p>
+                <ul className="list-disc list-inside space-y-2">
+                  <li>NSFW sexual content, nudity, or explicit adult material</li>
+                  <li>Graphic violence, gore, or content intended to shock or harm</li>
+                  <li>Deepfakes or synthetic media of public figures that are misleading, deceptive, or unauthorized</li>
+                </ul>
+                <p>
+                  We may remove content, suspend access, or terminate accounts that violate this clause.
+                </p>
+              </section>
+
+              <section className="mb-8">
                 <h2 className="text-2xl font-semibold mb-2">User Responsibility</h2>
                 <ul className="list-disc list-inside space-y-2">
                   <li>You are solely responsible for ensuring you have the legal right to edit any image you upload</li>

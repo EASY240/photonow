@@ -93,12 +93,22 @@ const CookiesPolicyPage: React.FC = () => {
               <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
                 <h2 className="text-2xl font-semibold text-gray-900 mb-3">How Can You Control Cookies?</h2>
                 <p className="text-gray-700 mb-4">
-                  You have the right to decide whether to accept or reject cookies. You can exercise your cookie preferences by clicking on the appropriate opt-out links provided in the cookie banner when you first visit our website.
+                  You have the right to decide whether to accept or reject cookies. We use a Google-certified Consent Management Platform that supports IAB TCF v2.2 to collect and manage your consent choices for advertising and analytics cookies.
                 </p>
                 <p className="text-gray-700">
                   You can also set or amend your web browser controls to accept or refuse cookies. If you choose to reject cookies, you may still use our website though your access to some functionality and areas of our website may be restricted.
                 </p>
               </div>
+            </div>
+
+            <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+              <h2 className="text-2xl font-semibold text-gray-900 mb-3">Consent Management Platform (CMP)</h2>
+              <p className="text-gray-700 mb-3">
+                Our CMP provides a standardized consent interface and stores your choices in compliance with the IAB Transparency and Consent Framework (TCF) v2.2.
+              </p>
+              <p className="text-gray-700">
+                You can update your consent preferences at any time using the CMP controls made available on the site.
+              </p>
             </div>
 
             <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">

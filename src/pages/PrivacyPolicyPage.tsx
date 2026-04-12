@@ -105,6 +105,19 @@ const PrivacyPolicyPage: React.FC = () => {
               </section>
 
               <section className="mb-8">
+                <h2 className="text-2xl font-semibold mb-2">Third-Party Advertising & Cookies</h2>
+                <p>
+                  We display third-party advertising, including Google AdSense. Google uses cookies to serve ads based on a user&apos;s prior visits to this and other websites.
+                </p>
+                <p>
+                  Google may use the DART cookie to enable Personalized Advertising, which helps show users ads that are more relevant to their interests.
+                </p>
+                <p>
+                  Users can control or opt out of personalized advertising by visiting <a href="https://adssettings.google.com/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Google Ad Settings</a> and <a href="https://www.aboutads.info/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">AboutAds.info</a>.
+                </p>
+              </section>
+
+              <section className="mb-8">
                 <h2 className="text-2xl font-semibold mb-2">🛡️ Your Rights</h2>
                 <p>You have the right to:</p>
                 <ul className="list-disc list-inside ml-4">

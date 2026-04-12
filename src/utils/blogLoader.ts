@@ -1,10 +1,10 @@
 import { BlogArticle } from '../data/blogArticles';
 
-// Use Vite's glob import to get all markdown files
-const blogModules = import.meta.glob('/content/blog/*.md', { 
-  as: 'raw',
-  eager: true 
-});
+const blogModules = import.meta.glob('/content/blog/*.md', {
+  query: '?raw',
+  import: 'default',
+  eager: true
+}) as Record<string, string>;
 
 export interface BlogArticleWithContent extends BlogArticle {
   rawContent: string;
@@ -91,10 +91,7 @@ function parseFrontmatter(content: string): { data: any; content: string } {
   return { data, content: markdownContent };
 }
 
-/**
- * Load and parse all blog articles from markdown files
- */
-export async function loadBlogArticles(): Promise<BlogArticleWithContent[]> {
+function parseAllBlogArticles(): BlogArticleWithContent[] {
   if (articlesCache) {
     return articlesCache;
   }
@@ -104,7 +101,7 @@ export async function loadBlogArticles(): Promise<BlogArticleWithContent[]> {
   for (const [path, content] of Object.entries(blogModules)) {
     try {
       // Parse frontmatter and content
-      const { data, content: markdownContent } = parseFrontmatter(content as string);
+      const { data, content: markdownContent } = parseFrontmatter(content);
       
       // Extract filename without extension for ID validation
       const filename = path.split('/').pop()?.replace('.md', '') || '';
@@ -115,7 +112,7 @@ export async function loadBlogArticles(): Promise<BlogArticleWithContent[]> {
         title: data.title || 'Untitled',
         excerpt: data.excerpt || '',
         content: markdownContent,
-        rawContent: content as string,
+        rawContent: content,
         publishDate: data.publishDate || new Date().toISOString().split('T')[0],
         readTime: data.readTime || '5 min read',
         category: data.category || 'general',
@@ -137,41 +134,38 @@ export async function loadBlogArticles(): Promise<BlogArticleWithContent[]> {
   return articles;
 }
 
-/**
- * Get a single article by ID
- */
-export async function getBlogArticleById(id: string): Promise<BlogArticleWithContent | undefined> {
-  const articles = await loadBlogArticles();
+export function getBlogArticlesSync(): BlogArticleWithContent[] {
+  return parseAllBlogArticles();
+}
+
+export function getBlogArticleByIdSync(id: string): BlogArticleWithContent | undefined {
+  const articles = parseAllBlogArticles();
   return articles.find(article => article.id === id);
 }
 
-/**
- * Get articles by category
- */
+export async function loadBlogArticles(): Promise<BlogArticleWithContent[]> {
+  return parseAllBlogArticles();
+}
+
+export async function getBlogArticleById(id: string): Promise<BlogArticleWithContent | undefined> {
+  return getBlogArticleByIdSync(id);
+}
+
 export async function getBlogArticlesByCategory(category: 'general' | 'tools'): Promise<BlogArticleWithContent[]> {
-  const articles = await loadBlogArticles();
+  const articles = parseAllBlogArticles();
   return articles.filter(article => article.category === category);
 }
 
-/**
- * Get recent articles
- */
 export async function getRecentBlogArticles(limit: number = 3): Promise<BlogArticleWithContent[]> {
-  const articles = await loadBlogArticles();
+  const articles = parseAllBlogArticles();
   return articles.slice(0, limit);
 }
 
-/**
- * Clear the articles cache (useful for development)
- */
 export function clearBlogCache(): void {
   articlesCache = null;
 }
 
-/**
- * Get all article IDs for routing
- */
 export async function getAllBlogArticleIds(): Promise<string[]> {
-  const articles = await loadBlogArticles();
+  const articles = parseAllBlogArticles();
   return articles.map(article => article.id);
 }
