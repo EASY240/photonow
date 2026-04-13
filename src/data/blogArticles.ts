@@ -16,6 +16,20 @@ export interface BlogArticle {
 // Blog article metadata index - content is now loaded from individual Markdown files
 export const blogArticleIndex = [
   {
+    id: 'how-to-build-an-ai-influencer-in-2026',
+    title: 'How to Build an AI Influencer in 2026',
+    excerpt:
+      'A practical 2026 playbook for building and scaling an AI influencer: persona design, niche selection, face-consistency workflows, BOPA content production, legal disclosure requirements, and monetization models.',
+    publishDate: '2026-04-13',
+    readTime: '12 min read',
+    category: 'general' as const,
+    featuredImage: '/images/blog/How to Build an AI Influencer in 2026.jpg',
+    relatedTool: 'ai-image-generator',
+    keywords: ['AI influencer', 'virtual influencer strategy', 'face drift AI', 'BOPA framework', 'AI creator monetization', 'FTC AI disclosure', 'EU AI Act Article 50', 'AI persona design', 'digital influencer 2026', 'AI content production'],
+    metaTitle: 'How to Build an AI Influencer in 2026 | Complete Strategy Guide',
+    metaDescription: 'Learn how to build an AI influencer in 2026 with persona design, niche strategy, face-drift prevention, the BOPA framework, legal disclosure requirements, and monetization models.'
+  },
+  {
     id: 'best-20-ai-trending-prompts-baby-photoshoot',
     title: 'Best 20 AI Trending Prompts for Baby Photoshoot (2026 Guide)',
     excerpt:
