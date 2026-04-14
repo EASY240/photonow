@@ -181,13 +181,21 @@ app.post('/api/optimize-prompt', async (req, res) => {
 app.post('/api/contact-email', async (req, res) => {
   const gmailUser = process.env.GMAIL_USER;
   const gmailAppPassword = process.env.GMAIL_APP_PASSWORD;
-  const contactReceiver = process.env.CONTACT_RECEIVER_EMAIL || 'alidue992@gmail.com';
+  const smtpHost = process.env.SMTP_HOST;
+  const smtpPort = Number(process.env.SMTP_PORT || 587);
+  const smtpSecure =
+    String(process.env.SMTP_SECURE || (smtpPort === 465 ? 'true' : 'false')).toLowerCase() === 'true';
+  const mailUser = process.env.SMTP_USER || gmailUser;
+  const mailPassword = process.env.SMTP_PASS || gmailAppPassword;
+  const contactReceiver = process.env.CONTACT_RECEIVER_EMAIL || 'alizurschmiede@modernphototools.com';
+  const turnstileSecretKey = process.env.TURNSTILE_SECRET_KEY;
   const name = typeof req.body?.name === 'string' ? req.body.name.trim().slice(0, 120) : '';
   const senderEmail = typeof req.body?.email === 'string' ? req.body.email.trim().toLowerCase().slice(0, 200) : '';
   const message = typeof req.body?.message === 'string' ? req.body.message.trim().slice(0, 5000) : '';
+  const captchaToken = typeof req.body?.captchaToken === 'string' ? req.body.captchaToken.trim().slice(0, 2048) : '';
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  if (!gmailUser || !gmailAppPassword) {
+  if (!mailUser || !mailPassword) {
     return res.status(500).json({ success: false, message: 'Email service is not configured' });
   }
   if (!name || !senderEmail || !message) {
@@ -196,18 +204,62 @@ app.post('/api/contact-email', async (req, res) => {
   if (!emailRegex.test(senderEmail)) {
     return res.status(400).json({ success: false, message: 'Please enter a valid email address.' });
   }
+  if (!turnstileSecretKey) {
+    return res.status(500).json({ success: false, message: 'CAPTCHA service is not configured' });
+  }
+  if (!captchaToken) {
+    return res.status(400).json({ success: false, message: 'Please complete the CAPTCHA challenge.' });
+  }
 
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: gmailUser,
-      pass: gmailAppPassword
+  try {
+    const captchaBody = new URLSearchParams();
+    captchaBody.append('secret', turnstileSecretKey);
+    captchaBody.append('response', captchaToken);
+    const remoteIpHeader = req.headers['x-forwarded-for'];
+    const remoteIp = typeof remoteIpHeader === 'string' ? remoteIpHeader.split(',')[0].trim() : '';
+    if (remoteIp) {
+      captchaBody.append('remoteip', remoteIp);
     }
-  });
+
+    const captchaResponse = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: captchaBody.toString()
+    });
+    const captchaResult = await captchaResponse.json();
+    if (!captchaResponse.ok || !captchaResult?.success) {
+      return res.status(400).json({ success: false, message: 'CAPTCHA challenge was not completed successfully.' });
+    }
+  } catch (error) {
+    console.error('CAPTCHA verification error:', error?.message || error);
+    return res.status(500).json({ success: false, message: 'CAPTCHA verification failed. Please try again.' });
+  }
+
+  const transporter = nodemailer.createTransport(
+    smtpHost
+      ? {
+          host: smtpHost,
+          port: smtpPort,
+          secure: smtpSecure,
+          auth: {
+            user: mailUser,
+            pass: mailPassword
+          }
+        }
+      : {
+          service: 'gmail',
+          auth: {
+            user: mailUser,
+            pass: mailPassword
+          }
+        }
+  );
 
   try {
     await transporter.sendMail({
-      from: `ModernPhotoTools Contact <${gmailUser}>`,
+      from: `ModernPhotoTools Contact <${mailUser}>`,
       to: contactReceiver,
       replyTo: senderEmail,
       subject: `New contact form message from ${name}`,

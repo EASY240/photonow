@@ -4,6 +4,7 @@ import { Mail, Send } from 'lucide-react';
 import SEO from '../components/ui/SEO';
 import { SchemaJSONLD } from '../components/ui/SchemaJSONLD';
 import Button from '../components/ui/Button';
+import TurnstileCaptcha from '../components/ui/TurnstileCaptcha';
 import { generateBreadcrumbSchema, personalProfile } from '../utils/siteConfig';
 
 const ContactPage: React.FC = () => {
@@ -27,6 +28,9 @@ const ContactPage: React.FC = () => {
     submitted: false
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState('');
+  const [captchaResetCounter, setCaptchaResetCounter] = useState(0);
+  const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY || '';
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -58,19 +62,37 @@ const ContactPage: React.FC = () => {
       return;
     }
 
+    if (!turnstileSiteKey) {
+      setFormStatus({
+        success: false,
+        message: 'CAPTCHA is not configured. Please try again later.',
+        submitted: true
+      });
+      return;
+    }
+
+    if (!captchaToken) {
+      setFormStatus({
+        success: false,
+        message: 'Please complete the CAPTCHA challenge before sending your message.',
+        submitted: true
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     try {
-      const contactApiUrl =
-        typeof window !== 'undefined' && window.location.hostname === 'localhost'
-          ? 'http://localhost:3001/api/contact-email'
-          : '/api/contact-email';
+      const contactApiUrl = '/api/contact-email';
 
       const response = await fetch(contactApiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({
+          ...formData,
+          captchaToken
+        })
       });
       const rawResponse = await response.text();
       let result: { success?: boolean; message?: string } = {};
@@ -95,6 +117,8 @@ const ContactPage: React.FC = () => {
         email: '',
         message: ''
       });
+      setCaptchaToken('');
+      setCaptchaResetCounter(prev => prev + 1);
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Failed to send message. Please try again.';
       setFormStatus({
@@ -230,12 +254,23 @@ const ContactPage: React.FC = () => {
                     placeholder="How can we help you?"
                   />
                 </div>
+
+                <div className="mb-6">
+                  <label className="block text-gray-700 font-medium mb-2">
+                    Verify You Are Human
+                  </label>
+                  <TurnstileCaptcha
+                    siteKey={turnstileSiteKey}
+                    onTokenChange={setCaptchaToken}
+                    resetTrigger={captchaResetCounter}
+                  />
+                </div>
                 
                 <Button 
                   type="submit" 
                   fullWidth
                   isLoading={isSubmitting}
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !captchaToken || !turnstileSiteKey}
                   leftIcon={<Send size={18} />}
                 >
                   Send Message
