@@ -81,11 +81,8 @@ const BlogArticlePage: React.FC = () => {
       const faqItems = Array.from(container.querySelectorAll('.faq-item')) as HTMLElement[];
       if (faqItems.length === 0) return;
 
-      const buttons: HTMLButtonElement[] = [];
-
       faqItems.forEach((item, index) => {
         try {
-          if (item.dataset.faqEnhanced === 'true') return;
           const questionEl = (item.querySelector('.faq-question') || item.querySelector('h3')) as HTMLElement | null;
           let answerEl = item.querySelector('.faq-answer') as HTMLElement | null;
           if (!answerEl) {
@@ -138,65 +135,73 @@ const BlogArticlePage: React.FC = () => {
             button.id = `${answerId}-label`;
           }
 
-          const toggle = () => {
-            const isExpanded = button!.getAttribute('aria-expanded') === 'true';
-            const newExpanded = !isExpanded;
-            button!.setAttribute('aria-expanded', String(newExpanded));
+          // Avoid duplicate listeners when effects re-run in development/StrictMode.
+          if (button.dataset.faqBound !== 'true') {
+            const toggle = () => {
+              const isExpanded = button!.getAttribute('aria-expanded') === 'true';
+              const newExpanded = !isExpanded;
+              button!.setAttribute('aria-expanded', String(newExpanded));
 
-            const icon = button!.querySelector('svg');
-            if (icon) {
+              const icon = button!.querySelector('svg');
+              if (icon) {
+                if (newExpanded) {
+                  icon.classList.add('transform', 'rotate-180');
+                } else {
+                  icon.classList.remove('transform', 'rotate-180');
+                }
+              }
+
               if (newExpanded) {
-                icon.classList.add('transform', 'rotate-180');
+                answerEl.removeAttribute('hidden');
+                const scrollHeight = answerEl.scrollHeight;
+                answerEl.style.maxHeight = `${scrollHeight}px`;
               } else {
-                icon.classList.remove('transform', 'rotate-180');
+                answerEl.style.maxHeight = '0px';
+                answerEl.setAttribute('hidden', 'true');
               }
-            }
+            };
 
-            if (newExpanded) {
-              answerEl.removeAttribute('hidden');
-              const scrollHeight = answerEl.scrollHeight;
-              answerEl.style.maxHeight = `${scrollHeight}px`;
-            } else {
-              answerEl.style.maxHeight = '0px';
-              answerEl.setAttribute('hidden', 'true');
-            }
-          };
-
-          button.addEventListener('click', toggle);
-          button.addEventListener('keydown', (event: KeyboardEvent) => {
-            const key = event.key;
-            if (key === 'Enter' || key === ' ') {
-              event.preventDefault();
-              toggle();
-            } else if (key === 'ArrowDown' || key === 'ArrowUp') {
-              event.preventDefault();
-              const currentItem = button!.closest('.faq-item') as HTMLElement | null;
-              if (!currentItem) return;
-              const allItems = Array.from(container.querySelectorAll('.faq-item')) as HTMLElement[];
-              const currentIndex = allItems.indexOf(currentItem);
-              if (currentIndex === -1) return;
-              const offset = key === 'ArrowDown' ? 1 : -1;
-              const nextIndex = currentIndex + offset;
-              if (nextIndex < 0 || nextIndex >= allItems.length) return;
-              const nextQuestion = allItems[nextIndex].querySelector('.faq-question button') as HTMLButtonElement | null;
-              if (nextQuestion) {
-                nextQuestion.focus();
+            button.addEventListener('click', toggle);
+            button.addEventListener('keydown', (event: KeyboardEvent) => {
+              const key = event.key;
+              if (key === 'Enter' || key === ' ') {
+                event.preventDefault();
+                toggle();
+              } else if (key === 'ArrowDown' || key === 'ArrowUp') {
+                event.preventDefault();
+                const currentItem = button!.closest('.faq-item') as HTMLElement | null;
+                if (!currentItem) return;
+                const allItems = Array.from(container.querySelectorAll('.faq-item')) as HTMLElement[];
+                const currentIndex = allItems.indexOf(currentItem);
+                if (currentIndex === -1) return;
+                const offset = key === 'ArrowDown' ? 1 : -1;
+                const nextIndex = currentIndex + offset;
+                if (nextIndex < 0 || nextIndex >= allItems.length) return;
+                const nextQuestion = allItems[nextIndex].querySelector('.faq-question button') as HTMLButtonElement | null;
+                if (nextQuestion) {
+                  nextQuestion.focus();
+                }
               }
-            }
-          });
+            });
 
-          buttons.push(button);
+            button.dataset.faqBound = 'true';
+          }
+
+          if (button.getAttribute('aria-expanded') !== 'true') {
+            answerEl.style.maxHeight = '0px';
+            answerEl.setAttribute('hidden', 'true');
+          } else {
+            answerEl.removeAttribute('hidden');
+            if (!answerEl.style.maxHeight || answerEl.style.maxHeight === '0px') {
+              answerEl.style.maxHeight = `${answerEl.scrollHeight}px`;
+            }
+          }
+
           item.dataset.faqEnhanced = 'true';
         } catch (err) {
           console.error('Failed to enhance FAQ item', err);
         }
       });
-
-      return () => {
-        buttons.forEach((button) => {
-          button.replaceWith(button.cloneNode(true));
-        });
-      };
     } catch (err) {
       console.error('Failed to initialize FAQ accordions', err);
     }

@@ -109,7 +109,7 @@ metaDescription: "Learn how to build an AI influencer in 2026 with persona desig
   <h2>How AI Influencers Make Money in 2026</h2>
   <p>The strongest operators do not rely only on one-off sponsored posts. They combine brand retainers with recurring revenue products: private communities, paid challenges, affiliate stacks, and always-on conversational agents.</p>
   <p>If you are building your own stack from scratch, start from a repeatable generation engine using an <a href="https://modernphototools.com/tools/ai-image-generator" style="font-weight: bold;" target="_blank">AI image generator</a>, then add distribution workflows and monetization layers.</p>
-  <p> Stay ready, we will explain next time how to <b>keep the character we created constant</b> and doesn't change in any scene after that.</p>
+  <p> Stay ready, we will explain next time how to <a href="https://modernphototools.com/blog/maintain-character-consistency-in-ai-image-generation" style="font-weight: bold;" target="_blank">keep the character we created constant</a> and doesn't change in any scene after that.</p>
 </section>
 
 <section id="faq">

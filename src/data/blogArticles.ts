@@ -16,6 +16,20 @@ export interface BlogArticle {
 // Blog article metadata index - content is now loaded from individual Markdown files
 export const blogArticleIndex = [
   {
+    id: 'maintain-character-consistency-in-ai-image-generation',
+    title: 'Maintain Character Consistency in AI Image Generation',
+    excerpt:
+      'Learn how to stop identity drift in AI image generation using a Master Anchor workflow, structured JSON prompts, Midjourney reference parameters, and AI replacement techniques for production-grade character consistency.',
+    publishDate: '2026-04-16',
+    readTime: '12 min read',
+    category: 'general' as const,
+    featuredImage: '/images/blog/Maintain Character Consistency in AI Image Generation.jpg',
+    relatedTool: 'ai-image-generator',
+    keywords: ['AI character consistency', 'identity drift AI', 'Midjourney cref', 'Midjourney oref', 'JSON prompts AI image generation', 'AI replace workflow', 'consistent AI characters', 'character reference workflow'],
+    metaTitle: 'Maintain Character Consistency in AI Image Generation | 2026 Workflow',
+    metaDescription: 'A practical 2026 guide to maintain AI character consistency across scenes using Master Anchors, JSON-structured prompts, Midjourney --cref/--oref controls, and AI replacement workflows.'
+  },
+  {
     id: 'how-to-build-an-ai-influencer-in-2026',
     title: 'How to Build an AI Influencer in 2026',
     excerpt:
