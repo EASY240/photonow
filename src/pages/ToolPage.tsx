@@ -129,7 +129,9 @@ function CartoonHeroSection() {
                 <img
                   src={current.imageSrc}
                   alt="AI-generated cartoon character example"
-                  loading="lazy"
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
                   className="w-full h-auto object-cover"
                 />
               </div>
@@ -203,7 +205,9 @@ function BackgroundHeroSection() {
                 <img
                   src={current.imageSrc}
                   alt="AI-generated background example"
-                  loading="lazy"
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
                   className="w-full h-auto object-cover"
                 />
               </div>
@@ -282,7 +286,9 @@ function FilterHeroSection() {
                 <img
                   src={current.imageSrc}
                   alt={current.imageAlt}
-                  loading="lazy"
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
                   className="w-full h-auto object-cover"
                 />
               </div>
@@ -356,7 +362,9 @@ function CaricatureHeroSection() {
                 <img
                   src={current.imageSrc}
                   alt="AI-generated caricature example"
-                  loading="lazy"
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
                   className="w-full h-auto object-cover"
                 />
               </div>
@@ -430,7 +438,9 @@ function PortraitHeroSection() {
                 <img
                   src={current.imageSrc}
                   alt="AI-generated portrait example"
-                  loading="lazy"
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
                   className="w-full h-auto object-cover"
                 />
               </div>
@@ -7289,7 +7299,9 @@ const handleAIImageToImageGenerate = async () => {
                         <img
                           src={activeOutfitHero?.imageSrc}
                           alt={activeOutfitHero?.imageAlt}
-                          loading="lazy"
+                          loading="eager"
+                          fetchPriority="high"
+                          decoding="async"
                           className="w-full h-auto object-cover"
                         />
                       </div>
@@ -7348,7 +7360,9 @@ const handleAIImageToImageGenerate = async () => {
                         <img
                           src={activeHairstylePreset?.imageUrl}
                           alt={`${activeHairstylePreset?.name} AI hairstyle preset`}
-                          loading="lazy"
+                          loading="eager"
+                          fetchPriority="high"
+                          decoding="async"
                           className="w-full h-auto object-cover"
                         />
                       </div>

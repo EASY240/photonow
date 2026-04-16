@@ -420,6 +420,8 @@ const BlogArticlePage: React.FC = () => {
                   <img 
                     src={article.featuredImage} 
                     alt={`Featured image for ${article.title}`} 
+                    fetchPriority="high"
+                    decoding="async"
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-black bg-opacity-20"></div>

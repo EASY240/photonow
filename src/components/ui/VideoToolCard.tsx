@@ -31,7 +31,7 @@ const VideoToolCard: React.FC<VideoToolCardProps> = ({ tool, videoUrl }) => {
           }
         });
       },
-      { rootMargin: '200px' }
+      { rootMargin: '0px', threshold: 0.35 }
     );
 
     observer.observe(element);
