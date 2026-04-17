@@ -16,6 +16,20 @@ export interface BlogArticle {
 // Blog article metadata index - content is now loaded from individual Markdown files
 export const blogArticleIndex = [
   {
+    id: 'best-20-ai-photo-editing-prompts-for-boys',
+    title: 'Best 20 AI Photo Editing Prompts for Boys: Viral Profile Pictures & Portraits',
+    excerpt:
+      '20 copy-paste AI photo prompts for boys across cinematic, luxury, minimalist, and cyberpunk styles. Includes tool workflow, lighting guidance, and FAQ for Gemini, Midjourney, and profile-ready outputs.',
+    publishDate: '2026-04-17',
+    readTime: '13 min read',
+    category: 'general' as const,
+    featuredImage: '/images/blog/Best 20 AI Photo Editing Prompts for Boys.jpg',
+    relatedTool: 'ai-portrait',
+    keywords: ['AI photo editing prompts for boys', 'boys profile picture prompts', 'Gemini AI boy prompts', 'Midjourney male portrait prompts', 'cinematic portrait prompts', 'cyberpunk avatar prompts', 'AI DP prompts for boys', 'viral AI profile photo ideas'],
+    metaTitle: 'Best 20 AI Photo Editing Prompts for Boys (2026) | Viral DP & Portrait Ideas',
+    metaDescription: 'Discover 20 copy-paste AI photo editing prompts for boys to create viral profile pictures, cinematic portraits, luxury lifestyle shots, and cyberpunk avatars with Gemini and Midjourney.'
+  },
+  {
     id: 'maintain-character-consistency-in-ai-image-generation',
     title: 'Maintain Character Consistency in AI Image Generation',
     excerpt:
