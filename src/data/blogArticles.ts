@@ -16,6 +16,20 @@ export interface BlogArticle {
 // Blog article metadata index - content is now loaded from individual Markdown files
 export const blogArticleIndex = [
   {
+    id: '20-trending-ai-photo-prompts-for-girls-instagram-tiktok',
+    title: '20 Trending AI Photo Prompts for Girls for Instagram & TikTok',
+    excerpt:
+      '20 viral copy-paste AI photo prompts for girls covering Vogue-style fashion, dreamy soft-girl scenes, moody cinematic setups, and kawaii chibi avatars for Instagram and TikTok.',
+    publishDate: '2026-04-18',
+    readTime: '14 min read',
+    category: 'general' as const,
+    featuredImage: '/images/blog/20 Trending AI Photo Prompts for Girls for Instagram & TikTok.jpg',
+    relatedTool: 'ai-image-generator',
+    keywords: ['AI photo prompts for girls', 'Instagram AI girl prompts', 'TikTok AI portrait prompts', 'Vogue style AI prompt', 'soft girl AI aesthetic', 'kawaii chibi avatar prompt', 'Gemini girl prompts', 'Midjourney fashion prompt'],
+    metaTitle: '20 Trending AI Photo Prompts for Girls for Instagram & TikTok (2026)',
+    metaDescription: 'Discover 20 viral AI photo prompts for girls to create high-fashion editorials, dreamy soft-girl portraits, moody cinematic photos, and cute chibi avatars for Instagram and TikTok.'
+  },
+  {
     id: 'best-20-ai-photo-editing-prompts-for-boys',
     title: 'Best 20 AI Photo Editing Prompts for Boys: Viral Profile Pictures & Portraits',
     excerpt:
