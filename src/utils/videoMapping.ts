@@ -11,6 +11,7 @@ export const videoUrlMapping: Record<string, string> = {
   'AI Product Photoshoot': '/tools videos/AI Product Photoshoot.mp4',
   'AI Background Generator': '/tools videos/AI Background Generator.mp4',
   'AI Image Generator': '/tools videos/AI Image Generator_text-to-image.mp4',
+  'AI Logo Generator': '/tools videos/AI Logo Generator.mp4',
   'AI Portrait': '/tools videos/AI Portrait.mp4',
   'AI Face Swap': '/tools videos/AI Face Swap.mp4',
   'AI Outfit': '/tools videos/AI Outfit.mp4',

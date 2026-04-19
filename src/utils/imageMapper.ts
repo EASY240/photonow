@@ -53,7 +53,8 @@ const SPECIAL_FILENAME_MAPPINGS: Record<string, string> = {
   'AI Caricature': 'AI Caricature Generator Tool.jpg',
   'AI Expand': 'Ai Expand tool.jpg',
   'AI Replace': 'AI Replace tool.jpg',
-  'Remove Background': 'Remove Background tool.jpg'
+  'Remove Background': 'Remove Background tool.jpg',
+  'AI Logo Generator': 'AI Logo Generator.jpg'
 };
 
 /**

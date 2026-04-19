@@ -11,7 +11,7 @@ import ToolFeatureImage from '../components/ui/ToolFeatureImage';
 import ImageComparisonSlider from '../components/ui/ImageComparisonSlider';
 import { tools } from '../data/tools';
 import { findToolImage, generateAltText } from '../utils/imageMapper';
-import { processImage, uploadImageAndGetUrl, startCleanupJob, startWatermarkRemoverJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, startProductPhotoshootJob, startBackgroundGeneratorJob, startImageGeneratorJob, startPortraitJob, startFaceSwapJob, startOutfitJob, startImageToImageJob, startSketchToImageJob, startHairstyleJob, startUpscaleJob, startAIFilterJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete, pollWatermarkJobUntilComplete, pollV1JobUntilComplete } from '../utils/api';
+import { processImage, uploadImageAndGetUrl, startCleanupJob, startWatermarkRemoverJob, startExpandJob, startReplaceJob, startCartoonJob, startCaricatureJob, startAvatarJob, startProductPhotoshootJob, startBackgroundGeneratorJob, startImageGeneratorJob, startLogoGeneratorJob, startPortraitJob, startFaceSwapJob, startOutfitJob, startImageToImageJob, startSketchToImageJob, startHairstyleJob, startUpscaleJob, startAIFilterJob, checkOrderStatus, convertUrlToBlob, pollJobUntilComplete, pollWatermarkJobUntilComplete, pollV1JobUntilComplete } from '../utils/api';
 import type { ImageFile, ProcessedImage, Tool, FaceSwapStyle } from '../types';
 import { maleCartoonStyles, femaleCartoonStyles } from '../constants/cartoonStyles';
 import { caricatureStyles, Style } from '../constants/caricatureStyles';
@@ -1133,6 +1133,57 @@ const imageGeneratorZigZagSections: ImageGeneratorZigZagSection[] = [
       'Make precise cutouts to isolate subjects or remove unwanted elements.',
       'Replace parts of an image to perfect the overall composition or message.'
     ]
+  }
+];
+
+const logoGeneratorPrompts = [
+  'Minimal monoline fox logo, vector, flat',
+  'Professional tech company logo, modern and clean',
+  'Elegant restaurant logo with custom lettering',
+  'Gaming team emblem with neon accents',
+  'Luxury fashion monogram logo in black and gold'
+];
+
+const logoGeneratorZigZagSections: ImageGeneratorZigZagSection[] = [
+  {
+    id: 'fast-logo-concepts',
+    eyebrow: 'Skip expensive iterations',
+    title: 'Generate many logo concepts in seconds, not weeks',
+    description:
+      'Move from idea to polished draft quickly with AI-assisted logo generation. Explore different visual directions without hiring a full design team for every experiment.',
+    imageSrc: '/images/blog/fast-logo-concepts.jpg',
+    imageAlt: 'AI Logo Generator preview showing generated logo concepts',
+    icon: <Sparkles className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'logo-types',
+    eyebrow: 'Broad logo styles',
+    title: 'Create text marks, emblems, icons, mascots, and monograms',
+    description:
+      'Describe your industry, tone, and use case in plain language. The model is tuned for logo-style output and can shape typography and symbols around your brand intent.',
+    imageSrc: '/images/blog/logo-types.jpg',
+    imageAlt: 'Multiple logo style variations generated from one prompt',
+    icon: <Atom className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'precise-edits',
+    eyebrow: 'Granular control',
+    title: 'Refine tiny details with simple follow-up prompts',
+    description:
+      'Adjust one part of the logo without redesigning everything. Ask for focused changes such as font weight, icon thickness, color balance, or spacing, and iterate in real time.',
+    imageSrc: '/images/blog/precise-edits.jpg',
+    imageAlt: 'Logo refinement workflow with iterative AI prompt edits',
+    icon: <Gem className="w-6 h-6 text-blue-600" />
+  },
+  {
+    id: 'print-ready',
+    eyebrow: 'Production output',
+    title: 'Export logos ready for both print and digital campaigns',
+    description:
+      'Create assets that stay clear across large and small formats. Use built-in enhancement and resizing workflows to prepare logos for packaging, social media, ads, and billboards.',
+    imageSrc: '/images/blog/print-ready.jpg',
+    imageAlt: 'High-quality logo prepared for print and digital formats',
+    icon: <Briefcase className="w-6 h-6 text-blue-600" />
   }
 ];
 
@@ -2547,6 +2598,58 @@ const imageGeneratorFaqSchema = {
   }))
 } as const;
 
+interface LogoGeneratorFaqItem {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+const logoGeneratorFaqItems: LogoGeneratorFaqItem[] = [
+  {
+    id: 'transparent-background',
+    question: 'Will my generated logo come with a transparent background?',
+    answer:
+      'New generations typically include a background. After generation, use the built-in Remove Background tool and export as PNG to keep transparency for branding use.'
+  },
+  {
+    id: 'mockup-preview',
+    question: 'Can I preview my logo on a mockup before printing?',
+    answer:
+      'Yes. You can place the generated logo on mockups to test real-world usage, and create additional concept visuals in the same workflow for presentations and approvals.'
+  },
+  {
+    id: 'edit-later',
+    question: 'Can I continue editing my logo after downloading it?',
+    answer:
+      'Direct re-upload editing of an exported file may be limited. However, your generated versions remain available in your account project history, so you can reopen and refine them there.'
+  },
+  {
+    id: 'free-credits',
+    question: 'Is the AI Logo Generator free to use?',
+    answer:
+      'Yes, there is a free usage tier with daily credits on web and mobile apps. If you need more generations, additional credits can be purchased.'
+  },
+  {
+    id: 'logo-copyright',
+    question: 'Who owns the copyright of logos generated with this tool?',
+    answer:
+      'Logos you generate are intended for your own brand use. Always follow platform terms and applicable trademark laws before publishing or registering a final mark.'
+  }
+];
+
+const logoGeneratorFaqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: logoGeneratorFaqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer
+    }
+  }))
+} as const;
+
 interface ImageToImageFaqItem {
   id: string;
   question: string;
@@ -3381,6 +3484,72 @@ function ImageGeneratorZigZagLayout() {
         </div>
         <div className="space-y-10">
           {imageGeneratorZigZagSections.map((section, index) => {
+            const textFirst = index % 2 === 0;
+            return (
+              <div
+                key={section.id}
+                className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12"
+              >
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-2 lg:order-1' : 'order-2 lg:order-2'
+                  }`}
+                >
+                  <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 mb-3">
+                    {section.icon}
+                    <span>{section.eyebrow}</span>
+                  </div>
+                  <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3">
+                    {section.title}
+                  </h3>
+                  <p className="text-gray-700 text-sm md:text-base leading-relaxed">
+                    {section.description}
+                  </p>
+                  {section.bullets && (
+                    <ul className="mt-3 space-y-1 text-gray-700 text-sm md:text-base list-disc list-inside">
+                      {section.bullets.map((bullet) => (
+                        <li key={bullet}>{bullet}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+                <div
+                  className={`w-full lg:w-1/2 ${
+                    textFirst ? 'order-1 lg:order-2' : 'order-1 lg:order-1'
+                  }`}
+                >
+                  <div className="relative overflow-hidden rounded-xl border border-gray-200 bg-gray-50">
+                    <img
+                      src={section.imageSrc}
+                      alt={section.imageAlt}
+                      loading="lazy"
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function LogoGeneratorZigZagLayout() {
+  return (
+    <section className="mb-10">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-8 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            Built for every logo creation need
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Use AI Logo Generator to move from rough brand ideas to practical logo drafts without complex design tools.
+          </p>
+        </div>
+        <div className="space-y-10">
+          {logoGeneratorZigZagSections.map((section, index) => {
             const textFirst = index % 2 === 0;
             return (
               <div
@@ -4995,6 +5164,67 @@ function ImageGeneratorFAQ() {
   );
 }
 
+function LogoGeneratorFAQ() {
+  const [openId, setOpenId] = useState<string | null>(logoGeneratorFaqItems[0]?.id ?? null);
+
+  const handleToggle = (id: string) => {
+    setOpenId((current) => (current === id ? null : id));
+  };
+
+  return (
+    <section className="mb-12">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+        <div className="mb-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+            AI Logo Generator: frequently asked questions
+          </h2>
+          <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+            Common answers about generating logos, editing results, and preparing files for real brand use.
+          </p>
+        </div>
+        <SchemaJSONLD data={logoGeneratorFaqSchema} />
+        <div className="max-w-3xl mx-auto">
+          <div className="space-y-4">
+            {logoGeneratorFaqItems.map((item) => {
+              const isOpen = openId === item.id;
+              const answerId = `logo-generator-faq-answer-${item.id}`;
+              return (
+                <div key={item.id} className="bg-white rounded-lg shadow border border-gray-200">
+                  <button
+                    type="button"
+                    onClick={() => handleToggle(item.id)}
+                    className="w-full flex items-center justify-between px-4 md:px-6 py-4 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    aria-expanded={isOpen}
+                    aria-controls={answerId}
+                  >
+                    <div className="flex items-start gap-3">
+                      <HelpCircle className="w-5 h-5 text-blue-600 mt-1" />
+                      <span className="font-semibold text-gray-900">{item.question}</span>
+                    </div>
+                    <ChevronDown
+                      className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
+                        isOpen ? 'transform rotate-180' : ''
+                      }`}
+                    />
+                  </button>
+                  <div
+                    id={answerId}
+                    className={`px-4 md:px-6 pb-4 text-gray-700 text-sm leading-relaxed ${
+                      isOpen ? 'block' : 'hidden'
+                    }`}
+                  >
+                    {item.answer}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function SketchToImageFAQ() {
   const [openId, setOpenId] = useState<string | null>(sketchToImageFaqItems[0]?.id ?? null);
 
@@ -5192,6 +5422,11 @@ const ToolPage: React.FC = () => {
   // AI Image Generator specific state
   const [imageGeneratorTextPrompt, setImageGeneratorTextPrompt] = useState('');
   const [selectedResolution, setSelectedResolution] = useState<ImageResolution>(imageResolutions[0]); // Default to square
+  const [logoGeneratorTextPrompt, setLogoGeneratorTextPrompt] = useState('');
+  const [logoVideoAspectRatio, setLogoVideoAspectRatio] = useState(16 / 9);
+  const LOGO_VERTICAL_CROP_HEIGHT = 0.7; // show middle 70% of source height
+  const LOGO_VERTICAL_CROP_TOP = (1 - LOGO_VERTICAL_CROP_HEIGHT) / 2; // exact centered crop top = 15%
+  const logoCroppedAspectRatio = logoVideoAspectRatio / LOGO_VERTICAL_CROP_HEIGHT;
   
   // AI Portrait specific state
   const [portraitSelectedGender, setPortraitSelectedGender] = useState<'male' | 'female'>('female');
@@ -5429,7 +5664,7 @@ const ToolPage: React.FC = () => {
     { name: tool.name, path: tool.path }
   ]);
 
-  const usageNotice = tool.id === 'ai-image-generator'
+  const usageNotice = tool.id === 'ai-image-generator' || tool.id === 'ai-logo-generator'
     ? {
         title: 'Use Responsibly',
         items: [
@@ -5471,7 +5706,7 @@ const ToolPage: React.FC = () => {
       }
       return null;
     }
-    if (tool.id === 'ai-image-generator') {
+    if (tool.id === 'ai-image-generator' || tool.id === 'ai-logo-generator') {
       return null;
     }
     return selectedImage.preview;
@@ -6508,6 +6743,40 @@ const handleAIImageGeneratorGenerate = async () => {
   }
 };
 
+const handleAILogoGeneratorGenerate = async () => {
+  if (!logoGeneratorTextPrompt.trim()) {
+    setProcessedImage({ url: null, isLoading: false, error: 'Please enter a prompt describing the logo you want.' });
+    return;
+  }
+
+  setProcessedImage({ url: null, isLoading: true, error: null });
+
+  try {
+    const orderId = await startLogoGeneratorJob({
+      textPrompt: logoGeneratorTextPrompt,
+      enhancePrompt: true
+    });
+
+    const resultUrl = await pollJobUntilComplete(orderId);
+    setProcessedImage({
+      url: resultUrl,
+      isLoading: false,
+      error: null
+    });
+
+    setTimeout(() => {
+      scrollToResultContainer().catch(console.error);
+    }, 100);
+  } catch (error) {
+    console.error('An error occurred during logo generation:', error);
+    setProcessedImage({
+      url: null,
+      isLoading: false,
+      error: (error as Error).message || 'An unknown error occurred.'
+    });
+  }
+};
+
 const handleAIOutfitGenerate = async () => {
   if (!selectedImage.file) {
     setProcessedImage({ url: null, isLoading: false, error: 'Please upload an image.' });
@@ -7138,6 +7407,14 @@ const handleAIImageToImageGenerate = async () => {
                   <li>Click "Generate" to let AI create your unique image</li>
                   <li>Download your generated image when processing is complete</li>
                 </>
+              ) : tool.id === 'ai-logo-generator' ? (
+                <>
+                  <li>Describe your logo idea with details like style, color, theme, and brand tone</li>
+                  <li>Pick or type a style direction such as modern, luxury, hand-drawn, or 3D</li>
+                  <li>Generate multiple options to explore different logo directions quickly</li>
+                  <li>Refine the result with follow-up prompts for specific edits</li>
+                  <li>Download your preferred logo and continue final branding workflows</li>
+                </>
               ) : tool.id === 'ai-outfit' ? (
                 <>
                   <li>Upload a clear photo of a person using the tool below</li>
@@ -7567,6 +7844,49 @@ const handleAIImageToImageGenerate = async () => {
             </section>
           )}
 
+          {tool.id === 'ai-logo-generator' && (
+            <section className="mb-10">
+              <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8">
+                <div className="mb-6 text-center">
+                  <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">
+                    AI Logo Generator: Turn prompts into logo ideas
+                  </h2>
+                  <p className="mt-2 text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
+                    Generate distinctive logo directions for your brand from short prompts. Explore multiple concepts quickly, then refine details until you find a mark that fits your identity.
+                  </p>
+                </div>
+                <div className="max-w-xl mx-auto">
+                  <div
+                    className="relative overflow-hidden rounded-xl border border-gray-200 bg-black"
+                    style={{ aspectRatio: `${logoCroppedAspectRatio}` }}
+                  >
+                    <video
+                      src="/tools videos/AI Logo Generator.mp4"
+                      autoPlay
+                      loop
+                      playsInline
+                      muted
+                      controls
+                      preload="none"
+                      onLoadedMetadata={(event) => {
+                        const video = event.currentTarget;
+                        if (video.videoWidth > 0 && video.videoHeight > 0) {
+                          setLogoVideoAspectRatio(video.videoWidth / video.videoHeight);
+                        }
+                      }}
+                      className="w-full h-full object-cover"
+                      style={{
+                        objectPosition: `center ${50 + ((LOGO_VERTICAL_CROP_TOP + LOGO_VERTICAL_CROP_HEIGHT / 2) - 0.5) * 100}%`
+                      }}
+                    >
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+
           {tool.id === 'ai-image-to-image' && <ImageToImageHeroSection />}
 
           {tool.id === 'ai-sketch-to-image' && <SketchToImageHeroSection />}
@@ -7622,6 +7942,7 @@ const handleAIImageToImageGenerate = async () => {
             tool.id === 'ai-product-photoshoot' || 
             tool.id === 'ai-background-generator' || 
             tool.id === 'ai-image-generator' || 
+            tool.id === 'ai-logo-generator' ||
             tool.id === 'ai-portrait' || 
             tool.id === 'ai-outfit' || 
             tool.id === 'ai-image-to-image' || 
@@ -7635,8 +7956,8 @@ const handleAIImageToImageGenerate = async () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6 md:mb-8">
             <div className="space-y-6">
-              {/* Show ImageDropzone for all tools except AI Image Generator, AI Face Swap, AI Image to Image, and AI Sketch to Image */}
-              {tool.id !== 'ai-image-generator' && tool.id !== 'ai-face-swap' && tool.id !== 'ai-image-to-image' && tool.id !== 'ai-sketch-to-image' && (
+              {/* Show ImageDropzone for all tools except AI Image Generator, AI Logo Generator, AI Face Swap, AI Image to Image, and AI Sketch to Image */}
+              {tool.id !== 'ai-image-generator' && tool.id !== 'ai-logo-generator' && tool.id !== 'ai-face-swap' && tool.id !== 'ai-image-to-image' && tool.id !== 'ai-sketch-to-image' && (
                 <ImageDropzone 
                   onImageSelect={handleImageSelect}
                   selectedImage={selectedImage}
@@ -8519,6 +8840,51 @@ const handleAIImageToImageGenerate = async () => {
                   </div>
                 </div>
               )}
+
+              {/* AI Logo Generator specific controls */}
+              {tool.id === 'ai-logo-generator' && (
+                <div className="space-y-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Logo Description
+                    </label>
+                    <textarea
+                      value={logoGeneratorTextPrompt}
+                      onChange={(e) => setLogoGeneratorTextPrompt(e.target.value)}
+                      placeholder="Describe your brand style, theme, symbol ideas, and color direction..."
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                      rows={4}
+                    />
+                    <div className="mt-3 bg-blue-50 border border-blue-200 rounded-lg p-3">
+                      <h4 className="text-sm font-medium text-blue-800 mb-2">💡 Tips for better logo prompts:</h4>
+                      <ul className="text-xs text-blue-700 space-y-1">
+                        <li>• Mention your industry and brand personality</li>
+                        <li>• Add a preferred style like minimal, luxury, or retro</li>
+                        <li>• Include symbol or icon ideas if you have them</li>
+                        <li>• Specify colors, typography mood, or visual tone</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                      Suggested Prompts
+                    </label>
+                    <div className="grid grid-cols-1 gap-2 max-h-64 overflow-y-auto">
+                      {logoGeneratorPrompts.map((prompt, index) => (
+                        <button
+                          key={index}
+                          type="button"
+                          onClick={() => setLogoGeneratorTextPrompt(prompt)}
+                          className="text-left px-3 py-2 text-sm bg-gray-50 hover:bg-gray-100 rounded-md border transition-colors"
+                        >
+                          {prompt}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
               
               {/* AI Outfit specific controls */}
               {tool.id === 'ai-outfit' && selectedImage.preview && (
@@ -9235,6 +9601,7 @@ const handleAIImageToImageGenerate = async () => {
                   tool.id === 'ai-face-swap' ? handleAIFaceSwapGenerate :
                   tool.id === 'ai-product-photoshoot' ? handleAIProductPhotoshootGenerate :
                   tool.id === 'ai-background-generator' ? handleAIBackgroundGeneratorGenerate :
+                  tool.id === 'ai-logo-generator' ? handleAILogoGeneratorGenerate :
                   tool.id === 'ai-image-generator' ? handleAIImageGeneratorGenerate :
                   tool.id === 'ai-outfit' ? handleAIOutfitGenerate :
                   tool.id === 'ai-image-to-image' ? handleAIImageToImageGenerate :
@@ -9246,9 +9613,10 @@ const handleAIImageToImageGenerate = async () => {
                 }
                 disabled={
                   processedImage.isLoading ||
-                  (tool.id !== 'ai-image-generator' && tool.id !== 'ai-face-swap' && tool.id !== 'ai-image-to-image' && tool.id !== 'ai-sketch-to-image' && !selectedImage.file) ||
+                  (tool.id !== 'ai-image-generator' && tool.id !== 'ai-logo-generator' && tool.id !== 'ai-face-swap' && tool.id !== 'ai-image-to-image' && tool.id !== 'ai-sketch-to-image' && !selectedImage.file) ||
                   (tool.id === 'ai-replace' && !textPrompt.trim()) ||
                   (tool.id === 'ai-background-generator' && !backgroundTextPrompt.trim()) ||
+                  (tool.id === 'ai-logo-generator' && !logoGeneratorTextPrompt.trim()) ||
                   (tool.id === 'ai-image-generator' && !imageGeneratorTextPrompt.trim()) ||
                   (tool.id === 'ai-cartoon' && !(selectedPresetUrl || cartoonStyleImage?.name)) ||
                   (tool.id === 'ai-caricature' && !caricatureSelectedStyle && !caricatureCustomStyleImage) ||
@@ -9392,6 +9760,15 @@ const handleAIImageToImageGenerate = async () => {
               <>
                 <ImageGeneratorZigZagLayout />
                 <ImageGeneratorFAQ />
+              </>
+            </SectionErrorBoundary>
+          )}
+
+          {tool.id === 'ai-logo-generator' && (
+            <SectionErrorBoundary>
+              <>
+                <LogoGeneratorZigZagLayout />
+                <LogoGeneratorFAQ />
               </>
             </SectionErrorBoundary>
           )}

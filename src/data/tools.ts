@@ -90,6 +90,14 @@ export const tools: Tool[] = [
     apiEndpoint: '/api/external/api/v2/ai-image-generator'
   },
   {
+    id: 'ai-logo-generator',
+    name: 'AI Logo Generator',
+    description: 'Create custom logo concepts from simple text prompts',
+    icon: 'sparkles',
+    path: '/tools/ai-logo-generator',
+    apiEndpoint: '/api/external/api/v2/logo-generator'
+  },
+  {
     id: 'ai-portrait',
     name: 'AI Portrait',
     description: 'Create professional portrait photos with AI enhancement',

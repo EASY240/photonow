@@ -1009,6 +1009,70 @@ export async function startImageGeneratorJob({ textPrompt, width, height }: { te
   }
 }
 
+export async function startLogoGeneratorJob({
+  textPrompt,
+  enhancePrompt = true
+}: {
+  textPrompt: string;
+  enhancePrompt?: boolean;
+}): Promise<string> {
+  const { baseUrl } = getEnvironmentConfig();
+
+  const requestLogoOrder = async (payload: { textPrompt: string; enhancePrompt?: boolean }) => {
+    const response = await fetch(`${baseUrl}/api/lightx-proxy`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        endpoint: 'v2/logo-generator',
+        body: payload
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Failed to start logo generator job: ${response.status} - ${errorText}`);
+    }
+
+    const data = await response.json();
+    return data;
+  };
+
+  try {
+    // Attempt 1: use explicit enhancePrompt value.
+    const firstAttempt = await requestLogoOrder({ textPrompt, enhancePrompt });
+    if (firstAttempt?.body?.orderId) {
+      return firstAttempt.body.orderId;
+    }
+
+    // Attempt 2: retry without enhancePrompt in case account/region rejects that field.
+    const secondAttempt = await requestLogoOrder({ textPrompt });
+    if (secondAttempt?.body?.orderId) {
+      return secondAttempt.body.orderId;
+    }
+
+    const apiMessage = secondAttempt?.message || firstAttempt?.message || 'Unknown logo-generator response';
+    console.warn('Logo generator endpoint did not return orderId. Falling back to text2image.', {
+      firstAttempt,
+      secondAttempt
+    });
+
+    // Fallback: keep the tool functional by routing through text2image with logo-oriented prompting.
+    const logoStylePrompt = `${textPrompt}. clean vector logo design, minimal background, brand mark style`;
+    return await startImageGeneratorJob({
+      textPrompt: logoStylePrompt,
+      width: 1024,
+      height: 1024
+    });
+  } catch (error) {
+    console.error('Error starting logo generator job:', error);
+    throw new Error(
+      `Logo generation failed. ${error instanceof Error ? error.message : 'Unexpected error'}`
+    );
+  }
+}
+
 export async function startPortraitJob({ imageUrl, styleReferenceUrl, textPrompt }: { imageUrl: string; styleReferenceUrl?: string; textPrompt?: string; }): Promise<string> {
   try {
     const { baseUrl } = getEnvironmentConfig();
