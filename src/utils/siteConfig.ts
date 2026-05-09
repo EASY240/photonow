@@ -10,7 +10,7 @@ export const getSiteOrigin = (): string => {
 export const personalProfile = {
   fullName: 'Ali ZurSchmiede',
   title: 'Founder & AI Editing Specialist',
-  imageUrl: '/images/blog/Ali ZurSchmiede.jpg',
+  imageUrl: '/images/blog/Ali ZurSchmiede.webp',
   quote: 'You didn’t start a business to spend hours stuck behind your laptop.',
   websiteUrl: 'https://www.alizurschmiede.com/',
   instagramUrl: 'https://www.instagram.com/alizurschmiede/',

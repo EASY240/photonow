@@ -285,7 +285,7 @@ faqSchema: {
   <section id="practical-example">
     <h2>Practical Example: Full Shoot Walkthrough</h2>
     <div class="img-container">
-      <img src="/images/blog/Full Shoot Walkthrough.jpg" alt="Full Shoot Walkthrough">
+      <img src="/images/blog/Full Shoot Walkthrough.webp" alt="Full Shoot Walkthrough">
     </div>
     <p><strong>Scenario:</strong> A 2-hour outdoor Holi shoot with a group of six friends, one mirrorless camera (Sony A7 III), 50mm and 85mm lenses, golden hour starting at 5:30pm.</p>
     <p><strong>5:00pm — Camera prep:</strong> Mount UV filter on both lenses. Wrap camera body in rain cover. Set both lenses to RAW capture, auto ISO (800–6400), continuous autofocus, burst mode 10fps.</p>

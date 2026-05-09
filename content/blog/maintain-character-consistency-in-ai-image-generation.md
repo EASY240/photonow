@@ -5,7 +5,7 @@ excerpt: "Learn how to stop identity drift in AI image generation using a Master
 publishDate: "2026-04-16"
 readTime: "12 min read"
 category: "general"
-featuredImage: "/images/blog/Maintain Character Consistency in AI Image Generation.jpg"
+featuredImage: "/images/blog/Maintain Character Consistency in AI Image Generation.webp"
 relatedTool: "ai-image-generator"
 keywords:
   - AI character consistency
@@ -49,7 +49,7 @@ metaDescription: "A practical 2026 guide to maintain AI character consistency ac
 
 <section id="step-1">
   <h2>Step 1: Establish the "Master Anchor" Character Sheet</h2>
-  <img src="/images/blog/Master Anchor Character Sheet.jpg" alt="Master Anchor character sheet with front, side, three-quarters, and back views for identity locking">
+  <img src="/images/blog/Master Anchor Character Sheet.webp" alt="Master Anchor character sheet with front, side, three-quarters, and back views for identity locking">
   <p>Before generating story scenes, create a single high-fidelity reference image set that acts as your source of truth. This Master Anchor should include:</p>
   <ul class="custom-list">
     <li><strong>Camera angles:</strong> Front, side, 45-degree, and back view.</li>
@@ -85,7 +85,7 @@ metaDescription: "A practical 2026 guide to maintain AI character consistency ac
   }
 }</code></pre>
 
-  <img src="/images/blog/JSON Blueprint vs. Visual Output.jpg" alt="Comparison of structured JSON prompt blueprint versus consistent visual AI output">
+  <img src="/images/blog/JSON Blueprint vs. Visual Output.webp" alt="Comparison of structured JSON prompt blueprint versus consistent visual AI output">
 
   <p>For the next scene, keep <code>character_profile</code> unchanged and only modify <code>environment_context</code>. This separation dramatically reduces identity drift and attribute bleed.</p>
 </section>
@@ -100,7 +100,7 @@ metaDescription: "A practical 2026 guide to maintain AI character consistency ac
     <li><strong>--cw 100:</strong> strong transfer of face, hair, and outfit details.</li>
     <li><strong>--cw 0:</strong> keeps face topology while allowing wardrobe and hairstyle variation.</li>
   </ul>
-  <img src="/images/blog/Midjourney Parameter Comparison.jpg" alt="Midjourney character reference parameter comparison showing different character weight outcomes">
+  <img src="/images/blog/Midjourney Parameter Comparison.webp" alt="Midjourney character reference parameter comparison showing different character weight outcomes">
 
   <h3>For Midjourney V7 (--oref)</h3>
   <p>Use <code>--oref [URL]</code> for broader reference locking, including non-human subjects. Adjust with <code>--ow</code>. This mode is stronger but can cost more compute and has workflow compatibility limits depending on feature set.</p>
@@ -114,7 +114,7 @@ metaDescription: "A practical 2026 guide to maintain AI character consistency ac
 
 <section id="step-4">
   <h2>Step 4: Localized Edits with AI Replacement Workflows</h2>
-  <img src="/images/blog/AI Replacement - Inpainting Workflow.jpg" alt="AI replacement inpainting workflow showing subject replacement while preserving scene">
+  <img src="/images/blog/AI Replacement - Inpainting Workflow.webp" alt="AI replacement inpainting workflow showing subject replacement while preserving scene">
   <p>In production, generating a perfect scene and perfect character in one pass is unreliable. A faster approach is:</p>
   <ul class="custom-list">
     <li><strong>Generate base scene:</strong> Create the environment first with a placeholder subject.</li>

@@ -5,7 +5,7 @@ excerpt: "Learn exactly how to write and use Christmas art prompts for AI tools 
 publishDate: "2025-12-19"
 readTime: "14 min read"
 category: "general"
-featuredImage: "/images/blog/Christmas Art Prompts.jpeg"
+featuredImage: "/images/blog/Christmas Art Prompts.webp"
 keywords: ["Christmas art prompts", "Midjourney Christmas prompts", "Stable Diffusion Christmas prompts", "holiday art ideas", "AI Christmas image generation", "festive art prompts for beginners", "Christmas prompt engineering", "holiday AI art"]
 metaTitle: "How to Use Christmas Art Prompts: Guide with 50+ Examples for Midjourney & Stable Diffusion"
 metaDescription: "Step-by-step guide to using Christmas art prompts for AI tools and traditional art. Includes 50+ copy-paste prompts for Midjourney, Stable Diffusion, and ChatGPT — plus pro tips and common mistakes."
@@ -19,7 +19,7 @@ metaDescription: "Step-by-step guide to using Christmas art prompts for AI tools
     </p>
 
     <div class="img-container">
-      <img src="/images/blog/Christmas Art Prompts.jpeg" alt="Collection of AI-generated Christmas art created using structured Midjourney and Stable Diffusion prompts" />
+      <img src="/images/blog/Christmas Art Prompts.webp" alt="Collection of AI-generated Christmas art created using structured Midjourney and Stable Diffusion prompts" />
     </div>
   </div>
 
@@ -103,7 +103,7 @@ metaDescription: "Step-by-step guide to using Christmas art prompts for AI tools
     </p>
 
     <div class="img-container">
-      <img src="/images/blog/Why Use Christmas Art Prompts.jpeg" alt="Comparison showing the difference between vague and structured Christmas art prompts in AI image generation" />
+      <img src="/images/blog/Why Use Christmas Art Prompts.webp" alt="Comparison showing the difference between vague and structured Christmas art prompts in AI image generation" />
     </div>
   </section>
 
@@ -227,7 +227,7 @@ metaDescription: "Step-by-step guide to using Christmas art prompts for AI tools
     </p>
 
     <div class="img-container">
-      <img src="/images/blog/Winter Landscape.jpeg" alt="Stable Diffusion Christmas prompt result showing a hyperrealistic winter landscape at sunset" />
+      <img src="/images/blog/Winter Landscape.webp" alt="Stable Diffusion Christmas prompt result showing a hyperrealistic winter landscape at sunset" />
     </div>
 
     <ul class="prompt-list">
@@ -430,7 +430,7 @@ metaDescription: "Step-by-step guide to using Christmas art prompts for AI tools
 
     <h3>2. The Holiday Week Challenge</h3>
     <div class="img-container">
-      <img src="\images\blog\The Holiday Week Challenge Between Christmas and New Year’s Eve.jpeg" alt="Three-piece holiday week art challenge spanning Christmas Day to New Year's Eve" />
+      <img src="/images/blog/The Holiday Week Challenge Between Christmas and New Year’s Eve.webp" alt="Three-piece holiday week art challenge spanning Christmas Day to New Year's Eve" />
     </div>
     <p>Create three pieces between Christmas and New Year's Eve, each capturing a distinct seasonal mood:</p>
     <ul class="custom-list">

@@ -74,17 +74,17 @@ function CartoonHeroSection() {
     prompt1: {
       label: 'Prompt 1:',
       text: 'Fredrickson character, cartoon look',
-      imageSrc: '/images/blog/Fredrickson character, cartoon look.jpg'
+      imageSrc: '/images/blog/Fredrickson character, cartoon look.webp'
     },
     prompt2: {
       label: 'Prompt 2:',
       text: 'Moanna character, cartoon',
-      imageSrc: '/images/blog/Moanna character, cartoon look.jpg'
+      imageSrc: '/images/blog/Moanna character, cartoon look.webp'
     },
     prompt3: {
       label: 'Prompt 3:',
       text: 'Russel, realistic character',
-      imageSrc: '/images/blog/Russel, realistic character.jpg'
+      imageSrc: '/images/blog/Russel, realistic character.webp'
     }
   } as const;
 
@@ -150,17 +150,17 @@ function BackgroundHeroSection() {
     variant1: {
       label: 'Example 1:',
       text: 'Insta photos with unique backgrounds',
-      imageSrc: '/images/blog/bg-insta-unique-placeholder.jpg'
+      imageSrc: '/images/blog/bg-insta-unique-placeholder.webp'
     },
     variant2: {
       label: 'Example 2:',
       text: 'Backgrounds for fashion photoshoots',
-      imageSrc: '/images/blog/bg-fashion-photoshoot-placeholder.jpg'
+      imageSrc: '/images/blog/bg-fashion-photoshoot-placeholder.webp'
     },
     variant3: {
       label: 'Example 3:',
       text: 'Backgrounds for professional portraits',
-      imageSrc: '/images/blog/bg-professional-portraits-placeholder.jpg'
+      imageSrc: '/images/blog/bg-professional-portraits-placeholder.webp'
     }
   } as const;
 
@@ -226,19 +226,19 @@ function FilterHeroSection() {
     prompt1: {
       label: 'Prompt 1:',
       text: 'Japanese zen filter',
-      imageSrc: '/images/blog/Japanese zen filter.jpg',
+      imageSrc: '/images/blog/Japanese zen filter.webp',
       imageAlt: 'Photo styled with a calm Japanese zen inspired AI filter'
     },
     prompt2: {
       label: 'Prompt 2:',
       text: 'Art deco filter',
-      imageSrc: '/images/blog/AI filter art deco.jpg',
+      imageSrc: '/images/blog/AI filter art deco.webp',
       imageAlt: 'Portrait enhanced with a bold geometric art deco AI filter'
     },
     prompt3: {
       label: 'Prompt 3:',
       text: 'Bohemian chic filter',
-      imageSrc: '/images/blog/AI filter bohemian chic.jpg',
+      imageSrc: '/images/blog/AI filter bohemian chic.webp',
       imageAlt: 'Image transformed with a colorful bohemian chic AI filter'
     }
   } as const;
@@ -307,17 +307,17 @@ function CaricatureHeroSection() {
     prompt1: {
       label: 'Prompt 1:',
       text: 'Doctor caricature, big smile, exaggerated features',
-      imageSrc: '/images/blog/Doctor caricature.jpg'
+      imageSrc: '/images/blog/Doctor caricature.webp'
     },
     prompt2: {
       label: 'Prompt 2:',
       text: 'Rockstar caricature, bold outlines, dramatic lighting',
-      imageSrc: '/images/blog/Rockstar caricature.jpg'
+      imageSrc: '/images/blog/Rockstar caricature.webp'
     },
     prompt3: {
       label: 'Prompt 3:',
       text: 'Architect caricature, playful details, vibrant colors',
-      imageSrc: '/images/blog/Architect caricature.jpg'
+      imageSrc: '/images/blog/Architect caricature.webp'
     }
   } as const;
 
@@ -383,17 +383,17 @@ function PortraitHeroSection() {
     prompt1: {
       label: 'Prompt 1:',
       text: 'Soft daylight portrait, neutral background, natural skin tones',
-      imageSrc: '/images/blog/Soft daylight portrait.jpg'
+      imageSrc: '/images/blog/Soft daylight portrait.webp'
     },
     prompt2: {
       label: 'Prompt 2:',
       text: 'Studio headshot, dramatic lighting, cinematic color grading',
-      imageSrc: '/images/blog/Studio headshot portrait.jpg'
+      imageSrc: '/images/blog/Studio headshot portrait.webp'
     },
     prompt3: {
       label: 'Prompt 3:',
       text: 'Outdoor lifestyle portrait, warm sunset light, shallow depth of field',
-      imageSrc: '/images/blog/Outdoor lifestyle portrait.jpg'
+      imageSrc: '/images/blog/Outdoor lifestyle portrait.webp'
     }
   } as const;
 
@@ -663,7 +663,7 @@ const removeBgZigZagSections: RemoveBgZigZagSection[] = [
     title: 'Take the background out of the picture automatically',
     description:
       'Turn busy or cluttered portraits into clean, professional cutouts in seconds. The AI finds the subject, handles hair and edges, and delivers ready-to-use PNGs for social profiles, avatars, and headshots.',
-    imageSrc: '/images/blog/background out of the picture automatically.jpg',
+    imageSrc: '/images/blog/background out of the picture automatically.webp',
     imageAlt: 'Portrait photo with the background removed to a clean backdrop',
     icon: <Sparkles className="w-6 h-6 text-blue-600" />
   },
@@ -673,7 +673,7 @@ const removeBgZigZagSections: RemoveBgZigZagSection[] = [
     title: 'Create studio-style product photos without a studio',
     description:
       'Remove distracting backgrounds from product shots and place them on clean, on-brand canvases that are ready for marketplaces, ads, and catalogs.',
-    imageSrc: '/images/blog/product photos without a studio.jpg',
+    imageSrc: '/images/blog/product photos without a studio.webp',
     imageAlt: 'Product image prepared with a clean background for online listings',
     icon: <ShoppingBag className="w-6 h-6 text-blue-600" />
   },
@@ -683,7 +683,7 @@ const removeBgZigZagSections: RemoveBgZigZagSection[] = [
     title: 'Make Logo Transparent With Modern Transparent Image Maker',
     description:
       'Logos and text with transparent background offer a versatile and professional aesthetic, allowing seamless integration into various marketing materials, websites, and promotional content. With this tools precision you can ensures that intricate details of the logo are preserved.',
-    imageSrc: '/images/blog/Make Logo Transparent.jpg',
+    imageSrc: '/images/blog/Make Logo Transparent.webp',
     imageAlt: 'Make Logo Transparent With Modern Transparent Image Maker',
     icon: <KeyIcon className="w-6 h-6 text-blue-600" />
   },
@@ -693,7 +693,7 @@ const removeBgZigZagSections: RemoveBgZigZagSection[] = [
     title: 'Highlight the property, not the distractions',
     description:
       'Remove signs, mismatched decor, and visual noise from room photos so the space feels brighter, clearer, and easier to browse on listing pages.',
-    imageSrc: '/images/blog/Real estate and interiors.jpg',
+    imageSrc: '/images/blog/Real estate and interiors.webp',
     imageAlt: 'Interior photo cleaned up with a simplified background',
     icon: <Home className="w-6 h-6 text-blue-600" />
   }
@@ -717,7 +717,7 @@ const watermarkZigZagSections: WatermarkZigZagSection[] = [
     title: 'Erase watermarks and logos so they blend away',
     description:
       'Use AI to strip out visible logos, text stamps, and copyright labels without drawing masks by hand. The model detects the mark, separates it from the rest of the image, and rebuilds the area using nearby pixels so the edit looks natural at a glance.',
-    imageSrc: '/images/blog/Erase watermarks and logos so they blend away.jpg',
+    imageSrc: '/images/blog/Erase watermarks and logos so they blend away.webp',
     imageAlt: 'Example image cleaned with an AI watermark remover',
     icon: <Sparkles className="w-6 h-6 text-blue-600" />,
     bullets: [
@@ -732,7 +732,7 @@ const watermarkZigZagSections: WatermarkZigZagSection[] = [
     title: 'A single watermark remover for many kinds of users',
     description:
       'Whether you manage content for a brand or simply want cleaner personal images, the tool is designed to fit into everyday workflows without extra software.',
-    imageSrc: '/images/blog/single watermark remover for many kinds of users.jpg',
+    imageSrc: '/images/blog/single watermark remover for many kinds of users.webp',
     imageAlt: 'Professionals and casual users using a watermark remover tool',
     icon: <Briefcase className="w-6 h-6 text-blue-600" />,
     bullets: [
@@ -749,7 +749,7 @@ const watermarkZigZagSections: WatermarkZigZagSection[] = [
     title: 'Remove watermarks from many kinds of visuals',
     description:
       'Apply the AI Watermark Remover to a wide range of images used across the web, social media, and marketing materials.',
-    imageSrc: '/images/blog/Remove watermarks from many kinds of visuals.jpg',
+    imageSrc: '/images/blog/Remove watermarks from many kinds of visuals.webp',
     imageAlt: 'Different image types prepared with watermark removal',
     icon: <CameraIcon className="w-6 h-6 text-blue-600" />,
     bullets: [
@@ -767,7 +767,7 @@ const watermarkZigZagSections: WatermarkZigZagSection[] = [
     title: 'A fast, reliable AI proof remover',
     description:
       'Combine automatic detection with high-quality image reconstruction to get watermark-free results you can confidently share or publish.',
-    imageSrc: '/images/blog/fast reliable AI proof remover.jpg',
+    imageSrc: '/images/blog/fast reliable AI proof remover.webp',
     imageAlt: 'High quality result after AI proof removal',
     icon: <Gem className="w-6 h-6 text-blue-600" />,
     bullets: [
@@ -797,7 +797,7 @@ const filterZigZagSections: FilterZigZagSection[] = [
     title: 'Turn photos into sketches and paintings with AI filters',
     description:
       'Use the AI Filter tool to transform your images into detailed sketches or rich painterly artwork. Experiment with pencil-style, ink, and cross-hatching looks for line-focused results, or apply painting filters that add color, depth, and texture for a gallery-ready finish.',
-    imageSrc: '/images/blog/AI filter sketches and paintings.jpg',
+    imageSrc: '/images/blog/AI filter sketches and paintings.webp',
     imageAlt: 'Photo transformed into a pencil sketch and painted artwork using AI filters',
     icon: <Brush className="w-6 h-6 text-blue-600" />
   },
@@ -807,7 +807,7 @@ const filterZigZagSections: FilterZigZagSection[] = [
     title: 'Explore anime and manga-inspired AI photo filters',
     description:
       'Apply bold colors, stylized outlines, and cel-shaded lighting to turn your photos into anime or manga-style scenes. Combine ready-made filters with your own prompts to live out popular character aesthetics and create vibrant comic-style artwork from everyday images.',
-    imageSrc: '/images/blog/AI filter anime and manga.jpg',
+    imageSrc: '/images/blog/AI filter anime and manga.webp',
     imageAlt: 'Portrait converted into anime and manga-style art with AI filters',
     icon: <Atom className="w-6 h-6 text-blue-600" />
   },
@@ -817,7 +817,7 @@ const filterZigZagSections: FilterZigZagSection[] = [
     title: 'Free AI filters for every kind of photo',
     description:
       'Browse a range of trending AI filters and apply them in a single click. Quickly add creative effects to portraits, products, and social content without complex manual editing or paid desktop software.',
-    imageSrc: '/images/blog/AI filter free effects.jpg',
+    imageSrc: '/images/blog/AI filter free effects.webp',
     imageAlt: 'Various photos enhanced with different AI filter styles',
     icon: <Gift className="w-6 h-6 text-blue-600" />
   }
@@ -840,7 +840,7 @@ const avatarZigZagSections: AvatarZigZagSection[] = [
     title: 'The best AI avatar generator website',
     description:
       'Know no limits when it comes to creating avatars. With the Modern-powered AI avatar generator inside Modern PhotoTools, you can explore a growing library of ready-made styles, from fantasy and anime to cartoon and 3D looks. Each style is tuned for accuracy and realism so your avatar still feels like you, just more stylized.',
-    imageSrc: '/images/blog/The best AI avatar generator website.jpg',
+    imageSrc: '/images/blog/The best AI avatar generator website.webp',
     imageAlt: 'Example of different AI avatar styles generated from one face',
     icon: <Sparkles className="w-6 h-6 text-blue-600" />
   },
@@ -850,7 +850,7 @@ const avatarZigZagSections: AvatarZigZagSection[] = [
     title: 'Make unlimited avatars from a single photo upload',
     description:
       'Upload one high-quality photo of your face and generate avatars in multiple styles without repeating the upload. Modern AI studies your features once, then lets you remix the look across professional, creative, and playful presets so you can experiment quickly without extra effort.',
-    imageSrc: '/images/blog/Make unlimited avatars from a single photo upload.jpg',
+    imageSrc: '/images/blog/Make unlimited avatars from a single photo upload.webp',
     imageAlt: 'Multiple AI avatar variations created from a single portrait',
     icon: <CameraIcon className="w-6 h-6 text-blue-600" />
   },
@@ -860,7 +860,7 @@ const avatarZigZagSections: AvatarZigZagSection[] = [
     title: 'Avatar maker for gaming, chat rooms, and social media',
     description:
       'Turn your face into a recognizable avatar for online games, chat rooms, forums, or social platforms. Use AI-generated avatars to give your profile a consistent visual identity, stand out in crowded feeds, and share a version of yourself that feels fun but still authentic.',
-    imageSrc: '/images/blog/Avatar maker for gaming, chat rooms, and social media.jpg',
+    imageSrc: '/images/blog/Avatar maker for gaming, chat rooms, and social media.webp',
     imageAlt: 'AI avatar examples used across gaming and social platforms',
     icon: <Users className="w-6 h-6 text-blue-600" />
   }
@@ -884,7 +884,7 @@ const portraitZigZagSections: PortraitZigZagSection[] = [
     title: 'Create polished AI portraits for profiles and portfolios',
     description:
       'Start from a clear face photo and generate portraits that look like they were shot in a studio. Adjust lighting, framing, and background while keeping the person recognisable and true to life.',
-    imageSrc: '/images/blog/AI portraits for profiles and portfolios.jpg',
+    imageSrc: '/images/blog/AI portraits for profiles and portfolios.webp',
     imageAlt: 'AI-generated professional portrait headshot example',
     icon: <CameraIcon className="w-6 h-6 text-blue-600" />,
     bullets: [
@@ -899,7 +899,7 @@ const portraitZigZagSections: PortraitZigZagSection[] = [
     title: 'Explore artistic portrait styles in a few prompts',
     description:
       'Experiment with cinematic, editorial, and painterly portrait styles without hiring a full creative team. Use short prompts to try new moods, color palettes, and compositions around the same face.',
-    imageSrc: '/images/blog/artistic portrait styles in a few prompts.jpg',
+    imageSrc: '/images/blog/artistic portrait styles in a few prompts.webp',
     imageAlt: 'AI-generated artistic portrait variations',
     icon: <Sparkles className="w-6 h-6 text-blue-600" />,
     bullets: [
@@ -914,7 +914,7 @@ const portraitZigZagSections: PortraitZigZagSection[] = [
     title: 'Portraits that fit your brand identity',
     description:
       'Keep portraits aligned with your visual identity by reusing the same prompts and settings across your team. Generate consistent photos for websites, pitch decks, and social media profiles.',
-    imageSrc: '/images/blog/Portraits that fit your brand identity.jpg',
+    imageSrc: '/images/blog/Portraits that fit your brand identity.webp',
     imageAlt: 'AI-generated portraits used across a brand touchpoints',
     icon: <Gem className="w-6 h-6 text-blue-600" />,
     bullets: [
@@ -942,7 +942,7 @@ const outfitZigZagSections: OutfitZigZagSection[] = [
     title: 'AI outfit generator for virtual try-on in photos',
     description:
       'Use Modern’s AI clothes changer to preview new looks on your existing photos. Upload one image, pick a one-click outfit style, and try everything from casual streetwear to red-carpet looks without changing in real life.',
-    imageSrc: '/images/blog/AI outfit generator.jpg',
+    imageSrc: '/images/blog/AI outfit generator.webp',
     imageAlt: 'Photo showing a virtual AI outfit try-on on a person',
     icon: <Sparkles className="w-6 h-6 text-blue-600" />
   },
@@ -952,7 +952,7 @@ const outfitZigZagSections: OutfitZigZagSection[] = [
     title: 'Get ready for the holidays with AI festive looks',
     description:
       'Dress up for Halloween, Christmas, birthdays, and cultural celebrations using AI-generated outfits instead of shopping and manual editing. In a few clicks, turn everyday photos into festive portraits with themed clothing and accessories.',
-    imageSrc: '/images/blog/holidays with AI festive looks.jpg',
+    imageSrc: '/images/blog/holidays with AI festive looks.webp',
     imageAlt: 'AI-generated festive outfits applied to a portrait',
     icon: <Gift className="w-6 h-6 text-blue-600" />
   },
@@ -962,7 +962,7 @@ const outfitZigZagSections: OutfitZigZagSection[] = [
     title: 'Explore corporate looks with an AI formal outfit editor',
     description:
       'Transform casual photos into polished professional portraits by trying on suits, blazers, and formal dresses. Modern’s AI outfit creator builds clean, office-ready looks from a single upload so you can update headshots and profile photos in minutes.',
-    imageSrc: '/images/blog/AI formal outfit editor.jpg',
+    imageSrc: '/images/blog/AI formal outfit editor.webp',
     imageAlt: 'AI-generated formal outfit applied for a professional portrait',
     icon: <Briefcase className="w-6 h-6 text-blue-600" />
   }
@@ -987,7 +987,7 @@ const hairstyleZigZagSections: HairstyleZigZagSection[] = [
     description:
       'Use ModernPhotoTools’ AI hairstyle generator to explore bold hair changes with zero commitment. Upload one clear photo, pick a preset style, and preview short, long, curly, or textured looks that are mapped precisely to your face.',
     imageSrc:
-      '/images/blog/Transform your look without a single haircut.jpg',
+      '/images/blog/Transform your look without a single haircut.webp',
     imageAlt: 'AI-generated long wavy hairstyle applied virtually to a portrait',
     icon: <Sparkles className="w-6 h-6 text-blue-600" />
   },
@@ -998,7 +998,7 @@ const hairstyleZigZagSections: HairstyleZigZagSection[] = [
     description:
       'Try hairstyles inspired by icons in seconds. From classic silhouettes to modern trends, combine your photo with AI to see how signature cuts, fringes, and volumes would look on you before you ever book a salon visit.',
     imageSrc:
-      '/images/blog/See yourself in celebrity-style AI hairstyles.jpg',
+      '/images/blog/See yourself in celebrity-style AI hairstyles.webp',
     imageAlt: 'AI preview of a sharp taper fade inspired by celebrity styles',
     icon: <Gem className="w-6 h-6 text-blue-600" />
   },
@@ -1009,7 +1009,7 @@ const hairstyleZigZagSections: HairstyleZigZagSection[] = [
     description:
       'Plan hair changes, content, and client looks with practical AI previews you can trust.',
     imageSrc:
-      '/images/blog/AI hairstyle changer for real-life decisions.jpg',
+      '/images/blog/AI hairstyle changer for real-life decisions.webp',
     imageAlt: 'AI-generated space bun hairstyle preview on a portrait',
     icon: <Home className="w-6 h-6 text-blue-600" />,
     bullets: [
@@ -1040,7 +1040,7 @@ const imageUpscalerZigZagSections: ImageUpscalerZigZagSection[] = [
     title: 'Get higher-quality, sharper, more detailed images',
     description:
       'Turn soft, low-resolution photos into crisp, high-resolution images in just a few seconds. The AI Image Upscaler boosts resolution while preserving important details, improving edges, textures, and patterns so results look clean instead of over-smoothed, even on low-light or compressed images.',
-    imageSrc: '/images/blog/AI upscaler sharper images.jpg',
+    imageSrc: '/images/blog/AI upscaler sharper images.webp',
     imageAlt: 'Portrait photo upscaled with sharper details and reduced noise',
     icon: <Sparkles className="w-6 h-6 text-blue-600" />
   },
@@ -1050,7 +1050,7 @@ const imageUpscalerZigZagSections: ImageUpscalerZigZagSection[] = [
     title: 'Zoom in without pixelation',
     description:
       'When you zoom into a small photo, blocks and jagged pixels usually appear because there are not enough original pixels to fill the space. The AI upsizer intelligently generates additional pixels between what is already there so close-up crops stay clear and readable instead of breaking apart.',
-    imageSrc: '/images/blog/AI upscaler zoom without pixelation.jpg',
+    imageSrc: '/images/blog/AI upscaler zoom without pixelation.webp',
     imageAlt: 'Zoomed-in image upscaled to remove blocky pixels',
     icon: <CameraIcon className="w-6 h-6 text-blue-600" />
   },
@@ -1060,7 +1060,7 @@ const imageUpscalerZigZagSections: ImageUpscalerZigZagSection[] = [
     title: 'Why use the AI Image Upscaler?',
     description:
       'Use AI upscaling whenever you need more resolution, cleaner details, or larger exports without re-shooting the original photo.',
-    imageSrc: '/images/blog/AI upscaler use cases.jpg',
+    imageSrc: '/images/blog/AI upscaler use cases.webp',
     imageAlt: 'Collage of different photos enhanced with AI upscaling',
     icon: <Gem className="w-6 h-6 text-blue-600" />,
     bullets: [
@@ -1093,7 +1093,7 @@ const imageGeneratorZigZagSections: ImageGeneratorZigZagSection[] = [
     title: 'A text-to-image tool that does not require prompt expertise',
     description:
       'Create AI images without learning complex prompt formulas. The AI Image Generator includes purpose-built tools so you can focus on your idea instead of technical wording.',
-    imageSrc: '/images/blog/A text to image tool.jpg',
+    imageSrc: '/images/blog/A text to image tool.webp',
     imageAlt: 'AI Image Generator interface creating visuals from simple prompts',
     icon: <Sparkles className="w-6 h-6 text-blue-600" />,
     bullets: [
@@ -1108,7 +1108,7 @@ const imageGeneratorZigZagSections: ImageGeneratorZigZagSection[] = [
     title: 'An image generator designed for brands',
     description:
       'Experiment with bold visual ideas that would be too expensive or slow to produce with traditional photoshoots. Quickly explore variations before you commit budget to a full campaign.',
-    imageSrc: '/images/blog/image generator designed for brands.jpg',
+    imageSrc: '/images/blog/image generator designed for brands.webp',
     imageAlt: 'Brand visuals created with an AI image generator',
     icon: <Atom className="w-6 h-6 text-blue-600" />,
     bullets: [
@@ -1123,7 +1123,7 @@ const imageGeneratorZigZagSections: ImageGeneratorZigZagSection[] = [
     title: 'Customize AI images with powerful editing features',
     description:
       'Turn generated images into production-ready assets using the rest of the ModernPhotoTools suite. Enhance quality, adapt formats, and fine-tune details in the same workflow.',
-    imageSrc: '/images/blog/Customize AI images with powerful editing features.jpg',
+    imageSrc: '/images/blog/Customize AI images with powerful editing features.webp',
     imageAlt: 'AI-generated image being refined with additional editing tools',
     icon: <Gem className="w-6 h-6 text-blue-600" />,
     bullets: [
@@ -1151,7 +1151,7 @@ const logoGeneratorZigZagSections: ImageGeneratorZigZagSection[] = [
     title: 'Generate many logo concepts in seconds, not weeks',
     description:
       'Move from idea to polished draft quickly with AI-assisted logo generation. Explore different visual directions without hiring a full design team for every experiment.',
-    imageSrc: '/images/blog/fast-logo-concepts.jpg',
+    imageSrc: '/images/blog/fast-logo-concepts.webp',
     imageAlt: 'AI Logo Generator preview showing generated logo concepts',
     icon: <Sparkles className="w-6 h-6 text-blue-600" />
   },
@@ -1161,7 +1161,7 @@ const logoGeneratorZigZagSections: ImageGeneratorZigZagSection[] = [
     title: 'Create text marks, emblems, icons, mascots, and monograms',
     description:
       'Describe your industry, tone, and use case in plain language. The model is tuned for logo-style output and can shape typography and symbols around your brand intent.',
-    imageSrc: '/images/blog/logo-types.jpg',
+    imageSrc: '/images/blog/logo-types.webp',
     imageAlt: 'Multiple logo style variations generated from one prompt',
     icon: <Atom className="w-6 h-6 text-blue-600" />
   },
@@ -1171,7 +1171,7 @@ const logoGeneratorZigZagSections: ImageGeneratorZigZagSection[] = [
     title: 'Refine tiny details with simple follow-up prompts',
     description:
       'Adjust one part of the logo without redesigning everything. Ask for focused changes such as font weight, icon thickness, color balance, or spacing, and iterate in real time.',
-    imageSrc: '/images/blog/precise-edits.jpg',
+    imageSrc: '/images/blog/precise-edits.webp',
     imageAlt: 'Logo refinement workflow with iterative AI prompt edits',
     icon: <Gem className="w-6 h-6 text-blue-600" />
   },
@@ -1181,7 +1181,7 @@ const logoGeneratorZigZagSections: ImageGeneratorZigZagSection[] = [
     title: 'Export logos ready for both print and digital campaigns',
     description:
       'Create assets that stay clear across large and small formats. Use built-in enhancement and resizing workflows to prepare logos for packaging, social media, ads, and billboards.',
-    imageSrc: '/images/blog/print-ready.jpg',
+    imageSrc: '/images/blog/print-ready.webp',
     imageAlt: 'High-quality logo prepared for print and digital formats',
     icon: <Briefcase className="w-6 h-6 text-blue-600" />
   }
@@ -1205,7 +1205,7 @@ const imageToImageZigZagSections: ImageToImageZigZagSection[] = [
     title: 'An AI image transformer for fresh compositions',
     description:
       'Use the image-to-image tool to restyle any photo into a new composition while keeping the main layout recognizable. The model analyzes structure, lighting, and style, then rebuilds textures, colors, and details so the result feels like a new version of the same scene.',
-    imageSrc: '/images/blog/AI image transformer for fresh compositions.jpg',
+    imageSrc: '/images/blog/AI image transformer for fresh compositions.webp',
     imageAlt: 'Example of an AI-transformed image based on an input photo',
     icon: <Sparkles className="w-6 h-6 text-blue-600" />
   },
@@ -1215,7 +1215,7 @@ const imageToImageZigZagSections: ImageToImageZigZagSection[] = [
     title: 'Personalize every image with detailed text prompts',
     description:
       'Guide the AI with short prompts that describe what you want to see more of and what to avoid. Combine your source image with clear directions about style, mood, and subject so each generation moves closer to your ideal result without endless trial and error.',
-    imageSrc: '/images/blog/Personalize every image with detailed text prompts.jpg',
+    imageSrc: '/images/blog/Personalize every image with detailed text prompts.webp',
     imageAlt: 'Interface showing text prompts used to control an AI image transformation',
     icon: <Atom className="w-6 h-6 text-blue-600" />,
     bullets: [
@@ -1230,7 +1230,7 @@ const imageToImageZigZagSections: ImageToImageZigZagSection[] = [
     title: 'Use prompts for precise modifications and scene updates',
     description:
       'Describe focused changes such as “add a golden sunset,” “make the city look futuristic,” or “turn this into a painterly illustration.” The AI applies your instructions across the image so you can explore variations and refinements without manual brushing.',
-    imageSrc: '/images/blog/prompts for precise modifications.jpg',
+    imageSrc: '/images/blog/prompts for precise modifications.webp',
     imageAlt: 'AI-generated variations of the same scene shown side by side',
     icon: <Gem className="w-6 h-6 text-blue-600" />
   }
@@ -1254,7 +1254,7 @@ const sketchToImageZigZagSections: SketchToImageZigZagSection[] = [
     title: 'Turn sketches into detailed AI-generated images',
     description:
       'Upload your sketch or draw directly on the canvas, then let the sketch-to-image engine rebuild it as a finished scene. The model interprets lines, shapes, and shading to create rich lighting, texture, and depth around your original idea.',
-    imageSrc: '/images/blog/Turn sketches into detailed AI-generated images.jpg',
+    imageSrc: '/images/blog/Turn sketches into detailed AI-generated images.webp',
     imageAlt: 'Example of a hand-drawn sketch transformed into a polished AI-generated image',
     icon: <Sparkles className="w-6 h-6 text-blue-600" />
   },
@@ -1264,7 +1264,7 @@ const sketchToImageZigZagSections: SketchToImageZigZagSection[] = [
     title: 'Convert hand-drawn art into polished digital visuals',
     description:
       'Move seamlessly from paper or tablet sketches to clean, presentation-ready artwork. The AI reads contours, textures, and notes in your drawing, then outputs a refined image suitable for portfolios, pitch decks, and marketing creatives.',
-    imageSrc: '/images/blog/hand-drawn art into polished digital visuals.jpg',
+    imageSrc: '/images/blog/hand-drawn art into polished digital visuals.webp',
     imageAlt: 'Side-by-side comparison of a sketch and its refined digital counterpart',
     icon: <Atom className="w-6 h-6 text-blue-600" />
   },
@@ -1274,7 +1274,7 @@ const sketchToImageZigZagSections: SketchToImageZigZagSection[] = [
     title: 'Guide generations with text prompts and style references',
     description:
       'Combine rough sketches with text prompts and optional style images to control every aspect of the result. Describe the mood, environment, and color palette, or reference another image so the AI follows your vision while still respecting the structure of your sketch.',
-    imageSrc: '/images/blog/Guide generations with text prompts and style references.jpg',
+    imageSrc: '/images/blog/Guide generations with text prompts and style references.webp',
     imageAlt: 'Sketch-to-image interface showing prompts and style reference controls',
     icon: <Gem className="w-6 h-6 text-blue-600" />
   }
@@ -1297,7 +1297,7 @@ const productZigZagSections: ProductZigZagSection[] = [
     title: 'AI product photoshoot: fast and realistic results',
     description:
       'Create polished product photos that look like they came from a professional studio, without booking equipment or locations. Use ModernPhotoTools’ AI Product Photoshoot to generate on-brand scenes in minutes instead of days.',
-    imageSrc: '/images/blog/AI product photoshoot results.jpg',
+    imageSrc: '/images/blog/AI product photoshoot results.webp',
     imageAlt: 'Example of AI-generated product photos in different realistic scenes',
     icon: <Sparkles className="w-6 h-6 text-blue-600" />
   },
@@ -1307,7 +1307,7 @@ const productZigZagSections: ProductZigZagSection[] = [
     title: 'Online AI product shot generator for any workflow',
     description:
       'Support agencies, photographers, ecommerce sellers, and social media teams with one flexible tool. Start from ready-made styles or your own prompts to keep product photos consistent across websites, ads, and marketplaces.',
-    imageSrc: '/images/blog/Online AI product shot generator for any workflow.jpg',
+    imageSrc: '/images/blog/Online AI product shot generator for any workflow.webp',
     imageAlt: 'Different people using an AI product photography workflow',
     icon: <Users className="w-6 h-6 text-blue-600" />
   },
@@ -1317,7 +1317,7 @@ const productZigZagSections: ProductZigZagSection[] = [
     title: 'Imaginative AI product background generation with prompts',
     description:
       'Place your product in any environment you can describe. Type a short prompt to stage it on a beach, in a studio, on a marble counter, or inside a themed set—without having to physically shoot in each location.',
-    imageSrc: '/images/blog/Imaginative AI product background generation with prompts.jpg',
+    imageSrc: '/images/blog/Imaginative AI product background generation with prompts.webp',
     imageAlt: 'Product shown on multiple AI-generated backgrounds based on prompts',
     icon: <CameraIcon className="w-6 h-6 text-blue-600" />
   }
@@ -1341,7 +1341,7 @@ const cleanupZigZagSections: CleanupZigZagSection[] = [
     title: 'Remove people and distractions in a few strokes',
     description:
       'Use the AI cleanup brush to erase photobombers, strangers, or small distractions from portraits, travel shots, event photos, and family pictures. The tool intelligently fills the cleaned area so the composition looks natural, like the unwanted element was never there.',
-    imageSrc: '/images/blog/Remove people and distractions.jpg',
+    imageSrc: '/images/blog/Remove people and distractions.webp',
     imageAlt: "Tattoo removed from girl's arm using AI cleanup tool for a smoother skin appearance.",
     icon: <Sparkles className="w-6 h-6 text-blue-600" />
   },
@@ -1351,7 +1351,7 @@ const cleanupZigZagSections: CleanupZigZagSection[] = [
     title: 'Clean up product photos professionally',
     description:
       "Clean up product photos of clothing, jewelry, electronics, cosmetics, food, home decor, and more. Remove clutter, distractions, scratches, dust, or harsh shadows so your images look polished and ready for marketplaces like Amazon, Shopify, Etsy, or eBay.",
-    imageSrc: '/images/blog/Clean up product photos professionally.jpg',
+    imageSrc: '/images/blog/Clean up product photos professionally.webp',
     imageAlt: 'Product photo cleanup done using AI to enhance image quality and remove unwanted elements.',
     icon: <ShoppingBag className="w-6 h-6 text-blue-600" />
   },
@@ -1361,7 +1361,7 @@ const cleanupZigZagSections: CleanupZigZagSection[] = [
     title: 'Flawless cleanup with natural background generation',
     description:
       'ModernPhotoTools analyzes the masked subject and surrounding scene to rebuild what should be behind it. Its content-aware fill creates a contextual, natural-looking background so there are no obvious smudges or artifacts after cleanup.',
-    imageSrc: '/images/blog/Flawless cleanup with natural background generation.jpg',
+    imageSrc: '/images/blog/Flawless cleanup with natural background generation.webp',
     imageAlt: 'Girl removed from a beach photo using AI cleanup to preserve the scenery.',
     icon: <Car className="w-6 h-6 text-blue-600" />
   },
@@ -1371,7 +1371,7 @@ const cleanupZigZagSections: CleanupZigZagSection[] = [
     title: 'Why choose ModernPhotoTools’ AI photo cleaner?',
     description:
       'ModernPhotoTools gives you a fast, browser-based way to erase anything you do not want in a photo while keeping everything else sharp and natural.',
-    imageSrc: '/images/tools images/AI Cleanup Tool.jpg',
+    imageSrc: '/images/tools images/AI Cleanup Tool.webp',
     imageAlt: 'Example of a clean, polished image edited with ModernPhotoTools.',
     icon: <KeyIcon className="w-6 h-6 text-blue-600" />,
     bullets: [
@@ -1500,7 +1500,7 @@ const replaceZigZagSections: ReplaceZigZagSection[] = [
     title: 'Replace image content with easy masking and simple prompts',
     description:
       'Use ModernPhotoTools AI Replace to swap anything in a photo without starting from scratch. Brush over the area you want to change, describe the new object or scene in a short text prompt, and let the model generate a realistic replacement that matches lighting, perspective, and texture.',
-    imageSrc: '/images/blog/Replace image content with easy masking and simple prompts.jpg',
+    imageSrc: '/images/blog/Replace image content with easy masking and simple prompts.webp',
     imageAlt: 'Example of AI Replace swapping objects in a photo.',
     icon: <Sparkles className="w-6 h-6 text-blue-600" />
   },
@@ -1510,7 +1510,7 @@ const replaceZigZagSections: ReplaceZigZagSection[] = [
     title: 'AI image replacer for social media content creators',
     description:
       'Polish travel shots, lifestyle posts, and promotional images by removing unwanted details and inserting better-fitting elements. Guide the tool with simple prompts so your content looks curated and on-brand without hours of manual editing.',
-    imageSrc: '/images/blog/AI image replacer for social media content creators.jpg',
+    imageSrc: '/images/blog/AI image replacer for social media content creators.webp',
     imageAlt: 'Social media image refined using AI Replace.',
     icon: <CameraIcon className="w-6 h-6 text-blue-600" />
   },
@@ -1520,7 +1520,7 @@ const replaceZigZagSections: ReplaceZigZagSection[] = [
     title: 'Replace clutter with matching aesthetics in product photos',
     description:
       'Clean up product photos taken in busy environments by replacing distracting objects with props that fit the style of your brand. Add or swap items in the frame so the final image feels cohesive, similar to generative fill in pro editing software—all from your browser.',
-    imageSrc: '/images/blog/Replace clutter with matching aesthetics in product photos.jpg',
+    imageSrc: '/images/blog/Replace clutter with matching aesthetics in product photos.webp',
     imageAlt: 'Product scene improved by replacing clutter with cohesive elements.',
     icon: <ShoppingBag className="w-6 h-6 text-blue-600" />
   }
@@ -1596,7 +1596,7 @@ const expandZigZagSections: ExpandZigZagSection[] = [
     title: 'Realistic image expansion without quality loss',
     description:
       'The AI Expand tool is developed to uncrop pictures, enlarge backgrounds, and outpaint images without causing stretching or blurring. It assesses the layout, lighting, and context of your picture, then fabricates new pixels that match the original in texture, color, and style for integrated results.',
-    imageSrc: '/images/blog/Realistic image expansion without quality loss.jpg',
+    imageSrc: '/images/blog/Realistic image expansion without quality loss.webp',
     imageAlt: 'Wide photo extended with AI while keeping sharp detail.',
     icon: <Sparkles className="w-6 h-6 text-blue-600" />
   },
@@ -1606,7 +1606,7 @@ const expandZigZagSections: ExpandZigZagSection[] = [
     title: 'AI images of the perfect size for social media',
     description:
       'This tool not only utilizes AI to enlarge images but also enhances their usability. It features preset sizes designed for various social media platforms. You can conveniently select your preferred size for image enlargement. It ensures that your images are perfectly sized for platforms like Instagram, Facebook, Twitter, etc., without requiring any manual adjustments. This tool is perfect for filling in missing areas or cropped images, and enlarging your picture to provide a complete look.',
-    imageSrc: '/images/blog/AI images of the perfect size for social media.jpg',
+    imageSrc: '/images/blog/AI images of the perfect size for social media.webp',
     imageAlt: 'Photo expanded to fit a social media-friendly aspect ratio.',
     icon: <CameraIcon className="w-6 h-6 text-blue-600" />
   },
@@ -1616,7 +1616,7 @@ const expandZigZagSections: ExpandZigZagSection[] = [
     title: 'Creative ways to use generative expand',
     description:
       'Use AI Expand to go beyond simple uncropping. Treat extra canvas as a place to add story, context, or playful details around your original subject.',
-    imageSrc: '/images/blog/Creative ways to use generative expand.jpg',
+    imageSrc: '/images/blog/Creative ways to use generative expand.webp',
     imageAlt: 'Creative AI expansion adding context around a central subject.',
     icon: <Gem className="w-6 h-6 text-blue-600" />,
     bullets: [
@@ -1647,7 +1647,7 @@ const backgroundZigZagSections: BackgroundZigZagSection[] = [
     title: 'AI photo backgrounds that help products stand out',
     description:
       'Stop searching for stock photos or setting up complex shoots. Use the AI Background Generator to create polished, realistic scenes around your existing photos so every image looks ready for your store, ads, and social feeds.',
-    imageSrc: '/images/blog/AI photo backgrounds that help products stand out.jpg',
+    imageSrc: '/images/blog/AI photo backgrounds that help products stand out.webp',
     imageAlt: 'Product photo placed on an AI-generated background designed for ecommerce.',
     icon: <Sparkles className="w-6 h-6 text-blue-600" />
   },
@@ -1657,7 +1657,7 @@ const backgroundZigZagSections: BackgroundZigZagSection[] = [
     title: 'Built for every industry and product category',
     description:
       'Whether you work with fashion, electronics, furniture, beauty, food, or accessories, you can turn plain or cluttered backgrounds into on-brand, buyer-friendly scenes that match your visual identity.',
-    imageSrc: '/images/blog/AI-backgrounds-for-every-industry.jpg',
+    imageSrc: '/images/blog/AI-backgrounds-for-every-industry.webp',
     imageAlt: 'Different product categories shown with AI-generated backgrounds.',
     icon: <ShoppingBag className="w-6 h-6 text-blue-600" />
   },
@@ -1667,7 +1667,7 @@ const backgroundZigZagSections: BackgroundZigZagSection[] = [
     title: 'Explore a wide range of AI background use cases',
     description:
       'Use AI-generated backgrounds anywhere you need clean, consistent visuals, from marketplaces to personal branding.',
-    imageSrc: '/images/blog/AI-background-generator-use-cases.jpg',
+    imageSrc: '/images/blog/AI-background-generator-use-cases.webp',
     imageAlt: 'Collage of photos using AI-generated backgrounds for different purposes.',
     icon: <Home className="w-6 h-6 text-blue-600" />,
     bullets: [
@@ -1699,7 +1699,7 @@ const cartoonZigZagSections: CartoonZigZagSection[] = [
     title: 'Generate custom cartoon characters from text prompts',
     description:
       'Make custom cartoon characters using the AI cartoon maker. Just describe your idea through a text prompt and the AI will generate it. Choose outfits, hairstyles, accessories, and background scenes so the final cartoon looks exactly how you imagined.',
-    imageSrc: '/images/blog/Generate custom cartoon characters from text prompts.jpg',
+    imageSrc: '/images/blog/Generate custom cartoon characters from text prompts.webp',
     imageAlt: 'AI-generated cartoon characters created from text prompts.',
     icon: <Sparkles className="w-6 h-6 text-blue-600" />
   },
@@ -1709,7 +1709,7 @@ const cartoonZigZagSections: CartoonZigZagSection[] = [
     title: 'Turn your photo into popular cartoon characters',
     description:
       'See the cartoon version of yourself with an AI cartoon filter. Explore comic, manga, Disney-style, 3D, anime, webtoon, caricature, and more. Use one-click presets or prompts to transform selfies and portraits into familiar or completely original characters.',
-    imageSrc: '/images/blog/Turn your photo into popular cartoon characters.jpg',
+    imageSrc: '/images/blog/Turn your photo into popular cartoon characters.webp',
     imageAlt: 'Portrait photo transformed into different cartoon styles.jpg',
     icon: <Atom className="w-6 h-6 text-blue-600" />
   },
@@ -1719,7 +1719,7 @@ const cartoonZigZagSections: CartoonZigZagSection[] = [
     title: 'Use AI cartoon characters for many purposes',
     description:
       'Convert photos into cartoon characters you can reuse across gaming, social content, branding, and more. Enjoy authentic transformations that preserve facial features, deliver precise details, and export in high resolution.',
-    imageSrc: '/images/blog/Use AI cartoon characters for many purposes.jpg',
+    imageSrc: '/images/blog/Use AI cartoon characters for many purposes.webp',
     imageAlt: 'AI cartoon avatars used across social media, gaming, and branding.',
     icon: <Gem className="w-6 h-6 text-blue-600" />,
     bullets: [
@@ -1750,7 +1750,7 @@ const faceSwapZigZagSections: FaceSwapZigZagSection[] = [
     title: 'AI Face Swap: replace faces in your photos',
     description:
       'Modern PhotoTools precisely places one face onto another body so swaps feel natural. Put yourself or someone else into new scenes, from portraits to characters, while keeping expressions, lighting, and perspective believable.',
-    imageSrc: '/images/blog/Online Face Swapping.jpg',
+    imageSrc: '/images/blog/Online Face Swapping.webp',
     imageAlt: 'Examples of AI-generated characters suitable for face swapping',
     icon: <Users className="w-6 h-6 text-blue-600" />,
     bullets: [
@@ -1765,7 +1765,7 @@ const faceSwapZigZagSections: FaceSwapZigZagSection[] = [
     title: 'Create superhero-style AI face replacements',
     description:
       'Combine your photos with stylized character bodies for cartoon, realistic, or 3D superhero looks. The AI aligns and blends your face so it matches the pose, lighting, and style of the original character image.',
-    imageSrc: '/images/blog/superhero-style AI face replacements.jpg',
+    imageSrc: '/images/blog/superhero-style AI face replacements.webp',
     imageAlt: 'AI character presets that can be used for superhero-style swaps',
     icon: <Sparkles className="w-6 h-6 text-blue-600" />,
     bullets: [
@@ -1794,7 +1794,7 @@ const caricatureZigZagSections: CaricatureZigZagSection[] = [
     title: 'Turn photos into caricatures with simple text prompts',
     description:
       'Transform everyday photos into playful caricatures in a few words. Describe a mood like humorous, serious, or quirky and let the AI exaggerate features, expression, and style while keeping the person recognizable.',
-    imageSrc: '/images/blog/Turn photos into caricatures with simple text prompts.jpg',
+    imageSrc: '/images/blog/Turn photos into caricatures with simple text prompts.webp',
     imageAlt: 'Photo turned into expressive AI caricature using text prompts',
     icon: <Sparkles className="w-6 h-6 text-blue-600" />
   },
@@ -1804,7 +1804,7 @@ const caricatureZigZagSections: CaricatureZigZagSection[] = [
     title: 'Create funny caricatures of your friends',
     description:
       'Upload photos of your friends and generate lighthearted caricatures you can share in chats, on social media, or as digital gifts. Keep it friendly, adjust the prompts for softer or bolder exaggeration, and create reactions that make everyone smile.',
-    imageSrc: '/images/blog/nano-banana-3d-caricature-easy.jpeg',
+    imageSrc: '/images/blog/nano-banana-3d-caricature-easy.webp',
     imageAlt: 'Funny AI caricature of friends ready to share online',
     icon: <Users className="w-6 h-6 text-blue-600" />
   }
@@ -5484,17 +5484,17 @@ const ToolPage: React.FC = () => {
   const outfitHeroLooks = [
     {
       id: 'outfit-1',
-      imageSrc: '/images/blog/outfit style 1.jpg',
+      imageSrc: '/images/blog/outfit style 1.webp',
       imageAlt: 'AI outfit preset applied to a portrait'
     },
     {
       id: 'outfit-2',
-      imageSrc: '/images/blog/outfit style 2.jpg',
+      imageSrc: '/images/blog/outfit style 2.webp',
       imageAlt: 'Alternative AI outfit style on a portrait'
     },
     {
       id: 'outfit-3',
-      imageSrc: '/images/blog/outfit style 3.jpg',
+      imageSrc: '/images/blog/outfit style 3.webp',
       imageAlt: 'Gallery of AI-generated outfit looks'
     }
   ];
@@ -5515,17 +5515,17 @@ const ToolPage: React.FC = () => {
   const faceSwapCharacters = [
     {
       id: 'character-1',
-      imageSrc: '/images/blog/Swap Face in black suite.jpg',
+      imageSrc: '/images/blog/Swap Face in black suite.webp',
       imageAlt: 'AI character used as a face swap preset'
     },
     {
       id: 'character-2',
-      imageSrc: '/images/blog/Swap Face in brown suite.jpg',
+      imageSrc: '/images/blog/Swap Face in brown suite.webp',
       imageAlt: 'AI character preset for face swapping'
     },
     {
       id: 'character-3',
-      imageSrc: '/images/blog/Swap Face in king suite.jpg',
+      imageSrc: '/images/blog/Swap Face in king suite.webp',
       imageAlt: 'AI character gallery example for face swap'
     }
   ];
@@ -5551,36 +5551,36 @@ const ToolPage: React.FC = () => {
       title: 'Portraits without Distracting Backgrounds',
       description:
         'Remove busy or cluttered backgrounds from profile photos, social media content, and marketing creatives so the focus stays on the person.',
-      beforeSrc: '/images/blog/remove-bg-1.jpg',
-      afterSrc: '/images/blog/remove-bg.png'
+      beforeSrc: '/images/blog/remove-bg-1.webp',
+      afterSrc: '/images/blog/remove-bg.webp'
     },
     products: {
       title: 'Clean Product Photos for Stores and Marketplaces',
       description:
         'Cut out products from messy scenes and place them on clean, consistent backgrounds ready for ecommerce, catalogs, and ads.',
-      beforeSrc: '/images/blog/Clean Product Photos.jpg',
-      afterSrc: '/images/blog/Clean Product Photos-BG removed.jpg'
+      beforeSrc: '/images/blog/Clean Product Photos.webp',
+      afterSrc: '/images/blog/Clean Product Photos-BG removed.webp'
     },
     cars: {
       title: 'Polished Car Listings and Automotive Ads',
       description:
         'Isolate cars from distracting surroundings to create professional listings, social media posts, and promotional banners.',
-      beforeSrc: '/images/blog/Isolate cars from distracting surroundings.jpg',
-      afterSrc: '/images/blog/Isolate cars from distracting surroundings-BG removed.jpg'
+      beforeSrc: '/images/blog/Isolate cars from distracting surroundings.webp',
+      afterSrc: '/images/blog/Isolate cars from distracting surroundings-BG removed.webp'
     },
     animals: {
       title: 'Cute Pets on Clean, Shareable Backgrounds',
       description:
         'Remove backgrounds behind pets for postcards, social posts, adoption listings, and fun custom designs.',
-      beforeSrc: '/images/blog/Cute Pets on Clean, Shareable Backgrounds.jpg',
-      afterSrc: '/images/blog/Cute Pets on Clean, Shareable Backgrounds-BG removed.jpg'
+      beforeSrc: '/images/blog/Cute Pets on Clean, Shareable Backgrounds.webp',
+      afterSrc: '/images/blog/Cute Pets on Clean, Shareable Backgrounds-BG removed.webp'
     },
     'real-estate': {
       title: 'Striking Real Estate and Interior Shots',
       description:
         'Highlight rooms, furniture, and properties by stripping away visual noise so layouts and details stand out.',
-      beforeSrc: '/images/blog/Striking Real Estate and Interior Shots.jpg',
-      afterSrc: '/images/blog/Striking Real Estate and Interior Shots-BG removed.jpg'
+      beforeSrc: '/images/blog/Striking Real Estate and Interior Shots.webp',
+      afterSrc: '/images/blog/Striking Real Estate and Interior Shots-BG removed.webp'
     }
   };
 
@@ -5606,42 +5606,42 @@ const ToolPage: React.FC = () => {
       title: 'Luxury jewelry product shots',
       description:
         'Highlight fine details, shine, and craftsmanship with clean, close-up jewelry photos tailored for online stores and campaigns.',
-      imageSrc: '/images/blog/product-jewelry-placeholder.jpg',
+      imageSrc: '/images/blog/product-jewelry-placeholder.webp',
       imageAlt: 'AI-generated jewelry product photo on a stylized background'
     },
     clothing: {
       title: 'Fashion and clothing catalog images',
       description:
         'Create professional clothing photos for lookbooks, marketplaces, and social media without booking a physical studio every time.',
-      imageSrc: '/images/blog/product-clothing-placeholder.jpg',
+      imageSrc: '/images/blog/product-clothing-placeholder.webp',
       imageAlt: 'AI-styled clothing product photo arranged for ecommerce'
     },
     perfumes: {
       title: 'Premium perfume and fragrance scenes',
       description:
         'Place perfume bottles in atmospheric settings with soft lighting, reflections, and props that feel elegant and on-brand.',
-      imageSrc: '/images/blog/product-perfumes-placeholder.jpg',
+      imageSrc: '/images/blog/product-perfumes-placeholder.webp',
       imageAlt: 'Perfume bottle product photo in an elegant AI-generated setup'
     },
     'food-beverages': {
       title: 'Food and beverage hero shots',
       description:
         'Generate appetizing food and drink compositions with realistic textures, steam, and table settings tailored to your menu or campaign.',
-      imageSrc: '/images/blog/product-food-placeholder.jpg',
+      imageSrc: '/images/blog/product-food-placeholder.webp',
       imageAlt: 'Food and beverage product photo styled on a tabletop scene'
     },
     furniture: {
       title: 'Furniture and home decor room sets',
       description:
         'Show furniture and decor inside complete rooms, with lighting and styling that matches your brand’s interior look.',
-      imageSrc: '/images/blog/product-furniture-placeholder.jpg',
+      imageSrc: '/images/blog/product-furniture-placeholder.webp',
       imageAlt: 'Furniture product photo in a modern AI-generated room'
     },
     beauty: {
       title: 'Beauty and cosmetics product layouts',
       description:
         'Design polished beauty flatlays and close-ups for skincare, makeup, and haircare that feel editorial and consistent across campaigns.',
-      imageSrc: '/images/blog/product-beauty-placeholder.jpg',
+      imageSrc: '/images/blog/product-beauty-placeholder.webp',
       imageAlt: 'Beauty and cosmetics product photo arranged with props'
     }
   };
@@ -7544,8 +7544,8 @@ const handleAIImageToImageGenerate = async () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                   <div>
                     <ImageComparison
-                      beforeSrc="/images/blog/AI upscaler before.jpg"
-                      afterSrc="/images/blog/AI upscaler after.jpg"
+                      beforeSrc="/images/blog/AI upscaler before.webp"
+                      afterSrc="/images/blog/AI upscaler after.webp"
                       beforeLabel="Original"
                       afterLabel="Upscaled"
                       ariaLabel="Before and after AI image upscaling example"

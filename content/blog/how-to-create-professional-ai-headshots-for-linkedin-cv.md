@@ -5,7 +5,7 @@ excerpt: "A step-by-step guide to creating professional AI headshots for LinkedI
 publishDate: "2026-04-07"
 readTime: "14 min read"
 category: "tools"
-featuredImage: "/images/blog/Professional AI Headshots for LinkedIn & CVs .jpg"
+featuredImage: "/images/blog/Professional AI Headshots for LinkedIn & CVs .webp"
 relatedTool: "ai-portrait"
 keywords:
   - AI headshot for LinkedIn
@@ -214,7 +214,7 @@ faqSchema: {
       </ul>
     </div>
     <div class="img-container">
-      <img src="/images/blog/input photo comparison for AI headshot enhancement.jpg" alt="Good vs poor input photo comparison for AI headshot enhancement — lighting and framing differences">
+      <img src="/images/blog/input photo comparison for AI headshot enhancement.webp" alt="Good vs poor input photo comparison for AI headshot enhancement — lighting and framing differences">
     </div>
   </div>
 
@@ -261,7 +261,7 @@ faqSchema: {
       </ul>
     </div>
     <div class="img-container">
-      <img src="/images/blog/LinkedIn headshot background removal result.jpg" alt="LinkedIn headshot background removal result showing clean transparent cutout ready for professional background replacement">
+      <img src="/images/blog/LinkedIn headshot background removal result.webp" alt="LinkedIn headshot background removal result showing clean transparent cutout ready for professional background replacement">
     </div>
   </div>
 

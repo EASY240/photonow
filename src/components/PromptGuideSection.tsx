@@ -56,7 +56,7 @@ const PromptGuideSection: React.FC = () => {
             <h2 className="text-3xl mb-4">Secret 1: The ICDF Framework</h2>
             <p className="text-lg mb-6">This is the perfect framework for daily tasks and data analysis. It ensures you provide a complete request.</p>
             <div className="mb-6">
-              <img src="/images/blog/ICDF framework.png" alt="ICDF framework visualization" className="mx-auto max-h-80" />
+              <img src="/images/blog/ICDF framework.webp" alt="ICDF framework visualization" className="mx-auto max-h-80" />
             </div>
             <p className="text-center font-semibold mb-6">Most users only provide the "Instruction," leading to incomplete results.</p>
             <ul className="space-y-4 mb-6">
@@ -117,7 +117,7 @@ const PromptGuideSection: React.FC = () => {
             <h2 className="text-3xl mb-4">Secret 3: The MICRO Framework</h2>
             <p className="text-lg mb-6">This is the ultimate framework for all content creation, from blog posts to video scripts.</p>
             <div className="mb-6">
-              <img src="/images/blog/MICRO framework.png" alt="MICRO framework visualization" className="mx-auto max-h-80" />
+              <img src="/images/blog/MICRO framework.webp" alt="MICRO framework visualization" className="mx-auto max-h-80" />
             </div>
             <p className="text-center font-semibold mb-6">A great piece of content balances all axes.</p>
             <ul className="space-y-4 mb-6">

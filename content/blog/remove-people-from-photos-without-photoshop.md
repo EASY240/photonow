@@ -5,7 +5,7 @@ excerpt: 'A practical step-by-step guide to removing people from photos using AI
 publishDate: '2025-10-14'
 readTime: '12 min read'
 category: 'tools'
-featuredImage: '\images\tools images\AI Cleanup Tool.jpg'
+featuredImage: '/images/tools images/AI Cleanup Tool.webp'
 relatedTool: 'ai-cleanup'
 keywords:
   - remove people from photos without Photoshop
@@ -301,7 +301,7 @@ faqSchema: {
   </div>
 
   <div class="img-container">
-    <img src="\images\tools images\AI Replace tool.jpg" alt="Before and after AI Replace — person replaced with a decorative fountain in a garden photo">
+    <img src="/images/tools images/AI Replace tool.webp" alt="Before and after AI Replace — person replaced with a decorative fountain in a garden photo">
   </div>
 
   <div class="cta-block">
@@ -318,7 +318,7 @@ faqSchema: {
   <p>This is a common scenario: a travel photo of a historic building or landmark taken during peak hours, with tourists visible throughout the frame. The goal is a clean architectural shot with no people visible.</p>
 
   <div class="img-container">
-    <img src="\images\blog\AI Remove People from Photo Online for Free  Modern Phototools.jpg" alt="Tourist landmark with crowds present — before AI cleanup">
+    <img src="/images/blog/AI Remove People from Photo Online for Free  Modern Phototools.webp" alt="Tourist landmark with crowds present — before AI cleanup">
   </div>
 
   <h3>The Approach</h3>

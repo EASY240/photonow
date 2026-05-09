@@ -5,7 +5,7 @@ excerpt: "10 professional AI wedding photo prompts engineered with optical termi
 publishDate: "2026-03-28"
 readTime: "14 min read"
 category: "general"
-featuredImage: "/images/blog/Best 10 ai wedding photo prompts.jpg"
+featuredImage: "/images/blog/Best 10 ai wedding photo prompts.webp"
 keywords:
 - "AI wedding photo prompts"
 - "Midjourney wedding prompts"
@@ -147,7 +147,7 @@ metaDescription: "10 professional AI wedding photo prompts with optical specs, l
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
         <div style="padding:20px;border-right:1px solid #e5e7eb;">
-          <img src="/images/blog/AI wedding photo prompt-1.jpg" alt="Prompt 1 — Cathedral Portrait" style="width:100%;height:auto;border-radius:8px;display:block;" />
+          <img src="/images/blog/AI wedding photo prompt-1.webp" alt="Prompt 1 — Cathedral Portrait" style="width:100%;height:auto;border-radius:8px;display:block;" />
         </div>
         <div style="padding:20px;">
           <p style="font-size:0.82rem;color:#6366f1;font-weight:700;margin:0 0 6px;text-transform:uppercase;letter-spacing:0.05em;">Best Tool</p>
@@ -166,7 +166,7 @@ metaDescription: "10 professional AI wedding photo prompts with optical specs, l
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
         <div style="padding:20px;border-right:1px solid #e5e7eb;">
-          <img src="/images/blog/AI wedding photo prompt-2.jpg" alt="Prompt 2 — South Asian Gala" style="width:100%;height:auto;border-radius:8px;display:block;" />
+          <img src="/images/blog/AI wedding photo prompt-2.webp" alt="Prompt 2 — South Asian Gala" style="width:100%;height:auto;border-radius:8px;display:block;" />
         </div>
         <div style="padding:20px;">
           <p style="font-size:0.82rem;color:#6366f1;font-weight:700;margin:0 0 6px;text-transform:uppercase;letter-spacing:0.05em;">Best Tool</p>
@@ -185,7 +185,7 @@ metaDescription: "10 professional AI wedding photo prompts with optical specs, l
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
         <div style="padding:20px;border-right:1px solid #e5e7eb;">
-          <img src="/images/blog/AI wedding photo prompt-3.jpg" alt="Prompt 3 — Winter Elopement" style="width:100%;height:auto;border-radius:8px;display:block;" />
+          <img src="/images/blog/AI wedding photo prompt-3.webp" alt="Prompt 3 — Winter Elopement" style="width:100%;height:auto;border-radius:8px;display:block;" />
         </div>
         <div style="padding:20px;">
           <p style="font-size:0.82rem;color:#6366f1;font-weight:700;margin:0 0 6px;text-transform:uppercase;letter-spacing:0.05em;">Best Tool</p>
@@ -204,7 +204,7 @@ metaDescription: "10 professional AI wedding photo prompts with optical specs, l
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
         <div style="padding:20px;border-right:1px solid #e5e7eb;">
-          <img src="/images/blog/AI wedding photo prompt-4.jpg" alt="Prompt 4 — Enchanted Forest" style="width:100%;height:auto;border-radius:8px;display:block;" />
+          <img src="/images/blog/AI wedding photo prompt-4.webp" alt="Prompt 4 — Enchanted Forest" style="width:100%;height:auto;border-radius:8px;display:block;" />
         </div>
         <div style="padding:20px;">
           <p style="font-size:0.82rem;color:#6366f1;font-weight:700;margin:0 0 6px;text-transform:uppercase;letter-spacing:0.05em;">Best Tool</p>
@@ -223,7 +223,7 @@ metaDescription: "10 professional AI wedding photo prompts with optical specs, l
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
         <div style="padding:20px;border-right:1px solid #e5e7eb;">
-          <img src="/images/blog/AI wedding photo prompt-5.jpg" alt="Prompt 5 — Documentary Dance Floor" style="width:100%;height:auto;border-radius:8px;display:block;" />
+          <img src="/images/blog/AI wedding photo prompt-5.webp" alt="Prompt 5 — Documentary Dance Floor" style="width:100%;height:auto;border-radius:8px;display:block;" />
         </div>
         <div style="padding:20px;">
           <p style="font-size:0.82rem;color:#6366f1;font-weight:700;margin:0 0 6px;text-transform:uppercase;letter-spacing:0.05em;">Best Tool</p>
@@ -242,7 +242,7 @@ metaDescription: "10 professional AI wedding photo prompts with optical specs, l
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
         <div style="padding:20px;border-right:1px solid #e5e7eb;">
-          <img src="/images/blog/AI wedding photo prompt-6.jpg" alt="Prompt 6 — Minimalist Editorial" style="width:100%;height:auto;border-radius:8px;display:block;" />
+          <img src="/images/blog/AI wedding photo prompt-6.webp" alt="Prompt 6 — Minimalist Editorial" style="width:100%;height:auto;border-radius:8px;display:block;" />
         </div>
         <div style="padding:20px;">
           <p style="font-size:0.82rem;color:#6366f1;font-weight:700;margin:0 0 6px;text-transform:uppercase;letter-spacing:0.05em;">Best Tool</p>
@@ -261,7 +261,7 @@ metaDescription: "10 professional AI wedding photo prompts with optical specs, l
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
         <div style="padding:20px;border-right:1px solid #e5e7eb;">
-          <img src="/images/blog/AI wedding photo prompt-7.jpg" alt="Prompt 7 — Mediterranean Villa" style="width:100%;height:auto;border-radius:8px;display:block;" />
+          <img src="/images/blog/AI wedding photo prompt-7.webp" alt="Prompt 7 — Mediterranean Villa" style="width:100%;height:auto;border-radius:8px;display:block;" />
         </div>
         <div style="padding:20px;">
           <p style="font-size:0.82rem;color:#6366f1;font-weight:700;margin:0 0 6px;text-transform:uppercase;letter-spacing:0.05em;">Best Tool</p>
@@ -280,7 +280,7 @@ metaDescription: "10 professional AI wedding photo prompts with optical specs, l
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
         <div style="padding:20px;border-right:1px solid #e5e7eb;">
-          <img src="/images/blog/AI wedding photo prompt-8.jpg" alt="Prompt 8 — Katb el-Kitab" style="width:100%;height:auto;border-radius:8px;display:block;" />
+          <img src="/images/blog/AI wedding photo prompt-8.webp" alt="Prompt 8 — Katb el-Kitab" style="width:100%;height:auto;border-radius:8px;display:block;" />
         </div>
         <div style="padding:20px;">
           <p style="font-size:0.82rem;color:#6366f1;font-weight:700;margin:0 0 6px;text-transform:uppercase;letter-spacing:0.05em;">Best Tool</p>
@@ -299,7 +299,7 @@ metaDescription: "10 professional AI wedding photo prompts with optical specs, l
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
         <div style="padding:20px;border-right:1px solid #e5e7eb;">
-          <img src="/images/blog/AI wedding photo prompt-9.jpg" alt="Prompt 9 — Golden Hour" style="width:100%;height:auto;border-radius:8px;display:block;" />
+          <img src="/images/blog/AI wedding photo prompt-9.webp" alt="Prompt 9 — Golden Hour" style="width:100%;height:auto;border-radius:8px;display:block;" />
         </div>
         <div style="padding:20px;">
           <p style="font-size:0.82rem;color:#6366f1;font-weight:700;margin:0 0 6px;text-transform:uppercase;letter-spacing:0.05em;">Best Tool</p>
@@ -318,7 +318,7 @@ metaDescription: "10 professional AI wedding photo prompts with optical specs, l
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
         <div style="padding:20px;border-right:1px solid #e5e7eb;">
-          <img src="/images/blog/AI wedding photo prompt-10.jpg" alt="Prompt 10 — Just Married Send-off" style="width:100%;height:auto;border-radius:8px;display:block;" />
+          <img src="/images/blog/AI wedding photo prompt-10.webp" alt="Prompt 10 — Just Married Send-off" style="width:100%;height:auto;border-radius:8px;display:block;" />
         </div>
         <div style="padding:20px;">
           <p style="font-size:0.82rem;color:#6366f1;font-weight:700;margin:0 0 6px;text-transform:uppercase;letter-spacing:0.05em;">Best Tool</p>

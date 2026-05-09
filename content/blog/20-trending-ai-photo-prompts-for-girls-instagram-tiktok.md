@@ -5,7 +5,7 @@ excerpt: "20 viral copy-paste AI photo prompts for girls covering Vogue-style fa
 publishDate: "2026-04-18"
 readTime: "14 min read"
 category: "general"
-featuredImage: "/images/blog/20 Trending AI Photo Prompts for Girls for Instagram & TikTok.jpg"
+featuredImage: "/images/blog/20 Trending AI Photo Prompts for Girls for Instagram & TikTok.webp"
 relatedTool: "ai-image-generator"
 keywords:
   - AI photo prompts for girls
@@ -63,83 +63,83 @@ metaDescription: "Discover 20 viral AI photo prompts for girls to create high-fa
   <h2>The 20 Prompts</h2>
 
   <h3>The Vogue Cover Star</h3>
-  <img src="/images/blog/The Vogue Cover Star.jpg" alt="The Vogue Cover Star AI fashion prompt example">
+  <img src="/images/blog/The Vogue Cover Star.webp" alt="The Vogue Cover Star AI fashion prompt example">
   <p><em>"A high-fashion magazine cover featuring a glamorous woman, tight head-and-shoulders crop. Soft but high-contrast beauty lighting, warm skin tones, glossy skin highlights. She wears an elegant black lace fashion top with bold gold cuff bracelets. Shot on an 85mm lens at f/1.8, shallow depth of field, clean studio backdrop. Include professional magazine typography with the masthead 'PLAYDATE' and cover lines like 'Glow Skin Secrets'."</em></p>
 
   <h3>The Silk Slip Editorial</h3>
-  <img src="/images/blog/The Silk Slip Editorial.jpg" alt="The Silk Slip Editorial AI prompt example">
+  <img src="/images/blog/The Silk Slip Editorial.webp" alt="The Silk Slip Editorial AI prompt example">
   <p><em>"Full-body editorial portrait of a woman in a luxurious pale pink silk satin slip dress with a ruffled hem. The fabric has a liquid sheen and fluid drape. She is seated gracefully with an oversized beige teddy bear and red roses. Cinematic professional studio lighting, 85mm f/1.8, Vogue magazine quality, sharp focus."</em></p>
 
   <h3>The Minimalist Power Suit</h3>
-  <img src="/images/blog/The Minimalist Power Suit.jpg" alt="The Minimalist Power Suit AI prompt example">
+  <img src="/images/blog/The Minimalist Power Suit.webp" alt="The Minimalist Power Suit AI prompt example">
   <p><em>"A stylish woman in an all-white minimalist suit with a relaxed fit, clean sneakers, subtle smile. Seamless white background, high-key lighting with soft shadows. Shot on a 50mm lens, full-body centered composition, modern brand campaign look, ultra-realistic skin and fabric texture."</em></p>
 
   <h3>Urban Streetwear Chic</h3>
-  <img src="/images/blog/Urban Streetwear Chic.jpg" alt="Urban Streetwear Chic AI prompt example">
+  <img src="/images/blog/Urban Streetwear Chic.webp" alt="Urban Streetwear Chic AI prompt example">
   <p><em>"A hyper-realistic street fashion portrait shot on an 85mm telephoto lens at f/1.8, creating a creamy bokeh background. A woman standing confidently on a New York sidewalk wearing a powder-blue off-the-shoulder knit sweater, high-waisted tartan plaid mini skirt, and black suede boots. Soft, diffuse natural daylight, cinematic color grading."</em></p>
 
   <h3>The Avant-Garde Coat</h3>
-  <img src="/images/blog/The Avant-Garde Coat.jpg" alt="The Avant-Garde Coat AI prompt example">
+  <img src="/images/blog/The Avant-Garde Coat.webp" alt="The Avant-Garde Coat AI prompt example">
   <p><em>"High fashion editorial, model wearing an oversized sculptural coat in deep emerald green velvet with plush pile and shadow pooling. Dramatic pose against a stark white studio background, strong directional side lighting creating bold Rembrandt shadows, Vogue magazine quality, full-length shot."</em></p>
 
   <h3>The Ethereal Lotus Fairy</h3>
-  <img src="/images/blog/The Ethereal Lotus Fairy.jpg" alt="The Ethereal Lotus Fairy AI prompt example">
+  <img src="/images/blog/The Ethereal Lotus Fairy.webp" alt="The Ethereal Lotus Fairy AI prompt example">
   <p><em>"An ultra-realistic portrait of a woman with short soft-black hair, sitting cross-legged in a shallow pond holding a glowing pink lotus flower. She wears a flowing white chiffon off-shoulder gown. Warm golden hour lighting, soft reflections on the water, gentle greenery, cinematic portrait with shallow depth of field."</em></p>
 
   <h3>Golden Hour Sun-Kissed Portrait</h3>
-  <img src="/images/blog/Golden Hour Sun-Kissed Portrait.jpg" alt="Golden Hour Sun-Kissed Portrait AI prompt example">
+  <img src="/images/blog/Golden Hour Sun-Kissed Portrait.webp" alt="Golden Hour Sun-Kissed Portrait AI prompt example">
   <p><em>"Cinematic 35mm film portrait of a young woman standing in a wildflower field during golden hour sunlight. Warm backlight, soft lens flare, natural skin texture, wind-swept hair. Dreamy aesthetic with a pastel peach and lavender background, emotional and serene mood."</em></p>
 
   <h3>Cottagecore Rose Garden</h3>
-  <img src="/images/blog/Cottagecore Rose Garden.jpg" alt="Cottagecore Rose Garden AI prompt example">
+  <img src="/images/blog/Cottagecore Rose Garden.webp" alt="Cottagecore Rose Garden AI prompt example">
   <p><em>"A woman in a vibrant cottage garden watering pink roses. She wears a white lace-trimmed camisole, ruffled white shorts, a white bandana, and brown wellington boots. Soft diffused morning glow, hyper-realistic, romantic and peaceful aesthetic."</em></p>
 
   <h3>Magical Anime Tea Party</h3>
-  <img src="/images/blog/Magical Anime Tea Party.jpg" alt="Magical Anime Tea Party AI prompt example">
+  <img src="/images/blog/Magical Anime Tea Party.webp" alt="Magical Anime Tea Party AI prompt example">
   <p><em>"A dreamy, pastel anime aesthetic scene of a woman at a magical tea party hidden in a flower garden. Pastel pink and lavender palette, delicate butterflies, macarons on the table. She wears a luxurious pastel pink gown. Soft glowing illumination, ethereal atmosphere."</em></p>
 
   <h3>Iridescent Mermaidcore</h3>
-  <img src="/images/blog/Iridescent Mermaidcore.jpg" alt="Iridescent Mermaidcore AI prompt example">
+  <img src="/images/blog/Iridescent Mermaidcore.webp" alt="Iridescent Mermaidcore AI prompt example">
   <p><em>"An ethereal portrait of a young woman wearing an iridescent, holographic violet and sea-foam green dress. Shimmery skin with subtle body glitter. Soft bokeh, light leaks, prismatic glow, shot outdoors with a sun-kissed, whimsical mood."</em></p>
 
   <h3>Neon Noir Rainstorm</h3>
-  <img src="/images/blog/Neon Noir Rainstorm.jpg" alt="Neon Noir Rainstorm AI prompt example">
+  <img src="/images/blog/Neon Noir Rainstorm.webp" alt="Neon Noir Rainstorm AI prompt example">
   <p><em>"Cinematic film still, a woman standing in a rain-soaked Tokyo alley at night. Dramatic rim lighting from pink and cyan neon signs reflecting in wet puddles. Volumetric fog, heavy anamorphic lens flare, high-contrast teal-orange color grade. Moody raw cinematic atmosphere."</em></p>
 
   <h3>The 90s Direct Flash Polaroid</h3>
-  <img src="/images/blog/The 90s Direct Flash Polaroid.jpg" alt="The 90s Direct Flash Polaroid AI prompt example">
+  <img src="/images/blog/The 90s Direct Flash Polaroid.webp" alt="The 90s Direct Flash Polaroid AI prompt example">
   <p><em>"A moody, direct flash editorial style photo. A young woman sits cross-legged on a wooden floor, holding a pink corded phone to her ear. She wears a white tank top and shorts, surrounded by 2000s magazines. High contrast, authentic Polaroid film flash aesthetic."</em></p>
 
   <h3>Midnight Coffee Shop</h3>
-  <img src="/images/blog/Midnight Coffee Shop.jpg" alt="Midnight Coffee Shop AI prompt example">
+  <img src="/images/blog/Midnight Coffee Shop.webp" alt="Midnight Coffee Shop AI prompt example">
   <p><em>"Realistic candid photo of a young woman with long dark hair sitting in a dimly lit coffee shop at night. She wears a pink and white plaid flannel over a crop top, Pink Beats headphones around her neck, using a pink MacBook. Cinematic lighting, glowing streetlights outside the window, soft grain."</em></p>
 
   <h3>Rain-Covered Window Melancholy</h3>
-  <img src="/images/blog/Rain-Covered Window Melancholy.jpg" alt="Rain-Covered Window Melancholy AI prompt example">
+  <img src="/images/blog/Rain-Covered Window Melancholy.webp" alt="Rain-Covered Window Melancholy AI prompt example">
   <p><em>"Gritty 1970s cinematic film still, intimate side-profile portrait of a young woman pressed near a rain-covered window at night. Strong directional streetlight casting hard warm rim light across her face. Rain droplets sharply visible on glass in foreground, background filled with diffused neon city lights. Vintage film grain, melancholic mood."</em></p>
 
   <h3>Late Night Mirror Selfie</h3>
-  <img src="/images/blog/Late Night Mirror Selfie.jpg" alt="Late Night Mirror Selfie AI prompt example">
+  <img src="/images/blog/Late Night Mirror Selfie.webp" alt="Late Night Mirror Selfie AI prompt example">
   <p><em>"A sultry, intimate mirror selfie shot on an iPhone. A young woman sitting on her bedroom floor, moody low-key lighting with a warm bedside lamp casting soft rim light on her hair and shoulders. Deep shadows, casual lived-in room background, authentic mobile HDR."</em></p>
 
   <h3>Pastel Anime Chibi</h3>
-  <img src="/images/blog/Pastel Anime Chibi.jpg" alt="Pastel Anime Chibi AI prompt example">
+  <img src="/images/blog/Pastel Anime Chibi.webp" alt="Pastel Anime Chibi AI prompt example">
   <p><em>"A front-facing pastel anime chibi avatar of a girl with an oversized head, tiny body, sparkling eyes, and rosy blush cheeks. Light pink and lavender color palette, clean line art, smooth cel shading, and a gentle cheerful mood with a simple gradient background."</em></p>
 
   <h3>Hello Kitty Y2K Bedroom</h3>
-  <img src="/images/blog/Hello Kitty Y2K Bedroom.jpg" alt="Hello Kitty Y2K Bedroom AI prompt example">
+  <img src="/images/blog/Hello Kitty Y2K Bedroom.webp" alt="Hello Kitty Y2K Bedroom AI prompt example">
   <p><em>"A dreamy kawaii Hello Kitty-themed scene with a soft Y2K aesthetic. A chibi character sitting on a shiny pink satin bed, surrounded by pastel Hello Kitty plushies and a retro pink cordless phone. Magical soft lighting, cozy and whimsical."</em></p>
 
   <h3>3D Claymation Avatar</h3>
-  <img src="/images/blog/3D Claymation Avatar.jpg" alt="3D Claymation Avatar AI prompt example">
+  <img src="/images/blog/3D Claymation Avatar.webp" alt="3D Claymation Avatar AI prompt example">
   <p><em>"Transform into a stylized 3D claymation character. Soft felt and fuzzy texture skin, Pixar-style rounded and exaggerated facial features, big expressive eyes. Soft studio lighting for a high-quality stop-motion aesthetic."</em></p>
 
   <h3>The Gamer Girl Chibi</h3>
-  <img src="/images/blog/The Gamer Girl Chibi.jpg" alt="The Gamer Girl Chibi AI prompt example">
+  <img src="/images/blog/The Gamer Girl Chibi.webp" alt="The Gamer Girl Chibi AI prompt example">
   <p><em>"A cool gamer chibi avatar with an oversized head, wearing a stylish cat-ear headset and an oversized hoodie. Confident smile, glossy anime eyes. Blue and purple neon highlights, dark gradient background, sharp digital shading, streamer-ready profile image."</em></p>
 
   <h3>Soft Girl Cozy Chibi</h3>
-  <img src="/images/blog/Soft Girl Cozy Chibi.jpg" alt="Soft Girl Cozy Chibi AI prompt example">
+  <img src="/images/blog/Soft Girl Cozy Chibi.webp" alt="Soft Girl Cozy Chibi AI prompt example">
   <p><em>"A cute soft-girl chibi avatar with fluffy hair, a ribbon bow, cozy oversized cardigan, glossy eyes, and a sweet relaxed expression. Pastel beige, pink, and cream tones, delicate anime shading, soft fabric texture, minimal background."</em></p>
 
   <div class="cta-block">

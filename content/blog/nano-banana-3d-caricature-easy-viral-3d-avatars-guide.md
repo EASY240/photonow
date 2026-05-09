@@ -5,7 +5,7 @@ excerpt: "Learn how to get the viral Nano Banana 3D look using one-click AI tool
 publishDate: "2025-12-07"
 readTime: "7 min read"
 category: tools
-featuredImage: "/images/blog/nano-banana-3d-caricature-easy.jpeg"
+featuredImage: "/images/blog/nano-banana-3d-caricature-easy.webp"
 keywords:
   - nano banana 3D caricature
   - how to make nano banana 3D avatar
@@ -91,7 +91,7 @@ relatedTool: ai-caricature
   <h1>How to Create Nano Banana 3D Caricatures: The Complete Step-by-Step Guide</h1>
 
   <div class="img-container" aria-label="Featured image">
-    <img src="/images/blog/nano-banana-3d-caricature-easy.jpeg" alt="Nano Banana 3D caricature style — polished Pixar-style avatar example">
+    <img src="/images/blog/nano-banana-3d-caricature-easy.webp" alt="Nano Banana 3D caricature style — polished Pixar-style avatar example">
     <p class="img-caption">The Nano Banana 3D style: smooth materials, expressive features, and bold lighting</p>
   </div>
 
@@ -143,7 +143,7 @@ relatedTool: ai-caricature
       </div>
       <div>
         <div class="img-container">
-          <img src="/images/blog/caricature style.jpg" alt="Example of Nano Banana 3D caricature avatar style showing smooth materials and ambient lighting">
+          <img src="/images/blog/caricature style.webp" alt="Example of Nano Banana 3D caricature avatar style showing smooth materials and ambient lighting">
           <p class="img-caption">The polished 3D look that defines the Nano Banana trend</p>
         </div>
       </div>
@@ -213,7 +213,7 @@ relatedTool: ai-caricature
       <div class="column-card">
         <h3>Funny Style — AI Caricature</h3>
         <div class="img-container">
-          <img src="/images/blog/caricature style.jpg" alt="AI Caricature tool output — exaggerated 3D caricature with big-head Nano Banana style">
+          <img src="/images/blog/caricature style.webp" alt="AI Caricature tool output — exaggerated 3D caricature with big-head Nano Banana style">
           <p class="img-caption">Exaggerated features, big-head 3D style</p>
         </div>
         <p>Best for: social media, gaming profiles, playful content. Adds expressive exaggeration while keeping the 3D polished aesthetic.</p>
@@ -227,7 +227,7 @@ relatedTool: ai-caricature
       <div class="column-card">
         <h3>Cute Style — AI Cartoon</h3>
         <div class="img-container">
-          <img src="/images/blog/cartoon style.jpg" alt="AI Cartoon tool output — Disney/Pixar-style Nano Banana 3D cartoon avatar">
+          <img src="/images/blog/cartoon style.webp" alt="AI Cartoon tool output — Disney/Pixar-style Nano Banana 3D cartoon avatar">
           <p class="img-caption">Softer Disney/Pixar-like 3D look</p>
         </div>
         <p>Best for: Instagram, TikTok, personal branding. Produces the soft Pixar-style look with clean materials and smooth shading.</p>
@@ -241,7 +241,7 @@ relatedTool: ai-caricature
       <div class="column-card">
         <h3>Professional Style — AI Avatar</h3>
         <div class="img-container">
-          <img src="/images/blog/avatar style.jpg" alt="AI Avatar tool output — professional 3D avatar in Nano Banana style for LinkedIn">
+          <img src="/images/blog/avatar style.webp" alt="AI Avatar tool output — professional 3D avatar in Nano Banana style for LinkedIn">
           <p class="img-caption">Professional yet stylized for LinkedIn and work profiles</p>
         </div>
         <p>Best for: LinkedIn, professional bios, speaker pages. Preserves strong likeness while applying the Nano Banana texture and lighting.</p>

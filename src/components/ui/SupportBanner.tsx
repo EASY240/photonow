@@ -7,7 +7,7 @@ interface SupportBannerProps {
 const COFFEE_URL = 'https://ko-fi.com/modernai';
 const PAYPAL_URL = 'https://paypal.me/modernai';
 const COFFEE_ICON = '/images/blog/ko-fi%20logo.webp';
-const PAYPAL_ICON = '/images/blog/paypal%20logo.png';
+const PAYPAL_ICON = '/images/blog/paypal%20logo.webp';
 
 const SupportBanner: React.FC<SupportBannerProps> = ({ className = '' }) => {
   return (

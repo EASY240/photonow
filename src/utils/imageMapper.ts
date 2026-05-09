@@ -50,11 +50,11 @@ export function normalizeToolName(toolName: string): string[] {
  * Special mapping for tools where the filename doesn't match the tool name exactly
  */
 const SPECIAL_FILENAME_MAPPINGS: Record<string, string> = {
-  'AI Caricature': 'AI Caricature Generator Tool.jpg',
-  'AI Expand': 'Ai Expand tool.jpg',
-  'AI Replace': 'AI Replace tool.jpg',
-  'Remove Background': 'Remove Background tool.jpg',
-  'AI Logo Generator': 'AI Logo Generator.jpg'
+  'AI Caricature': 'AI Caricature Generator Tool.webp',
+  'AI Expand': 'Ai Expand tool.webp',
+  'AI Replace': 'AI Replace tool.webp',
+  'Remove Background': 'Remove Background tool.webp',
+  'AI Logo Generator': 'AI Logo Generator.webp'
 };
 
 /**
@@ -71,26 +71,26 @@ export function generateImageFilenames(toolId: string, toolName: string): string
   // Use the tool name as-is for most cases
   const cleanName = toolName.replace(/^AI\s+/, ''); // Remove "AI " prefix if present
   
-  // Most common pattern: "AI [Tool Name] Tool.jpg" (capital T)
-  filenames.push(`AI ${cleanName} Tool.jpg`);
+  // Most common pattern: "AI [Tool Name] Tool.webp" (capital T)
+  filenames.push(`AI ${cleanName} Tool.webp`);
   
-  // Alternative pattern: "AI [Tool Name] tool.jpg" (lowercase t)
-  filenames.push(`AI ${cleanName} tool.jpg`);
+  // Alternative pattern: "AI [Tool Name] tool.webp" (lowercase t)
+  filenames.push(`AI ${cleanName} tool.webp`);
   
-  // Pattern with lowercase "Ai": "Ai [Tool Name] tool.jpg"
-  filenames.push(`Ai ${cleanName} tool.jpg`);
+  // Pattern with lowercase "Ai": "Ai [Tool Name] tool.webp"
+  filenames.push(`Ai ${cleanName} tool.webp`);
   
-  // Special case for Remove Background: "[Tool Name] tool.jpg" (no AI prefix)
-  filenames.push(`${cleanName} tool.jpg`);
+  // Special case for Remove Background: "[Tool Name] tool.webp" (no AI prefix)
+  filenames.push(`${cleanName} tool.webp`);
   
   // Fallback patterns
-  filenames.push(`AI ${cleanName}.jpg`);
-  filenames.push(`${cleanName}.jpg`);
+  filenames.push(`AI ${cleanName}.webp`);
+  filenames.push(`${cleanName}.webp`);
   
   // Also try with the full tool name
-  filenames.push(`${toolName} Tool.jpg`);
-  filenames.push(`${toolName} tool.jpg`);
-  filenames.push(`${toolName}.jpg`);
+  filenames.push(`${toolName} Tool.webp`);
+  filenames.push(`${toolName} tool.webp`);
+  filenames.push(`${toolName}.webp`);
 
   return [...new Set(filenames)]; // Remove duplicates
 }

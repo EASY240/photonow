@@ -11,103 +11,103 @@ export const faceSwapStyles: FaceSwapStyle[] = [
   {
     gender: 'male',
     name: 'Classic Male',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_male/thumb/1721888196773.jpg'
+    imageUrl: '/images/presets/ai-face-swap/Classic Male.webp'
   },
   {
     gender: 'male',
     name: 'Handsome Male',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_male/thumb/1721890586882.jpg'
+    imageUrl: '/images/presets/ai-face-swap/Handsome Male.webp'
   },
   {
     gender: 'male',
     name: 'Young Male',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_male/thumb/1721890586740.jpg'
+    imageUrl: '/images/presets/ai-face-swap/Young Male.webp'
   },
   {
     gender: 'male',
     name: 'Professional Male',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_male/thumb/1721817393935.jpg'
+    imageUrl: '/images/presets/ai-face-swap/Professional Male.webp'
   },
   {
     gender: 'male',
     name: 'Mature Male',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_male/thumb/1721891374496.jpg'
+    imageUrl: '/images/presets/ai-face-swap/Mature Male.webp'
   },
   {
     gender: 'male',
     name: 'Athletic Male',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_male/thumb/1721820555898.jpg'
+    imageUrl: '/images/presets/ai-face-swap/Athletic Male.webp'
   },
   {
     gender: 'male',
     name: 'Casual Male',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_male/thumb/1721820557168.jpg'
+    imageUrl: '/images/presets/ai-face-swap/Casual Male.webp'
   },
   {
     gender: 'male',
     name: 'Stylish Male',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_male/thumb/1721821925211.jpg'
+    imageUrl: '/images/presets/ai-face-swap/Stylish Male.webp'
   },
   {
     gender: 'male',
     name: 'Confident Male',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_male/thumb/1721821925057.jpg'
+    imageUrl: '/images/presets/ai-face-swap/Confident Male.webp'
   },
   {
     gender: 'male',
     name: 'Distinguished Male',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_male/thumb/1721886397288.jpg'
+    imageUrl: '/images/presets/ai-face-swap/Distinguished Male.webp'
   },
 
   // --- Female Faces ---
   {
     gender: 'female',
     name: 'Classic Female',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_female/thumb/1721892571754.jpg'
+    imageUrl: '/images/presets/ai-face-swap/Classic Female.webp'
   },
   {
     gender: 'female',
     name: 'Beautiful Female',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_female/thumb/1721892571591.jpg'
+    imageUrl: '/images/presets/ai-face-swap/Beautiful Female.webp'
   },
   {
     gender: 'female',
     name: 'Elegant Female',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_female/thumb/1721892571422.jpg'
+    imageUrl: '/images/presets/ai-face-swap/Elegant Female.webp'
   },
   {
     gender: 'female',
     name: 'Young Female',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_female/thumb/1721892571273.jpg'
+    imageUrl: '/images/presets/ai-face-swap/Young Female.webp'
   },
   {
     gender: 'female',
     name: 'Stylish Female',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_female/thumb/1721892571131.jpg'
+    imageUrl: '/images/presets/ai-face-swap/Stylish Female.webp'
   },
   {
     gender: 'female',
     name: 'Modern Female',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_female/thumb/1721892570976.jpg'
+    imageUrl: '/images/presets/ai-face-swap/Modern Female.webp'
   },
   {
     gender: 'female',
     name: 'Professional Female',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_female/thumb/1721892570828.jpg'
+    imageUrl: '/images/presets/ai-face-swap/Professional Female.webp'
   },
   {
     gender: 'female',
     name: 'Sophisticated Female',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_female/thumb/1721892570665.jpg'
+    imageUrl: '/images/presets/ai-face-swap/Sophisticated Female.webp'
   },
   {
     gender: 'female',
     name: 'Confident Female',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_female/thumb/1721892570497.jpg'
+    imageUrl: '/images/presets/ai-face-swap/Confident Female.webp'
   },
   {
     gender: 'female',
     name: 'Glamorous Female',
-    imageUrl: 'https://d2v5dzhdg4zhx3.cloudfront.net/ai_selfie_female/thumb/1721892570350.jpg'
+    imageUrl: '/images/presets/ai-face-swap/Glamorous Female.webp'
   }
 ];

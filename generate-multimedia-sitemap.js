@@ -6,6 +6,7 @@ const BASE_URL = 'https://modernphototools.com';
 const VIDEO_DIR = 'public/tools videos';
 const IMAGE_DIR = 'public/images/tools images';
 const OUTPUT_FILE = 'public/sitemap-multimedia.xml';
+const IMAGE_EXTENSIONS = new Set(['.webp', '.jpg', '.jpeg', '.png']);
 
 // Tool mapping for metadata
 const toolMetadata = {
@@ -128,7 +129,32 @@ function getFileLastModified(filePath) {
   }
 }
 
-function generateVideoSitemapEntry(filename, toolKey) {
+function resolveThumbnailFile(toolKey, imageFiles) {
+  const directCandidates = [
+    `${toolKey} Tool`,
+    `${toolKey} tool`,
+    toolKey
+  ];
+
+  for (const candidate of directCandidates) {
+    const match = imageFiles.find(
+      (file) => path.parse(file).name.toLowerCase() === candidate.toLowerCase()
+    );
+    if (match) {
+      return match;
+    }
+  }
+
+  const normalizedToolKey = toolKey.toLowerCase().replace(/[^a-z0-9]/g, '');
+  return (
+    imageFiles.find((file) => {
+      const normalizedFileName = path.parse(file).name.toLowerCase().replace(/[^a-z0-9]/g, '');
+      return normalizedFileName.includes(normalizedToolKey);
+    }) || null
+  );
+}
+
+function generateVideoSitemapEntry(filename, toolKey, imageFiles) {
   const metadata = toolMetadata[toolKey] || {
     title: filename.replace('.mp4', ''),
     description: 'AI-powered photo editing tool video demonstration',
@@ -137,7 +163,8 @@ function generateVideoSitemapEntry(filename, toolKey) {
   };
 
   const videoUrl = `${BASE_URL}/tools%20videos/${encodeURIComponent(filename)}`;
-  const thumbnailUrl = `${BASE_URL}/images/tools%20images/${encodeURIComponent(toolKey + ' Tool.jpg')}`;
+  const thumbnailFile = resolveThumbnailFile(toolKey, imageFiles) || `${toolKey} Tool.webp`;
+  const thumbnailUrl = `${BASE_URL}/images/tools%20images/${encodeURIComponent(thumbnailFile)}`;
   const toolPageUrl = `${BASE_URL}/tools/${toolKey.toLowerCase().replace(/_/g, '-').replace(/\s+/g, '-')}`;
   
   const lastmod = getFileLastModified(path.join(VIDEO_DIR, filename));
@@ -166,7 +193,7 @@ function generateVideoSitemapEntry(filename, toolKey) {
 
 function generateImageSitemapEntry(filename, toolKey) {
   const metadata = toolMetadata[toolKey] || {
-    title: filename.replace('.jpg', ''),
+    title: path.parse(filename).name,
     description: 'AI-powered photo editing tool demonstration image',
     category: 'ai-tools'
   };
@@ -199,7 +226,9 @@ function generateMultimediaSitemap() {
   console.log(`Found ${videoFiles.length} video files`);
   
   // Read image files
-  const imageFiles = fs.readdirSync(IMAGE_DIR).filter(file => file.endsWith('.jpg'));
+  const imageFiles = fs
+    .readdirSync(IMAGE_DIR)
+    .filter((file) => IMAGE_EXTENSIONS.has(path.extname(file).toLowerCase()));
   console.log(`Found ${imageFiles.length} image files`);
   
   // Generate XML content
@@ -213,13 +242,13 @@ function generateMultimediaSitemap() {
   console.log('Processing video files...');
   videoFiles.forEach(filename => {
     const toolKey = filename.replace('.mp4', '');
-    xmlContent += generateVideoSitemapEntry(filename, toolKey) + '\n';
+    xmlContent += generateVideoSitemapEntry(filename, toolKey, imageFiles) + '\n';
   });
 
   // Add image entries
   console.log('Processing image files...');
   imageFiles.forEach(filename => {
-    const toolKey = filename.replace(' Tool.jpg', '').replace('.jpg', '');
+    const toolKey = path.parse(filename).name.replace(/ tool$/i, '');
     xmlContent += generateImageSitemapEntry(filename, toolKey) + '\n';
   });
 

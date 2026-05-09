@@ -250,7 +250,7 @@ relatedTool: prompt-generator
       </div>
 
       <div class="img-container">
-        <img src="/images/blog/before&after logo prompt SaaS-Tech.jpg" alt="Before and after comparison of minimalist SaaS and tech logo prompts showing vague vs structured results">
+        <img src="/images/blog/before&after logo prompt SaaS-Tech.webp" alt="Before and after comparison of minimalist SaaS and tech logo prompts showing vague vs structured results">
       </div>
     </section>
 
@@ -271,7 +271,7 @@ relatedTool: prompt-generator
       </div>
 
       <div class="img-container">
-        <img src="/images/blog/before&after logo prompt Shop.jpg" alt="Before and after comparison of 3D claymorphism shopping bag logo showing prompt impact on output quality">
+        <img src="/images/blog/before&after logo prompt Shop.webp" alt="Before and after comparison of 3D claymorphism shopping bag logo showing prompt impact on output quality">
       </div>
     </section>
 
@@ -292,7 +292,7 @@ relatedTool: prompt-generator
       </div>
 
       <div class="img-container">
-        <img src="/images/blog/before&after logo prompt local bussiness.jpg" alt="Before and after comparison of vintage badge logo for local business showing structured prompt results">
+        <img src="/images/blog/before&after logo prompt local bussiness.webp" alt="Before and after comparison of vintage badge logo for local business showing structured prompt results">
       </div>
     </section>
 

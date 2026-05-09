@@ -5,7 +5,7 @@ excerpt: "20 copy-paste AI photo prompts for boys across cinematic, luxury, mini
 publishDate: "2026-04-17"
 readTime: "13 min read"
 category: "general"
-featuredImage: "/images/blog/Best 20 AI Photo Editing Prompts for Boys.jpg"
+featuredImage: "/images/blog/Best 20 AI Photo Editing Prompts for Boys.webp"
 relatedTool: "ai-portrait"
 keywords:
   - AI photo editing prompts for boys
@@ -64,83 +64,83 @@ metaDescription: "Discover 20 copy-paste AI photo editing prompts for boys to cr
   <p>Prompts are grouped by trending categories: cinematic power poses, luxury lifestyle, sharp minimalist headshots, and retro cyberpunk aesthetics.</p>
 
   <h3>1. The Stormy Low-Angle Hero</h3>
-  <img src="/images/blog/1-Stormy Low-Angle Hero prompt.jpg" alt="Prompt 1 stormy low-angle hero male portrait with dramatic weather and cinematic lighting">
+  <img src="/images/blog/1-Stormy Low-Angle Hero prompt.webp" alt="Prompt 1 stormy low-angle hero male portrait with dramatic weather and cinematic lighting">
   <p><em>"A cinematic low-angle medium shot of a stoic male figure standing against a dramatic stormy sky. Teal and orange color grade, intense rim lighting around his silhouette, leaving his face in soft shadow. Hyper-realistic, cinematic quality."</em></p>
 
   <h3>2. Rooftop at Golden Hour</h3>
-  <img src="/images/blog/2-Stormy Low-Angle Hero prompt.jpg" alt="Prompt 2 rooftop-at-golden-hour masculine city portrait look">
+  <img src="/images/blog/2-Stormy Low-Angle Hero prompt.webp" alt="Prompt 2 rooftop-at-golden-hour masculine city portrait look">
   <p><em>"A wide cinematic shot from a skyscraper rooftop at golden hour, overlooking a vast city. The sun sets behind the male figure, creating a strong silhouette with golden lens flare. He wears quiet luxury clothing, wind blowing his hair back naturally. Shot on a 24mm lens with high contrast."</em></p>
 
   <h3>3. Epic Mountain Explorer</h3>
-  <img src="/images/blog/3-Epic Mountain Explorer.jpg" alt="Prompt 3 epic mountain explorer male lifestyle portrait with rugged peaks">
+  <img src="/images/blog/3-Epic Mountain Explorer.webp" alt="Prompt 3 epic mountain explorer male lifestyle portrait with rugged peaks">
   <p><em>"A strong man in his late 20s or early 30s standing on top of a mountain. He looks out at a beautiful view of tall, rugged peaks and a deep valley. He wears a dark blue jacket, grey hiking pants, and sturdy boots. The atmosphere is inspiring, calm, and fresh."</em></p>
 
   <h3>4. Double Exposure Cityscape</h3>
-  <img src="/images/blog/4-Double Exposure Cityscape.jpg" alt="Prompt 4 double exposure cityscape portrait with highway light trails">
+  <img src="/images/blog/4-Double Exposure Cityscape.webp" alt="Prompt 4 double exposure cityscape portrait with highway light trails">
   <p><em>"A creative double-exposure style portrait of a man in profile. He looks thoughtful and wears a dark leather jacket. Over his silhouette, glowing long-exposure highway light trails at night are blended in. Cinematic teal-and-orange color tones, completely black background."</em></p>
 
   <h3>5. The Boardroom Authority</h3>
-  <img src="/images/blog/5-The Boardroom Authority.jpg" alt="Prompt 5 boardroom authority male portrait in modern glass office">
+  <img src="/images/blog/5-The Boardroom Authority.webp" alt="Prompt 5 boardroom authority male portrait in modern glass office">
   <p><em>"Man in a charcoal double-breasted suit, arms loosely crossed, standing at the centre of a modern glass-walled office. Expression: direct, composed, all authority. City skyline through the window. Natural diffused light, shot from slightly below eye level, 85mm, f/2."</em></p>
 
   <h3>6. Yacht Club Sunset</h3>
-  <img src="/images/blog/6-Yacht Club Sunset.jpg" alt="Prompt 6 yacht club sunset luxury portrait with warm rim light">
+  <img src="/images/blog/6-Yacht Club Sunset.webp" alt="Prompt 6 yacht club sunset luxury portrait with warm rim light">
   <p><em>"Waist-up portrait of a confident man on a yacht club dock at golden hour. Wearing a white linen shirt, navy blazer draped over shoulders. Sailboats and calm water bokeh behind. Warm rim light, photorealistic, understated luxury vibe."</em></p>
 
   <h3>7. Dubai New Money G-Wagon</h3>
-  <img src="/images/blog/7-Dubai New Money G-Wagon.jpg" alt="Prompt 7 Dubai new money G-Wagon street luxury male portrait">
+  <img src="/images/blog/7-Dubai New Money G-Wagon.webp" alt="Prompt 7 Dubai new money G-Wagon street luxury male portrait">
   <p><em>"Young man leaning casually against a matte black G-Wagon parked on a Jumeirah street in Dubai. Designer hoodie, cargo trousers, limited edition sneakers. Confident, casual expression. Golden afternoon Dubai light."</em></p>
 
   <h3>8. Penthouse Nightfall</h3>
-  <img src="/images/blog/8-Penthouse Nightfall.jpg" alt="Prompt 8 penthouse nightfall cinematic luxury portrait at night">
+  <img src="/images/blog/8-Penthouse Nightfall.webp" alt="Prompt 8 penthouse nightfall cinematic luxury portrait at night">
   <p><em>"Man sitting back on a massive white sectional sofa in a penthouse living room. Silk shirt open at the neck, casual but elegant. Floor-to-ceiling windows show a city at night. Soft warm floor lamp glow, 35mm, f/2.8."</em></p>
 
   <h3>9. European Vintage Convertible</h3>
-  <img src="/images/blog/9-European Vintage Convertible.jpg" alt="Prompt 9 editorial male portrait with vintage convertible and leather jacket">
+  <img src="/images/blog/9-European Vintage Convertible.webp" alt="Prompt 9 editorial male portrait with vintage convertible and leather jacket">
   <p><em>"A high-end fashion editorial shot of a male subject sitting casually on the hood of a vintage silver convertible. He wears an oversized black leather bomber jacket. Soft, natural overcast lighting creates a calm, diffused look. Blurred beach background with sand and haze."</em></p>
 
   <h3>10. Italian Villa Morning</h3>
-  <img src="/images/blog/10-Italian Villa Morning.jpg" alt="Prompt 10 Italian villa breakfast portrait with warm cinematic morning light">
+  <img src="/images/blog/10-Italian Villa Morning.webp" alt="Prompt 10 Italian villa breakfast portrait with warm cinematic morning light">
   <p><em>"Man seated at an Italian villa terrace breakfast with espresso and fresh fruit, sunlit stone walls and olive trees behind, soft morning light. Lifestyle portrait, warm film color grading, relaxed generational elegance."</em></p>
 
   <h3>11. The Clean Professional</h3>
-  <img src="/images/blog/11-The Clean Professional.jpg" alt="Prompt 11 clean professional male headshot with neutral background">
+  <img src="/images/blog/11-The Clean Professional.webp" alt="Prompt 11 clean professional male headshot with neutral background">
   <p><em>"Professional male headshot, neutral background, sharp focus on face, realistic skin texture, soft shadows, natural expression. Clean shave, composed expression, natural slight smile."</em></p>
 
   <h3>12. Minimalist Studio Core</h3>
-  <img src="/images/blog/12-Minimalist Studio Core.jpg" alt="Prompt 12 minimalist studio core male portrait with key and fill lights">
+  <img src="/images/blog/12-Minimalist Studio Core.webp" alt="Prompt 12 minimalist studio core male portrait with key and fill lights">
   <p><em>"A realistic portrait of a young man against a clean, minimalist background. Professional studio lighting with one key light and soft fill creates dimension. Sharp focus on eyes, rest has subtle blur. 4K quality, editorial magazine style."</em></p>
 
   <h3>13. Business-Casual Confidence</h3>
-  <img src="/images/blog/13-Business-Casual Confidence.jpg" alt="Prompt 13 business-casual confidence portrait with natural light and subtle blur">
+  <img src="/images/blog/13-Business-Casual Confidence.webp" alt="Prompt 13 business-casual confidence portrait with natural light and subtle blur">
   <p><em>"Man business-casual attire, clean look, natural lighting, realistic skin and hair texture, relaxed expression, subtle background blur. Perfect for a modern corporate or entrepreneurial profile."</em></p>
 
   <h3>14. Ultra-Clean Concrete Bench</h3>
-  <img src="/images/blog/14-Ultra-Clean Concrete Bench.jpg" alt="Prompt 14 ultra-clean concrete bench editorial portrait setup">
+  <img src="/images/blog/14-Ultra-Clean Concrete Bench.webp" alt="Prompt 14 ultra-clean concrete bench editorial portrait setup">
   <p><em>"Ultra-clean studio portrait captured in a medium full shot, seated on a minimalist concrete bench. He is wearing a crisp white open-collar shirt layered under a light gray structured jacket, paired with slim black trousers. Seamless light gray studio wall, premium editorial feel."</em></p>
 
   <h3>15. The Casual Cafe Aesthetic</h3>
-  <img src="/images/blog/15-The Casual Cafe Aesthetic.jpg" alt="Prompt 15 casual cafe aesthetic male portrait with smart-casual styling">
+  <img src="/images/blog/15-The Casual Cafe Aesthetic.webp" alt="Prompt 15 casual cafe aesthetic male portrait with smart-casual styling">
   <p><em>"Man at a small marble cafe table, coffee in hand, looking directly into the camera with a composed, easy expression. Smart casual: blazer over a white tee. Morning light from a window. Background: warm blurred cafe interior."</em></p>
 
   <h3>16. Neon-Lit Cyberpunk Rebel</h3>
-  <img src="/images/blog/16-Neon-Lit Cyberpunk Rebel.jpg" alt="Prompt 16 neon-lit cyberpunk rebel avatar style portrait">
+  <img src="/images/blog/16-Neon-Lit Cyberpunk Rebel.webp" alt="Prompt 16 neon-lit cyberpunk rebel avatar style portrait">
   <p><em>"Stylized anime-style avatar of a young male with a cyberpunk aesthetic. Messy black hair, sleek sunglasses, futuristic black leather jacket with glowing cyan accents. Circular '03' design on sleeve. Background is solid black to emphasize the character, vibrant, confident."</em></p>
 
   <h3>17. 1980s Retro Synthwave</h3>
-  <img src="/images/blog/17-1980s Retro Synthwave.jpg" alt="Prompt 17 1980s retro synthwave portrait with magenta cyan gradients">
+  <img src="/images/blog/17-1980s Retro Synthwave.webp" alt="Prompt 17 1980s retro synthwave portrait with magenta cyan gradients">
   <p><em>"1980s retro synthwave portrait, neon colors, futuristic nostalgia, bold gradients. Vivid magenta and cyan lighting, dark aesthetic, glowing grid lines."</em></p>
 
   <h3>18. The Hacker Matrix</h3>
-  <img src="/images/blog/18-The Hacker Matrix.jpg" alt="Prompt 18 hacker matrix setup portrait with green code screens">
+  <img src="/images/blog/18-The Hacker Matrix.webp" alt="Prompt 18 hacker matrix setup portrait with green code screens">
   <p><em>"Man seated close to three monitors covered in scrolling green code. Dark room, only the screen light: cool green tone on one side of his face, dark shadow the other. Wearing a black hoodie. Expression: calm, concentrated."</em></p>
 
   <h3>19. Retro 90s Gamer</h3>
-  <img src="/images/blog/19-Retro 90s Gamer.jpg" alt="Prompt 19 retro 90s gamer portrait with nostalgic neon environment">
+  <img src="/images/blog/19-Retro 90s Gamer.webp" alt="Prompt 19 retro 90s gamer portrait with nostalgic neon environment">
   <p><em>"Retro-inspired gamer portrait with neon lights and vibrant colors inspired by the 1990s gaming era. The boy wears a graphic gaming T-shirt. Include pixel art effects, vintage lighting, and a nostalgic digital atmosphere."</em></p>
 
   <h3>20. Urban Neon Night</h3>
-  <img src="/images/blog/20-Urban Neon Night.jpg" alt="Prompt 20 urban neon night cinematic male portrait with blue and pink reflections">
+  <img src="/images/blog/20-Urban Neon Night.webp" alt="Prompt 20 urban neon night cinematic male portrait with blue and pink reflections">
   <p><em>"Cinematic portrait of a stylish young man in an urban setting at night. Blue and pink neon lights reflecting on his face, creating dramatic contrast. Bokeh street lights behind him. Realistic skin and hair, high-energy environment."</em></p>
 
   <div class="cta-block">

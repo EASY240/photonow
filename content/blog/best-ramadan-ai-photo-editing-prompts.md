@@ -5,7 +5,7 @@ excerpt: "A structured guide to the best Ramadan AI photo editing prompts for Mi
 publishDate: "2026-03-04"
 readTime: "14 min read"
 category: "general"
-featuredImage: "/images/blog/Ramadan AI Photo Editing Prompts.jpg"
+featuredImage: "/images/blog/Ramadan AI Photo Editing Prompts.webp"
 keywords: ["Ramadan AI photo editing prompts", "Ramadan Midjourney prompts", "AI image generation Ramadan", "Ramadan photo editing", "Islamic AI art prompts", "Ramadan content creation AI", "Ramadan lantern prompts", "iftar photo prompts", "AI Ramadan visuals", "Stable Diffusion Ramadan"]
 metaTitle: "Best Ramadan AI Photo Editing Prompts — 40+ Copy-Paste Examples"
 metaDescription: "40+ ready-to-use Ramadan AI photo editing prompts for Midjourney, DALL-E, and Stable Diffusion. Covers iftar scenes, lanterns, crescent moon, portraits, and product photography — with pro tips and common mistakes."
@@ -19,7 +19,7 @@ metaDescription: "40+ ready-to-use Ramadan AI photo editing prompts for Midjourn
       Ramadan AI photo editing prompts are precise text instructions that tell image-generation tools — Midjourney, DALL-E, Stable Diffusion — exactly what visual atmosphere, lighting, subject, and style to produce. The difference between generic output and a usable Ramadan visual is specificity: crescent placement, lantern warmth, shadow quality, and background depth all need to be explicit. This guide covers the framework for writing those prompts, 40+ copy-paste examples by category, the structural mistakes that cause weak results, and pro tips for iterating toward professional-quality Ramadan content.
     </p>
     <div class="img-container">
-      <img src="/images/blog/Ramadan AI Photo Editing Prompts.jpg" alt="AI-generated Ramadan photo editing prompts showing lanterns, crescent moon and golden light atmospheres" />
+      <img src="/images/blog/Ramadan AI Photo Editing Prompts.webp" alt="AI-generated Ramadan photo editing prompts showing lanterns, crescent moon and golden light atmospheres" />
     </div>
   </div>
 
@@ -176,7 +176,7 @@ metaDescription: "40+ ready-to-use Ramadan AI photo editing prompts for Midjourn
   <section id="lantern-prompts">
     <h2>Lantern &amp; Atmosphere Prompts</h2>
     <div class="img-container">
-      <img src="/images/blog/Lantern & Atmosphere Prompts.jpg" alt="Lantern & Atmosphere Prompts" />
+      <img src="/images/blog/Lantern & Atmosphere Prompts.webp" alt="Lantern & Atmosphere Prompts" />
     </div>
     <p>
       Fanous lanterns are the primary visual entity of Ramadan content. These prompts cover hanging clusters, floor arrangements, street installations, and close-up product shots.
@@ -215,7 +215,7 @@ metaDescription: "40+ ready-to-use Ramadan AI photo editing prompts for Midjourn
   <section id="iftar-prompts">
     <h2>Iftar &amp; Suhoor Scene Prompts</h2>
     <div class="img-container">
-      <img src="/images/blog/Iftar  Scene Prompts.jpg" alt="AI-generated Ramadan photo of Iftar Scene Prompts" />
+      <img src="/images/blog/Iftar  Scene Prompts.webp" alt="AI-generated Ramadan photo of Iftar Scene Prompts" />
     </div>
     <p>
       Iftar and suhoor table setups are high-demand content for food brands, restaurants, and social media. These prompts use food photography principles — angle, depth, light source, and prop placement — applied to Ramadan-specific subjects.
@@ -253,7 +253,7 @@ metaDescription: "40+ ready-to-use Ramadan AI photo editing prompts for Midjourn
   <section id="portrait-prompts">
     <h2>Portrait &amp; People Prompts</h2>
     <div class="img-container">
-      <img src="/images/blog/Ramadan Portrait & People Prompts.jpg" alt="AI-generated Ramadan Portrait & People Prompts" />
+      <img src="/images/blog/Ramadan Portrait & People Prompts.webp" alt="AI-generated Ramadan Portrait & People Prompts" />
     </div>
     <p>
       Portrait prompts for Ramadan require careful light and background specification to avoid culturally imprecise output. These prompts are designed for editorial, social content, and brand photography contexts. For AI-enhanced portrait editing on real photos, use the <a href="https://modernphototools.com/tools/ai-portrait" target="_blank">AI Portrait Tool</a>.
@@ -291,7 +291,7 @@ metaDescription: "40+ ready-to-use Ramadan AI photo editing prompts for Midjourn
   <section id="product-prompts">
     <h2>Product Photography Prompts</h2>
     <div class="img-container">
-      <img src="/images/blog/Ramadan Product Photography Prompts.jpg" alt="AI-generated Ramadan Product Photography Prompts" />
+      <img src="/images/blog/Ramadan Product Photography Prompts.webp" alt="AI-generated Ramadan Product Photography Prompts" />
     </div>
     <p>
       Brands launching Ramadan campaigns need product photography with seasonal atmosphere. These prompts wrap existing product types — perfume, sweets, gift boxes, fashion — in Ramadan-specific visual environments without losing the product as the focal point. Use the <a href="https://modernphototools.com/tools/ai-product-photoshoot" target="_blank">AI Product Photoshoot</a> tool to apply these prompts directly to your product images.
@@ -340,7 +340,7 @@ metaDescription: "40+ ready-to-use Ramadan AI photo editing prompts for Midjourn
   <section id="social-content-prompts">
     <h2>Social Content &amp; Greeting Card Prompts</h2>
     <div class="img-container">
-      <img src="/images/blog/Ramadan Social Content & Greeting Card Prompts.jpg" alt="AI-generated Ramadan Social Content & Greeting Card Prompts" />
+      <img src="/images/blog/Ramadan Social Content & Greeting Card Prompts.webp" alt="AI-generated Ramadan Social Content & Greeting Card Prompts" />
     </div>
     <p>
       Social media and greeting card prompts need built-in text placement areas, clean edge definition, and specific aspect ratio awareness. These prompts are built for 1:1 feed posts, 9:16 stories, and print-ready greeting formats.

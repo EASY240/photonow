@@ -5,7 +5,7 @@ excerpt: "A step-by-step guide to generating high-quality Eid Mubarak AI photos 
 publishDate: "2026-03-20"
 readTime: "13 min read"
 category: "general"
-featuredImage: '\images\blog\Eid Mubarak AI Photos Prompts.jpg'
+featuredImage: '/images/blog/Eid Mubarak AI Photos Prompts.webp'
 keywords:
 - "Eid Mubarak AI photos"
 - "Eid AI image generator"
@@ -29,7 +29,7 @@ metaDescription: "Step-by-step guide to generating professional Eid Mubarak AI p
       AI image generators convert structured text descriptions into professional, high-resolution Eid Mubarak visuals. Platforms like Bing Image Creator, Midjourney, and Gemini produce custom portraits, 3D typography, and festive scenes without manual photo editing software — in seconds. This guide covers the exact workflow, 10 copy-paste prompts across every major Eid visual category, and the structural mistakes that produce distorted faces, generic backgrounds, and low-quality renders.
     </p>
     <div class="img-container">
-      <img src="/images/blog/3D Customized Name Image.jpg" alt="Professional Eid Mubarak AI-generated photos showing mosque scenes, traditional attire, and festive lantern atmospheres" />
+      <img src="/images/blog/3D Customized Name Image.webp" alt="Professional Eid Mubarak AI-generated photos showing mosque scenes, traditional attire, and festive lantern atmospheres" />
     </div>
   </div>
 
@@ -187,7 +187,7 @@ metaDescription: "Step-by-step guide to generating professional Eid Mubarak AI p
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
         <div style="padding:20px;border-right:1px solid #e5e7eb;">
-          <img src="/images/blog/Eid Mubarak AI Photos Prompt-1.jpg" alt="Sunset rooftop Eid Mubarak AI-generated portrait" style="width:100%;height:100%;object-fit:cover;border-radius:8px;display:block;" />
+          <img src="/images/blog/Eid Mubarak AI Photos Prompt-1.webp" alt="Sunset rooftop Eid Mubarak AI-generated portrait" style="width:100%;height:100%;object-fit:cover;border-radius:8px;display:block;" />
         </div>
         <div style="padding:20px;">
           <p style="font-size:0.85rem;color:#6366f1;font-weight:700;margin:0 0 8px;text-transform:uppercase;letter-spacing:0.05em;">Recommended Tool</p>
@@ -205,7 +205,7 @@ metaDescription: "Step-by-step guide to generating professional Eid Mubarak AI p
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
         <div style="padding:20px;border-right:1px solid #e5e7eb;">
-          <img src="/images/blog/Eid Mubarak AI Photos Prompt-2.jpg" alt="Editorial Studio Portrait Eid Mubarak AI-generated" style="width:100%;height:100%;object-fit:cover;border-radius:8px;display:block;" />
+          <img src="/images/blog/Eid Mubarak AI Photos Prompt-2.webp" alt="Editorial Studio Portrait Eid Mubarak AI-generated" style="width:100%;height:100%;object-fit:cover;border-radius:8px;display:block;" />
         </div>
         <div style="padding:20px;">
           <p style="font-size:0.85rem;color:#6366f1;font-weight:700;margin:0 0 8px;text-transform:uppercase;letter-spacing:0.05em;">Recommended Tool</p>
@@ -223,7 +223,7 @@ metaDescription: "Step-by-step guide to generating professional Eid Mubarak AI p
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
         <div style="padding:20px;border-right:1px solid #e5e7eb;">
-          <img src="/images/blog/Eid Mubarak AI Photos Prompt-3.jpg" alt="Grand Mosque Prayer Scene Eid Mubarak AI-generated portrait" style="width:100%;height:100%;object-fit:cover;border-radius:8px;display:block;" />
+          <img src="/images/blog/Eid Mubarak AI Photos Prompt-3.webp" alt="Grand Mosque Prayer Scene Eid Mubarak AI-generated portrait" style="width:100%;height:100%;object-fit:cover;border-radius:8px;display:block;" />
         </div>
         <div style="padding:20px;">
           <p style="font-size:0.85rem;color:#6366f1;font-weight:700;margin:0 0 8px;text-transform:uppercase;letter-spacing:0.05em;">Recommended Tool</p>
@@ -241,7 +241,7 @@ metaDescription: "Step-by-step guide to generating professional Eid Mubarak AI p
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
         <div style="padding:20px;border-right:1px solid #e5e7eb;">
-           <img src="/images/blog/Eid Mubarak AI Photos Prompt-4.jpg" alt="Festive Motion Capture — Women's Anarkali Eid Mubarak AI-generated" style="width:100%;height:100%;object-fit:cover;border-radius:8px;display:block;" />
+           <img src="/images/blog/Eid Mubarak AI Photos Prompt-4.webp" alt="Festive Motion Capture — Women's Anarkali Eid Mubarak AI-generated" style="width:100%;height:100%;object-fit:cover;border-radius:8px;display:block;" />
           </div>
         </div>
         <div style="padding:20px;">
@@ -260,7 +260,7 @@ metaDescription: "Step-by-step guide to generating professional Eid Mubarak AI p
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
         <div style="padding:20px;border-right:1px solid #e5e7eb;">
-          <img src="/images/blog/Eid Mubarak AI Photos Prompt-5.jpg" alt="Golden Hour Balcony — Women's Abaya Eid Mubarak AI-generated" style="width:100%;height:100%;object-fit:cover;border-radius:8px;display:block;" />
+          <img src="/images/blog/Eid Mubarak AI Photos Prompt-5.webp" alt="Golden Hour Balcony — Women's Abaya Eid Mubarak AI-generated" style="width:100%;height:100%;object-fit:cover;border-radius:8px;display:block;" />
           </div>
         </div>
         <div style="padding:20px;">
@@ -279,7 +279,7 @@ metaDescription: "Step-by-step guide to generating professional Eid Mubarak AI p
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
         <div style="padding:20px;border-right:1px solid #e5e7eb;">
-          <img src="/images/blog/Eid Mubarak AI Photos Prompt-6.jpg" alt="3D Family Gathering Eid Mubarak AI-generated" style="width:100%;height:100%;object-fit:cover;border-radius:8px;display:block;" />
+          <img src="/images/blog/Eid Mubarak AI Photos Prompt-6.webp" alt="3D Family Gathering Eid Mubarak AI-generated" style="width:100%;height:100%;object-fit:cover;border-radius:8px;display:block;" />
           </div>
         </div>
         <div style="padding:20px;">
@@ -298,7 +298,7 @@ metaDescription: "Step-by-step guide to generating professional Eid Mubarak AI p
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
         <div style="padding:20px;border-right:1px solid #e5e7eb;">
-          <img src="/images/blog/Eid Mubarak AI Photos Prompt-7.jpg" alt="Twilight Mosque Architecture Eid Mubarak AI-generated" style="width:100%;height:100%;object-fit:cover;border-radius:8px;display:block;" />
+          <img src="/images/blog/Eid Mubarak AI Photos Prompt-7.webp" alt="Twilight Mosque Architecture Eid Mubarak AI-generated" style="width:100%;height:100%;object-fit:cover;border-radius:8px;display:block;" />
           </div>
         </div>
         <div style="padding:20px;">
@@ -317,7 +317,7 @@ metaDescription: "Step-by-step guide to generating professional Eid Mubarak AI p
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
         <div style="padding:20px;border-right:1px solid #e5e7eb;">
-          <img src="/images/blog/Eid Mubarak AI Photos Prompt-8.jpg" alt="3D Festive Eid Feast Table Eid Mubarak AI-generated" style="width:100%;height:220px;object-fit:cover;border-radius:8px;display:block;" />
+          <img src="/images/blog/Eid Mubarak AI Photos Prompt-8.webp" alt="3D Festive Eid Feast Table Eid Mubarak AI-generated" style="width:100%;height:220px;object-fit:cover;border-radius:8px;display:block;" />
           </div>
         </div>
         <div style="padding:20px;">
@@ -336,7 +336,7 @@ metaDescription: "Step-by-step guide to generating professional Eid Mubarak AI p
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
         <div style="padding:20px;border-right:1px solid #e5e7eb;">
-          <img src="/images/blog/Eid Mubarak AI Photos Prompt-9.jpg" alt="Cinematic Night Scene Eid Mubarak AI-generated" style="width:100%;height:220px;object-fit:cover;border-radius:8px;display:block;" />
+          <img src="/images/blog/Eid Mubarak AI Photos Prompt-9.webp" alt="Cinematic Night Scene Eid Mubarak AI-generated" style="width:100%;height:220px;object-fit:cover;border-radius:8px;display:block;" />
           </div>
         </div>
         <div style="padding:20px;">
@@ -355,7 +355,7 @@ metaDescription: "Step-by-step guide to generating professional Eid Mubarak AI p
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
         <div style="padding:20px;border-right:1px solid #e5e7eb;">
-          <img src="/images/blog/Eid Mubarak AI Photos Prompt-10.jpg" alt="Children Running to the Mosque Eid Mubarak AI-generated" style="width:100%;height:220px;object-fit:cover;border-radius:8px;display:block;" />
+          <img src="/images/blog/Eid Mubarak AI Photos Prompt-10.webp" alt="Children Running to the Mosque Eid Mubarak AI-generated" style="width:100%;height:220px;object-fit:cover;border-radius:8px;display:block;" />
           </div>
         </div>
         <div style="padding:20px;">

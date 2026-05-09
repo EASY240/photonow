@@ -5,7 +5,7 @@ excerpt: "A practical how-to guide covering every real estate photo editing tech
 publishDate: "2025-12-10"
 readTime: "12 min read"
 category: "general"
-featuredImage: "/images/blog/Real Estate Photo Editing.jpeg"
+featuredImage: "/images/blog/Real Estate Photo Editing.webp"
 relatedTool: "ai-cleanup"
 keywords:
   - real estate photo editing
@@ -23,7 +23,7 @@ metaDescription: "Step-by-step real estate photo editing guide covering essentia
 
 <section id="introduction">
   <h1>Real Estate Photo Editing: Complete Step-by-Step Guide for Listings That Sell</h1>
-  <img src="/images/blog/Real Estate Photo Editing.jpeg" alt="Real estate photo editing — before and after comparison of a professionally edited listing photo" data-method="insert">
+  <img src="/images/blog/Real Estate Photo Editing.webp" alt="Real estate photo editing — before and after comparison of a professionally edited listing photo" data-method="insert">
 </section>
 
 <section class="toc" aria-label="Table of Contents" style="border: 1px solid #e5e7eb; background: #fafafa; border-radius: 12px; padding: 16px; margin: 16px 0 24px;">
@@ -118,7 +118,7 @@ metaDescription: "Step-by-step real estate photo editing guide covering essentia
       </ol>
     </div>
     <div>
-      <img src="\images\blog\Perspective Correction.jpeg" alt="Perspective correction in real estate photo — before and after showing straightened walls" data-method="insert">
+      <img src="/images/blog/Perspective Correction.webp" alt="Perspective correction in real estate photo — before and after showing straightened walls" data-method="insert">
     </div>
   </div>
 
@@ -206,7 +206,7 @@ metaDescription: "Step-by-step real estate photo editing guide covering essentia
       <p><strong>How to apply:</strong> Shoot a daytime exterior with good exposure, then in Photoshop: replace the sky with a dusk gradient, darken the overall ambient light to simulate late evening, add warm light to windows using layer blending modes, and add subtle landscape uplighting. AI-powered twilight conversion tools automate most of this in a single step.</p>
     </div>
     <div>
-      <img src="\images\blog\day to dusk conversion in real estate photo.jpg" alt="Day to dusk conversion in real estate exterior photo — before daytime and after twilight version" data-method="text-to-image">
+      <img src="/images/blog/day to dusk conversion in real estate photo.webp" alt="Day to dusk conversion in real estate exterior photo — before daytime and after twilight version" data-method="text-to-image">
     </div>
   </div>
 
@@ -583,7 +583,7 @@ metaDescription: "Step-by-step real estate photo editing guide covering essentia
   "@type": "BlogPosting",
   "headline": "Real Estate Photo Editing: Complete Step-by-Step Guide for Listings That Sell",
   "description": "A practical how-to guide covering every real estate photo editing technique — from basic corrections to sky replacement and virtual staging — with AI tools, pro tips, and a clear ethical framework.",
-  "image": "/images/blog/Real Estate Photo Editing.jpeg",
+  "image": "/images/blog/Real Estate Photo Editing.webp",
   "datePublished": "2025-12-10",
   "dateModified": "2025-12-10",
   "mainEntityOfPage": {
@@ -599,7 +599,7 @@ metaDescription: "Step-by-step real estate photo editing guide covering essentia
     "name": "Modern Photo Tools",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://modernphototools.com/images/logo.png"
+      "url": "https://modernphototools.com/images/logo.webp"
     }
   }
 }

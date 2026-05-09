@@ -5,7 +5,7 @@ excerpt: "A complete guide to Nano Banana 2 — Google's latest AI image generat
 publishDate: "2026-02-26"
 readTime: "12 min read"
 category: "tools"
-featuredImage: "/images/blog/Nano Banana 2.jpg"
+featuredImage: "/images/blog/Nano Banana 2.webp"
 keywords: ["Nano Banana 2", "Google AI image generator", "Gemini image generation", "AI image generation 2026", "Nano Banana 2 for designers", "Gemini 3.1 Flash Image", "AI image generation for content creators", "Google Gemini image model"]
 metaTitle: "Nano Banana 2 Explained: How Google's Latest AI Image Model Works"
 metaDescription: "Complete guide to Nano Banana 2 — Google's fastest AI image generation model. Covers how the technology works, key features, real use cases for content creators and designers, and how it compares to Nano Banana Pro."
@@ -210,7 +210,7 @@ metaDescription: "Complete guide to Nano Banana 2 — Google's fastest AI image 
   <section id="key-features">
     <h2>Key Features for Creators and Designers</h2>
     <div class="img-container">
-      <img src="/images/blog/Feature Showcase.jpg" alt="Feature showcase for Nano Banana 2">
+      <img src="/images/blog/Feature Showcase.webp" alt="Feature showcase for Nano Banana 2">
     </div>
 
     <div class="feature-grid">
@@ -382,7 +382,7 @@ metaDescription: "Complete guide to Nano Banana 2 — Google's fastest AI image 
   <section id="use-cases">
     <h2>Practical Use Cases with Prompt Examples</h2>
     <div class="img-container">
-      <img src="/images/blog/Practical Use Cases with Prompt Examples.jpg" alt="Practical use cases for Nano Banana 2">
+      <img src="/images/blog/Practical Use Cases with Prompt Examples.webp" alt="Practical use cases for Nano Banana 2">
     </div>
 
     <p>Each use case below maps a real content creator or designer workflow to a specific Nano Banana 2 capability - with a sample prompt you can adapt directly.</p>
