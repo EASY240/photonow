@@ -118,7 +118,9 @@ function parseAllBlogArticles(): BlogArticleWithContent[] {
         category: data.category || 'general',
         featuredImage: data.featuredImage || '/images/blog/default.svg',
         relatedTool: data.relatedTool,
-        keywords: data.keywords ? (Array.isArray(data.keywords) ? data.keywords : [data.keywords]) : []
+        keywords: data.keywords ? (Array.isArray(data.keywords) ? data.keywords : [data.keywords]) : [],
+        metaTitle: data.metaTitle,
+        metaDescription: data.metaDescription
       };
 
       articles.push(article);

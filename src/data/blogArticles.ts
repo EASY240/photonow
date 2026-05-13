@@ -16,6 +16,20 @@ export interface BlogArticle {
 // Blog article metadata index - content is now loaded from individual Markdown files
 export const blogArticleIndex = [
   {
+    id: 'how-to-get-that-trendy-flash-effect-on-instagram-photos',
+    title: "How to Get That Trendy 'Flash Effect' on Instagram Photos",
+    excerpt:
+      'Learn how to get the trendy flash effect on Instagram photos using the Instagram Story editor and the Flash or Flash 3 filters. Includes step-by-step screenshots, saving instructions, FAQ schema, and quick tips.',
+    publishDate: '2026-05-13',
+    readTime: '6 min read',
+    category: 'general' as const,
+    featuredImage: '/images/blog/How%20to%20Get%20That%20Trendy%20Flash%20Effect%20on%20Instagram%20Photos.webp',
+    relatedTool: 'ai-filter',
+    keywords: ['flash effect on Instagram photos', 'Instagram flash filter', 'Flash 3 Instagram', 'how to get flash effect on Instagram', 'Instagram story photo effect', 'viral Instagram photo effect'],
+    metaTitle: "How to Get That Trendy 'Flash Effect' on Instagram Photos",
+    metaDescription: 'Step-by-step guide to getting the trendy flash effect on Instagram photos using the Flash or Flash 3 filter in Stories. Learn how to apply it, save the image, and make photos look more viral.'
+  },
+  {
     id: '20-trending-ai-photo-prompts-for-girls-instagram-tiktok',
     title: '20 Trending AI Photo Prompts for Girls for Instagram & TikTok',
     excerpt:
