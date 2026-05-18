@@ -16,6 +16,20 @@ export interface BlogArticle {
 // Blog article metadata index - content is now loaded from individual Markdown files
 export const blogArticleIndex = [
   {
+    id: 'how-to-create-new-angles-from-any-photo-with-nano-banana-pro',
+    title: 'How to Create New Angles from Any Photo with Nano Banana Pro',
+    excerpt:
+      'Learn how to create new camera angles from a single photo with Nano Banana Pro using text prompts, simple camera diagrams, and multimodal image editing workflows.',
+    publishDate: '2026-05-13',
+    readTime: '8 min read',
+    category: 'tools' as const,
+    featuredImage: '/images/blog/How%20to%20Create%20New%20Angles%20from%20Any%20Photo%20with%20Nano%20Banana%20Pro.webp',
+    relatedTool: 'ai-image-generator',
+    keywords: ['How to get different angles of the same image in nano banana', 'Can nano banana pro edit pictures', 'How to change the camera angle in nano banana', 'Nano Banana camera angle prompts', 'Nano Banana multiple angles', 'Weavy Nano Banana Pro'],
+    metaTitle: 'How to Create New Angles from Any Photo with Nano Banana Pro',
+    metaDescription: 'Step-by-step guide to changing camera angles from a single image with Nano Banana Pro. Learn prompts, diagram-based camera control, multiple-angle workflows, and FAQ schema for SEO.'
+  },
+  {
     id: 'how-to-get-that-trendy-flash-effect-on-instagram-photos',
     title: "How to Get That Trendy 'Flash Effect' on Instagram Photos",
     excerpt:
