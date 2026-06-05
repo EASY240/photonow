@@ -424,3 +424,33 @@ video.unrulymedia.com, 2564526802, RESELLER
 video.unrulymedia.com, 5672421953199218469, RESELLER
 yahoo.com, 57289, RESELLER, e1a5b5b6e3255540
 zetaglobal.net, 891, RESELLER
+33across.com, 0014000000ftztnaau, RESELLER, bbea06d9c4d2853c
+adform.com, 2671, RESELLER
+adform.com, 3393, RESELLER, 9f5210a2f0999e32
+admanmedia.com, 2223, DIRECT
+adyoulike.com, a2226c27fc2a6773f6a2b365e013513a, RESELLER
+appnexus.com, 12700, RESELLER, f5ab79cb980f11d1
+conversantmedia.com, 100308, RESELLER, 03113cd04947736d
+freewheel.tv, 539813-r-523319, RESELLER
+freewheel.tv, 539813-r-524565, RESELLER
+improvedigital.com, 2643, RESELLER
+lijit.com, 417620, RESELLER, fafdf38b16bf6b2b
+loopme.com, 14118, RESELLER, 6c8d5f95897a5a3b
+media.net, 8cu58pco4, RESELLER
+onetag.com, 95b3718ec52c228, RESELLER
+pgamssp.com, 6720eaffd76cc4dc1f00de26, RESELLER
+pubmatic.com, 162974, RESELLER, 5d62403b186f2ace
+richaudience.com, ikkfhsvj2v, RESELLER
+risecodes.com, 69c27ce4d35af000017c7c5d, RESELLER
+rtbhouse.com, v9otjdzcwtkapdzbpmoi, RESELLER, 4f3b94578e85950c
+rubiconproject.com, 25386, RESELLER, 0bfd66d529a55807
+sharethrough.com, 3713, RESELLER, d53b998a7bd4ecd2
+smaato.com, 1100058015, RESELLER, 07bcf65f187117b4
+supply.colossusssp.com, 905, RESELLER
+themediagrid.com, a8x5s7, RESELLER, 35d5010d7789b49d
+triplelift.com, 12456, RESELLER, 6c33edb13117fd86
+zetaglobal.net, 757, RESELLER
+themediagrid.com, godnc4, RESELLER, 9fac4a4a87c2a44f
+richaudience.com, ssbkmxjbtb, RESELLER
+rubiconproject.com, 13510, RESELLER, 0bfd66d529a55807
+adform.com, 3354, RESELLER, 9f5210a2f0999e32
