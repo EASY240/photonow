@@ -120,10 +120,13 @@ class SitemapGenerator {
       { url: '/blog', changefreq: 'daily', priority: 0.9 },
       { url: '/about', changefreq: 'yearly', priority: 0.7 },
       { url: '/contact', changefreq: 'yearly', priority: 0.7 },
+      { url: '/how-it-works', changefreq: 'monthly', priority: 0.7 },
+      { url: '/editorial-policy', changefreq: 'yearly', priority: 0.5 },
       { url: '/privacy-policy', changefreq: 'yearly', priority: 0.5 },
       { url: '/terms-of-use', changefreq: 'yearly', priority: 0.5 },
       { url: '/dmca', changefreq: 'yearly', priority: 0.5 },
       { url: '/cookies-policy', changefreq: 'yearly', priority: 0.5 },
+      { url: '/acceptable-use', changefreq: 'yearly', priority: 0.5 },
     ];
 
     urls.push(...staticPages);

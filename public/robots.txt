@@ -1,7 +1,14 @@
 # Modern Photo Tools Robots.txt
 # This file provides instructions to web crawlers about which pages to index
 
-# Allow all crawlers
+# Explicit allow for Google AdSense crawlers
+User-agent: Mediapartners-Google
+Allow: /
+
+User-agent: AdsBot-Google
+Allow: /
+
+# Allow all other crawlers
 User-agent: *
 Allow: /
 
