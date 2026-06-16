@@ -83,20 +83,6 @@ const BlogPage: React.FC = () => {
                           {article.excerpt}
                         </p>
 
-                        {article.keywords && article.keywords.length > 0 && (
-                          <div className="mb-4">
-                            <div className="flex flex-wrap gap-2">
-                              {article.keywords.slice(0, 3).map((keyword, index) => (
-                                <span
-                                  key={index}
-                                  className="px-2 py-1 bg-blue-50 text-blue-600 text-xs font-medium rounded-md"
-                                >
-                                  {keyword}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        )}
 
                         <div className="mt-auto pt-4">
                           <div className="inline-flex items-center text-blue-600 group-hover:text-blue-700 font-medium transition-colors duration-300">

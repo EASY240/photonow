@@ -9,17 +9,24 @@ export const getSiteOrigin = (): string => {
 
 export const personalProfile = {
   fullName: 'Ali ZurSchmiede',
-  title: 'Founder & AI Editing Specialist',
-  imageUrl: '/images/blog/Ali ZurSchmiede.webp',
-  quote: 'You didn’t start a business to spend hours stuck behind your laptop.',
+  title: 'Founder & AI Photo Editing Specialist',
+  location: 'United States',
+  imageUrl: '/images/blog/ali-zurschmiede.webp',
+  quote: 'You didn\'t start a business to spend hours stuck behind your laptop.',
   websiteUrl: 'https://www.alizurschmiede.com/',
   instagramUrl: 'https://www.instagram.com/alizurschmiede/',
   contactEmail: 'alizurschmiede@modernphototools.com',
+  expertiseAreas: [
+    'AI-powered photo editing',
+    'Digital content creation',
+    'Visual marketing for online businesses',
+    'Workflow automation for creators',
+  ],
   bioParagraphs: [
-    'What if you could delegate the time-consuming tasks on your list and focus on the aspects of your business that you are actually passionate about? Whether that means spending time working on big-picture goals, enjoying peaceful walks in nature away from your screen, or spending quality time with your family—my goal is to help take the load off.',
-    'I founded Modern Photo Tools with a clear mission: to democratize high-quality photo editing. Traditional editing work often requires expensive software and steep learning curves, draining both time and money. I built this platform of AI-powered tools to help beginners, entrepreneurs, and myself achieve professional-grade results for free.',
-    'By leveraging advanced AI, we make it possible to reclaim your time, lower your business costs, and effortlessly produce the visual content you need to succeed online.'
-  ]
+    'Ali ZurSchmiede is the founder of ModernPhotoTools.com and has spent over five years working at the intersection of visual content creation, AI tooling, and digital marketing for small businesses and entrepreneurs. She built ModernPhotoTools after spending years helping clients produce professional-grade product photos and social media visuals — and watching them burn hours inside expensive, complex desktop software.',
+    'Her approach is practical and creator-first. Every tool on this platform was chosen because it solves a real problem she has encountered in her own workflow: removing a background in 5 seconds instead of 20 minutes, generating a studio-quality headshot without booking a photographer, or upscaling an old photo to print quality without buying a $300 subscription.',
+    'Based in the United States, Ali runs ModernPhotoTools as a lean, independent publisher with no VC funding and no vendor partnerships — so every recommendation on this site reflects genuine editorial judgment, not sponsored content.',
+  ],
 };
 
 // Generate canonical URLs for different page types

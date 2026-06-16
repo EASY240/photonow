@@ -60,12 +60,13 @@ faqSchema: {
 
 <div class="styled-container">
 
-  <div class="article-header">
+<div class="article-header">
     <h1>AI Image Enhancement: How the Technology Works and Why It Matters</h1>
 
     <div class="highlight-box">
-      <h2 class="text-black">Quick Definition</h2>
-      <p class="text-black"><strong>AI image enhancement</strong> is the application of trained neural networks to automatically improve digital image quality — reducing noise, increasing resolution, sharpening detail, and correcting degradation — without requiring manual editing expertise. The technology processes images in seconds and produces results that traditional methods either cannot achieve or require hours to approximate.</p>
+      <h2 class="text-black">What This Article Is Actually About</h2>
+      <p class="text-black">You have a photo that's too small, too dark, too grainy, or too blurry to use. You've tried sharpening it in Lightroom and it either doesn't work or creates halos. This article explains why AI-based tools handle those problems differently — and when they're genuinely worth using versus when manual editing is still the right answer.</p>
+      <p class="text-black">For the quick version: upload your photo to the <a href="https://modernphototools.com/tools/ai-image-upscaler" target="_blank">AI Image Upscaler</a> and see the result. The explanation of why it works is below.</p>
     </div>
 
     <div class="cta-block">

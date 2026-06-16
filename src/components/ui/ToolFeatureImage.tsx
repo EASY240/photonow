@@ -32,39 +32,43 @@ const ToolFeatureImage: React.FC<ToolFeatureImageProps> = ({
     return null;
   }
 
+  if (!imagePath) {
+    return null;
+  }
+
   return (
     <div className={`tool-feature-image mb-8 mt-6 ${className}`}>
       <div className="relative">
+        {/* CSS-only skeleton — no visible text, invisible to crawlers */}
         {!imageLoaded && (
-          <div className="w-full max-w-2xl mx-auto h-64 bg-gray-100 rounded-lg animate-pulse flex items-center justify-center">
-            <div className="text-gray-400 text-sm">Loading image...</div>
-          </div>
-        )}
-        
-        {imagePath && (
-          <img 
-            src={imagePath}
-            alt={altText}
-            data-tool-id={toolId}
-            className={`w-full max-w-2xl mx-auto rounded-lg shadow-lg object-contain transition-opacity duration-300 ${
-              imageLoaded ? 'opacity-100' : 'opacity-0 absolute top-0 left-0'
-            }`}
-            style={{
-              maxHeight: '400px',
-              objectFit: 'contain'
-            }}
-            loading={toolId === 'ai-replace' ? 'eager' : 'lazy'}
-            fetchpriority={toolId === 'ai-replace' ? 'high' : 'auto'}
-            onError={handleImageError}
-            onLoad={handleImageLoad}
+          <div
+            aria-hidden="true"
+            className="w-full max-w-2xl mx-auto h-64 bg-gray-100 rounded-lg animate-pulse"
           />
         )}
+
+        {/* Image is always in the DOM so search crawlers and screen readers see it */}
+        <img
+          src={imagePath}
+          alt={altText}
+          data-tool-id={toolId}
+          className={`w-full max-w-2xl mx-auto rounded-lg shadow-lg object-contain transition-opacity duration-300 ${
+            imageLoaded ? 'opacity-100' : 'opacity-0 absolute top-0 left-0'
+          }`}
+          style={{ maxHeight: '400px', objectFit: 'contain' }}
+          loading={toolId === 'ai-replace' ? 'eager' : 'lazy'}
+          fetchpriority={toolId === 'ai-replace' ? 'high' : 'auto'}
+          width="800"
+          height="400"
+          onError={handleImageError}
+          onLoad={handleImageLoad}
+        />
       </div>
-      
-      {/* Optional caption */}
+
+      {/* Caption */}
       <div className="text-center mt-3">
         <p className="text-sm text-gray-500">
-          {toolName} - Professional AI-powered photo editing
+          {toolName} — AI-powered photo editing, free to use
         </p>
       </div>
     </div>

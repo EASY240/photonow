@@ -300,12 +300,15 @@ export const blogArticleIndex = [
   },
   {
     id: 'easter-card-messages-2026',
-    title: '100+ Easter Card Message Ideas in 2026 | Modern PhotoTools',
-    excerpt: 'Discover 100+ Easter card message ideas for 2026! From religious blessings to funny greetings, find the perfect words to pair with your Easter photos and designs.',
-    publishDate: '2025-05-30',
+    title: '100+ Easter Card Messages to Pair with Your AI-Generated Easter Photos',
+    excerpt: '100+ ready-to-use Easter card messages organized by tone and relationship — plus a step-by-step guide to pairing messages with AI-generated Easter photos for cards that look professionally designed.',
+    publishDate: '2026-04-01',
     readTime: '18 min read',
     category: 'general' as const,
-    featuredImage: 'https://storage.googleapis.com/48877118-7272-4a4d-b302-0465d8aa4548/0cd66b1e-46e8-4f6e-a6dd-3d571e79013d/43b3a8d0-02da-49a5-91b1-4a27d9f12e48.jpg'
+    featuredImage: 'https://storage.googleapis.com/48877118-7272-4a4d-b302-0465d8aa4548/0cd66b1e-46e8-4f6e-a6dd-3d571e79013d/43b3a8d0-02da-49a5-91b1-4a27d9f12e48.jpg',
+    keywords: ['Easter card messages', 'Easter photo card ideas', 'AI Easter card generator', 'Easter greeting card design', 'create Easter card online free'],
+    metaTitle: '100+ Easter Card Messages + AI Photo Card Guide | ModernPhotoTools',
+    metaDescription: '100+ Easter card messages organized by relationship and tone, plus a step-by-step guide to generating matching AI Easter card photos. Free, no design skills needed.'
   },
 
   {

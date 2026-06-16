@@ -107,11 +107,11 @@ faqSchema: {
 <section id="the-problem">
   <h2>Why Your LinkedIn Photo Is Your First Interview</h2>
 
-  <p>Your <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a> profile picture is processed by human psychology in under 100 milliseconds. Before a recruiter reads your job title, your school, or a single bullet point on your CV — they have already formed a first impression from your photo. Research published by Princeton University shows that competence, trustworthiness, and likability judgments are made from facial photographs in as little as 100ms, and those judgments correlate strongly with hiring decisions.</p>
+  <p>I've had this conversation more times than I can count: someone emails asking why their LinkedIn profile gets half the views of a colleague with comparable credentials. Nine times out of ten, the answer is visible before a single word is read — it's the photo. Not the absence of a photo, but a phone selfie, a cropped wedding shot, or a photo that was fine for Instagram but signals zero professional intent on a career platform.</p>
 
-  <p>The problem is structural: professional photography is expensive ($200–$500 per session), requires scheduling, and produces results that date quickly. Most people default to a cropped selfie, a photo from a social event, or — worse — no photo at all. LinkedIn profiles without photos receive up to 21× fewer profile views than those with one.</p>
+  <p>The structural problem is that professional headshots cost $200–$500 a session, require scheduling, and produce results that date quickly. Most people default to whatever's already on their phone. LinkedIn profiles without photos receive up to 21× fewer profile views than those with one, and a technically poor photo often performs worse than no photo at all — it signals that you didn't bother to put in the effort.</p>
 
-  <p>AI portrait tools have eliminated the cost and scheduling barrier. What a professional photographer does in a studio — correct the lighting, balance skin tones, apply a clean background, deliver a high-resolution export — you can now do in under 10 minutes from a smartphone photo, at no cost.</p>
+  <p>AI portrait tools changed this math entirely. What a professional photographer does in a studio — correct the lighting, balance skin tones, apply a clean background, deliver a high-resolution export — you can now replicate in under 10 minutes from any clear smartphone photo, at no cost. The step-by-step workflow below is exactly what I use for my own professional photos and what I've built into the tools on this platform.</p>
 
   <div class="two-columns">
     <div>
@@ -129,7 +129,7 @@ faqSchema: {
       <ul class="custom-list">
         <li>Studio-quality lighting corrections from a smartphone photo</li>
         <li>Clean professional backgrounds without a backdrop or studio</li>
-        <li>Outfit swaps for industry-appropriate attire without reshootingst</li>
+        <li>Outfit swaps for industry-appropriate attire without reshooting</li>
         <li>4K-resolution output that meets platform requirements</li>
         <li>Multiple style variants (corporate, creative, executive) from one base photo</li>
         <li>Total time under 10 minutes, total cost zero</li>

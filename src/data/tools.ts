@@ -108,7 +108,7 @@ export const tools: Tool[] = [
   {
     id: 'ai-face-swap',
     name: 'AI Face Swap',
-    description: 'Swap faces between images with AI precision',
+    description: 'Creative face compositing for costume, artistic, and entertainment projects',
     icon: 'refresh-cw',
     path: '/tools/ai-face-swap',
     apiEndpoint: '/api/external/api/v2/ai-face-swap'
@@ -116,7 +116,7 @@ export const tools: Tool[] = [
   {
     id: 'ai-outfit',
     name: 'AI Outfit',
-    description: 'Change outfits in photos with AI technology',
+    description: 'Preview new outfit styles on your photos with AI virtual try-on',
     icon: 'shirt',
     path: '/tools/ai-outfit',
     apiEndpoint: '/api/external/api/v2/ai-outfit'

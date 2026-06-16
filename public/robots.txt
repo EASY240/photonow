@@ -17,11 +17,19 @@ Disallow: /admin/
 Disallow: /private/
 Disallow: /api/
 Disallow: /_next/
-Disallow: /static/
 
-# Allow specific media directories for indexing
-Allow: /tools%20videos/
-Allow: /images/tools%20images/
+# Allow AI-powered search engine crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
 
 # Sitemap references
 Sitemap: https://modernphototools.com/sitemap-index.xml

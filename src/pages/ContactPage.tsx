@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, Send } from 'lucide-react';
+import { Mail, Send, MapPin } from 'lucide-react';
 import SEO from '../components/ui/SEO';
 import { SchemaJSONLD } from '../components/ui/SchemaJSONLD';
 import Button from '../components/ui/Button';
 import TurnstileCaptcha from '../components/ui/TurnstileCaptcha';
-import { generateBreadcrumbSchema, personalProfile } from '../utils/siteConfig';
+import { generateBreadcrumbSchema, generateCanonicalUrl, personalProfile } from '../utils/siteConfig';
 
 const ContactPage: React.FC = () => {
   const breadcrumbSchema = generateBreadcrumbSchema([
@@ -136,6 +136,7 @@ const ContactPage: React.FC = () => {
       <SEO 
         title="Contact Us" 
         description={`Have questions or feedback? Contact ${personalProfile.fullName} at ${personalProfile.contactEmail} for support with ModernPhotoTools AI photo editing tools.`}
+        canonicalUrl={generateCanonicalUrl('/contact')}
       />
       <SchemaJSONLD data={breadcrumbSchema} />
       
@@ -167,6 +168,13 @@ const ContactPage: React.FC = () => {
                     </p>
                   </div>
                 </div>
+                <div className="flex items-start mb-4">
+                  <MapPin className="w-5 h-5 text-blue-600 mr-3 mt-1" />
+                  <div>
+                    <h3 className="text-lg font-medium text-gray-900">Location</h3>
+                    <p className="text-gray-700">{personalProfile.location}</p>
+                  </div>
+                </div>
                 <div className="text-sm text-gray-700 space-y-2">
                   <p>
                     Founder: <span className="font-semibold">{personalProfile.fullName}</span>
@@ -194,8 +202,8 @@ const ContactPage: React.FC = () => {
                     </a>
                   </p>
                 </div>
-                <p className="text-sm text-gray-600">
-                  We typically respond within 24-48 hours during business days.
+                <p className="text-sm text-gray-600 mt-4">
+                  We typically respond within 24–48 hours during business days.
                 </p>
               </div>
             </div>

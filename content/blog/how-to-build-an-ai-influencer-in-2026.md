@@ -27,7 +27,10 @@ metaDescription: "Learn how to build an AI influencer in 2026 with persona desig
 <div class="article-header">
   <h1>How to Build an AI Influencer in 2026</h1>
   <p class="article-intro">
-    The landscape of digital marketing and creator influence has reached a definitive tipping point. The global virtual influencer market, valued at approximately $6.33 billion in 2024, is now projected to skyrocket to $111.78 billion by 2033, growing at a staggering compound annual growth rate (CAGR) of 38.4%.
+    I started tracking AI-generated influencers seriously in late 2024, when Lil Miquela hit 3 million Instagram followers and brands like Calvin Klein and Samsung started cutting deals with virtual personas instead of humans. What struck me wasn't the follower count — it was the production discipline behind the consistent identity. The personas that worked weren't just pretty renders. They had backstory, posting rhythms, visual grammar, and monetization layers that looked more like media companies than side projects.
+  </p>
+  <p>
+    This guide covers the practical workflow behind building one from scratch in 2026: persona engineering, niche selection, the identity-consistency problem that kills most amateur attempts, and how the commercial models actually make money.
   </p>
   <img src="/images/blog/Market Growth Chart.webp" alt="Virtual influencer market growth chart showing projected expansion from 2024 to 2033">
 </div>
@@ -108,8 +111,8 @@ metaDescription: "Learn how to build an AI influencer in 2026 with persona desig
 <section id="monetization">
   <h2>How AI Influencers Make Money in 2026</h2>
   <p>The strongest operators do not rely only on one-off sponsored posts. They combine brand retainers with recurring revenue products: private communities, paid challenges, affiliate stacks, and always-on conversational agents.</p>
-  <p>If you are building your own stack from scratch, start from a repeatable generation engine using an <a href="https://modernphototools.com/tools/ai-image-generator" style="font-weight: bold;" target="_blank">AI image generator</a>, then add distribution workflows and monetization layers.</p>
-  <p> Stay ready, we will explain next time how to <a href="https://modernphototools.com/blog/maintain-character-consistency-in-ai-image-generation" style="font-weight: bold;" target="_blank">keep the character we created constant</a> and doesn't change in any scene after that.</p>
+  <p>If you are building your own stack from scratch, start from a repeatable generation engine using an <a href="https://modernphototools.com/tools/ai-image-generator" style="font-weight: bold;" target="_blank">AI image generator</a>, then add distribution workflows and monetization layers on top.</p>
+  <p>The next article in this series covers the character-consistency problem in depth: <a href="https://modernphototools.com/blog/maintain-character-consistency-in-ai-image-generation" style="font-weight: bold;" target="_blank">how to keep your AI persona recognizable across scenes without face drift</a>.</p>
 </section>
 
 <section id="faq">

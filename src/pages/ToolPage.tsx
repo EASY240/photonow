@@ -2318,10 +2318,10 @@ const faceSwapFaqItems: FaceSwapFaqItem[] = [
       'Uploaded images are processed over encrypted connections and handled according to ModernPhotoTools privacy and data policies. Avoid uploading highly sensitive photos, and review the latest privacy policy and terms of use to understand how long images are stored and how they may be processed.'
   },
   {
-    id: 'safety-measures',
-    question: 'What measures are in place to prevent my face from appearing in explicit content?',
+    id: 'creative-use',
+    question: 'What are the accepted creative use cases for AI Face Swap?',
     answer:
-      'The service is built with strict content and safety guidelines. Models are tuned and monitored to block explicit, abusive, or otherwise harmful outputs where possible, and usage is governed by clear terms of use. You should still avoid prompts, uploads, or use cases that violate the content policy or local laws.'
+      'AI Face Swap is designed for creative, artistic, and entertainment purposes — costume previews, historical reconstructions, movie-style effects, artistic composites, and similar projects. All use must comply with the ModernPhotoTools Terms of Use, which prohibit deceptive deepfakes, impersonation, and any output that violates the rights or dignity of individuals.'
   }
 ];
 
