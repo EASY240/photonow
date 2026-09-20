@@ -16,6 +16,38 @@ export interface BlogArticle {
 // Blog article metadata index - content is now loaded from individual Markdown files
 export const blogArticleIndex = [
   {
+    id: 'how-to-download-youtube-videos-in-2026-yt-dlp-desktop-apps-and-browser-tools-compared',
+    title: 'How to Download YouTube Videos in 2026: yt-dlp, Desktop Apps, and Browser-Based Tools Compared',
+    excerpt:
+      'A practical 2026 comparison of yt-dlp, 4K Video Downloader Plus, and YTMP3.co.uk for downloading YouTube videos to MP4 and studio-grade MP3, featuring local file conversion, playlists, subtitles, and zero ads.',
+    publishDate: '2026-09-19',
+    readTime: '9 min read',
+    category: 'tools' as const,
+    featuredImage: '/images/blog/how-to-download-youtube-videos-2026-comparison.jpg',
+    relatedTool: 'ai-image-generator',
+    keywords: [
+      'how to download youtube videos 2026',
+      'youtube to mp4',
+      'youtube to mp3',
+      '4K video downloader plus',
+      'yt-dlp vs 4K video downloader',
+      'youtube to mp4 download tool',
+      'best youtube downloader 2026',
+      'yt-dlp tutorial',
+      'browser-based youtube downloader',
+      'youtube video download comparison',
+      'yt to wav',
+      'ytmp4',
+      'youtubetomp3',
+      'youtube to mp3 converter',
+      'youtube to mp4 converter',
+      'download youtube mp4 without software'
+    ],
+    metaTitle: 'How to Download YouTube Videos in 2026: 3 Best Tools Compared',
+    metaDescription:
+      'Compare yt-dlp, 4K Video Downloader, and YTMP3 for YouTube MP4 & MP3 downloads in 2026. Breakdown of speed, formats, playlists, and zero-ad tools.'
+  },
+  {
     id: 'how-to-create-new-angles-from-any-photo-with-nano-banana-pro',
     title: 'How to Create New Angles from Any Photo with Nano Banana Pro',
     excerpt:
